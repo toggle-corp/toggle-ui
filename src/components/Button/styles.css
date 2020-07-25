@@ -1,0 +1,111 @@
+.button {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: var(--radius-button);
+    padding: var(--spacing-small) calc(var(--spacing-small) - var(--spacing-extra-small));
+    padding: var(--spacing-small) var(--spacing-medium);
+    overflow: hidden;
+    font-family: inherit;
+    font-weight: var(--font-weight-bold);
+
+    .icons {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--spacing-extra-small);
+    }
+
+    .children {
+        padding: 0 var(--spacing-extra-small);
+    }
+
+    &::-moz-focus-inner {
+        border: 0;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &.transparent {
+        &.accent {
+            color: var(--color-accent);
+        }
+
+        &.danger {
+            color: var(--color-danger);
+        }
+
+        &.primary {
+            color: var(--color-primary);
+        }
+
+        &.success {
+            color: var(--color-success);
+        }
+
+        &.warning {
+            color: var(--color-warning);
+        }
+
+        &:disabled {
+            color: var(--color-text-disabled);
+        }
+
+        &:not(:disabled) {
+            cursor: pointer;
+        }
+    }
+
+    &:not(.transparent) {
+        border: var(--width-separator-thin) solid var(--color-separator-light);
+
+        &.default {
+            background-color: var(--color-button-background);
+            color: var(--color-text);
+        }
+
+        &.accent {
+            background-color: var(--color-accent);
+            color: var(--color-text-on-accent);
+        }
+
+        &.danger {
+            background-color: var(--color-danger);
+            color: var(--color-text-on-danger);
+        }
+
+        &.primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-on-primary);
+        }
+
+        &.success {
+            background-color: var(--color-success);
+            color: var(--color-text-on-success);
+        }
+
+        &.warning {
+            background-color: var(--color-warning);
+            color: var(--color-text-on-warning);
+        }
+
+        &:disabled {
+            background-color: var(--color-button-background-disabled);
+            color: var(--color-text-disabled);
+        }
+
+        &:not(:disabled) {
+            cursor: pointer;
+
+            &:hover {
+                filter: brightness(90%)
+            }
+
+            &:active {
+                filter: brightness(80%)
+            }
+        }
+    }
+}
