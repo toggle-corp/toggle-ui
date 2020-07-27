@@ -8,7 +8,7 @@
     padding: var(--spacing-small) var(--spacing-medium);
     overflow: hidden;
     font-family: inherit;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
 
     .icons {
         display: flex;
