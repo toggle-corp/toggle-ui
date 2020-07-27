@@ -16,32 +16,34 @@ export type ButtonVariant = (
 
 export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
-    * variant defines the color
+    * Variant of the button
     */
     variant?: ButtonVariant;
     /**
-    * content of the button
+    * Content for the button
     */
     children?: React.ReactNode;
     /**
-    * className to override styling
+    * Style for the button
     */
     className?: string;
     /**
-    * specify that button is disabled
-    */
+     * Disables the button
+     */
     disabled?: boolean;
     /**
-    * a transparent button has no background
-    */
+     * Makes the background of the button transparent
+     */
     transparent?: boolean;
+    /**
+    * Content before main content of the button
+    */
     icons?: React.ReactNode;
 }
 
 /**
- * Styled button
+ * Basic button component
  */
-
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({
         variant = 'default',

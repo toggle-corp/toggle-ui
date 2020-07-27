@@ -4,11 +4,23 @@ import { _cs } from '@togglecorp/fujs';
 import styles from './styles.css';
 
 export interface RawButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'onClick'>{
+    /**
+    * Style for the button
+    */
     className?: string;
+    /**
+    * Gets called when user clicks on the button
+    */
     onClick?: (name: string | undefined, e: React.MouseEvent<HTMLButtonElement>) => void;
+    /**
+     * Type of the button
+     */
     type?: 'button' | 'submit' | 'reset';
 }
 
+/**
+ * The most basic button component (without styles)
+ */
 const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
     ({
         className,
