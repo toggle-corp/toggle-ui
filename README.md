@@ -15,6 +15,8 @@ yarn storybook
 ## Checklist
 
 - [x] Setup storybook
+- [x] Setup chromatic
+- [ ] Setup deployment of storybook
 - [ ] Setup eslint on build
 - [ ] Setup stylelint on build
 - [ ] Namespace css variables

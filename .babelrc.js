@@ -1,5 +1,7 @@
 module.exports = (api) => {
+    api.cache(false);
     return {
+        /*
         'env': {
             'test': {
                 'plugins': [
@@ -7,26 +9,27 @@ module.exports = (api) => {
                 ],
             },
         },
+        */
         'presets': [
-            require.resolve('@babel/preset-typescript'),
-            require.resolve('@babel/preset-react'),
             require.resolve(
                 '@babel/preset-env',
-                api.env('development')
-                    ? {
-                        'useBuiltIns': "usage",
-                        'corejs': 3,
-                        'debug': true,
-                    }
-                    : undefined,
+                {
+                    'useBuiltIns': false,
+                    // 'useBuiltIns': 'usage',
+                    // 'corejs': 3,
+                    // 'debug': true,
+                }
             ),
+            require.resolve('@babel/preset-react'),
+            require.resolve('@babel/preset-typescript'),
         ],
 
         'plugins': [
             // Reuse babel's injected headers
-            [require.resolve('@babel/plugin-transform-runtime'), {
-                'corejs': 3,
-                'regenerator': true,
+            require.resolve('@babel/plugin-transform-runtime'),
+            [require('babel-plugin-polyfill-corejs3'), {
+                "method": "usage-pure",
+                // "targets": { "firefox": 42 }
             }],
 
             // Stage 2
