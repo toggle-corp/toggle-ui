@@ -68,7 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <RawButton
-                // ref={ref}
+                ref={ref}
                 className={buttonClassName}
                 disabled={disabled}
                 onClick={onClick}

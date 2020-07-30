@@ -46,12 +46,10 @@ const PLUGINS = [
 ];
 
 const OUTPUT_DATA = [
-    /*
     {
         file: pkg.main,
         format: 'cjs',
     },
-    */
     {
         file: pkg.module,
         format: 'es',
