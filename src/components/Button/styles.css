@@ -95,17 +95,5 @@
             background-color: var(--color-button-background-disabled);
             color: var(--color-text-disabled);
         }
-
-        &:not(:disabled) {
-            cursor: pointer;
-
-            &:hover {
-                filter: brightness(90%)
-            }
-
-            &:active {
-                filter: brightness(80%)
-            }
-        }
     }
 }

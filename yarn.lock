@@ -13158,6 +13158,11 @@ reselect@^4.0.0:
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
   integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
 
+resize-observer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/resize-observer/-/resize-observer-1.0.0.tgz#4f8380b73b411af4ed7d916fe85a2d59900e71ef"
+  integrity sha512-D7UFShDm2TgrEDEyeg+/tTEbvOgPWlvPAfJtxiKp+qutu6HowmcGJKjECgGru0PPDIj3SAucn3ZPpOx54fF7DQ==
+
 resolve-cwd@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-3.0.0.tgz#0f0075f1bb2544766cf73ba6a6e2adfebcb13f2d"

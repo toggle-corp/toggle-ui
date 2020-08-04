@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import ThemeContext, { UiMode } from '../ThemeContext';
+import VisualFeedback from '../VisualFeedback';
 
 import styles from './styles.css';
 
@@ -29,6 +30,8 @@ const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
         className,
         onClick,
         uiMode: uiModeFromProps,
+        children,
+        disabled,
         ...otherProps
     }, ref) => {
         const handleClick = React.useCallback(
@@ -54,9 +57,13 @@ const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
                 ref={ref}
                 type="button"
                 className={_cs(className, styles.rawButton)}
+                disabled={disabled}
                 onClick={onClick ? handleClick : undefined}
                 {...otherProps}
-            />
+            >
+                <VisualFeedback disabled={disabled} />
+                { children }
+            </button>
         );
     },
 );

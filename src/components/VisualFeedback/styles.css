@@ -1,0 +1,17 @@
+.visual-feedback {
+    position: fixed;
+    opacity: .1;
+    background-color: transparent;
+
+    &:hover {
+        background-color: #000;
+    }
+
+    &:active {
+        background-color: red;
+    }
+
+    &.disabled {
+        pointer-events: none;
+    }
+}
