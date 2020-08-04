@@ -2,19 +2,30 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { ResizeObserver } from 'resize-observer';
 
+import ThemeContext, { UiMode } from '../ThemeContext';
 import styles from './styles.css';
 
 export interface VisualFeedbackProps {
     className?: string;
     disabled?: boolean;
+    uiMode?: UiMode;
+}
+
+const uiModeToStyleMap: {
+    [key in UiMode]: string;
+} = {
+    light: styles.light,
+    dark: styles.dark,
 }
 
 function VisualFeedback(props: VisualFeedbackProps) {
     const {
         className,
         disabled,
+        uiMode: uiModeFromProps,
     } = props;
     const ref = React.useRef<HTMLDivElement>(null);
+    const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
 
     const handleResize = React.useCallback(() => {
         if (ref.current) {
@@ -42,6 +53,8 @@ function VisualFeedback(props: VisualFeedbackProps) {
         }
     }, [ref, handleResize]);
 
+    const uiMode = uiModeFromProps || uiModeFromContext;
+
     return (
         <div
             ref={ref}
@@ -49,6 +62,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
                 className,
                 styles.visualFeedback,
                 disabled && styles.disabled,
+                uiModeToStyleMap[uiMode],
             )}
         />
     );

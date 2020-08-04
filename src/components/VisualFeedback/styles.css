@@ -1,14 +1,25 @@
 .visual-feedback {
     position: fixed;
-    opacity: .1;
     background-color: transparent;
 
-    &:hover {
-        background-color: #000;
+    &.light {
+        &:hover {
+            background-color: var(--color-background-hover-light);
+        }
+
+        &:active {
+            background-color: var(--color-background-active-light);
+        }
     }
 
-    &:active {
-        background-color: red;
+    &.dark {
+        &:hover {
+            background-color: var(--color-background-hover-dark);
+        }
+
+        &:active {
+            background-color: var(--color-background-active-dark);
+        }
     }
 
     &.disabled {
