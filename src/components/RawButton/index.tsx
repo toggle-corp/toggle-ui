@@ -1,7 +1,8 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import ThemeContext, { UiMode } from '../ThemeContext';
+import  { UiMode } from '../ThemeContext';
+import { useThemeClassName } from '../../hooks';
 import VisualFeedback from '../VisualFeedback';
 
 import styles from './styles.css';
@@ -29,7 +30,7 @@ const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
     ({
         className,
         onClick,
-        uiMode: uiModeFromProps,
+        uiMode,
         children,
         disabled,
         ...otherProps
@@ -52,11 +53,12 @@ const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
             [onClick],
         );
 
+        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
         return (
             <button
                 ref={ref}
                 type="button"
-                className={_cs(className, styles.rawButton)}
+                className={_cs(className, styles.rawButton, themeClassName)}
                 disabled={disabled}
                 onClick={onClick ? handleClick : undefined}
                 {...otherProps}

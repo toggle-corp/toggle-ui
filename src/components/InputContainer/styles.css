@@ -1,0 +1,51 @@
+.input-container {
+    width: 200px;
+
+    .input-label {
+        padding: var(--tui-spacing-extra-small);
+        color: var(--tui-color-text-label);
+    }
+
+    .input-section {
+        display: flex;
+        border-radius: var(--tui-radius-border-input-section);
+
+
+        .icons {
+            flex-shrink: 0;
+            padding: var(--tui-spacing-extra-small);
+        }
+
+        .input {
+            flex-grow: 1;
+            padding: var(--tui-spacing-extra-small);
+        }
+
+        .actions {
+            flex-shrink: 0;
+            padding: var(--tui-spacing-extra-small);
+        }
+    }
+
+    &.light {
+        .input-section {
+            background-color: var(--tui-color-background-input-section-light);
+        }
+    }
+
+    &.dark {
+        .input-section {
+            background-color: var(--tui-color-background-input-section-dark);
+        }
+    }
+
+    .hint-and-error {
+        padding: var(--tui-spacing-extra-small);
+    }
+
+    &:focus-within {
+        .input-label {
+            color: var(--tui-color-accent);
+        }
+    }
+}

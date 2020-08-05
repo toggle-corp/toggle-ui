@@ -2,7 +2,8 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { ResizeObserver } from 'resize-observer';
 
-import ThemeContext, { UiMode } from '../ThemeContext';
+import { UiMode } from '../ThemeContext';
+import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
 export interface VisualFeedbackProps {
@@ -22,10 +23,9 @@ function VisualFeedback(props: VisualFeedbackProps) {
     const {
         className,
         disabled,
-        uiMode: uiModeFromProps,
+        uiMode,
     } = props;
     const ref = React.useRef<HTMLDivElement>(null);
-    const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
 
     const handleResize = React.useCallback(() => {
         if (ref.current) {
@@ -41,7 +41,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
             }
         }
 
-    }, [ref]);
+    }, []);
 
     React.useEffect(handleResize, [ref, handleResize]);
 
@@ -51,9 +51,9 @@ function VisualFeedback(props: VisualFeedbackProps) {
         if (ref.current && ref.current.parentElement) {
             observer.observe(ref.current.parentElement);
         }
-    }, [ref, handleResize]);
+    }, [handleResize]);
 
-    const uiMode = uiModeFromProps || uiModeFromContext;
+    const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
     return (
         <div
@@ -62,7 +62,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
                 className,
                 styles.visualFeedback,
                 disabled && styles.disabled,
-                uiModeToStyleMap[uiMode],
+                themeClassName,
             )}
         />
     );

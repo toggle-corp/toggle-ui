@@ -39,6 +39,10 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     * Content before main content of the button
     */
     icons?: React.ReactNode;
+    /**
+    * Content after main content of the button
+    */
+    actions?: React.ReactNode;
 }
 
 /**
@@ -54,6 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onClick,
         children,
         icons,
+        actions,
         ...otherProps
     }, ref) => {
         const buttonClassName = _cs(
@@ -83,6 +88,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {children && (
                     <div className={styles.children}>
                         { children }
+                    </div>
+                )}
+                {icons && (
+                    <div className={styles.actions}>
+                        { actions }
                     </div>
                 )}
             </RawButton>
