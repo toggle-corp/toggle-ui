@@ -3,9 +3,9 @@
     position: relative;
     align-items: center;
     justify-content: space-around;
+    outline-offset: calc(-1 * var(--tui-spacing-small) / 2);
     border-radius: var(--tui-radius-button);
-    padding: var(--tui-spacing-small) calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small));
-    padding: var(--tui-spacing-small) var(--tui-spacing-medium);
+    padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
     overflow: hidden;
     font-family: inherit;
     font-weight: var(--tui-font-weight-bold);
@@ -20,12 +20,12 @@
         padding: 0 var(--tui-spacing-extra-small);
     }
 
-    &::-moz-focus-inner {
-        border: 0;
+    &.light {
+        color: var(--tui-color-text-on-light);
     }
 
-    &:focus {
-        outline: none;
+    &.dark {
+        color: var(--tui-color-text-on-dark);
     }
 
     &.transparent {
@@ -62,33 +62,27 @@
         border: var(--tui-width-separator-thin) solid var(--tui-color-separator-light);
 
         &.default {
-            background-color: var(--tui-color-button-background);
-            color: var(--tui-color-text);
+            background-color: var(--tui-color-background-button);
         }
 
         &.accent {
             background-color: var(--tui-color-accent);
-            color: var(--tui-color-text-on-accent);
         }
 
         &.danger {
             background-color: var(--tui-color-danger);
-            color: var(--tui-color-text-on-danger);
         }
 
         &.primary {
             background-color: var(--tui-color-primary);
-            color: var(--tui-color-text-on-primary);
         }
 
         &.success {
             background-color: var(--tui-color-success);
-            color: var(--tui-color-text-on-success);
         }
 
         &.warning {
             background-color: var(--tui-color-warning);
-            color: var(--tui-color-text-on-warning);
         }
 
         &:disabled {

@@ -63,7 +63,10 @@ const RawButton = React.forwardRef<HTMLButtonElement, RawButtonProps>(
                 onClick={onClick ? handleClick : undefined}
                 {...otherProps}
             >
-                <VisualFeedback disabled={disabled} />
+                <VisualFeedback
+                    disabled={disabled}
+                    uiMode={uiMode}
+                />
                 { children }
             </button>
         );

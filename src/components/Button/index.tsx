@@ -1,7 +1,12 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    getContrastYIQ,
+} from '@togglecorp/fujs';
 
 import RawButton, { RawButtonProps } from '../RawButton';
+import { UiMode } from '../ThemeContext';
+import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
@@ -13,6 +18,17 @@ export type ButtonVariant = (
     | 'success'
     | 'warning'
 );
+
+const buttonVariantToVariableNameMap: {
+    [key in ButtonVariant]: string;
+} = {
+    accent: '--tui-color-accent',
+    danger: '--tui-color-danger',
+    primary: '--tui-color-primary',
+    warning: '--tui-color-warning',
+    success: '--tui-color-success',
+    default: '--tui-color-background-button',
+}
 
 export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
@@ -61,14 +77,25 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         actions,
         ...otherProps
     }, ref) => {
+        const uiMode: UiMode = React.useMemo(() => {
+            const color = getComputedStyle(document.documentElement)
+                .getPropertyValue(buttonVariantToVariableNameMap[variant]);
+
+            // Remove hash from color
+            const luma = getContrastYIQ(color.substr(1, color.length));
+            return luma >= 0.5 ? 'light' : 'dark'; 
+        }, [variant]);
+
+        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+
         const buttonClassName = _cs(
             classNameFromProps,
-            'button',
             styles.button,
             variant,
             styles[variant],
             transparent && 'transparent',
             transparent && styles.transparent,
+            themeClassName,
         );
 
         return (
@@ -78,6 +105,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled}
                 onClick={onClick}
                 type={type}
+                uiMode={uiMode}
                 {...otherProps}
             >
                 {icons && (

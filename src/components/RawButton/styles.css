@@ -1,5 +1,5 @@
 .raw-button {
-    outline: none;
+    outline: var(--tui-width-separator-thin) dashed transparent;
     border: 0;
     background-color: transparent;
     cursor: pointer;
@@ -7,4 +7,16 @@
     color: inherit;
     font-family: inherit;
     font-size: inherit;
+
+    &.light {
+        &:focus {
+            outline-color: var(--tui-color-outline-light);
+        }
+    }
+
+    &.dark {
+        &:focus {
+            outline-color: var(--tui-color-outline-dark);
+        }
+    }
 }

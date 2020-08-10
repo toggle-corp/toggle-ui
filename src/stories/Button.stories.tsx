@@ -30,3 +30,20 @@ Disabled.args = {
     children: 'Test',
     disabled: true,
 };
+
+export const Variants = () => (
+    <>
+        <Button variant='primary'>
+            Primary
+        </Button>
+        <Button variant='accent'>
+            Accent
+        </Button>
+        <Button variant='warning'>
+            Warning
+        </Button>
+        <Button variant='danger'>
+            Danger
+        </Button>
+    </>
+)
