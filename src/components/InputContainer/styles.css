@@ -75,9 +75,18 @@
     &.disabled {
         opacity: var(--tui-opacity-disabled-element);
         --box-shadow-color: transparent;
+
+        &:hover {
+            --box-shadow-color: transparent;
+        }
     }
 
     &.read-only {
         --color-background-input-section: transparent;
+        --box-shadow-color: transparent;
+
+        &:hover {
+            --box-shadow-color: transparent;
+        }
     }
 }

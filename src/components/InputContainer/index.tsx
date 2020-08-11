@@ -11,15 +11,15 @@ export interface InputContainerProps extends Omit<React.HTMLProps<HTMLInputEleme
     */
     className?: string;
     /**
-    * Style for the label container 
+    * Style for the label container
     */
     labelContainerClassName?: string;
     /**
-    * Style for the hint and error container 
+    * Style for the hint and error container
     */
     hintAndErrorContainerClassName?: string;
     /**
-    * Style for the input section 
+    * Style for the input section
     */
     inputSectionClassName?: string;
     /**
@@ -56,12 +56,12 @@ export interface InputContainerProps extends Omit<React.HTMLProps<HTMLInputEleme
     input: React.ReactNode;
 
     /**
-    * Input label 
+    * Input label
     */
     label?: React.ReactNode;
 
     /**
-    * Input hint and error 
+    * Input hint and error
     */
     hintAndError?: React.ReactNode;
 
@@ -110,27 +110,27 @@ function InputContainer(props: InputContainerProps) {
             )}
         >
             { label && (
-                <div className={styles.inputLabel}>
+                <div className={_cs(styles.inputLabel, labelContainerClassName)}>
                     { label }
                 </div>
             )}
-            <div className={styles.inputSection}>
+            <div className={_cs(styles.inputSection, inputSectionClassName)}>
                 { icons && (
-                    <div className={styles.icons}>
+                    <div className={_cs(styles.icons, iconsContainerClassName)}>
                         { icons }
                     </div>
                 )}
-                <div className={styles.input}>
+                <div className={_cs(styles.input, inputContainerClassName)}>
                     { input }
                 </div>
-                { actions && (
-                    <div className={styles.actions}>
+                { (!readOnly && actions) && (
+                    <div className={_cs(styles.actions, actionsContainerClassName)}>
                         { actions }
                     </div>
                 )}
             </div>
             { hintAndError && (
-                <div className={styles.hintAndError}>
+                <div className={_cs(styles.hintAndError, hintAndErrorContainerClassName)}>
                     { hintAndError }
                 </div>
             )}
