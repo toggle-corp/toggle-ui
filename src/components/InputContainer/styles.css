@@ -1,15 +1,56 @@
 .input-container {
-    width: 200px;
+    --box-shadow-color: transparent;
+    --color-background-input-section: transparent;
+    --color-text-label: transparent;
+    --color-text: transparent;
+
+    color: var(--color-text);
+
+    &.light {
+        --color-background-input-section: var(--tui-color-background-input-section-light);
+        --color-text-label: var(--tui-color-input-label-light);
+        --color-text: var(--tui-color-text-light);
+
+        &:hover {
+            --box-shadow-color: var(--tui-color-separator-light);
+            --color-text-label: var(--tui-color-input-label-light-hover);
+        }
+
+        &:focus-within {
+            --color-text-label: var(--tui-color-input-label-light-active);
+            --box-shadow-color: var(--tui-color-accent);
+        }
+    }
+
+    &.dark {
+        --color-background-input-section: var(--tui-color-background-input-section-dark);
+        --color-text-label: var(--tui-color-input-label-dark);
+        --color-text: var(--tui-color-text-dark);
+
+        &:hover {
+            --box-shadow-color: var(--tui-color-separator-dark);
+            --color-text-label: var(--tui-color-input-label-dark-hover);
+        }
+
+        &:focus-within {
+            --color-text-label: var(--tui-color-input-label-dark-active);
+            --box-shadow-color: var(--tui-color-accent);
+        }
+    }
 
     .input-label {
         padding: var(--tui-spacing-extra-small);
-        color: var(--tui-color-text-label);
+        color: var(--color-text-label);
+        font-size: var(--tui-font-size-small);
+        font-weight: var(--tui-font-weight-bold);
     }
 
     .input-section {
         display: flex;
         align-items: center;
         border-radius: var(--tui-radius-border-input-section);
+        box-shadow: 0 2px 3px -2px var(--box-shadow-color);
+        background-color: var(--color-background-input-section);
 
         .icons {
             flex-shrink: 0;
@@ -27,25 +68,12 @@
         }
     }
 
-    &.light {
-        .input-section {
-            background-color: var(--tui-color-background-input-section-light);
-        }
-    }
-
-    &.dark {
-        .input-section {
-            background-color: var(--tui-color-background-input-section-dark);
-        }
-    }
-
     .hint-and-error {
         padding: var(--tui-spacing-extra-small);
     }
 
-    &:focus-within {
-        .input-label {
-            color: var(--tui-color-accent);
-        }
+    &.disabled {
+        opacity: var(--tui-opacity-disabled-element);
+        --box-shadow-color: transparent;
     }
 }

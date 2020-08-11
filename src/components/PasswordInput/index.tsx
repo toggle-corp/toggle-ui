@@ -9,7 +9,6 @@ import ToggleButton from '../ToggleButton';
 import styles from './styles.css';
 
 export interface PasswordInputProps extends Omit<InputContainerProps & RawInputProps, 'input'> {
-    className?: string;
 }
 
 function PasswordInput(props: PasswordInputProps) {
@@ -23,6 +22,8 @@ function PasswordInput(props: PasswordInputProps) {
         icons,
         actions,
         hintAndError,
+        uiMode,
+        disabled,
         ...rawInputProps
     } = props;
 
@@ -33,13 +34,17 @@ function PasswordInput(props: PasswordInputProps) {
             className={_cs(styles.passwordInput, className)}
             label={label}
             icons={icons}
+            disabled={disabled}
+            uiMode={uiMode}
             actions={
                 <>
                     <ToggleButton
                         value={showPassword}
                         onChange={setShowPassword}
                         className={styles.showPasswordToggleButton}
+                        disabled={disabled}
                         transparent
+                        uiMode={uiMode}
                     >
                         { showPassword ? <IoMdEyeOff /> : <IoMdEye /> }
                     </ToggleButton>
@@ -50,6 +55,8 @@ function PasswordInput(props: PasswordInputProps) {
             input={
                 <RawInput
                     {...rawInputProps}
+                    uiMode={uiMode}
+                    disabled={disabled}
                     type={showPassword ? "text" : "password"}
                 />
             }

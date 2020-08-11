@@ -5,7 +5,6 @@ import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
 export interface TextInputProps extends Omit<InputContainerProps & RawInputProps, 'input'> {
-    className?: string;
 }
 
 function TextInput(props: TextInputProps) {
@@ -15,10 +14,12 @@ function TextInput(props: TextInputProps) {
         actionsContainerClassName,
         inputSectionClassName,
         className,
+        uiMode,
         label,
         icons,
         actions,
         hintAndError,
+        disabled,
         ...rawInputProps
     } = props;
 
@@ -28,8 +29,12 @@ function TextInput(props: TextInputProps) {
             icons={icons}
             actions={actions}
             hintAndError={hintAndError}
+            disabled={disabled}
+            uiMode={uiMode}
             input={
                 <RawInput
+                    uiMode={uiMode}
+                    disabled={disabled}
                     {...rawInputProps}
                 />
             }

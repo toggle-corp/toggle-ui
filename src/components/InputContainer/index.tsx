@@ -64,13 +64,11 @@ export interface InputContainerProps extends Omit<React.HTMLProps<HTMLInputEleme
     * Input hint and error 
     */
     hintAndError?: React.ReactNode;
-}
 
-const uiModeToStyleMap: {
-    [key in UiMode]: string;
-} = {
-    light: styles.light,
-    dark: styles.dark,
+    /**
+     * Is input disabled?
+     */
+    disabled?: boolean;
 }
 
 /**
@@ -91,11 +89,19 @@ function InputContainer(props: InputContainerProps) {
         input,
         hintAndError,
         hintAndErrorContainerClassName,
+        disabled,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
     return (
-        <div className={_cs(className, styles.inputContainer, themeClassName)}>
+        <div
+            className={_cs(
+                className,
+                styles.inputContainer,
+                themeClassName,
+                disabled && styles.disabled,
+            )}
+        >
             { label && (
                 <div className={styles.inputLabel}>
                     { label }

@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import ThemeContext, { UiMode } from '../ThemeContext';
+import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
@@ -25,13 +26,6 @@ export interface RawInputProps<T=string> extends Omit<React.HTMLProps<HTMLInputE
     uiMode?: UiMode;
 }
 
-const uiModeToStyleMap: {
-    [key in UiMode]: string;
-} = {
-    light: styles.light,
-    dark: styles.dark,
-}
-
 /**
  * The most basic input component (without styles)
  */
@@ -39,7 +33,7 @@ const RawInput = React.forwardRef<HTMLInputElement, RawInputProps>(
     ({
         className,
         onChange,
-        uiMode: uiModeFromProps,
+        uiMode,
         ...otherProps
     }, ref) => {
         const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
@@ -64,12 +58,12 @@ const RawInput = React.forwardRef<HTMLInputElement, RawInputProps>(
             [onChange],
         );
 
-        const uiMode = uiModeFromProps || uiModeFromContext;
+        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
         return (
             <input
                 ref={ref}
-                className={_cs(className, styles.rawInput, uiModeToStyleMap[uiMode])}
+                className={_cs(className, styles.rawInput, themeClassName)} 
                 onChange={handleChange}
                 {...otherProps}
             />

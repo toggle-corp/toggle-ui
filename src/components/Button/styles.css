@@ -96,7 +96,7 @@
     }
 
     &:disabled {
-        opacity: .3;
+        opacity: var(--tui-opacity-disabled-element);
         cursor: not-allowed;
     }
 }
