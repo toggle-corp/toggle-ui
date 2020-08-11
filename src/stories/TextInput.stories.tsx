@@ -15,12 +15,13 @@ const Template = (args: TextInputProps) => (
 
 export const Default = Template.bind({});
 Default.args = {
-    label: 'Enter text',
+    label: 'Name',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    label: 'Enter text',
+    label: 'Name',
+    value: 'Mr. Frozen Helium',
     disabled: true,
 };
 

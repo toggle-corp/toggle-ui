@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import InputContainer, { InputContainerProps } from '#components/InputContainer';
 
 export default {
-    title: 'Input/InputContainer',
+    title: 'Input/Private/InputContainer',
     component: InputContainer,
     argTypes: {},
 };
@@ -24,6 +24,10 @@ Default.args = {
 
 export const Disabled = Template.bind({});
 Disabled.args = {
+    label: 'label',
+    icons: 'icons',
+    input: 'input',
+    actions: 'actions',
+    hintAndError: 'hint and error',
     disabled: true,
 };
-

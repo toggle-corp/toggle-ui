@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import RawInput, { RawInputProps } from '#components/RawInput';
 
 export default {
-    title: 'Input/RawInput',
+    title: 'Input/Private/Input',
     component: RawInput,
     argTypes: {},
 };
@@ -21,4 +21,3 @@ export const Disabled = Template.bind({});
 Disabled.args = {
     disabled: true,
 };
-

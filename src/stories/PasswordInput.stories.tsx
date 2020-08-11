@@ -15,11 +15,19 @@ const Template = (args: PasswordInputProps) => (
 
 export const Default = Template.bind({});
 Default.args = {
-    label: 'Password input',
+    label: 'Password',
+};
+
+export const Readonly = Template.bind({});
+Readonly.args = {
+    label: 'Password',
+    readOnly: true,
+    value: 'xyz',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
+    label: 'Password',
     disabled: true,
+    value: 'xyz',
 };
-

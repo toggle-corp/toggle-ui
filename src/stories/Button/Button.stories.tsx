@@ -6,7 +6,7 @@ import Button, { ButtonProps } from '#components/Button';
 import styles from './styles.css';
 
 export default {
-    title: 'Input/Button',
+    title: 'Action/Button',
     component: Button,
     argTypes: {},
 };
@@ -17,12 +17,13 @@ const Template = (args: ButtonProps) => (
 
 export const Default = Template.bind({});
 Default.args = {
-    children: 'Test',
+    children: 'Click me!',
 };
 
 export const Variants = () => (
     <div className={styles.buttonVariants}>
         <section>
+            <h3>Normal</h3>
             <div className={styles.content}>
                 <Button>
                     Default
@@ -42,7 +43,7 @@ export const Variants = () => (
             </div>
         </section>
         <section>
-            <h3>Disabled</h3>
+            <h3>Normal and Disabled</h3>
             <div className={styles.content}>
                 <Button disabled>
                     Default
@@ -145,4 +146,4 @@ export const Variants = () => (
             </div>
         </section>
     </div>
-)
+);
