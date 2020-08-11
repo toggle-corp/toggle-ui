@@ -107,7 +107,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             styles.button,
             variant,
             styles[variant],
-            transparent && 'transparent',
             transparent && styles.transparent,
             themeClassName,
             innerThemeClassName,
@@ -120,7 +119,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled}
                 onClick={onClick}
                 type={type}
-                uiMode={innerUiMode}
+                uiMode={transparent ? uiMode : innerUiMode}
                 {...otherProps}
             >
                 {icons && (
