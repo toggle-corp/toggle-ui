@@ -1,0 +1,15 @@
+.button-variants {
+    section {
+        padding: var(--tui-spacing-medium);
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+
+            button {
+                flex-shrink: 0;
+                margin: var(--tui-spacing-medium);
+            }
+        }
+    }
+}

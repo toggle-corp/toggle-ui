@@ -24,6 +24,7 @@ function PasswordInput(props: PasswordInputProps) {
         hintAndError,
         uiMode,
         disabled,
+        readOnly,
         ...rawInputProps
     } = props;
 
@@ -36,6 +37,7 @@ function PasswordInput(props: PasswordInputProps) {
             icons={icons}
             disabled={disabled}
             uiMode={uiMode}
+            readOnly={readOnly}
             actions={
                 <>
                     <ToggleButton
@@ -56,6 +58,7 @@ function PasswordInput(props: PasswordInputProps) {
                 <RawInput
                     {...rawInputProps}
                     uiMode={uiMode}
+                    readOnly={readOnly}
                     disabled={disabled}
                     type={showPassword ? "text" : "password"}
                 />

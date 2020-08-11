@@ -20,6 +20,7 @@ function TextInput(props: TextInputProps) {
         actions,
         hintAndError,
         disabled,
+        readOnly,
         ...rawInputProps
     } = props;
 
@@ -31,8 +32,10 @@ function TextInput(props: TextInputProps) {
             hintAndError={hintAndError}
             disabled={disabled}
             uiMode={uiMode}
+            readOnly={readOnly}
             input={
                 <RawInput
+                    readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
                     {...rawInputProps}

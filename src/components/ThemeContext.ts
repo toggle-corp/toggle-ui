@@ -1,6 +1,8 @@
 import React from 'react';
 
-const noOp = () => {};
+const noOp = () => {
+    console.warn('setUiMode called before it was assigned');
+};
 
 export type UiMode = 'light' | 'dark';
 

@@ -69,6 +69,11 @@ export interface InputContainerProps extends Omit<React.HTMLProps<HTMLInputEleme
      * Is input disabled?
      */
     disabled?: boolean;
+
+    /**
+     * Is input readonly?
+     */
+    readOnly?: boolean;
 }
 
 /**
@@ -90,6 +95,7 @@ function InputContainer(props: InputContainerProps) {
         hintAndError,
         hintAndErrorContainerClassName,
         disabled,
+        readOnly,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
@@ -100,6 +106,7 @@ function InputContainer(props: InputContainerProps) {
                 styles.inputContainer,
                 themeClassName,
                 disabled && styles.disabled,
+                readOnly && styles.readOnly,
             )}
         >
             { label && (

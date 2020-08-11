@@ -76,4 +76,8 @@
         opacity: var(--tui-opacity-disabled-element);
         --box-shadow-color: transparent;
     }
+
+    &.read-only {
+        --color-background-input-section: transparent;
+    }
 }
