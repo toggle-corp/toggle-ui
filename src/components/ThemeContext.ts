@@ -8,7 +8,7 @@ export type UiMode = 'light' | 'dark';
 
 export interface ThemeContext {
     uiMode: UiMode;
-    setUiMode: (newMode: UiMode) => void; 
+    setUiMode: (newMode: UiMode) => void;
 }
 
 const themeContext = React.createContext<ThemeContext>({

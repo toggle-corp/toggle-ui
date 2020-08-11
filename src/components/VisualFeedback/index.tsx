@@ -12,13 +12,6 @@ export interface VisualFeedbackProps {
     uiMode?: UiMode;
 }
 
-const uiModeToStyleMap: {
-    [key in UiMode]: string;
-} = {
-    light: styles.light,
-    dark: styles.dark,
-}
-
 function VisualFeedback(props: VisualFeedbackProps) {
     const {
         className,
@@ -40,10 +33,9 @@ function VisualFeedback(props: VisualFeedbackProps) {
                 current.style.height = `${bcr.height}px`;
             }
         }
-
     }, []);
 
-    React.useEffect(handleResize, [ref, handleResize]);
+    React.useEffect(handleResize, [handleResize]);
 
     React.useEffect(() => {
         const observer = new ResizeObserver(handleResize);

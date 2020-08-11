@@ -28,7 +28,7 @@ const buttonVariantToVariableNameMap: {
     warning: '--tui-color-warning',
     success: '--tui-color-success',
     default: '--tui-color-background-button',
-}
+};
 
 export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
@@ -84,19 +84,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
             // Remove hash from color
             const luma = getContrastYIQ(color.substr(1, color.length));
-            const mode = luma >= 0.5 ? 'light' : 'dark'; 
+            const mode = luma >= 0.5 ? 'light' : 'dark';
             const invertMap: {
                 [key in UiMode]: UiMode;
             } = {
                 light: 'dark',
                 dark: 'light',
-            }
+            };
 
             return transparent ? invertMap[mode] : mode;
         }, [variant, transparent]);
 
         const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
-        const innerThemeClassName = useThemeClassName(innerUiMode, styles.innerLight, styles.innerDark);
+        const innerThemeClassName = useThemeClassName(
+            innerUiMode,
+            styles.innerLight,
+            styles.innerDark,
+        );
 
         const buttonClassName = _cs(
             classNameFromProps,
