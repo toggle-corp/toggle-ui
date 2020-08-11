@@ -1,62 +1,98 @@
 :root {
-    --font-family-sans-serif: 'PT Sans', sans-serif;
-    --font-family-monospace: 'Inconsolata', monospace;
+    --tui-font-family-sans-serif: 'PT Sans', sans-serif;
+    --tui-font-family-monospace: 'Inconsolata', monospace;
 
     /* SPACING */
-    --spacing-super-small: 1px;
-    --spacing-extra-small: 3px;
-    --spacing-small: 6px;
-    --spacing-small-medium: 8px;
-    --spacing-medium: 10px;
-    --spacing-large-medium: 13px;
-    --spacing-large: 16px;
-    --spacing-extra-large: 24px;
+    --tui-spacing-super-small: 1px;
+    --tui-spacing-extra-small: 3px;
+    --tui-spacing-small: 6px;
+    --tui-spacing-small-medium: 8px;
+    --tui-spacing-medium: 10px;
+    --tui-spacing-large-medium: 13px;
+    --tui-spacing-large: 16px;
+    --tui-spacing-extra-large: 24px;
 
     /* DIMENSIONS */
-    --width-separator-thin: 1px;
-    --width-separator-medium: 2px;
+    --tui-width-separator-thin: 1px;
+    --tui-width-separator-medium: 2px;
 
     /* FONT SIZE */
-    --font-size-extra-small: 11px;
-    --font-size-small: 12px;
-    --font-size-small-medium: 13px;
-    --font-size-medium: 14px;
-    --font-size-large-medium: 16px;
-    --font-size-large: 18px;
-    --font-size-extra-large: 24px;
-    --font-size-super-large: 32px;
-    --font-size-ultra-large: 48px;
+    --tui-font-size-extra-small: 11px;
+    --tui-font-size-small: 12px;
+    --tui-font-size-small-medium: 13px;
+    --tui-font-size-medium: 14px;
+    --tui-font-size-large-medium: 16px;
+    --tui-font-size-large: 18px;
+    --tui-font-size-extra-large: 24px;
+    --tui-font-size-super-large: 32px;
+    --tui-font-size-ultra-large: 48px;
 
     /* FONT WEIGHT */
-    --font-weight-light: 400;
-    --font-weight-medium: 400;
-    --font-weight-bold: 700;
+    --tui-font-weight-light: 400;
+    --tui-font-weight-medium: 400;
+    --tui-font-weight-bold: 700;
 
     /* COLOR PALETTE */
-    --color-primary: #05367d;
-    --color-accent: #289f8c;
-    --color-danger: firebrick;
-    --color-success: forestgreen;
-    --color-warning: tomato;
+    --tui-color-primary: #05367d;
+    --tui-color-accent: #289f8c;
+    --tui-color-danger: #e04656;
+    --tui-color-success: #12f094;
+    --tui-color-warning: #f5ef53;
 
     /* COLOR GENERAL */
-    --color-foreground: #fff;
-    --color-background: #f0f3f7;
+    --tui-color-foreground: #fff;
+    --tui-color-background: #f0f3f7;
+
 
     /* COLOR TEXT */
-    --color-text: #243244;
-    --color-text-on-primary: rgba(255, 255, 255, .9);
-    --color-text-on-accent: rgba(255, 255, 255, .9);
-    --color-text-on-danger: rgba(255, 255, 255, .9);
-    --color-text-on-success: rgba(255, 255, 255, .9);
-    --color-text-on-warning: rgba(255, 255, 255, .9);
+    --tui-color-text-on-light: #243244;
+    --tui-color-text-on-dark: #f5f5f5;
+    --tui-color-text: #243244;
 
-    --color-text-label: #576374;
-    --color-text-disabled: #b8c2cd;
-    --color-separator: #b8c2cd;
+    --tui-color-text-light: #243244;
+    --tui-color-text-dark: #f5f5f5;
 
-    --color-button-background: #dae0e7;
-    --color-button-background-disabled: #e4e9ef;
+    --tui-color-text-on-primary: rgba(255, 255, 255, .9);
+    --tui-color-text-on-accent: rgba(255, 255, 255, .9);
+    --tui-color-text-on-danger: rgba(255, 255, 255, .9);
+    --tui-color-text-on-success: rgba(255, 255, 255, .9);
+    --tui-color-text-on-warning: rgba(255, 255, 255, .9);
 
-    --radius-button: 4px;
+    --tui-color-text-label: #576374;
+    --tui-color-text-disabled: #b8c2cd;
+    --tui-color-separator: #b8c2cd;
+    --tui-color-separator-light: rgba(0, 0, 0, .1);
+    --tui-color-separator-dark: rgba(255, 255, 255, .1);
+
+    --tui-color-text-button-light: #243244;
+    --tui-color-text-button-dark: #f5f5f5;
+    --tui-color-background-button: #f0f3f7;
+    --tui-color-background-button-disabled: #e4e9ef;
+    --tui-color-outline-light: rgba(0, 0, 0, .3);
+    --tui-color-outline-dark: rgba(255, 255, 255, .4);
+
+    --tui-radius-button: 4px;
+
+    --tui-color-background-light: #f5f5f5;
+    --tui-color-background-dark: #414141;
+
+    --tui-color-background-hover-light: rgba(0, 0, 0, .2);
+    --tui-color-background-hover-dark: rgba(255, 255, 255, .2);
+
+    --tui-color-background-active-light: rgba(0, 0, 0, .3);
+    --tui-color-background-active-dark: rgba(255, 255, 255, .3);
+
+    --tui-color-background-input-section-light: rgba(0, 0, 0, .1);
+    --tui-color-background-input-section-dark: rgba(255, 255, 255, .1);
+
+    --tui-radius-border-input-section: .22em;
+    --tui-opacity-disabled-element: .33;
+
+    --tui-color-input-label-light: rgba(0, 0, 0, .5);
+    --tui-color-input-label-light-hover: rgba(0, 0, 0, .7);
+    --tui-color-input-label-light-active: rgba(0, 0, 0, .9);
+
+    --tui-color-input-label-dark: rgba(255, 255, 255, .5);
+    --tui-color-input-label-dark-hover: rgba(255, 255, 255, .7);
+    --tui-color-input-label-dark-active: rgba(255, 255, 255, .9);
 }
