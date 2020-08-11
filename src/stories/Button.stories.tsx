@@ -45,5 +45,81 @@ export const Variants = () => (
         <Button variant='danger'>
             Danger
         </Button>
+        <Button
+            variant='primary'
+            transparent
+        >
+            Primary transparent
+        </Button>
+        <Button
+            variant='accent'
+            transparent
+        >
+            Accent transparent
+        </Button>
+        <Button
+            variant='warning'
+            transparent
+        >
+            Warning transparent
+        </Button>
+        <Button
+            variant='danger'
+            transparent
+        >
+            Danger transparent
+        </Button>
+        <Button
+            variant='primary'
+            disabled
+        >
+            Primary disabled
+        </Button>
+        <Button
+            variant='accent'
+            disabled
+        >
+            Accent disabled
+        </Button>
+        <Button
+            variant='warning'
+            disabled
+        >
+            Warning disabled
+        </Button>
+        <Button
+            variant='danger'
+            disabled
+        >
+            Danger disabled
+        </Button>
+        <Button
+            variant='primary'
+            disabled
+            transparent
+        >
+            Primary transparent disabled
+        </Button>
+        <Button
+            variant='accent'
+            disabled
+            transparent
+        >
+            Accent transparent disabled
+        </Button>
+        <Button
+            variant='warning'
+            disabled
+            transparent
+        >
+            Warning transparent disabled
+        </Button>
+        <Button
+            variant='danger'
+            disabled
+            transparent
+        >
+            Danger transparent disabled
+        </Button>
     </>
 )

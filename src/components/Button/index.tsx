@@ -75,18 +75,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         children,
         icons,
         actions,
+        uiMode,
         ...otherProps
     }, ref) => {
-        const uiMode: UiMode = React.useMemo(() => {
+        const innerUiMode: UiMode = React.useMemo(() => {
             const color = getComputedStyle(document.documentElement)
                 .getPropertyValue(buttonVariantToVariableNameMap[variant]);
 
             // Remove hash from color
             const luma = getContrastYIQ(color.substr(1, color.length));
-            return luma >= 0.5 ? 'light' : 'dark'; 
-        }, [variant]);
+            const mode = luma >= 0.5 ? 'light' : 'dark'; 
+            const invertMap: {
+                [key in UiMode]: UiMode;
+            } = {
+                light: 'dark',
+                dark: 'light',
+            }
+
+            return transparent ? invertMap[mode] : mode;
+        }, [variant, transparent]);
 
         const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+        const innerThemeClassName = useThemeClassName(innerUiMode, styles.innerLight, styles.innerDark);
 
         const buttonClassName = _cs(
             classNameFromProps,
@@ -96,6 +106,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             transparent && 'transparent',
             transparent && styles.transparent,
             themeClassName,
+            innerThemeClassName,
         );
 
         return (
@@ -105,7 +116,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled}
                 onClick={onClick}
                 type={type}
-                uiMode={uiMode}
+                uiMode={innerUiMode}
                 {...otherProps}
             >
                 {icons && (

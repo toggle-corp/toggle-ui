@@ -3,7 +3,7 @@
     position: relative;
     align-items: center;
     justify-content: space-around;
-    outline-offset: calc(-1 * var(--tui-spacing-small) / 2);
+    outline-offset: calc(-1 * var(--tui-spacing-small));
     border-radius: var(--tui-radius-button);
     padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
     overflow: hidden;
@@ -23,14 +23,57 @@
     }
 
     &.light {
-        color: var(--tui-color-text-on-light);
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-light);
     }
 
     &.dark {
-        color: var(--tui-color-text-on-dark);
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-dark);
+    }
+
+    &.inner-light {
+        color: var(--tui-color-text-button-light);
+    }
+
+    &.inner-dark {
+        color: var(--tui-color-text-button-dark);
+    }
+
+    &.default {
+        background-color: var(--tui-color-background-button);
+    }
+
+    &.accent {
+        background-color: var(--tui-color-accent);
+    }
+
+    &.danger {
+        background-color: var(--tui-color-danger);
+    }
+
+    &.primary {
+        background-color: var(--tui-color-primary);
+    }
+
+    &.success {
+        background-color: var(--tui-color-success);
+    }
+
+    &.warning {
+        background-color: var(--tui-color-warning);
     }
 
     &.transparent {
+        border-color: transparent;
+        background-color: transparent;
+
+        &.dark {
+            color: var(--tui-color-text-button-dark);
+        }
+
+        &.light {
+            color: var(--tui-color-text-button-light);
+        }
+
         &.accent {
             color: var(--tui-color-accent);
         }
@@ -50,46 +93,10 @@
         &.warning {
             color: var(--tui-color-warning);
         }
-
-        &:disabled {
-            color: var(--tui-color-text-disabled);
-        }
-
-        &:not(:disabled) {
-            cursor: pointer;
-        }
     }
 
-    &:not(.transparent) {
-        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-light);
-
-        &.default {
-            background-color: var(--tui-color-background-button);
-        }
-
-        &.accent {
-            background-color: var(--tui-color-accent);
-        }
-
-        &.danger {
-            background-color: var(--tui-color-danger);
-        }
-
-        &.primary {
-            background-color: var(--tui-color-primary);
-        }
-
-        &.success {
-            background-color: var(--tui-color-success);
-        }
-
-        &.warning {
-            background-color: var(--tui-color-warning);
-        }
-
-        &:disabled {
-            background-color: var(--tui-color-button-background-disabled);
-            color: var(--tui-color-text-disabled);
-        }
+    &:disabled {
+        opacity: .3;
+        cursor: not-allowed;
     }
 }
