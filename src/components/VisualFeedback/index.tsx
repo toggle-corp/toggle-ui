@@ -35,6 +35,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
         }
     }, []);
 
+    // Call handleResize on mount
     React.useEffect(handleResize, [handleResize]);
 
     React.useEffect(() => {

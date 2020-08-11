@@ -14,10 +14,7 @@ export function useThemeClassName(
             dark: darkClassName,
         };
 
-        if (uiModeFromProps) {
-            return map[uiModeFromProps];
-        }
-        return map[uiMode];
+        return map[uiModeFromProps || uiMode];
     }, [uiModeFromProps, uiMode, lightClassName, darkClassName]);
 
     return className;

@@ -20,18 +20,6 @@ Default.args = {
     children: 'Test',
 };
 
-export const Transparent = Template.bind({});
-Transparent.args = {
-    children: 'Test',
-    transparent: true,
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-    children: 'Test',
-    disabled: true,
-};
-
 export const Variants = () => (
     <div className={styles.buttonVariants}>
         <section>
@@ -39,16 +27,16 @@ export const Variants = () => (
                 <Button>
                     Default
                 </Button>
-                <Button variant='primary'>
+                <Button variant="primary">
                     Primary
                 </Button>
-                <Button variant='accent'>
+                <Button variant="accent">
                     Accent
                 </Button>
-                <Button variant='warning'>
+                <Button variant="warning">
                     Warning
                 </Button>
-                <Button variant='danger'>
+                <Button variant="danger">
                     Danger
                 </Button>
             </div>
@@ -60,25 +48,25 @@ export const Variants = () => (
                     Default
                 </Button>
                 <Button
-                    variant='primary'
+                    variant="primary"
                     disabled
                 >
                     Primary
                 </Button>
                 <Button
-                    variant='accent'
+                    variant="accent"
                     disabled
                 >
                     Accent
                 </Button>
                 <Button
-                    variant='warning'
+                    variant="warning"
                     disabled
                 >
                     Warning
                 </Button>
                 <Button
-                    variant='danger'
+                    variant="danger"
                     disabled
                 >
                     Danger
@@ -92,25 +80,25 @@ export const Variants = () => (
                     Default
                 </Button>
                 <Button
-                    variant='primary'
+                    variant="primary"
                     transparent
                 >
                     Primary
                 </Button>
                 <Button
-                    variant='accent'
+                    variant="accent"
                     transparent
                 >
                     Accent
                 </Button>
                 <Button
-                    variant='warning'
+                    variant="warning"
                     transparent
                 >
                     Warning
                 </Button>
                 <Button
-                    variant='danger'
+                    variant="danger"
                     transparent
                 >
                     Danger
@@ -127,28 +115,28 @@ export const Variants = () => (
                     Default
                 </Button>
                 <Button
-                    variant='primary'
+                    variant="primary"
                     disabled
                     transparent
                 >
                     Primary
                 </Button>
                 <Button
-                    variant='accent'
+                    variant="accent"
                     disabled
                     transparent
                 >
                     Accent
                 </Button>
                 <Button
-                    variant='warning'
+                    variant="warning"
                     disabled
                     transparent
                 >
                     Warning
                 </Button>
                 <Button
-                    variant='danger'
+                    variant="danger"
                     disabled
                     transparent
                 >
