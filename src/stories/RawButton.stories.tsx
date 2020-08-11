@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import RawButton, { RawButtonProps } from '#components/RawButton';
 
 export default {
-    title: 'Input/RawButton',
+    title: 'Action/Private/RawButton',
     component: RawButton,
     argTypes: {},
 };

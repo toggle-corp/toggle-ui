@@ -1,0 +1,6 @@
+.password-input {
+    .show-password-toggle-button {
+        outline-offset: 0;
+        padding: 0;
+    }
+}

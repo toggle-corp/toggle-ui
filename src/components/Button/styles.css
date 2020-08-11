@@ -3,109 +3,100 @@
     position: relative;
     align-items: center;
     justify-content: space-around;
-    border-radius: var(--radius-button);
-    padding: var(--spacing-small) calc(var(--spacing-small) - var(--spacing-extra-small));
-    padding: var(--spacing-small) var(--spacing-medium);
+    outline-offset: calc(-1 * var(--tui-spacing-small));
+    border-radius: var(--tui-radius-button);
+    padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
     overflow: hidden;
     font-family: inherit;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--tui-font-weight-bold);
 
     .icons {
         display: flex;
         align-items: center;
-        padding: 0 var(--spacing-extra-small);
+        padding: 0 var(--tui-spacing-extra-small);
     }
 
     .children {
-        padding: 0 var(--spacing-extra-small);
+        display: flex;
+        align-items: center;
+        padding: 0 var(--tui-spacing-extra-small);
     }
 
-    &::-moz-focus-inner {
-        border: 0;
+    &.light {
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-light);
     }
 
-    &:focus {
-        outline: none;
+    &.dark {
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-dark);
+    }
+
+    &.inner-light {
+        color: var(--tui-color-text-button-light);
+    }
+
+    &.inner-dark {
+        color: var(--tui-color-text-button-dark);
+    }
+
+    &.default {
+        background-color: var(--tui-color-background-button);
+    }
+
+    &.accent {
+        background-color: var(--tui-color-accent);
+    }
+
+    &.danger {
+        background-color: var(--tui-color-danger);
+    }
+
+    &.primary {
+        background-color: var(--tui-color-primary);
+    }
+
+    &.success {
+        background-color: var(--tui-color-success);
+    }
+
+    &.warning {
+        background-color: var(--tui-color-warning);
     }
 
     &.transparent {
+        border-color: transparent;
+        background-color: transparent;
+
+        &.dark {
+            color: var(--tui-color-text-button-dark);
+        }
+
+        &.light {
+            color: var(--tui-color-text-button-light);
+        }
+
         &.accent {
-            color: var(--color-accent);
+            color: var(--tui-color-accent);
         }
 
         &.danger {
-            color: var(--color-danger);
+            color: var(--tui-color-danger);
         }
 
         &.primary {
-            color: var(--color-primary);
+            color: var(--tui-color-primary);
         }
 
         &.success {
-            color: var(--color-success);
+            color: var(--tui-color-success);
         }
 
         &.warning {
-            color: var(--color-warning);
-        }
-
-        &:disabled {
-            color: var(--color-text-disabled);
-        }
-
-        &:not(:disabled) {
-            cursor: pointer;
+            color: var(--tui-color-warning);
         }
     }
 
-    &:not(.transparent) {
-        border: var(--width-separator-thin) solid var(--color-separator-light);
-
-        &.default {
-            background-color: var(--color-button-background);
-            color: var(--color-text);
-        }
-
-        &.accent {
-            background-color: var(--color-accent);
-            color: var(--color-text-on-accent);
-        }
-
-        &.danger {
-            background-color: var(--color-danger);
-            color: var(--color-text-on-danger);
-        }
-
-        &.primary {
-            background-color: var(--color-primary);
-            color: var(--color-text-on-primary);
-        }
-
-        &.success {
-            background-color: var(--color-success);
-            color: var(--color-text-on-success);
-        }
-
-        &.warning {
-            background-color: var(--color-warning);
-            color: var(--color-text-on-warning);
-        }
-
-        &:disabled {
-            background-color: var(--color-button-background-disabled);
-            color: var(--color-text-disabled);
-        }
-
-        &:not(:disabled) {
-            cursor: pointer;
-
-            &:hover {
-                filter: brightness(90%)
-            }
-
-            &:active {
-                filter: brightness(80%)
-            }
-        }
+    &:disabled {
+        opacity: var(--tui-opacity-disabled-element);
+        cursor: not-allowed;
     }
 }

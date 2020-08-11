@@ -1,0 +1,29 @@
+.visual-feedback {
+    position: fixed;
+    border-radius: inherit;
+    background-color: transparent;
+
+    &.light {
+        &:hover {
+            background-color: var(--tui-color-background-hover-light);
+        }
+
+        &:active {
+            background-color: var(--tui-color-background-active-light);
+        }
+    }
+
+    &.dark {
+        &:hover {
+            background-color: var(--tui-color-background-hover-dark);
+        }
+
+        &:active {
+            background-color: var(--tui-color-background-active-dark);
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+    }
+}
