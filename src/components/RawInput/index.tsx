@@ -1,14 +1,15 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import ThemeContext, { UiMode } from '../ThemeContext';
+import { UiMode } from '../ThemeContext';
+// import ThemeContext, { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
 export interface RawInputProps<T=string> extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'value'>{
     /**
-    * Style for the input 
+    * Style for the input
     */
     className?: string;
     /**
@@ -36,7 +37,7 @@ const RawInput = React.forwardRef<HTMLInputElement, RawInputProps>(
         uiMode,
         ...otherProps
     }, ref) => {
-        const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
+        // const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
 
         const handleChange = React.useCallback(
             (e: React.FormEvent<HTMLInputElement>) => {
@@ -63,7 +64,7 @@ const RawInput = React.forwardRef<HTMLInputElement, RawInputProps>(
         return (
             <input
                 ref={ref}
-                className={_cs(className, styles.rawInput, themeClassName)} 
+                className={_cs(className, styles.rawInput, themeClassName)}
                 onChange={handleChange}
                 {...otherProps}
             />

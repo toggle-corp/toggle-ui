@@ -1,11 +1,13 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
 
 import Button, { ButtonProps } from '../Button';
 
 export interface ToggleButtonProps extends Omit<ButtonProps, 'value' | 'onClick' | 'onChange'> {
     value: boolean;
-    onChange: (value: boolean, name: string | undefined, e: React.MouseEvent<HTMLButtonElement>) => void; 
+    onChange: (
+        value: boolean,
+        name: string | undefined, e: React.MouseEvent<HTMLButtonElement>,
+    ) => void;
 }
 
 function ToggleButton(props: ToggleButtonProps) {

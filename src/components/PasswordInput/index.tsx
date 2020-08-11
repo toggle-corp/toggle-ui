@@ -13,10 +13,12 @@ export interface PasswordInputProps extends Omit<InputContainerProps & RawInputP
 
 function PasswordInput(props: PasswordInputProps) {
     const {
+        /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
         labelContainerClassName,
         iconsContainerClassName,
         actionsContainerClassName,
         inputSectionClassName,
+        /* eslint-enable no-unused-vars, @typescript-eslint/no-unused-vars */
         className,
         label,
         icons,
@@ -38,7 +40,7 @@ function PasswordInput(props: PasswordInputProps) {
             disabled={disabled}
             uiMode={uiMode}
             readOnly={readOnly}
-            actions={
+            actions={(
                 <>
                     <ToggleButton
                         value={showPassword}
@@ -52,17 +54,17 @@ function PasswordInput(props: PasswordInputProps) {
                     </ToggleButton>
                     { actions }
                 </>
-            }
+            )}
             hintAndError={hintAndError}
-            input={
+            input={(
                 <RawInput
                     {...rawInputProps}
                     uiMode={uiMode}
                     readOnly={readOnly}
                     disabled={disabled}
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                 />
-            }
+            )}
         />
     );
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
 
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
@@ -9,11 +8,13 @@ export interface TextInputProps extends Omit<InputContainerProps & RawInputProps
 
 function TextInput(props: TextInputProps) {
     const {
+        /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
         labelContainerClassName,
         iconsContainerClassName,
         actionsContainerClassName,
         inputSectionClassName,
         className,
+        /* eslint-enable no-unused-vars, @typescript-eslint/no-unused-vars */
         uiMode,
         label,
         icons,
@@ -33,14 +34,14 @@ function TextInput(props: TextInputProps) {
             disabled={disabled}
             uiMode={uiMode}
             readOnly={readOnly}
-            input={
+            input={(
                 <RawInput
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
                     {...rawInputProps}
                 />
-            }
+            )}
         />
     );
 }

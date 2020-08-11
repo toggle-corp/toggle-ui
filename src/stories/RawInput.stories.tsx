@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import RawInput, { RawInputProps } from '#components/RawInput';
 
 export default {
-    title: 'Input/Private/Input',
+    title: 'Input/Private/RawInput',
     component: RawInput,
     argTypes: {},
 };
