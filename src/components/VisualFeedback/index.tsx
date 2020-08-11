@@ -27,7 +27,6 @@ function VisualFeedback(props: VisualFeedbackProps) {
     } = props;
     const ref = React.useRef<HTMLDivElement>(null);
 
-    console.warn(uiMode);
     const handleResize = React.useCallback(() => {
         if (ref.current) {
             const { current } = ref;

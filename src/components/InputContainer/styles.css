@@ -8,8 +8,8 @@
 
     .input-section {
         display: flex;
+        align-items: center;
         border-radius: var(--tui-radius-border-input-section);
-
 
         .icons {
             flex-shrink: 0;

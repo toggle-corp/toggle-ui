@@ -1,21 +1,21 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import TextInput, { TextInputProps } from '#components/TextInput';
+import PasswordInput, { PasswordInputProps } from '#components/PasswordInput';
 
 export default {
-    title: 'Input/TextInput',
-    component: TextInput,
+    title: 'Input/PasswordInput',
+    component: PasswordInput,
     argTypes: {},
 };
 
-const Template = (args: TextInputProps) => (
-    <TextInput {...args} />
+const Template = (args: PasswordInputProps) => (
+    <PasswordInput {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-    label: 'Text input',
+    label: 'Password input',
 };
 
 export const Disabled = Template.bind({});
