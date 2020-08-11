@@ -44,13 +44,13 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
 /**
  * Basic button component
  */
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({
         variant = 'default',
-            className: classNameFromProps,
+        className: classNameFromProps,
         disabled = false,
-            transparent = false,
-            type,
+        transparent = false,
+        type,
         onClick,
         children,
         icons,
@@ -68,7 +68,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <RawButton
-                // ref={ref}
+                ref={ref}
                 className={buttonClassName}
                 disabled={disabled}
                 onClick={onClick}

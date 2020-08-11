@@ -1,5 +1,15 @@
 {
     "compilerOptions": {
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "downlevelIteration": true,
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+
         "target": "es5",
         "lib": [
             "dom",
@@ -15,16 +25,16 @@
         "module": "esnext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
+        "emitDeclarationOnly": true,
+        "declaration": true,
         "jsx": "react",
         "rootDir": "./src",
+        "sourceMap": true,
+        "outDir": "./build",
         "baseUrl": ".",
         "paths": {
             "#components/*": ["./src/components/*"]
         }
     },
-    "include": [
-        "src"
-    ]
+    "include": ["src/index.tsx", "src/declarations"]
 }
