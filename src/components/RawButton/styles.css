@@ -1,4 +1,5 @@
 .raw-button {
+    position: relative;
     outline: var(--tui-width-separator-thin) dashed transparent;
     border: 0;
     background-color: transparent;
