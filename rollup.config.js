@@ -19,7 +19,9 @@ const PLUGINS = [
     stylelint(),
     postcss({
         extract: true,
-        modules: true,
+        modules: {
+            localsConvention: 'camelCaseOnly',
+        },
         autoModules: false,
         plugins: [
             // autoprefixer,

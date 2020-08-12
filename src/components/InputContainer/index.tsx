@@ -5,7 +5,7 @@ import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
-export interface InputContainerProps extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'label'>{
+export interface InputContainerProps {
     /**
     * Style for the button
     */
