@@ -3,7 +3,7 @@ import React from 'react';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
-export type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
+type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
 function TextInput<T extends string>(props: TextInputProps<T>) {
     const {
@@ -34,7 +34,7 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
             uiMode={uiMode}
             readOnly={readOnly}
             input={(
-                <RawInput
+                <RawInput<T>
                     {...rawInputProps}
                     readOnly={readOnly}
                     uiMode={uiMode}

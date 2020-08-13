@@ -103,6 +103,6 @@
         "stylelint": "^13.6.1",
         "stylelint-config-concentric": "^2.0.2",
         "stylelint-config-recommended": "^3.0.0",
-        "typescript": "~3.7.2"
+        "typescript": "^3.9.7"
     }
 }
