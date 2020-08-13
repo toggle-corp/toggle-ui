@@ -3,10 +3,9 @@ import React from 'react';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
-export interface TextInputProps extends Omit<InputContainerProps & RawInputProps, 'input'> {
-}
+type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
-function TextInput(props: TextInputProps) {
+function TextInput<T extends string>(props: TextInputProps<T>) {
     const {
         /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
         labelContainerClassName,
@@ -35,11 +34,11 @@ function TextInput(props: TextInputProps) {
             uiMode={uiMode}
             readOnly={readOnly}
             input={(
-                <RawInput
+                <RawInput<T>
+                    {...rawInputProps}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
-                    {...rawInputProps}
                 />
             )}
         />

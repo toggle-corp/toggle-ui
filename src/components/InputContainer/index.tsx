@@ -35,10 +35,6 @@ export interface InputContainerProps {
     */
     actionsContainerClassName?: string;
     /**
-    * Gets called when the content of input changes
-    */
-    onChange?: (name: string | undefined, e: React.FormEvent<HTMLInputElement>) => void;
-    /**
      * uiMode: light or dark
      */
     uiMode?: UiMode;

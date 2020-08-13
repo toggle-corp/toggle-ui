@@ -8,10 +8,9 @@ import ToggleButton from '../ToggleButton';
 
 import styles from './styles.css';
 
-export interface PasswordInputProps extends Omit<InputContainerProps & RawInputProps, 'input'> {
-}
+export type PasswordInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
-function PasswordInput(props: PasswordInputProps) {
+function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
     const {
         /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
         labelContainerClassName,

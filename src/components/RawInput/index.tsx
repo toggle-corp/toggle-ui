@@ -7,7 +7,7 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface RawInputProps<T=string> extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'value'>{
+export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'value' | 'name'>{
     /**
     * Style for the input
     */
@@ -15,12 +15,15 @@ export interface RawInputProps<T=string> extends Omit<React.HTMLProps<HTMLInputE
     /**
     * input name
     */
-    name?: string;
-    value: T;
+    name: K;
+    /**
+    * input value
+    */
+    value: string;
     /**
     * Gets called when the content of input changes
     */
-    onChange?: (value: T, name: string | undefined, e: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: (value: string, name: K, e: React.FormEvent<HTMLInputElement>) => void;
     /**
      * uiMode: light or dark
      */
@@ -30,46 +33,44 @@ export interface RawInputProps<T=string> extends Omit<React.HTMLProps<HTMLInputE
 /**
  * The most basic input component (without styles)
  */
-const RawInput = React.forwardRef<HTMLInputElement, RawInputProps>(
-    ({
+function RawInput<K extends string>(
+    {
         className,
         onChange,
         uiMode,
         ...otherProps
-    }, ref) => {
-        // const { uiMode: uiModeFromContext } = React.useContext(ThemeContext);
+    }: RawInputProps<K>,
+) {
+    const handleChange = React.useCallback(
+        (e: React.FormEvent<HTMLInputElement>) => {
+            const {
+                currentTarget: {
+                    name,
+                    value,
+                },
+            } = e;
 
-        const handleChange = React.useCallback(
-            (e: React.FormEvent<HTMLInputElement>) => {
-                const {
-                    currentTarget: {
-                        name,
-                        value,
-                    },
-                } = e;
+            if (onChange) {
+                onChange(
+                    value,
+                    name as K,
+                    e,
+                );
+            }
+        },
+        [onChange],
+    );
 
-                if (onChange) {
-                    onChange(
-                        value,
-                        name,
-                        e,
-                    );
-                }
-            },
-            [onChange],
-        );
+    const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
-        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
-
-        return (
-            <input
-                ref={ref}
-                className={_cs(className, styles.rawInput, themeClassName)}
-                onChange={handleChange}
-                {...otherProps}
-            />
-        );
-    },
-);
+    return (
+        <input
+            className={_cs(className, styles.rawInput, themeClassName)}
+            onChange={handleChange}
+            {...otherProps}
+        />
+    );
+}
+// );
 
 export default RawInput;
