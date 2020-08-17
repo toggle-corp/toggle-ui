@@ -7,32 +7,41 @@ type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
 function TextInput<T extends string>(props: TextInputProps<T>) {
     const {
-        /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-        labelContainerClassName,
-        iconsContainerClassName,
-        actionsContainerClassName,
-        inputSectionClassName,
-        className,
-        /* eslint-enable no-unused-vars, @typescript-eslint/no-unused-vars */
-        uiMode,
-        label,
-        icons,
         actions,
-        hintAndError,
+        actionsContainerClassName,
+        className,
         disabled,
+        error,
+        errorContainerClassName,
+        hint,
+        hintContainerClassName,
+        icons,
+        iconsContainerClassName,
+        inputSectionClassName,
+        label,
+        labelContainerClassName,
         readOnly,
+        uiMode,
         ...rawInputProps
     } = props;
 
     return (
         <InputContainer
-            label={label}
-            icons={icons}
             actions={actions}
-            hintAndError={hintAndError}
+            actionsContainerClassName={actionsContainerClassName}
+            className={className}
             disabled={disabled}
-            uiMode={uiMode}
+            error={error}
+            errorContainerClassName={errorContainerClassName}
+            hint={hint}
+            hintContainerClassName={hintContainerClassName}
+            icons={icons}
+            iconsContainerClassName={iconsContainerClassName}
+            inputSectionClassName={inputSectionClassName}
+            label={label}
+            labelContainerClassName={labelContainerClassName}
             readOnly={readOnly}
+            uiMode={uiMode}
             input={(
                 <RawInput<T>
                     {...rawInputProps}

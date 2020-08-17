@@ -15,9 +15,13 @@ export interface InputContainerProps {
     */
     labelContainerClassName?: string;
     /**
-    * Style for the hint and error container
+    * Style for the hint container
     */
-    hintAndErrorContainerClassName?: string;
+    hintContainerClassName?: string;
+    /**
+    * Style for the error container
+    */
+    errorContainerClassName?: string;
     /**
     * Style for the input section
     */
@@ -57,9 +61,14 @@ export interface InputContainerProps {
     label?: React.ReactNode;
 
     /**
-    * Input hint and error
+    * Input hint
     */
-    hintAndError?: React.ReactNode;
+    hint?: React.ReactNode;
+
+    /**
+    * Input error
+    */
+    error?: React.ReactNode;
 
     /**
      * Is input disabled?
@@ -88,10 +97,12 @@ function InputContainer(props: InputContainerProps) {
         actions,
         actionsContainerClassName,
         input,
-        hintAndError,
-        hintAndErrorContainerClassName,
+        hintContainerClassName,
+        errorContainerClassName,
         disabled,
         readOnly,
+        hint,
+        error,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
@@ -103,6 +114,7 @@ function InputContainer(props: InputContainerProps) {
                 themeClassName,
                 disabled && styles.disabled,
                 readOnly && styles.readOnly,
+                !!error && styles.errored,
             )}
         >
             { label && (
@@ -125,9 +137,14 @@ function InputContainer(props: InputContainerProps) {
                     </div>
                 )}
             </div>
-            { hintAndError && (
-                <div className={_cs(styles.hintAndError, hintAndErrorContainerClassName)}>
-                    { hintAndError }
+            { error && (
+                <div className={_cs(styles.error, errorContainerClassName)}>
+                    { error }
+                </div>
+            )}
+            { !error && hint && (
+                <div className={_cs(styles.hint, hintContainerClassName)}>
+                    { hint }
                 </div>
             )}
         </div>

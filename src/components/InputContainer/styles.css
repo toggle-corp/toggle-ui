@@ -3,13 +3,16 @@
     --color-background-input-section: transparent;
     --color-text-label: transparent;
     --color-text: transparent;
+    --color-hint: transparent;
 
+    padding: calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small)) 0;
     color: var(--color-text);
 
     &.light {
         --color-background-input-section: var(--tui-color-background-input-section-light);
         --color-text-label: var(--tui-color-input-label-light);
         --color-text: var(--tui-color-text-light);
+        --color-hint: var(--tui-color-text-label-light);
 
         &:hover {
             --box-shadow-color: var(--tui-color-separator-light);
@@ -19,6 +22,14 @@
         &:focus-within {
             --color-text-label: var(--tui-color-input-label-light-active);
             --box-shadow-color: var(--tui-color-accent);
+
+            &.errored {
+                --box-shadow-color: var(--tui-color-danger);
+            }
+
+            &.disabled {
+                --box-shadow-color: transparent;
+            }
         }
     }
 
@@ -26,6 +37,7 @@
         --color-background-input-section: var(--tui-color-background-input-section-dark);
         --color-text-label: var(--tui-color-input-label-dark);
         --color-text: var(--tui-color-text-dark);
+        --color-hint: var(--tui-color-text-label-dark);
 
         &:hover {
             --box-shadow-color: var(--tui-color-separator-dark);
@@ -35,6 +47,14 @@
         &:focus-within {
             --color-text-label: var(--tui-color-input-label-dark-active);
             --box-shadow-color: var(--tui-color-accent);
+
+            &.errored {
+                --box-shadow-color: var(--tui-color-danger);
+            }
+
+            &.disabled {
+                --box-shadow-color: transparent;
+            }
         }
     }
 
@@ -68,8 +88,16 @@
         }
     }
 
-    .hint-and-error {
+    .hint {
         padding: var(--tui-spacing-extra-small);
+        color: var(--color-hint);
+        font-size: var(--tui-font-size-small);
+    }
+
+    .error {
+        padding: var(--tui-spacing-extra-small);
+        color: var(--tui-color-danger);
+        font-size: var(--tui-font-size-small);
     }
 
     &.disabled {
