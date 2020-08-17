@@ -70,7 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className: classNameFromProps,
         disabled = false,
         transparent = false,
-        type,
+        type = 'button',
         onClick,
         children,
         icons,

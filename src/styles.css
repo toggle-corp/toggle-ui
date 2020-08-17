@@ -58,8 +58,12 @@
     --tui-color-text-on-success: rgba(255, 255, 255, .9);
     --tui-color-text-on-warning: rgba(255, 255, 255, .9);
 
-    --tui-color-text-label: #576374;
-    --tui-color-text-disabled: #b8c2cd;
+    --tui-color-text-label-light: rgba(0, 0, 0, .5);
+    --tui-color-text-label-dark: rgba(255, 255, 255, .5);
+
+    --tui-color-text-disabled-light: rgba(0, 0, 0, .3);
+    --tui-color-text-disabled-dark: rgba(255, 255, 255, .3);
+
     --tui-color-separator: #b8c2cd;
     --tui-color-separator-light: rgba(0, 0, 0, .1);
     --tui-color-separator-dark: rgba(255, 255, 255, .1);

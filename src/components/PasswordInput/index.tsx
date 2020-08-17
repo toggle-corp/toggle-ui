@@ -12,20 +12,21 @@ export type PasswordInputProps<T> = Omit<InputContainerProps, 'input'> & RawInpu
 
 function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
     const {
-        /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-        labelContainerClassName,
-        iconsContainerClassName,
-        actionsContainerClassName,
-        inputSectionClassName,
-        /* eslint-enable no-unused-vars, @typescript-eslint/no-unused-vars */
-        className,
-        label,
-        icons,
         actions,
-        hintAndError,
-        uiMode,
+        actionsContainerClassName,
+        className,
         disabled,
+        error,
+        errorContainerClassName,
+        hint,
+        hintContainerClassName,
+        icons,
+        iconsContainerClassName,
+        inputSectionClassName,
+        label,
+        labelContainerClassName,
         readOnly,
+        uiMode,
         ...rawInputProps
     } = props;
 
@@ -33,12 +34,20 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
 
     return (
         <InputContainer
-            className={_cs(styles.passwordInput, className)}
-            label={label}
-            icons={icons}
+            actionsContainerClassName={actionsContainerClassName}
+            className={className}
             disabled={disabled}
-            uiMode={uiMode}
+            error={error}
+            errorContainerClassName={errorContainerClassName}
+            hint={hint}
+            hintContainerClassName={hintContainerClassName}
+            icons={icons}
+            iconsContainerClassName={iconsContainerClassName}
+            inputSectionClassName={inputSectionClassName}
+            label={label}
+            labelContainerClassName={labelContainerClassName}
             readOnly={readOnly}
+            uiMode={uiMode}
             actions={(
                 <>
                     <ToggleButton
@@ -54,7 +63,6 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                     { actions }
                 </>
             )}
-            hintAndError={hintAndError}
             input={(
                 <RawInput
                     {...rawInputProps}
