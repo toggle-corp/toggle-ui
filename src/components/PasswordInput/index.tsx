@@ -35,7 +35,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
     return (
         <InputContainer
             actionsContainerClassName={actionsContainerClassName}
-            className={className}
+            className={_cs(styles.passwordInput, className)}
             disabled={disabled}
             error={error}
             errorContainerClassName={errorContainerClassName}
