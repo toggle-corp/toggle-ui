@@ -3,7 +3,7 @@ import React from 'react';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
-type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
+export type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
 function TextInput<T extends string>(props: TextInputProps<T>) {
     const {
