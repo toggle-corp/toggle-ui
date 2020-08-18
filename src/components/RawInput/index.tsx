@@ -33,44 +33,44 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
 /**
  * The most basic input component (without styles)
  */
-function RawInput<K extends string>(
-    {
+const RawInput = React.forwardRef<HTMLInputElement, RawInputProps<string>>(
+    ({
         className,
         onChange,
         uiMode,
         ...otherProps
-    }: RawInputProps<K>,
-) {
-    const handleChange = React.useCallback(
-        (e: React.FormEvent<HTMLInputElement>) => {
-            const {
-                currentTarget: {
-                    name,
-                    value,
-                },
-            } = e;
+    }, ref) => {
+        const handleChange = React.useCallback(
+            (e: React.FormEvent<HTMLInputElement>) => {
+                const {
+                    currentTarget: {
+                        name,
+                        value,
+                    },
+                } = e;
 
-            if (onChange) {
-                onChange(
-                    value,
-                    name as K,
-                    e,
-                );
-            }
-        },
-        [onChange],
-    );
+                if (onChange) {
+                    onChange(
+                        value,
+                        name,
+                        e,
+                    );
+                }
+            },
+            [onChange],
+        );
 
-    const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
-    return (
-        <input
-            className={_cs(className, styles.rawInput, themeClassName)}
-            onChange={handleChange}
-            {...otherProps}
-        />
-    );
-}
-// );
+        return (
+            <input
+                ref={ref}
+                className={_cs(className, styles.rawInput, themeClassName)}
+                onChange={handleChange}
+                {...otherProps}
+            />
+        );
+    },
+);
 
 export default RawInput;

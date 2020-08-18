@@ -1,28 +1,31 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { getFloatPlacement } from '#utils/common';
+import Portal from '../Portal';
 
 import styles from './styles.css';
 
 interface Props {
     className?: string;
     parentRef: React.RefObject<HTMLElement>;
-    // forwardedRef: React.RefObject<HTMLDivElement>;
     children: React.ReactNode;
 }
 
+const defaultPlacement = {
+    top: 'unset',
+    right: 'unset',
+    bottom: 'unset',
+    left: 'unset',
+    minWidth: 'unset',
+    width: 'unset',
+};
+
 function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
     const placement = {
-        top: 'unset',
-        right: 'unset',
-        bottom: 'unset',
-        left: 'unset',
-        minWidth: 'unset',
-        width: 'unset',
+        ...defaultPlacement,
     };
 
-    if (parentRef.current) {
+    if (parentRef?.current) {
         const parentBCR = parentRef.current.getBoundingClientRect();
         const { x, y, width, height } = parentBCR;
 
@@ -45,8 +48,26 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         }
 
         placement.width = `${width}px`;
-        placement.minWidth = '240px';
     }
+
+    return placement;
+}
+
+function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
+    const [placement, setPlacement] = React.useState(
+        getFloatPlacement(parentRef),
+    );
+    const handleScroll = React.useCallback(() => {
+        setPlacement(getFloatPlacement(parentRef));
+    }, [setPlacement, parentRef]);
+
+    React.useEffect(() => {
+        document.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
 
     return placement;
 }
@@ -56,20 +77,21 @@ const Popup = React.forwardRef<HTMLDivElement, Props>(
         const {
             parentRef,
             children,
-            // forwardedRef,
             className,
         } = props;
 
-        const style = getFloatPlacement(parentRef);
+        const style = useAttachedFloatingPlacement(parentRef);
 
         return (
-            <div
-                ref={ref}
-                style={style}
-                className={_cs(styles.dropdownContainer, className)}
-            >
-                { children }
-            </div>
+            <Portal>
+                <div
+                    ref={ref}
+                    style={style}
+                    className={_cs(styles.popup, className)}
+                >
+                    { children }
+                </div>
+            </Portal>
         );
     },
 );

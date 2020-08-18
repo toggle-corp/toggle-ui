@@ -1,5 +1,5 @@
 import React from 'react';
-import ThemeContext, { UiMode } from './components/ThemeContext';
+import ThemeContext, { UiMode } from '../components/ThemeContext';
 
 function useThemeClassName(
     uiModeFromProps: UiMode | undefined,

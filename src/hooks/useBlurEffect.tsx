@@ -2,7 +2,7 @@ import React from 'react';
 
 function useBlurEffect(
     shouldWatch: boolean,
-    callback: (clickedInside: boolean, e: MouseEvent) => void,
+    callback: (isClickedWithin: boolean, e: MouseEvent) => void,
     elementRef: React.RefObject<HTMLElement>,
     parentRef: React.RefObject<HTMLElement>,
 ) {
