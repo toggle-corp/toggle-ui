@@ -44,6 +44,18 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     */
     className?: string;
     /**
+    * Style for the icons container
+    */
+    iconsClassName?: string;
+    /**
+    * Style for the children container
+    */
+    childrenClassName?: string;
+    /**
+    * Style for the actions container
+    */
+    actionsClassName?: string;
+    /**
      * Disables the button
      */
     disabled?: boolean;
@@ -68,6 +80,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({
         variant = 'default',
         className: classNameFromProps,
+        actionsClassName,
+        iconsClassName,
+        childrenClassName,
         disabled = false,
         transparent = false,
         type = 'button',
@@ -123,17 +138,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...otherProps}
             >
                 {icons && (
-                    <div className={styles.icons}>
+                    <div className={_cs(iconsClassName, styles.icons)}>
                         { icons }
                     </div>
                 )}
                 {children && (
-                    <div className={styles.children}>
+                    <div className={_cs(childrenClassName, styles.children)}>
                         { children }
                     </div>
                 )}
-                {icons && (
-                    <div className={styles.actions}>
+                {actions && (
+                    <div className={_cs(actionsClassName, styles.actions)}>
                         { actions }
                     </div>
                 )}
