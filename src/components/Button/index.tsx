@@ -94,11 +94,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ...otherProps
     }, ref) => {
         const innerUiMode: UiMode = React.useMemo(() => {
+            // NOTE: color is returned as ' #ffffff' in development but '#ffffff' on production
             const color = getComputedStyle(document.documentElement)
-                .getPropertyValue(buttonVariantToVariableNameMap[variant]);
+                .getPropertyValue(buttonVariantToVariableNameMap[variant])
+                .trim();
 
             // Remove hash from color
-            const luma = getContrastYIQ(color.substr(1, color.length));
+            const luma = getContrastYIQ(color);
             const mode = luma >= 0.5 ? 'light' : 'dark';
             const invertMap: {
                 [key in UiMode]: UiMode;
