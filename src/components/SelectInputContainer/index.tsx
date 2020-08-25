@@ -157,8 +157,8 @@ function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerPr
                 readOnly={readOnly}
                 uiMode={uiMode}
                 input={(
-                    <RawInput<T>
-                        ref={inputElementRef}
+                    <RawInput
+                        elementRef={inputElementRef}
                         readOnly={readOnly}
                         uiMode={uiMode}
                         disabled={disabled}
