@@ -1,5 +1,46 @@
 .popup {
     position: fixed;
-    box-shadow: 0 0 5px -3px rgba(0, 0, 0, .5);
+    border-radius: var(--tui-radius-popup-border);
     background-color: var(--tui-color-foreground);
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, .5));
+
+    --height-tip: 10px;
+    --width-tip: 10px;
+
+    .tip {
+        position: absolute;
+        top: unset;
+        right: unset;
+        bottom: unset;
+        left: unset;
+        background-color: #fff;
+        width: var(--width-tip);
+        height: var(--height-tip);
+    }
+
+    &.top {
+        .tip {
+            bottom: calc(-1 * var(--height-tip));
+            clip-path: polygon(100% 0%, 0 0, 50% 100%);
+        }
+    }
+
+    &.bottom {
+        .tip {
+            top: calc(-1 * var(--height-tip));
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+    }
+
+    &.left {
+        .tip {
+            right: var(--width-tip);
+        }
+    }
+
+    &.right {
+        .tip {
+            left: var(--width-tip);
+        }
+    }
 }

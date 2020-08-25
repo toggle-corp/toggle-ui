@@ -1,0 +1,12 @@
+.select-input {
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+}
+
+.option-renderer {
+    padding: var(--tui-spacing-small) var(--tui-spacing-medium);
+    text-align: left;
+}

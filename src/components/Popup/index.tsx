@@ -25,6 +25,9 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         ...defaultPlacement,
     };
 
+    let horizontalPosition;
+    let verticalPosition;
+
     if (parentRef?.current) {
         const parentBCR = parentRef.current.getBoundingClientRect();
         const { x, y, width, height } = parentBCR;
@@ -32,8 +35,8 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         const cX = window.innerWidth / 2;
         const cY = window.innerHeight / 2;
 
-        const horizontalPosition = (cX - parentBCR.x) > 0 ? 'right' : 'left';
-        const verticalPosition = (cY - parentBCR.y) > 0 ? 'bottom' : 'top';
+        horizontalPosition = (cX - parentBCR.x) > 0 ? 'right' : 'left';
+        verticalPosition = (cY - parentBCR.y) > 0 ? 'bottom' : 'top';
 
         if (horizontalPosition === 'left') {
             placement.right = `${window.innerWidth - x - width}px`;
@@ -42,15 +45,19 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         }
 
         if (verticalPosition === 'top') {
-            placement.bottom = `${window.innerHeight - y}px`;
+            placement.bottom = `${window.innerHeight - y + 10}px`;
         } else if (verticalPosition === 'bottom') {
-            placement.top = `${y + height}px`;
+            placement.top = `${y + height + 10}px`;
         }
 
         placement.width = `${width}px`;
     }
 
-    return placement;
+    return {
+        placement,
+        horizontalPosition,
+        verticalPosition,
+    };
 }
 
 function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
@@ -80,15 +87,25 @@ const Popup = React.forwardRef<HTMLDivElement, Props>(
             className,
         } = props;
 
-        const style = useAttachedFloatingPlacement(parentRef);
+        const {
+            placement,
+            horizontalPosition,
+            verticalPosition,
+        } = useAttachedFloatingPlacement(parentRef);
 
         return (
             <Portal>
                 <div
                     ref={ref}
-                    style={style}
-                    className={_cs(styles.popup, className)}
+                    style={placement}
+                    className={_cs(
+                        styles.popup,
+                        className,
+                        horizontalPosition === 'left' ? styles.left : styles.right,
+                        verticalPosition === 'top' ? styles.top : styles.bottom,
+                    )}
                 >
+                    <div className={styles.tip} />
                     { children }
                 </div>
             </Portal>

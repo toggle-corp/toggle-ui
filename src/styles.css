@@ -99,4 +99,6 @@
     --tui-color-input-label-dark: rgba(255, 255, 255, .5);
     --tui-color-input-label-dark-hover: rgba(255, 255, 255, .7);
     --tui-color-input-label-dark-active: rgba(255, 255, 255, .9);
+
+    --tui-radius-popup-border: 3px;
 }

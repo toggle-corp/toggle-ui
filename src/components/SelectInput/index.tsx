@@ -1,113 +1,85 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    listToMap,
+    isFalsyString,
+    caseInsensitiveSubmatch,
+    compareStringSearch,
+} from '@togglecorp/fujs';
 
-import Popup from '../Popup';
-import InputContainer, { InputContainerProps } from '../InputContainer';
-import RawInput from '../RawInput';
-import RawButton from '../RawButton';
-import { useBlurEffect } from '../../hooks';
+import SelectInputContainer from '../SelectInputContainer';
 
 import styles from './styles.css';
 
-type SelectInputProps<T> = Omit<InputContainerProps, 'input'>;
+type OptionKey = string | number;
+interface Option {
+    [index: string]: any;
+}
 
-function SelectInput<T>(props: SelectInputProps<T>) {
+export interface SelectInputProps<T extends OptionKey, K> {
+    value: T,
+    onChange: (newValue: T) => void;
+    options: Option[],
+    keySelector: (option: Option) => OptionKey,
+    labelSelector: (option: Option) => string,
+}
+
+const Option = ({
+    children,
+    className,
+}) => (
+    <div className={className}>
+        { children }
+    </div>
+);
+
+function SelectInput<T extends OptionKey, K>(props: SelectInputProps<T, K>) {
     const {
-        actions,
-        actionsContainerClassName,
-        className,
-        disabled,
-        error,
-        errorContainerClassName,
-        hint,
-        hintContainerClassName,
-        icons,
-        iconsContainerClassName,
-        inputSectionClassName,
-        label,
-        labelContainerClassName,
-        readOnly,
-        uiMode,
+        value,
+        onChange,
+        options,
+        keySelector,
+        labelSelector,
     } = props;
 
-    const containerRef = React.useRef(null);
-    const inputSectionRef = React.useRef(null);
-    const inputElementRef = React.useRef(null);
-    const popupRef = React.useRef(null);
-
     const [searchInputValue, setSearchInputValue] = React.useState('');
-    const [showDropdown, setShowDropdown] = React.useState(false);
 
-    const handleSearchInputChange = React.useCallback((value) => {
-        setSearchInputValue(value);
-    }, [setSearchInputValue]);
+    const optionsLabelMap = React.useMemo(() => (
+        listToMap(options, keySelector, labelSelector)
+    ), [options, keySelector, labelSelector]);
 
-    const handleSearchInputClick = React.useCallback(() => {
-        setShowDropdown(true);
-    }, [setShowDropdown]);
+    const optionRendererParams = React.useCallback((key, option) => ({
+        children: option.label,
+        className: _cs(styles.option, key === value && styles.active),
+    }), [value]);
 
-    const handlePopupBlur = React.useCallback((isClickedWithin: boolean) => {
-        if (!isClickedWithin) {
-            setShowDropdown(false);
+    const filteredOptions = React.useMemo(() => {
+        if (isFalsyString(searchInputValue)) {
+            return options;
         }
 
-        inputElementRef?.current?.focus();
-    }, [setShowDropdown]);
-
-    useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
+        return options
+            .filter((option) => caseInsensitiveSubmatch(labelSelector(option), searchInputValue))
+            .sort((a, b) => compareStringSearch(
+                labelSelector(a),
+                labelSelector(b),
+                searchInputValue,
+            ));
+    }, [options, searchInputValue, labelSelector]);
 
     return (
-        <>
-            <InputContainer
-                ref={containerRef}
-                inputSectionRef={inputSectionRef}
-                actions={actions}
-                actionsContainerClassName={actionsContainerClassName}
-                className={className}
-                disabled={disabled}
-                error={error}
-                errorContainerClassName={errorContainerClassName}
-                hint={hint}
-                hintContainerClassName={hintContainerClassName}
-                icons={icons}
-                iconsContainerClassName={iconsContainerClassName}
-                inputSectionClassName={inputSectionClassName}
-                label={label}
-                labelContainerClassName={labelContainerClassName}
-                readOnly={readOnly}
-                uiMode={uiMode}
-                input={(
-                    <RawInput<T>
-                        ref={inputElementRef}
-                        readOnly={readOnly}
-                        uiMode={uiMode}
-                        disabled={disabled}
-                        value={searchInputValue}
-                        onChange={handleSearchInputChange}
-                        onClick={handleSearchInputClick}
-                    />
-                )}
-            />
-            { showDropdown && (
-                <Popup
-                    ref={popupRef}
-                    parentRef={inputSectionRef}
-                >
-                    <p>
-                        Popup
-                    </p>
-                    <p>
-                        Woo
-                    </p>
-                    <p>
-                        So good
-                    </p>
-                    <p>
-                        Woohoo
-                    </p>
-                </Popup>
-            )}
-        </>
+        <SelectInputContainer
+            options={filteredOptions}
+            optionKeySelector={(d) => d.key}
+            optionRenderer={Option}
+            optionRendererParams={optionRendererParams}
+            onOptionClick={onChange}
+            optionContainerClassName={styles.optionContainer}
+            onSearchInputChange={setSearchInputValue}
+            valueDisplay={optionsLabelMap[value]}
+            searchPlaceholder="Start typing to search for options"
+            optionsEmptyComponent="No options found"
+        />
     );
 }
 
