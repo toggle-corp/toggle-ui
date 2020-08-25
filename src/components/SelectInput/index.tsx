@@ -2,12 +2,10 @@ import React from 'react';
 import {
     _cs,
     listToMap,
-    isFalsyString,
-    caseInsensitiveSubmatch,
-    compareStringSearch,
 } from '@togglecorp/fujs';
 
 import SelectInputContainer from '../SelectInputContainer';
+import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
 
@@ -24,14 +22,7 @@ export interface SelectInputProps<T extends OptionKey, K> {
     labelSelector: (option: Option) => string,
 }
 
-const Option = ({
-    children,
-    className,
-}) => (
-    <div className={className}>
-        { children }
-    </div>
-);
+const Option = ({ children }) => children;
 
 function SelectInput<T extends OptionKey, K>(props: SelectInputProps<T, K>) {
     const {
@@ -50,22 +41,12 @@ function SelectInput<T extends OptionKey, K>(props: SelectInputProps<T, K>) {
 
     const optionRendererParams = React.useCallback((key, option) => ({
         children: option.label,
-        className: _cs(styles.option, key === value && styles.active),
+        containerClassName: _cs(styles.option, key === value && styles.active),
     }), [value]);
 
-    const filteredOptions = React.useMemo(() => {
-        if (isFalsyString(searchInputValue)) {
-            return options;
-        }
-
-        return options
-            .filter((option) => caseInsensitiveSubmatch(labelSelector(option), searchInputValue))
-            .sort((a, b) => compareStringSearch(
-                labelSelector(a),
-                labelSelector(b),
-                searchInputValue,
-            ));
-    }, [options, searchInputValue, labelSelector]);
+    const filteredOptions = React.useMemo(() => (
+        rankedSearchOnList(options, searchInputValue, labelSelector)
+    ), [options, searchInputValue, labelSelector]);
 
     return (
         <SelectInputContainer
@@ -74,7 +55,6 @@ function SelectInput<T extends OptionKey, K>(props: SelectInputProps<T, K>) {
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             onOptionClick={onChange}
-            optionContainerClassName={styles.optionContainer}
             onSearchInputChange={setSearchInputValue}
             valueDisplay={optionsLabelMap[value]}
             searchPlaceholder="Start typing to search for options"

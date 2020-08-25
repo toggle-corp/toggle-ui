@@ -1,12 +1,5 @@
-.option-container {
-    outline-offset: var(--spacing-small);
-    padding: 0;
-
-    .option {
-        padding: var(--tui-spacing-small) var(--tui-spacing-medium);
-
-        &.active {
-            background-color: var(--tui-color-accent);
-        }
+.option {
+    &.active {
+        background-color: var(--tui-color-accent);
     }
 }
