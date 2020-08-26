@@ -33,5 +33,5 @@ Default.args = {
     options,
     optionKeySelector: (d) => d.key,
     optionRenderer: Option,
-    optionRendererParams: (option) => ({ children: option.label }),
+    optionRendererParams: (key, option) => ({ children: option.label }),
 };

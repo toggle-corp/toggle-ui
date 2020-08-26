@@ -64,17 +64,24 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     const [placement, setPlacement] = React.useState(
         getFloatPlacement(parentRef),
     );
+
     const handleScroll = React.useCallback(() => {
+        setPlacement(getFloatPlacement(parentRef));
+    }, [setPlacement, parentRef]);
+
+    const handleResize = React.useCallback(() => {
         setPlacement(getFloatPlacement(parentRef));
     }, [setPlacement, parentRef]);
 
     React.useEffect(() => {
         document.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
 
         return () => {
             document.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
         };
-    }, [handleScroll]);
+    }, [handleScroll, handleResize]);
 
     return placement;
 }

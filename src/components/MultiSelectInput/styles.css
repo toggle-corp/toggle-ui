@@ -1,7 +1,7 @@
 .option {
     display: flex;
     align-items: center;
-    padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
 
     &.active {
         color: var(--tui-color-accent);
@@ -15,5 +15,28 @@
 
     .label {
         padding: 0 var(--tui-spacing-small);
+    }
+
+    &:last-child {
+        margin-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    }
+
+    &:nth-child(2) {
+        margin-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    }
+}
+
+.empty {
+    padding: var(--tui-spacing-large);
+    color: var(--tui-color-text-disabled-light);
+}
+
+.options-popup {
+    max-height: var(--tui-height-max-select-input-popup);
+    overflow: auto;
+
+    .empty {
+        padding: var(--tui-spacing-large);
+        color: var(--tui-color-text-disabled-light);
     }
 }

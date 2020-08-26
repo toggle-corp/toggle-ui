@@ -5,7 +5,7 @@
     --color-text: transparent;
     --color-hint: transparent;
 
-    padding: calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small)) 0;
+    padding: calc(var(--tui-spacing-small) - var(--tui-spacing-small)) 0;
     color: var(--color-text);
 
     &.light {
@@ -59,43 +59,51 @@
     }
 
     .input-label {
-        padding: var(--tui-spacing-extra-small);
+        padding: var(--tui-spacing-small);
         color: var(--color-text-label);
         font-size: var(--tui-font-size-small);
         font-weight: var(--tui-font-weight-bold);
     }
 
+    --box-shadow-offset-x: 0;
+    --box-shadow-offset-y: 2px;
+    --box-shadow-spread-radius: 2px;
+    --box-shadow-blur-radius: -1px;
+
     .input-section {
         display: flex;
         align-items: center;
         border-radius: var(--tui-radius-border-input-section);
-        box-shadow: 0 2px 3px -2px var(--box-shadow-color);
+        box-shadow: var(--box-shadow-offset-x) var(--box-shadow-offset-y) var(--box-shadow-spread-radius) var(--box-shadow-blur-radius) var(--box-shadow-color);
         background-color: var(--color-background-input-section);
+        padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
 
         .icons {
+            display: flex;
+            align-items: center;
             flex-shrink: 0;
-            padding: var(--tui-spacing-extra-small);
+            padding: var(--tui-spacing-small);
         }
 
         .input {
             flex-grow: 1;
-            padding: var(--tui-spacing-extra-small);
+            padding: var(--tui-spacing-small);
         }
 
         .actions {
             flex-shrink: 0;
-            padding: var(--tui-spacing-extra-small);
+            padding: var(--tui-spacing-small);
         }
     }
 
     .hint {
-        padding: var(--tui-spacing-extra-small);
+        padding: var(--tui-spacing-small);
         color: var(--color-hint);
         font-size: var(--tui-font-size-small);
     }
 
     .error {
-        padding: var(--tui-spacing-extra-small);
+        padding: var(--tui-spacing-small);
         color: var(--tui-color-danger);
         font-size: var(--tui-font-size-small);
     }

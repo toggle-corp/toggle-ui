@@ -41,6 +41,7 @@ function RawInput<K extends string>(
         className,
         onChange,
         uiMode,
+        elementRef,
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -68,6 +69,7 @@ function RawInput<K extends string>(
 
     return (
         <input
+            ref={elementRef}
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
             {...otherProps}

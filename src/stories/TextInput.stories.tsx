@@ -1,5 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { MdTextFields } from 'react-icons/md';
 
 import TextInput, { TextInputProps } from '#components/TextInput';
 
@@ -15,6 +16,7 @@ const Template = (args: TextInputProps) => (
 
 export const Default = Template.bind({});
 Default.args = {
+    icons: <MdTextFields />,
     label: 'Name',
 };
 

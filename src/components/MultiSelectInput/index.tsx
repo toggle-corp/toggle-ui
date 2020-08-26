@@ -16,11 +16,13 @@ interface Option {
 }
 
 export interface MultiSelectInputProps<T extends OptionKey, K> {
-    value: T[],
+    value: T[];
     onChange: (newValue: T[]) => void;
-    options: Option[],
-    keySelector: (option: Option) => OptionKey,
-    labelSelector: (option: Option) => string,
+    options: Option[];
+    keySelector: (option: Option) => OptionKey;
+    labelSelector: (option: Option) => string;
+    searchPlaceholder?: string;
+    optionsEmptyComponent?: React.ReactNode;
 }
 
 const Option = ({
@@ -37,6 +39,12 @@ const Option = ({
     </>
 );
 
+const DefaultEmptyComponent = () => (
+    <div className={styles.empty}>
+        No options available
+    </div>
+);
+
 function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T, K>) {
     const {
         value,
@@ -44,6 +52,8 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
         options,
         keySelector,
         labelSelector,
+        searchPlaceholder = 'Type to search',
+        optionsEmptyComponent = <DefaultEmptyComponent />,
     } = props;
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
@@ -66,14 +76,14 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
         rankedSearchOnList(options, searchInputValue, labelSelector)
     ), [options, searchInputValue, labelSelector]);
 
-    const handleOptionClick = React.useCallback((optionKey) => {
+    const handleOptionClick = React.useCallback((optionKey: OptionKey) => {
         const optionKeyIndex = value.findIndex((d) => d === optionKey);
         const newValue = [...value];
 
         if (optionKeyIndex !== -1) {
             newValue.splice(optionKeyIndex, 1);
         } else {
-            newValue.push(optionKey);
+            newValue.push(optionKey as T);
         }
 
         onChange(newValue);
@@ -86,16 +96,17 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
     return (
         <SelectInputContainer
             options={filteredOptions}
-            optionKeySelector={(d) => d.key}
+            optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             onOptionClick={handleOptionClick}
             optionContainerClassName={styles.optionContainer}
             onSearchInputChange={setSearchInputValue}
             valueDisplay={valueDisplay}
-            searchPlaceholder="Start typing to search for options"
-            optionsEmptyComponent="No options found"
+            searchPlaceholder={searchPlaceholder}
+            optionsEmptyComponent={optionsEmptyComponent}
             persistantOptionPopup
+            optionsPopupClassName={styles.optionsPopup}
         />
     );
 }

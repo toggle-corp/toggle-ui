@@ -17,10 +17,10 @@
     --tui-width-separator-medium: 2px;
 
     /* FONT SIZE */
-    --tui-font-size-extra-small: 11px;
+    --tui-font-size-extra-small: 10px;
     --tui-font-size-small: 12px;
-    --tui-font-size-small-medium: 13px;
-    --tui-font-size-medium: 14px;
+    --tui-font-size-small-medium: 14px;
+    --tui-font-size-medium: 15px;
     --tui-font-size-large-medium: 16px;
     --tui-font-size-large: 18px;
     --tui-font-size-extra-large: 24px;
@@ -101,4 +101,6 @@
     --tui-color-input-label-dark-active: rgba(255, 255, 255, .9);
 
     --tui-radius-popup-border: 3px;
+
+    --tui-height-max-select-input-popup: 50vh;
 }

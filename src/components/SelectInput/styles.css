@@ -1,5 +1,42 @@
 .option {
+    display: flex;
+    align-items: center;
+    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+
+    .icon {
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        padding: 0 var(--tui-spacing-small);
+    }
+
+    .label {
+        padding: 0 var(--tui-spacing-small);
+    }
+
     &.active {
-        background-color: var(--tui-color-accent);
+        color: var(--tui-color-accent);
+
+        .icon {
+            opacity: 1;
+        }
+    }
+
+    &:last-child {
+        margin-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    }
+
+    &:nth-child(2) {
+        margin-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    }
+}
+
+.options-popup {
+    max-height: var(--tui-height-max-select-input-popup);
+    overflow: auto;
+
+    .empty {
+        padding: var(--tui-spacing-large);
+        color: var(--tui-color-text-disabled-light);
     }
 }

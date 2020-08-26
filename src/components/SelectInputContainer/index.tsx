@@ -4,7 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput from '../RawInput';
-import RawButton from '../RawButton';
+import RawButton, { RawButtonProps } from '../RawButton';
 import List from '../List';
 import { useBlurEffect } from '../../hooks';
 
@@ -29,14 +29,21 @@ export interface SelectInputContainerProps<T extends OptionKey> extends Omit<Inp
     optionsEmptyComponent: React.ReactElement;
 }
 
-const GenericOptionRenderer = ({
+function GenericOptionRenderer<T>({
     optionContainerClassName,
     contentRenderer: Renderer,
     contentRendererParam,
     option,
     onClick,
     optionKey,
-}) => {
+}: {
+    optionContainerClassName?: string;
+    contentRenderer: React.ReactNode<T>;
+    contentRendererParam: (key: OptionKey, option: Option) => T & { containerClassName?: string; };
+    option: Option;
+    optionKey: OptionKey;
+    onClick: RawButtonProps['onClick'];
+}) {
     const params = contentRendererParam(optionKey, option);
     const {
         containerClassName,
@@ -56,7 +63,7 @@ const GenericOptionRenderer = ({
             <Renderer {...props} />
         </RawButton>
     );
-};
+}
 
 function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerProps<T>) {
     const {
@@ -86,6 +93,7 @@ function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerPr
         persistantOptionPopup,
         searchPlaceholder,
         optionsEmptyComponent,
+        optionsPopupClassName,
     } = props;
 
     const containerRef = React.useRef(null);
@@ -143,7 +151,7 @@ function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerPr
                 inputSectionRef={inputSectionRef}
                 actions={actions}
                 actionsContainerClassName={actionsContainerClassName}
-                className={_cs(styles.selectInputContainer, className)}
+                className={className}
                 disabled={disabled}
                 error={error}
                 errorContainerClassName={errorContainerClassName}
@@ -173,7 +181,7 @@ function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerPr
                 <Popup
                     ref={popupRef}
                     parentRef={inputSectionRef}
-                    className={styles.popup}
+                    className={_cs(optionsPopupClassName, styles.popup)}
                 >
                     { options.length === 0 ? (
                         optionsEmptyComponent
