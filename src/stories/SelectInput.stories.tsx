@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SelectInput, { SelectInputProps } from '#components/SelectInput';
+import SelectInput from '#components/SelectInput';
 
 export default {
     title: 'Input/SelectInput',
@@ -24,8 +24,8 @@ export const Default = () => {
             options={options}
             value={value}
             onChange={setValue}
-            keySelector={d => d.key}
-            labelSelector={d => d.label}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
         />
     );
 };

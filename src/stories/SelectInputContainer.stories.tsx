@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
 
 export default {
-    title: 'Input/SelectInputContainer',
+    title: 'Input/Private/SelectInputContainer',
     component: SelectInputContainer,
     argTypes: {},
 };

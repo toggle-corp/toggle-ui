@@ -71,7 +71,8 @@ function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
             />
         );
     };
-    const renderGroup = (groupKey: GK, index: number) => {
+
+    const renderGroup = (groupKey: GK, index: number, children: React.ReactNode) => {
         const extraProps = groupRendererParams(groupKey, index, data);
 
         return (
@@ -79,7 +80,9 @@ function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
                 key={groupKey}
                 className={groupRendererClassName}
                 {...extraProps}
-            />
+            >
+                { children }
+            </GroupRenderer>
         );
     };
 
@@ -96,11 +99,9 @@ function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
         [groups, groupComparator],
     );
 
-    const children: React.ReactNode[] = [];
-    sortedGroupKeys.forEach((groupKey, i) => {
-        children.push(renderGroup(groupKey, i));
-        children.push(...groups[groupKey].map(renderListItem));
-    });
+    const children: React.ReactNode[] = sortedGroupKeys.map((groupKey, i) => (
+        renderGroup(groupKey, i, groups[groupKey].map(renderListItem))
+    ));
 
     return (
         <>

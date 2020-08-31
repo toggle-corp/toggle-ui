@@ -13,7 +13,7 @@ import styles from './styles.css';
 type OptionKey = string | number;
 interface Option { [index: string]: any; }
 
-export interface SelectInputContainerProps<T extends OptionKey> extends Omit<InputContainerProps, 'input'> {
+export interface SelectInputContainerProps<T extends OptionKey, N> extends Omit<InputContainerProps, 'input'> {
     options: Option[];
     optionKeySelector: (datum: Option, index: number) => T;
     optionRenderer: React.ReactNode;
@@ -27,6 +27,7 @@ export interface SelectInputContainerProps<T extends OptionKey> extends Omit<Inp
     optionsPopupClassName?: string;
     optionsPending?: boolean;
     optionsEmptyComponent: React.ReactElement;
+    name: N,
 }
 
 function GenericOptionRenderer<T>({
@@ -65,12 +66,15 @@ function GenericOptionRenderer<T>({
     );
 }
 
-function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerProps<T>) {
+function SelectInputContainer<T extends OptionKey, N extends string>(
+    props: SelectInputContainerProps<T, N>,
+) {
     const {
         actions,
         actionsContainerClassName,
         className,
         disabled,
+        name,
         error,
         errorContainerClassName,
         hint,
@@ -166,6 +170,7 @@ function SelectInputContainer<T extends OptionKey>(props: SelectInputContainerPr
                 uiMode={uiMode}
                 input={(
                     <RawInput
+                        name={name}
                         elementRef={inputElementRef}
                         readOnly={readOnly}
                         uiMode={uiMode}
