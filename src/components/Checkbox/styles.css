@@ -1,0 +1,100 @@
+.checkbox {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+
+    .checkmark {
+        align-self: flex-start;
+        flex-shrink: 0;
+        margin-top: var(--spacing-extra-small);
+        margin-right: var(--spacing-extra-small);
+        font-size: 1.6em;
+    }
+
+    .input {
+        display: none;
+        flex-grow: 1;
+    }
+
+    &.light {
+        --color-text: var(--tui-color-text-light);
+
+        &:hover {
+            --color-text: var(--tui-color-text-on-light);
+            --color-background-color: var(--tui-color-background-light);
+        }
+
+        &.checked {
+            --color-accent: var(--tui-color-accent);
+        }
+
+        &.disabled {
+            --color-text-disabled: var(--tui-color-text-disabled-light);
+            --color-separator: var(--tui-color-separator-light);
+        }
+        &.read-only {
+            --color-text-on: var(--tui-color-text-on-light);
+        }
+    }
+
+    &.dark {
+        --color-text: var(--tui-color-text-dark);
+
+        &:hover {
+            --color-text: var(--tui-color-text-on-dark);
+            --color-background-color: var(--tui-color-background-dark);
+        }
+
+        &.checked {
+            .checkmark {
+                --color-accent: var(--tui-color-accent);
+            }
+        }
+
+        &.disabled {
+            --color-text-disabled: var(--tui-color-text-disabled-dark);
+            --color-separator: var(--tui-color-separator-dark);
+        }
+        &.read-only {
+            --color-text-on: var(--tui-color-text-on-dark);
+        }
+    }
+
+
+    .label {
+        color: var(--color-text);
+        font-weight: var(--tui-font-weight-medium);
+    }
+
+    &:hover {
+        color: var(--color-text-on);
+        background-color: var(--color-background-color);
+    }
+
+    &.checked {
+        .checkmark {
+            color: var(--color-accent);
+        }
+    }
+
+    &.disabled {
+        .checkmark {
+            color: var(--color-text-disabled);
+        }
+
+        .label {
+            color: var(--color-text-disabled);
+        }
+
+        .input {
+            border-bottom-color: var(--color-separator);
+            color: var(--color-text-disabled);
+        }
+    }
+
+    &.read-only {
+        .checkmark {
+            color: var(--tui-color-text-on);
+        }
+    }
+}
