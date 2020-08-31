@@ -14,7 +14,7 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     /**
     * input name
     */
-    name?: K;
+    name: K;
     /**
     * input value
     */
@@ -72,6 +72,7 @@ function RawInput<K extends string>(
             ref={elementRef}
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
     );

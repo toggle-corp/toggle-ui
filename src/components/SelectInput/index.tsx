@@ -11,9 +11,7 @@ import { rankedSearchOnList } from '../../utils';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option {
-    [index: string]: any;
-}
+interface Option extends Object {}
 
 export interface SelectInputProps<T extends OptionKey> {
     value: T,
@@ -65,11 +63,11 @@ function SelectInput<T extends OptionKey>(props: SelectInputProps<T>) {
         const isActive = key === value;
 
         return {
-            children: option.label,
+            children: labelSelector(option),
             containerClassName: _cs(styles.option, isActive && styles.active),
             isActive,
         };
-    }, [value]);
+    }, [value, labelSelector]);
 
     const filteredOptions = React.useMemo(() => (
         rankedSearchOnList(options, searchInputValue, labelSelector)

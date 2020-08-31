@@ -11,9 +11,7 @@ import { rankedSearchOnList } from '../../utils';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option {
-    [index: string]: any;
-}
+interface Option extends Object {}
 
 export interface MultiSelectInputProps<T extends OptionKey, K> {
     value: T[];
@@ -63,14 +61,15 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
     ), [options, keySelector, labelSelector]);
 
     const optionRendererParams = React.useCallback((key, option) => {
+        // TODO: optimize using map
         const isActive = value.indexOf(key) !== -1;
 
         return {
-            children: option.label,
+            children: labelSelector(option),
             containerClassName: _cs(styles.option, isActive && styles.active),
             isActive,
         };
-    }, [value]);
+    }, [value, labelSelector]);
 
     const filteredOptions = React.useMemo(() => (
         rankedSearchOnList(options, searchInputValue, labelSelector)
