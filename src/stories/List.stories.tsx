@@ -14,11 +14,11 @@ const Template = (args: ListProps | GroupedListProps) => (
 );
 
 const options = [
-    { key: '1', label: 'Option 1', group: 'a' },
-    { key: '2', label: 'Option 2', group: 'a' },
-    { key: '3', label: 'Option 3', group: 'a' },
-    { key: '4', label: 'Option 4', group: 'b' },
-    { key: '5', label: 'Option 5', group: 'b' },
+    { key: '1', label: 'Superman', group: 'Air' },
+    { key: '2', label: 'Batman', group: 'Land' },
+    { key: '3', label: 'Flash', group: 'Land' },
+    { key: '4', label: 'Wonder Woman', group: 'Air' },
+    { key: '5', label: 'Green Lantern', group: 'Air' },
 ];
 
 const Option = ({ children }) => (
@@ -31,12 +31,12 @@ const Group = ({
     title,
     children,
 }) => (
-    <div style={{ padding: '10px' }}>
-        <h2>
+    <div>
+        <h3>
             Group
             &nbsp;
             {title}
-        </h2>
+        </h3>
         <div>
             { children }
         </div>

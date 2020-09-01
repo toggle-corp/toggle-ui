@@ -9,12 +9,12 @@ export default {
 };
 
 const options = [
-    { key: '1', label: 'Option 1' },
-    { key: '2', label: 'Option 2' },
-    { key: '3', label: 'Option 3' },
-    { key: '4', label: 'Option 4' },
-    { key: '5', label: 'Option 5' },
-    { key: '6', label: 'Number 6 in the option' },
+    { key: '1', label: 'Potato' },
+    { key: '2', label: 'Tomato' },
+    { key: '3', label: 'Pumpkin' },
+    { key: '4', label: 'Gourd' },
+    { key: '5', label: 'Spinach' },
+    { key: '6', label: 'Eggplant' },
 ];
 
 export const Default = () => {
@@ -22,6 +22,7 @@ export const Default = () => {
 
     return (
         <MultiSelectInput
+            label="Vegetables"
             options={options}
             value={value}
             onChange={setValue}
@@ -36,6 +37,7 @@ export const Disabled = () => {
 
     return (
         <MultiSelectInput
+            label="Vegetables"
             options={options}
             value={value}
             onChange={setValue}
@@ -51,13 +53,13 @@ export const ReadOnly = () => {
 
     return (
         <MultiSelectInput
+            label="Vegetables"
             options={options}
             value={value}
             onChange={setValue}
             keySelector={(d) => d.key}
             labelSelector={(d) => d.label}
             readOnly
-            label="Can only read this"
         />
     );
 };

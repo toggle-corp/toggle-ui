@@ -9,11 +9,11 @@ export default {
 };
 
 const options = [
-    { key: '1', label: 'Option 1' },
-    { key: '2', label: 'Option 2' },
-    { key: '3', label: 'Option 3' },
-    { key: '4', label: 'Option 4' },
-    { key: '5', label: 'Option 5' },
+    { key: '1', label: 'Apple' },
+    { key: '2', label: 'Banana' },
+    { key: '3', label: 'Grapes' },
+    { key: '4', label: 'Avocado' },
+    { key: '5', label: 'Pear' },
 ];
 
 export const Default = () => {
@@ -21,6 +21,7 @@ export const Default = () => {
 
     return (
         <SelectInput
+            label="Fruit"
             options={options}
             value={value}
             onChange={setValue}
@@ -35,6 +36,7 @@ export const Disabled = () => {
 
     return (
         <SelectInput
+            label="Fruit"
             options={options}
             value={value}
             onChange={setValue}
@@ -50,6 +52,7 @@ export const ReadOnly = () => {
 
     return (
         <SelectInput
+            label="Fruit"
             options={options}
             value={value}
             onChange={setValue}
