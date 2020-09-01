@@ -1,0 +1,36 @@
+.tab {
+    --color-separator: transparent;
+    --text-color: transparent;
+    --active-text-color: transparent;
+
+    border: 0;
+    border-bottom: var(--tui-width-separator-medium) solid var(--color-separator);
+    border-radius: 0;
+    color: var(--text-color);
+
+    &.light {
+        --text-color: var(--tui-color-text-label-light);
+        --color-separator: var(--tui-color-separator-light);
+
+        &.active {
+            --text-color: var(--tui-color-text-label-active-light);
+        }
+    }
+
+    &.dark {
+        --text-color: var(--tui-color-text-label-dark);
+        --color-separator: var(--tui-color-separator-dark);
+
+        &.active {
+            --text-color: var(--tui-color-text-label-active-dark);
+        }
+    }
+
+    &.active {
+        --color-separator: var(--tui-color-accent);
+    }
+}
+
+.tab-list {
+    display: flex;
+}

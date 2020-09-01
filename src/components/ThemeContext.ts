@@ -6,14 +6,14 @@ const noOp = () => {
 
 export type UiMode = 'light' | 'dark';
 
-export interface ThemeContext {
+export interface ThemeContextProps {
     uiMode: UiMode;
     setUiMode: (newMode: UiMode) => void;
 }
 
-const themeContext = React.createContext<ThemeContext>({
+const ThemeContext = React.createContext<ThemeContextProps>({
     uiMode: 'light',
     setUiMode: noOp,
 });
 
-export default themeContext;
+export default ThemeContext;

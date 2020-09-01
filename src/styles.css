@@ -49,8 +49,8 @@
     --tui-color-text-on-dark: #f5f5f5;
     --tui-color-text: #243244;
 
-    --tui-color-text-light: #243244;
-    --tui-color-text-dark: #f5f5f5;
+    --tui-color-text-light: rgba(0, 0, 0, .7);
+    --tui-color-text-dark: rgba(255, 255, 255, .7);
 
     --tui-color-text-on-primary: rgba(255, 255, 255, .9);
     --tui-color-text-on-accent: rgba(255, 255, 255, .9);
@@ -59,7 +59,9 @@
     --tui-color-text-on-warning: rgba(255, 255, 255, .9);
 
     --tui-color-text-label-light: rgba(0, 0, 0, .5);
+    --tui-color-text-label-active-light: rgba(0, 0, 0, .9);
     --tui-color-text-label-dark: rgba(255, 255, 255, .5);
+    --tui-color-text-label-active-dark: rgba(255, 255, 255, .9);
 
     --tui-color-text-disabled-light: rgba(0, 0, 0, .3);
     --tui-color-text-disabled-dark: rgba(255, 255, 255, .3);

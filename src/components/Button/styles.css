@@ -1,12 +1,19 @@
 .button {
+    --color-text: transparent;
+    --color-background: transparent;
+    --border-color: transparent;
+
     display: flex;
     position: relative;
     align-items: center;
     justify-content: space-around;
     outline-offset: calc(-1 * var(--tui-spacing-small));
+    border: var(--tui-width-separator-thin) solid var(--border-color);
     border-radius: var(--tui-radius-button);
+    background-color: var(--color-background);
     padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
     overflow: hidden;
+    color: var(--color-text);
     font-family: inherit;
     font-weight: var(--tui-font-weight-bold);
 
@@ -23,75 +30,75 @@
     }
 
     &.light {
-        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-light);
+        --border-color: var(--tui-color-separator-light);
     }
 
     &.dark {
-        border: var(--tui-width-separator-thin) solid var(--tui-color-separator-dark);
+        --border-color: var(--tui-color-separator-dark);
     }
 
     &.inner-light {
-        color: var(--tui-color-text-button-light);
+        --color-text: var(--tui-color-text-button-light);
     }
 
     &.inner-dark {
-        color: var(--tui-color-text-button-dark);
+        --color-text: var(--tui-color-text-button-dark);
     }
 
     &.default {
-        background-color: var(--tui-color-background-button);
+        --color-background: var(--tui-color-background-button);
     }
 
     &.accent {
-        background-color: var(--tui-color-accent);
+        --color-background: var(--tui-color-accent);
     }
 
     &.danger {
-        background-color: var(--tui-color-danger);
+        --color-background: var(--tui-color-danger);
     }
 
     &.primary {
-        background-color: var(--tui-color-primary);
+        --color-background: var(--tui-color-primary);
     }
 
     &.success {
-        background-color: var(--tui-color-success);
+        --color-background: var(--tui-color-success);
     }
 
     &.warning {
-        background-color: var(--tui-color-warning);
+        --color-background: var(--tui-color-warning);
     }
 
     &.transparent {
-        border-color: transparent;
-        background-color: transparent;
+        --border-color: transparent;
+        --color-background: transparent;
 
         &.dark {
-            color: var(--tui-color-text-button-dark);
+            --color-text: var(--tui-color-text-button-dark);
         }
 
         &.light {
-            color: var(--tui-color-text-button-light);
+            --color-text: var(--tui-color-text-button-light);
         }
 
         &.accent {
-            color: var(--tui-color-accent);
+            --color-text: var(--tui-color-accent);
         }
 
         &.danger {
-            color: var(--tui-color-danger);
+            --color-text: var(--tui-color-danger);
         }
 
         &.primary {
-            color: var(--tui-color-primary);
+            --color-text: var(--tui-color-primary);
         }
 
         &.success {
-            color: var(--tui-color-success);
+            --color-text: var(--tui-color-success);
         }
 
         &.warning {
-            color: var(--tui-color-warning);
+            --color-text: var(--tui-color-warning);
         }
     }
 
