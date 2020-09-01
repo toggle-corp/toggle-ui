@@ -27,27 +27,27 @@ const Template = (args: CheckboxProps) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    label: 'Checkbox',
+    label: 'Ready!',
     value: false,
-    disabled: false,
-    indeterminate: false,
-    readOnly: false,
+};
+
+export const Indeterminate = Template.bind({});
+Indeterminate.args = {
+    label: 'Get set!',
+    value: false,
+    indeterminate: true,
 };
 
 export const Readonly = Template.bind({});
 Readonly.args = {
-    label: 'Checkbox',
+    label: 'GO! GO! GO!',
     value: false,
-    disabled: false,
-    indeterminate: false,
     readOnly: true,
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    label: 'Checkbox',
+    label: 'Can\'t check it',
     value: false,
-    indeterminate: false,
-    readOnly: false,
     disabled: true,
 };

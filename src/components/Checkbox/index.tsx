@@ -1,19 +1,17 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
     MdCheckBox,
     MdCheckBoxOutlineBlank,
     MdIndeterminateCheckBox,
 } from 'react-icons/md';
-import {
-    randomString,
-    _cs,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 import { UiMode } from '../ThemeContext';
+import VisualFeedback from '../VisualFeedback';
 import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface CheckboxProps {
+export interface CheckboxProps<T, K> {
     className?: string;
     labelClassName?: string;
     checkIconClassName?: string;
@@ -24,11 +22,12 @@ export interface CheckboxProps {
     indeterminate?: boolean;
     uiMode?: UiMode;
     tooltip?: string;
-    value: boolean;
-    onChange: (value: boolean) => void;
+    value: T;
+    onChange: (value: T, name: K) => void;
+    name: K;
 }
 
-const Checkbox = (props: CheckboxProps) => {
+function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K>) {
     const {
         label,
         tooltip,
@@ -41,34 +40,32 @@ const Checkbox = (props: CheckboxProps) => {
         labelClassName: labelClassNameFromProps,
         indeterminate,
         uiMode,
+        name,
         ...otherProps
     } = props;
-
-    const inputId = useMemo(
-        () => randomString(16),
-        [],
-    );
 
     const handleChange = useCallback(
         (e) => {
             const v = e.target.checked;
-            onChange(v);
+            onChange(v, name);
         },
-        [onChange],
+        [name, onChange],
     );
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
     const className = _cs(
         styles.checkbox,
-        'checkbox',
+        'tui-checkbox',
         classNameFromProps,
-        (value || indeterminate) && styles.checked,
-        (value || indeterminate) && 'checked',
+        indeterminate && styles.indeterminate,
+        indeterminate && 'tui-indeterminate',
+        !indeterminate && value && styles.checked,
+        !indeterminate && value && 'tui-checked',
         disabled && styles.disabled,
-        disabled && 'disabled',
+        disabled && 'tui-disabled',
         readOnly && styles.readOnly,
-        readOnly && 'read-only',
+        readOnly && 'tui-read-only',
         themeClassName,
     );
 
@@ -90,18 +87,18 @@ const Checkbox = (props: CheckboxProps) => {
     );
 
     return (
-        <label
-            htmlFor={inputId}
+        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
             className={className}
             title={tooltip}
         >
-            {value && (
-                <MdCheckBox
+            <VisualFeedback />
+            {indeterminate && (
+                <MdIndeterminateCheckBox
                     className={iconClassName}
                 />
             )}
-            {!value && indeterminate && (
-                <MdIndeterminateCheckBox
+            {value && !indeterminate && (
+                <MdCheckBox
                     className={iconClassName}
                 />
             )}
@@ -111,7 +108,6 @@ const Checkbox = (props: CheckboxProps) => {
                 />
             )}
             <input
-                id={inputId}
                 onChange={handleChange}
                 className={inputClassName}
                 type="checkbox"
@@ -124,12 +120,6 @@ const Checkbox = (props: CheckboxProps) => {
             </div>
         </label>
     );
-};
-
-Checkbox.defaultProps = {
-    disabled: false,
-    readOnly: false,
-    value: false,
-};
+}
 
 export default Checkbox;

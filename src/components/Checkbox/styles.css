@@ -1,100 +1,60 @@
 .checkbox {
+    --color-text: transparent;
+    --color-checkmark: transparent;
+
     display: flex;
+    position: relative;
+    align-items: center;
     cursor: pointer;
+    padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+    color: var(--color-text);
     user-select: none;
 
     .checkmark {
-        align-self: flex-start;
         flex-shrink: 0;
-        margin-top: var(--spacing-extra-small);
-        margin-right: var(--spacing-extra-small);
-        font-size: 1.6em;
+        margin: 0 var(--tui-spacing-extra-small);
+        color: var(--color-checkmark);
+        font-size: 1.11em;
     }
 
     .input {
         display: none;
-        flex-grow: 1;
+    }
+
+    .label {
+        padding: var(--tui-spacing-extra-small);
     }
 
     &.light {
-        --color-text: var(--tui-color-text-light);
+        --color-text: var(--tui-color-text-label-light);
+        --color-checkmark: var(--tui-color-text-label-light);
 
-        &:hover {
-            --color-text: var(--tui-color-text-on-light);
-            --color-background-color: var(--tui-color-background-light);
-        }
-
-        &.checked {
-            --color-accent: var(--tui-color-accent);
+        &.checked,
+        &.indeterminate {
+            --color-text: var(--tui-color-text-label-active-light);
+            --color-checkmark: var(--tui-color-accent);
         }
 
         &.disabled {
-            --color-text-disabled: var(--tui-color-text-disabled-light);
-            --color-separator: var(--tui-color-separator-light);
-        }
-        &.read-only {
-            --color-text-on: var(--tui-color-text-on-light);
+            --color-text: var(--tui-color-text-disabled-light);
+            --color-checkmark: var(--tui-color-text-disabled-light);
         }
     }
 
     &.dark {
-        --color-text: var(--tui-color-text-dark);
+        --color-text: var(--tui-color-text-label-dark);
+        --color-checkmark: var(--tui-color-text-label-dark);
 
-        &:hover {
-            --color-text: var(--tui-color-text-on-dark);
-            --color-background-color: var(--tui-color-background-dark);
-        }
-
-        &.checked {
-            .checkmark {
-                --color-accent: var(--tui-color-accent);
-            }
+        &.checked,
+        &.indeterminate {
+            --color-text: var(--tui-color-text-label-active-dark);
+            --color-checkmark: var(--tui-color-accent);
         }
 
         &.disabled {
-            --color-text-disabled: var(--tui-color-text-disabled-dark);
-            --color-separator: var(--tui-color-separator-dark);
-        }
-        &.read-only {
-            --color-text-on: var(--tui-color-text-on-dark);
+            --color-text: var(--tui-color-text-disabled-dark);
+            --color-checkmark: var(--tui-color-text-disabled-dark);
         }
     }
 
-
-    .label {
-        color: var(--color-text);
-        font-weight: var(--tui-font-weight-medium);
-    }
-
-    &:hover {
-        color: var(--color-text-on);
-        background-color: var(--color-background-color);
-    }
-
-    &.checked {
-        .checkmark {
-            color: var(--color-accent);
-        }
-    }
-
-    &.disabled {
-        .checkmark {
-            color: var(--color-text-disabled);
-        }
-
-        .label {
-            color: var(--color-text-disabled);
-        }
-
-        .input {
-            border-bottom-color: var(--color-separator);
-            color: var(--color-text-disabled);
-        }
-    }
-
-    &.read-only {
-        .checkmark {
-            color: var(--tui-color-text-on);
-        }
-    }
 }
