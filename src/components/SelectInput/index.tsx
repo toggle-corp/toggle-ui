@@ -10,9 +10,34 @@ import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
 
-type OptionKey = string | number;
+interface OptionProps {
+    children: React.ReactNode;
+}
+function Option(props: OptionProps) {
+    const { children } = props;
+    return (
+        <>
+            <div className={styles.icon}>
+                <MdCheck />
+            </div>
+            <div className={styles.label}>
+                { children }
+            </div>
+        </>
+    );
+}
 
-export interface SelectInputProps<T extends OptionKey, K, O> {
+function DefaultEmptyComponent() {
+    return (
+        <div className={styles.empty}>
+            No options available
+        </div>
+    );
+}
+
+type OptionKey = string | number;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface SelectInputProps<T extends OptionKey, K, O extends object> {
     value: T,
     onChange: (newValue: T, name: K) => void;
     options: O[],
@@ -23,27 +48,8 @@ export interface SelectInputProps<T extends OptionKey, K, O> {
     name: K;
 }
 
-const Option = ({
-    children,
-}) => (
-    <>
-        <div className={styles.icon}>
-            <MdCheck />
-        </div>
-        <div className={styles.label}>
-            { children }
-        </div>
-    </>
-);
-
-const DefaultEmptyComponent = () => (
-    <div className={styles.empty}>
-        No options available
-    </div>
-);
-
 // eslint-disable-next-line @typescript-eslint/ban-types
-function SelectInput<T extends OptionKey, K extends string, O extends Object>(
+function SelectInput<T extends OptionKey, K extends string, O extends object>(
     props: SelectInputProps<T, K, O>,
 ) {
     const {
@@ -53,7 +59,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends Object>(
         keySelector,
         labelSelector,
         searchPlaceholder = 'Type to search',
-        optionsEmptyComponent = <DefaultEmptyComponent />,
+        optionsEmptyComponent,
         name,
     } = props;
 
@@ -63,15 +69,18 @@ function SelectInput<T extends OptionKey, K extends string, O extends Object>(
         listToMap(options, keySelector, labelSelector)
     ), [options, keySelector, labelSelector]);
 
-    const optionRendererParams = React.useCallback((key: OptionKey, option: O) => {
-        const isActive = key === value;
+    const optionRendererParams = React.useCallback(
+        (key: OptionKey, option: O) => {
+            const isActive = key === value;
 
-        return {
-            children: labelSelector(option),
-            containerClassName: _cs(styles.option, isActive && styles.active),
-            isActive,
-        };
-    }, [value, labelSelector]);
+            return {
+                children: labelSelector(option),
+                containerClassName: _cs(styles.option, isActive && styles.active),
+                isActive,
+            };
+        },
+        [value, labelSelector],
+    );
 
     const filteredOptions = React.useMemo(() => (
         rankedSearchOnList(options, searchInputValue, labelSelector)
@@ -88,7 +97,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends Object>(
             onSearchInputChange={setSearchInputValue}
             valueDisplay={optionsLabelMap[value]}
             searchPlaceholder={searchPlaceholder}
-            optionsEmptyComponent={optionsEmptyComponent}
+            optionsEmptyComponent={optionsEmptyComponent ?? <DefaultEmptyComponent />}
             optionsPopupClassName={styles.optionsPopup}
         />
     );

@@ -8,10 +8,12 @@ export interface PortalProps {
 function Portal(props: PortalProps) {
     const { children } = props;
     return (
-        ReactDOM.createPortal(
-            children,
-            document.body,
-        )
+        <>
+            {ReactDOM.createPortal(
+                children,
+                document.body,
+            )}
+        </>
     );
 }
 

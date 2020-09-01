@@ -2,15 +2,16 @@ import React from 'react';
 
 import Button, { ButtonProps } from '../Button';
 
-export interface ToggleButtonProps extends Omit<ButtonProps, 'value' | 'onClick' | 'onChange'> {
+export interface ToggleButtonProps<N extends number | string | undefined> extends Omit<ButtonProps<N>, 'value' | 'onClick' | 'onChange'> {
     value: boolean;
     onChange: (
         value: boolean,
-        name: string | undefined, e: React.MouseEvent<HTMLButtonElement>,
+        name: N,
+        e: React.MouseEvent<HTMLButtonElement>,
     ) => void;
 }
 
-function ToggleButton(props: ToggleButtonProps) {
+function ToggleButton<N extends number | string | undefined>(props: ToggleButtonProps<N>) {
     const {
         value,
         onChange,
@@ -26,6 +27,7 @@ function ToggleButton(props: ToggleButtonProps) {
     return (
         <Button
             onClick={handleButtonClick}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
     );

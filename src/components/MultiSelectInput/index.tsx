@@ -11,9 +11,39 @@ import { rankedSearchOnList } from '../../utils';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option extends Object {}
 
-export interface MultiSelectInputProps<T, K, O> {
+interface OptionProps {
+    children: React.ReactNode;
+    isActive: boolean;
+}
+function Option(props: OptionProps) {
+    const {
+        children,
+        isActive,
+    } = props;
+
+    return (
+        <>
+            <div className={styles.icon}>
+                { isActive ? <MdCheckBox /> : <MdCheckBoxOutlineBlank /> }
+            </div>
+            <div className={styles.label}>
+                { children }
+            </div>
+        </>
+    );
+}
+
+function DefaultEmptyComponent() {
+    return (
+        <div className={styles.empty}>
+            No options available
+        </div>
+    );
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface MultiSelectInputProps<T, K, O extends object> {
     value: T[];
     onChange: (newValue: T[], name: K) => void;
     options: O[];
@@ -24,28 +54,8 @@ export interface MultiSelectInputProps<T, K, O> {
     name: K;
 }
 
-const Option = ({
-    children,
-    isActive,
-}) => (
-    <>
-        <div className={styles.icon}>
-            { isActive ? <MdCheckBox /> : <MdCheckBoxOutlineBlank /> }
-        </div>
-        <div className={styles.label}>
-            { children }
-        </div>
-    </>
-);
-
-const DefaultEmptyComponent = () => (
-    <div className={styles.empty}>
-        No options available
-    </div>
-);
-
 // eslint-disable-next-line @typescript-eslint/ban-types
-function MultiSelectInput<T extends OptionKey, K extends string, O extends Object>(
+function MultiSelectInput<T extends OptionKey, K extends string, O extends object>(
     props: MultiSelectInputProps<T, K, O>,
 ) {
     const {

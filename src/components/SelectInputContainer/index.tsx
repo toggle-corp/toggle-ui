@@ -10,40 +10,25 @@ import { useBlurEffect } from '../../hooks';
 
 import styles from './styles.css';
 
+type Def = { containerClassName?: string };
 type OptionKey = string | number;
 
-export interface SelectInputContainerProps<T extends OptionKey, N, O> extends Omit<InputContainerProps, 'input'> {
-    options: O[];
-    optionKeySelector: (datum: O, index: number) => T;
-    optionRenderer: React.ReactNode;
-    optionRendererParams: (optionKey: T, option: O) => React.ReactNode;
-    onOptionClick: (optionKey: T, name: N) => void;
+interface GenericOptionRendererParams<P extends Def, OK extends OptionKey, O> {
     optionContainerClassName?: string;
-    onSearchInputChange: (search: string) => void;
-    valueDisplay: string;
-    persistantOptionPopup?: boolean;
-    searchPlaceholder?: string;
-    optionsPopupClassName?: string;
-    optionsPending?: boolean;
-    optionsEmptyComponent: React.ReactElement;
-    name: N,
+    contentRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
+    contentRendererParam: (key: OK, opt: O) => P;
+    option: O;
+    optionKey: OK;
+    onClick: RawButtonProps<OK>['onClick'];
 }
-
-function GenericOptionRenderer<T, OK, O>({
+function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
     optionContainerClassName,
-    contentRenderer: Renderer,
+    contentRenderer,
     contentRendererParam,
     option,
     onClick,
     optionKey,
-}: {
-    optionContainerClassName?: string;
-    contentRenderer: React.ReactNode<T>;
-    contentRendererParam: (key: OK, option: O) => T & { containerClassName?: string; };
-    option: O;
-    optionKey: OK;
-    onClick: RawButtonProps['onClick'];
-}) {
+}: GenericOptionRendererParams<P, OK, O>) {
     const params = contentRendererParam(optionKey, option);
     const {
         containerClassName,
@@ -60,15 +45,31 @@ function GenericOptionRenderer<T, OK, O>({
             onClick={onClick}
             name={optionKey}
         >
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <Renderer {...props} />
+            {contentRenderer(props)}
         </RawButton>
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-function SelectInputContainer<T extends OptionKey, N extends string, O extends Object>(
-    props: SelectInputContainerProps<T, N, O>,
+export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends Def> extends Omit<InputContainerProps, 'input'> {
+    options: O[];
+    optionKeySelector: (datum: O, index: number) => OK;
+    optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
+    optionRendererParams: (optionKey: OK, option: O) => P;
+    onOptionClick: (optionKey: OK, name: N) => void;
+    optionContainerClassName?: string;
+    onSearchInputChange: (search: string) => void;
+    valueDisplay: string;
+    persistantOptionPopup?: boolean;
+    searchPlaceholder?: string;
+    optionsPopupClassName?: string;
+    optionsPending?: boolean;
+    optionsEmptyComponent: React.ReactNode;
+    name: N,
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types, max-len
+function SelectInputContainer<OK extends OptionKey, N extends string, O extends object, P extends Def>(
+    props: SelectInputContainerProps<OK, N, O, P>,
 ) {
     const {
         actions,
@@ -102,8 +103,8 @@ function SelectInputContainer<T extends OptionKey, N extends string, O extends O
     } = props;
 
     const containerRef = React.useRef(null);
-    const inputSectionRef = React.useRef(null);
-    const inputElementRef = React.useRef(null);
+    const inputSectionRef = React.useRef<HTMLDivElement>(null);
+    const inputElementRef = React.useRef<HTMLInputElement>(null);
     const popupRef = React.useRef(null);
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
