@@ -22,13 +22,26 @@ const defaultPlacement = {
     width: 'unset',
 };
 
-function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
+interface FloatingPlacementProps {
+    placement: {
+        top: string | undefined;
+        right: string | undefined;
+        bottom: string | undefined;
+        left: string | undefined;
+        minWidth: string | undefined;
+        width: string | undefined;
+    };
+    horizontalPosition: 'left' | 'right' | undefined;
+    verticalPosition: 'top' | 'bottom' | undefined;
+}
+
+function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPlacementProps {
     const placement = {
         ...defaultPlacement,
     };
 
-    let horizontalPosition;
-    let verticalPosition;
+    let horizontalPosition: 'left' | 'right' | undefined;
+    let verticalPosition: 'bottom' | 'top' | undefined;
 
     if (parentRef?.current) {
         const parentBCR = parentRef.current.getBoundingClientRect();
@@ -63,9 +76,15 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
 }
 
 function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
-    const [placement, setPlacement] = React.useState(
-        getFloatPlacement(parentRef),
-    );
+    const [placement, setPlacement] = React.useState<FloatingPlacementProps>({
+        placement: defaultPlacement,
+        horizontalPosition: 'left',
+        verticalPosition: 'top',
+    });
+
+    React.useEffect(() => {
+        setPlacement(getFloatPlacement(parentRef));
+    }, [setPlacement, parentRef]);
 
     const handleScroll = React.useCallback(() => {
         setPlacement(getFloatPlacement(parentRef));

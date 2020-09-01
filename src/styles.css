@@ -102,9 +102,14 @@
     --tui-color-input-label-dark-hover: rgba(255, 255, 255, .7);
     --tui-color-input-label-dark-active: rgba(255, 255, 255, .9);
 
+    --tui-color-shadow: rgba(0, 0, 0, .5);
+
+    --tui-color-backdrop-light: rgba(0, 0, 0, .5);
+    --tui-color-backdrop-dark: rgba(255, 255, 255, .5);
+
     --tui-radius-popup-border: 3px;
 
-    --tui-height-max-select-input-popup: 50vh;
-    --tui-color-shadow: rgba(0, 0, 0, .5);
     --tui-radius-blur-shadow: 1px;
+
+    --tui-height-max-select-input-popup: 50vh;
 }
