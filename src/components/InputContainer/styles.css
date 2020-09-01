@@ -59,7 +59,7 @@
     }
 
     .input-label {
-        padding: var(--tui-spacing-small);
+        padding: var(--tui-spacing-small) var(--tui-spacing-medium);
         color: var(--color-text-label);
         font-size: var(--tui-font-size-small);
         font-weight: var(--tui-font-weight-bold);
@@ -97,13 +97,13 @@
     }
 
     .hint {
-        padding: var(--tui-spacing-small);
+        padding: var(--tui-spacing-small) var(--tui-spacing-medium);
         color: var(--color-hint);
         font-size: var(--tui-font-size-small);
     }
 
     .error {
-        padding: var(--tui-spacing-small);
+        padding: var(--tui-spacing-small) var(--tui-spacing-medium);
         color: var(--tui-color-danger);
         font-size: var(--tui-font-size-small);
     }

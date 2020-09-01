@@ -30,3 +30,34 @@ export const Default = () => {
         />
     );
 };
+
+export const Disabled = () => {
+    const [value, setValue] = React.useState(['1', '3']);
+
+    return (
+        <MultiSelectInput
+            options={options}
+            value={value}
+            onChange={setValue}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            disabled
+        />
+    );
+};
+
+export const ReadOnly = () => {
+    const [value, setValue] = React.useState(['1', '3']);
+
+    return (
+        <MultiSelectInput
+            options={options}
+            value={value}
+            onChange={setValue}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            readOnly
+            label="Can only read this"
+        />
+    );
+};

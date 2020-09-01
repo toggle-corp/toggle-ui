@@ -29,3 +29,33 @@ export const Default = () => {
         />
     );
 };
+
+export const Disabled = () => {
+    const [value, setValue] = React.useState('1');
+
+    return (
+        <SelectInput
+            options={options}
+            value={value}
+            onChange={setValue}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            disabled
+        />
+    );
+};
+
+export const ReadOnly = () => {
+    const [value, setValue] = React.useState('1');
+
+    return (
+        <SelectInput
+            options={options}
+            value={value}
+            onChange={setValue}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            readOnly
+        />
+    );
+};

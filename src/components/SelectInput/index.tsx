@@ -5,7 +5,7 @@ import {
 } from '@togglecorp/fujs';
 import { MdCheck } from 'react-icons/md';
 
-import SelectInputContainer from '../SelectInputContainer';
+import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
 import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
@@ -35,9 +35,15 @@ function DefaultEmptyComponent() {
     );
 }
 
+type Def = { containerClassName?: string };
 type OptionKey = string | number;
-// eslint-disable-next-line @typescript-eslint/ban-types
-export interface SelectInputProps<T extends OptionKey, K, O extends object> {
+export interface SelectInputProps<
+    T extends OptionKey,
+    K,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    O extends object,
+    P extends Def,
+> extends Omit<SelectInputContainerProps<T, K, O, P>, 'optionsEmptyComponent'> {
     value: T,
     onChange: (newValue: T, name: K) => void;
     options: O[],
@@ -46,11 +52,13 @@ export interface SelectInputProps<T extends OptionKey, K, O extends object> {
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
     name: K;
+    disabled?: boolean;
+    readOnly?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function SelectInput<T extends OptionKey, K extends string, O extends object>(
-    props: SelectInputProps<T, K, O>,
+function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
+    props: SelectInputProps<T, K, O, P>,
 ) {
     const {
         value,
@@ -60,7 +68,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object>(
         labelSelector,
         searchPlaceholder = 'Type to search',
         optionsEmptyComponent,
-        name,
+        ...otherProps
     } = props;
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
@@ -88,7 +96,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object>(
 
     return (
         <SelectInputContainer
-            name={name}
+            {...otherProps}
             options={filteredOptions}
             optionKeySelector={keySelector}
             optionRenderer={Option}

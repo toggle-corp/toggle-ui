@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
 
@@ -34,4 +33,5 @@ Default.args = {
     optionKeySelector: (d) => d.key,
     optionRenderer: Option,
     optionRendererParams: (key, option) => ({ children: option.label }),
+    valueDisplay: '',
 };
