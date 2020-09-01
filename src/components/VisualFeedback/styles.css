@@ -27,6 +27,7 @@
         }
     }
 
+    &.read-only,
     &.disabled {
         pointer-events: none;
     }

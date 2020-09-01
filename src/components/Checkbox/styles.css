@@ -1,0 +1,59 @@
+.checkbox {
+    --color-text: transparent;
+    --color-checkmark: transparent;
+
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+    color: var(--color-text);
+    user-select: none;
+
+    .checkmark {
+        flex-shrink: 0;
+        margin: 0 var(--tui-spacing-extra-small);
+        color: var(--color-checkmark);
+        font-size: 1.11em;
+    }
+
+    .input {
+        display: none;
+    }
+
+    .label {
+        padding: var(--tui-spacing-extra-small);
+    }
+
+    &.light {
+        --color-text: var(--tui-color-text-light);
+        --color-checkmark: var(--tui-color-text-light);
+
+        &.checked,
+        &.indeterminate {
+            --color-checkmark: var(--tui-color-accent);
+        }
+
+    }
+
+    &.dark {
+        --color-text: var(--tui-color-text-dark);
+        --color-checkmark: var(--tui-color-text-dark);
+
+        &.checked,
+        &.indeterminate {
+            --color-checkmark: var(--tui-color-accent);
+        }
+
+    }
+
+    &.read-only {
+        cursor: default;
+        user-select: initial;
+    }
+
+    &.disabled {
+        opacity: var(--tui-opacity-disabled-element);
+        cursor: not-allowed;
+    }
+}

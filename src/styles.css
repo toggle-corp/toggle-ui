@@ -58,9 +58,9 @@
     --tui-color-text-on-success: rgba(255, 255, 255, .9);
     --tui-color-text-on-warning: rgba(255, 255, 255, .9);
 
-    --tui-color-text-label-light: rgba(0, 0, 0, .5);
+    --tui-color-text-label-light: rgba(0, 0, 0, .6);
     --tui-color-text-label-active-light: rgba(0, 0, 0, .9);
-    --tui-color-text-label-dark: rgba(255, 255, 255, .5);
+    --tui-color-text-label-dark: rgba(255, 255, 255, .6);
     --tui-color-text-label-active-dark: rgba(255, 255, 255, .9);
 
     --tui-color-text-disabled-light: rgba(0, 0, 0, .3);
@@ -82,11 +82,11 @@
     --tui-color-background-light: #f5f5f5;
     --tui-color-background-dark: #414141;
 
-    --tui-color-background-hover-light: rgba(0, 0, 0, .2);
-    --tui-color-background-hover-dark: rgba(255, 255, 255, .2);
+    --tui-color-background-hover-light: rgba(0, 0, 0, .1);
+    --tui-color-background-hover-dark: rgba(255, 255, 255, .1);
 
-    --tui-color-background-active-light: rgba(0, 0, 0, .3);
-    --tui-color-background-active-dark: rgba(255, 255, 255, .3);
+    --tui-color-background-active-light: rgba(0, 0, 0, .16);
+    --tui-color-background-active-dark: rgba(255, 255, 255, .16);
 
     --tui-color-background-input-section-light: rgba(0, 0, 0, .1);
     --tui-color-background-input-section-dark: rgba(255, 255, 255, .1);

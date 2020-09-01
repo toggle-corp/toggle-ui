@@ -17,6 +17,11 @@
         &:hover {
             --box-shadow-color: var(--tui-color-separator-light);
             --color-text-label: var(--tui-color-input-label-light-hover);
+
+            &.read-only,
+            &.disabled {
+                --color-text-label: var(--tui-color-input-label-light);
+            }
         }
 
         &:focus-within {
@@ -27,6 +32,7 @@
                 --box-shadow-color: var(--tui-color-danger);
             }
 
+            &.read-only,
             &.disabled {
                 --box-shadow-color: transparent;
             }
@@ -42,6 +48,11 @@
         &:hover {
             --box-shadow-color: var(--tui-color-separator-dark);
             --color-text-label: var(--tui-color-input-label-dark-hover);
+
+            &.read-only,
+            &.disabled {
+                --color-text-label: var(--tui-color-input-label-dark);
+            }
         }
 
         &:focus-within {
@@ -52,6 +63,7 @@
                 --box-shadow-color: var(--tui-color-danger);
             }
 
+            &.read-only,
             &.disabled {
                 --box-shadow-color: transparent;
             }

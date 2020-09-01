@@ -8,6 +8,7 @@ import styles from './styles.css';
 export interface VisualFeedbackProps {
     className?: string;
     disabled?: boolean;
+    readOnly?: boolean;
     uiMode?: UiMode;
 }
 
@@ -15,6 +16,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
     const {
         className,
         disabled,
+        readOnly,
         uiMode,
     } = props;
 
@@ -26,6 +28,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
                 className,
                 styles.visualFeedback,
                 disabled && styles.disabled,
+                readOnly && styles.readOnly,
                 themeClassName,
             )}
         />
