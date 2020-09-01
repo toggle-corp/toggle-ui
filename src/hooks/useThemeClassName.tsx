@@ -1,8 +1,7 @@
 import React from 'react';
-import ThemeContext, { UiMode } from './components/ThemeContext';
+import ThemeContext, { UiMode } from '../components/ThemeContext';
 
-// eslint-disable-next-line import/prefer-default-export
-export function useThemeClassName(
+function useThemeClassName(
     uiModeFromProps: UiMode | undefined,
     lightClassName: string,
     darkClassName: string,
@@ -19,3 +18,5 @@ export function useThemeClassName(
 
     return className;
 }
+
+export default useThemeClassName;

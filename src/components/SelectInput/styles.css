@@ -1,0 +1,30 @@
+.option {
+    display: flex;
+    align-items: center;
+
+    .icon {
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        padding: 0 var(--tui-spacing-small);
+    }
+
+    .label {
+        padding: 0 var(--tui-spacing-small);
+    }
+
+    &.active {
+        color: var(--tui-color-accent);
+
+        .icon {
+            opacity: 1;
+        }
+    }
+}
+
+.options-popup {
+    .empty {
+        padding: var(--tui-spacing-large);
+        color: var(--tui-color-text-disabled-light);
+    }
+}

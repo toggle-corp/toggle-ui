@@ -57,6 +57,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                         disabled={disabled}
                         transparent
                         uiMode={uiMode}
+                        name={undefined}
                     >
                         { showPassword ? <IoMdEyeOff /> : <IoMdEye /> }
                     </ToggleButton>
@@ -65,6 +66,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
             )}
             input={(
                 <RawInput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
                     uiMode={uiMode}
                     readOnly={readOnly}

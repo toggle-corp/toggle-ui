@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import {
     _cs,
     getContrastYIQ,
@@ -30,7 +30,7 @@ const buttonVariantToVariableNameMap: {
     default: '--tui-color-background-button',
 };
 
-export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
+export interface ButtonProps<N extends number | string | undefined> extends RawButtonProps<N> {
     /**
     * Variant of the button
     */
@@ -38,7 +38,7 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
     * Content for the button
     */
-    children?: React.ReactNode;
+    children?: ReactNode;
     /**
     * Style for the button
     */
@@ -66,18 +66,18 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
     * Content before main content of the button
     */
-    icons?: React.ReactNode;
+    icons?: ReactNode;
     /**
     * Content after main content of the button
     */
-    actions?: React.ReactNode;
+    actions?: ReactNode;
 }
 
 /**
  * Basic button component
  */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({
+function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
+    const {
         variant = 'default',
         className: classNameFromProps,
         actionsClassName,
@@ -92,72 +92,71 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         actions,
         uiMode,
         ...otherProps
-    }, ref) => {
-        const innerUiMode: UiMode = React.useMemo(() => {
-            // NOTE: color is returned as ' #ffffff' in development but '#ffffff' on production
-            const color = getComputedStyle(document.documentElement)
-                .getPropertyValue(buttonVariantToVariableNameMap[variant])
-                .trim();
+    } = props;
+    const innerUiMode: UiMode = useMemo(() => {
+        // NOTE: color is returned as ' #ffffff' in development but '#ffffff' on production
+        const color = getComputedStyle(document.documentElement)
+            .getPropertyValue(buttonVariantToVariableNameMap[variant])
+            .trim();
 
-            // Remove hash from color
-            const luma = getContrastYIQ(color);
-            const mode = luma >= 0.5 ? 'light' : 'dark';
-            const invertMap: {
-                [key in UiMode]: UiMode;
-            } = {
-                light: 'dark',
-                dark: 'light',
-            };
+        // Remove hash from color
+        const luma = getContrastYIQ(color);
+        const mode = luma >= 0.5 ? 'light' : 'dark';
+        const invertMap: {
+            [key in UiMode]: UiMode;
+        } = {
+            light: 'dark',
+            dark: 'light',
+        };
 
-            return transparent ? invertMap[mode] : mode;
-        }, [variant, transparent]);
+        return transparent ? invertMap[mode] : mode;
+    }, [variant, transparent]);
 
-        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
-        const innerThemeClassName = useThemeClassName(
-            innerUiMode,
-            styles.innerLight,
-            styles.innerDark,
-        );
+    const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+    const innerThemeClassName = useThemeClassName(
+        innerUiMode,
+        styles.innerLight,
+        styles.innerDark,
+    );
 
-        const buttonClassName = _cs(
-            classNameFromProps,
-            styles.button,
-            variant,
-            styles[variant],
-            transparent && styles.transparent,
-            themeClassName,
-            innerThemeClassName,
-        );
+    const buttonClassName = _cs(
+        classNameFromProps,
+        styles.button,
+        variant,
+        styles[variant],
+        transparent && styles.transparent,
+        themeClassName,
+        innerThemeClassName,
+    );
 
-        return (
-            <RawButton
-                ref={ref}
-                className={buttonClassName}
-                disabled={disabled}
-                onClick={onClick}
-                type={type}
-                uiMode={transparent ? uiMode : innerUiMode}
-                {...otherProps}
-            >
-                {icons && (
-                    <div className={_cs(iconsClassName, styles.icons)}>
-                        { icons }
-                    </div>
-                )}
-                {children && (
-                    <div className={_cs(childrenClassName, styles.children)}>
-                        { children }
-                    </div>
-                )}
-                {actions && (
-                    <div className={_cs(actionsClassName, styles.actions)}>
-                        { actions }
-                    </div>
-                )}
-            </RawButton>
+    return (
+        <RawButton
+            className={buttonClassName}
+            disabled={disabled}
+            onClick={onClick}
+            type={type}
+            uiMode={transparent ? uiMode : innerUiMode}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+        >
+            {icons && (
+                <div className={_cs(iconsClassName, styles.icons)}>
+                    { icons }
+                </div>
+            )}
+            {children && (
+                <div className={_cs(childrenClassName, styles.children)}>
+                    { children }
+                </div>
+            )}
+            {actions && (
+                <div className={_cs(actionsClassName, styles.actions)}>
+                    { actions }
+                </div>
+            )}
+        </RawButton>
 
-        );
-    },
-);
+    );
+}
 
 export default Button;

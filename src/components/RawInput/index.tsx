@@ -2,7 +2,6 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
-// import ThemeContext, { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
@@ -25,9 +24,13 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     */
     onChange?: (value: string, name: K, e: React.FormEvent<HTMLInputElement>) => void;
     /**
-     * uiMode: light or dark
+     * UI mode: light or dark
      */
     uiMode?: UiMode;
+    /**
+     * ref to the element
+     */
+    elementRef: React.Ref<HTMLInputElement>;
 }
 
 /**
@@ -38,6 +41,7 @@ function RawInput<K extends string>(
         className,
         onChange,
         uiMode,
+        elementRef,
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -65,12 +69,13 @@ function RawInput<K extends string>(
 
     return (
         <input
+            ref={elementRef}
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
     );
 }
-// );
 
 export default RawInput;

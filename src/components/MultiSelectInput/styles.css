@@ -1,0 +1,31 @@
+.option {
+    display: flex;
+    align-items: center;
+    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+
+    &.active {
+        color: var(--tui-color-accent);
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--tui-spacing-small);
+    }
+
+    .label {
+        padding: 0 var(--tui-spacing-small);
+    }
+}
+
+.empty {
+    padding: var(--tui-spacing-large);
+    color: var(--tui-color-text-disabled-light);
+}
+
+.options-popup {
+    .empty {
+        padding: var(--tui-spacing-large);
+        color: var(--tui-color-text-disabled-light);
+    }
+}

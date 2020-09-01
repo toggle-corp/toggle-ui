@@ -79,13 +79,15 @@ export interface InputContainerProps {
      * Is input readonly?
      */
     readOnly?: boolean;
+
+    inputSectionRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**
  * Common container for input elements
  */
-function InputContainer(props: InputContainerProps) {
-    const {
+const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
+    ({
         className,
         uiMode,
         label,
@@ -103,52 +105,57 @@ function InputContainer(props: InputContainerProps) {
         readOnly,
         hint,
         error,
-    } = props;
-
-    const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
-    return (
-        <div
-            className={_cs(
-                className,
-                styles.inputContainer,
-                themeClassName,
-                disabled && styles.disabled,
-                readOnly && styles.readOnly,
-                !!error && styles.errored,
-            )}
-        >
-            { label && (
-                <div className={_cs(styles.inputLabel, labelContainerClassName)}>
-                    { label }
-                </div>
-            )}
-            <div className={_cs(styles.inputSection, inputSectionClassName)}>
-                { icons && (
-                    <div className={_cs(styles.icons, iconsContainerClassName)}>
-                        { icons }
+        inputSectionRef,
+    }, ref) => {
+        const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+        return (
+            <div
+                ref={ref}
+                className={_cs(
+                    className,
+                    styles.inputContainer,
+                    themeClassName,
+                    disabled && styles.disabled,
+                    readOnly && styles.readOnly,
+                    !!error && styles.errored,
+                )}
+            >
+                { label && (
+                    <div className={_cs(styles.inputLabel, labelContainerClassName)}>
+                        { label }
                     </div>
                 )}
-                <div className={_cs(styles.input, inputContainerClassName)}>
-                    { input }
+                <div
+                    ref={inputSectionRef}
+                    className={_cs(styles.inputSection, inputSectionClassName)}
+                >
+                    { icons && (
+                        <div className={_cs(styles.icons, iconsContainerClassName)}>
+                            { icons }
+                        </div>
+                    )}
+                    <div className={_cs(styles.input, inputContainerClassName)}>
+                        { input }
+                    </div>
+                    { (!readOnly && actions) && (
+                        <div className={_cs(styles.actions, actionsContainerClassName)}>
+                            { actions }
+                        </div>
+                    )}
                 </div>
-                { (!readOnly && actions) && (
-                    <div className={_cs(styles.actions, actionsContainerClassName)}>
-                        { actions }
+                { error && (
+                    <div className={_cs(styles.error, errorContainerClassName)}>
+                        { error }
+                    </div>
+                )}
+                { !error && hint && (
+                    <div className={_cs(styles.hint, hintContainerClassName)}>
+                        { hint }
                     </div>
                 )}
             </div>
-            { error && (
-                <div className={_cs(styles.error, errorContainerClassName)}>
-                    { error }
-                </div>
-            )}
-            { !error && hint && (
-                <div className={_cs(styles.hint, hintContainerClassName)}>
-                    { hint }
-                </div>
-            )}
-        </div>
-    );
-}
+        );
+    },
+);
 
 export default InputContainer;
