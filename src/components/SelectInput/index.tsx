@@ -11,14 +11,13 @@ import { rankedSearchOnList } from '../../utils';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option extends Object {}
 
-export interface SelectInputProps<T extends OptionKey, K> {
+export interface SelectInputProps<T extends OptionKey, K, O> {
     value: T,
     onChange: (newValue: T, name: K) => void;
-    options: Option[],
-    keySelector: (option: Option) => T,
-    labelSelector: (option: Option) => string,
+    options: O[],
+    keySelector: (option: O) => T,
+    labelSelector: (option: O) => string,
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
     name: K;
@@ -43,7 +42,10 @@ const DefaultEmptyComponent = () => (
     </div>
 );
 
-function SelectInput<T extends OptionKey, K extends string>(props: SelectInputProps<T, K>) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function SelectInput<T extends OptionKey, K extends string, O extends Object>(
+    props: SelectInputProps<T, K, O>,
+) {
     const {
         value,
         onChange,
@@ -61,7 +63,7 @@ function SelectInput<T extends OptionKey, K extends string>(props: SelectInputPr
         listToMap(options, keySelector, labelSelector)
     ), [options, keySelector, labelSelector]);
 
-    const optionRendererParams = React.useCallback((key: OptionKey, option: Option) => {
+    const optionRendererParams = React.useCallback((key: OptionKey, option: O) => {
         const isActive = key === value;
 
         return {

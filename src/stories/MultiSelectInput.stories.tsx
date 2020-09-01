@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MultiSelectInput, { MultiSelectInputProps } from '#components/MultiSelectInput';
+import MultiSelectInput from '#components/MultiSelectInput';
 
 export default {
     title: 'Input/MultiSelectInput',
@@ -25,8 +25,8 @@ export const Default = () => {
             options={options}
             value={value}
             onChange={setValue}
-            keySelector={d => d.key}
-            labelSelector={d => d.label}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
         />
     );
 };

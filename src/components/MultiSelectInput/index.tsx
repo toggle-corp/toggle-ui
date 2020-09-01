@@ -13,12 +13,12 @@ import styles from './styles.css';
 type OptionKey = string | number;
 interface Option extends Object {}
 
-export interface MultiSelectInputProps<T extends OptionKey, K> {
+export interface MultiSelectInputProps<T, K, O> {
     value: T[];
     onChange: (newValue: T[], name: K) => void;
-    options: Option[];
-    keySelector: (option: Option) => OptionKey;
-    labelSelector: (option: Option) => string;
+    options: O[];
+    keySelector: (option: O) => T;
+    labelSelector: (option: O) => string;
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
     name: K;
@@ -44,7 +44,10 @@ const DefaultEmptyComponent = () => (
     </div>
 );
 
-function MultiSelectInput<T extends OptionKey, K extends string>(props: MultiSelectInputProps<T, K>) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function MultiSelectInput<T extends OptionKey, K extends string, O extends Object>(
+    props: MultiSelectInputProps<T, K, O>,
+) {
     const {
         value,
         onChange,
@@ -77,14 +80,14 @@ function MultiSelectInput<T extends OptionKey, K extends string>(props: MultiSel
         rankedSearchOnList(options, searchInputValue, labelSelector)
     ), [options, searchInputValue, labelSelector]);
 
-    const handleOptionClick = React.useCallback((optionKey: OptionKey) => {
+    const handleOptionClick = React.useCallback((optionKey: T) => {
         const optionKeyIndex = value.findIndex((d) => d === optionKey);
         const newValue = [...value];
 
         if (optionKeyIndex !== -1) {
             newValue.splice(optionKeyIndex, 1);
         } else {
-            newValue.push(optionKey as T);
+            newValue.push(optionKey);
         }
 
         onChange(newValue, name);

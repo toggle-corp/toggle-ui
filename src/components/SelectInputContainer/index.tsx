@@ -11,13 +11,12 @@ import { useBlurEffect } from '../../hooks';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option extends Object {}
 
-export interface SelectInputContainerProps<T extends OptionKey, N> extends Omit<InputContainerProps, 'input'> {
-    options: Option[];
-    optionKeySelector: (datum: Option, index: number) => T;
+export interface SelectInputContainerProps<T extends OptionKey, N, O> extends Omit<InputContainerProps, 'input'> {
+    options: O[];
+    optionKeySelector: (datum: O, index: number) => T;
     optionRenderer: React.ReactNode;
-    optionRendererParams: (optionKey: OptionKey, option: Option) => React.ReactNode;
+    optionRendererParams: (optionKey: T, option: O) => React.ReactNode;
     onOptionClick: (optionKey: T, name: N) => void;
     optionContainerClassName?: string;
     onSearchInputChange: (search: string) => void;
@@ -30,7 +29,7 @@ export interface SelectInputContainerProps<T extends OptionKey, N> extends Omit<
     name: N,
 }
 
-function GenericOptionRenderer<T>({
+function GenericOptionRenderer<T, OK, O>({
     optionContainerClassName,
     contentRenderer: Renderer,
     contentRendererParam,
@@ -40,9 +39,9 @@ function GenericOptionRenderer<T>({
 }: {
     optionContainerClassName?: string;
     contentRenderer: React.ReactNode<T>;
-    contentRendererParam: (key: OptionKey, option: Option) => T & { containerClassName?: string; };
-    option: Option;
-    optionKey: OptionKey;
+    contentRendererParam: (key: OK, option: O) => T & { containerClassName?: string; };
+    option: O;
+    optionKey: OK;
     onClick: RawButtonProps['onClick'];
 }) {
     const params = contentRendererParam(optionKey, option);
@@ -61,13 +60,15 @@ function GenericOptionRenderer<T>({
             onClick={onClick}
             name={optionKey}
         >
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Renderer {...props} />
         </RawButton>
     );
 }
 
-function SelectInputContainer<T extends OptionKey, N extends string>(
-    props: SelectInputContainerProps<T, N>,
+// eslint-disable-next-line @typescript-eslint/ban-types
+function SelectInputContainer<T extends OptionKey, N extends string, O extends Object>(
+    props: SelectInputContainerProps<T, N, O>,
 ) {
     const {
         actions,
