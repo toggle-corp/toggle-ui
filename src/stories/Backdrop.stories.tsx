@@ -1,19 +1,29 @@
 import React from 'react';
-// import { action } from '@storybook/addon-actions';
-import Backdrop, { BackdropProps } from '#components/Backdrop';
+import Backdrop from '#components/Backdrop';
 
 export default {
-    title: 'Backdrop',
+    title: 'View/Private/Backdrop',
     component: Backdrop,
     argTypes: {},
 };
 
-const Template = (args: BackdropProps) => (
-    <Backdrop {...args} />
-);
+export const Default = () => {
+    const ref = React.useRef(null);
 
-export const Default = Template.bind({});
-Default.args = {
-    children: 'Backdrop',
-    actions: 'actions',
+    return (
+        <div
+            ref={ref}
+            style={{
+                width: '90px',
+                height: '80px',
+                border: '1px solid red',
+                position: 'relative',
+            }}
+        >
+            This is the parent content
+            <Backdrop>
+                Child
+            </Backdrop>
+        </div>
+    );
 };
