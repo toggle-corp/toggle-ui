@@ -45,7 +45,7 @@ function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K
     } = props;
 
     const handleChange = useCallback(
-        (e) => {
+        (e: React.FormEvent<HTMLInputElement>) => {
             const v = e.target.checked;
             onChange(v, name);
         },
@@ -91,7 +91,10 @@ function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K
             className={className}
             title={tooltip}
         >
-            <VisualFeedback />
+            <VisualFeedback
+                disabled={disabled}
+                readOnly={readOnly}
+            />
             {indeterminate && (
                 <MdIndeterminateCheckBox
                     className={iconClassName}

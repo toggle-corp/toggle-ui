@@ -26,35 +26,34 @@
     }
 
     &.light {
-        --color-text: var(--tui-color-text-label-light);
-        --color-checkmark: var(--tui-color-text-label-light);
+        --color-text: var(--tui-color-text-light);
+        --color-checkmark: var(--tui-color-text-light);
 
         &.checked,
         &.indeterminate {
-            --color-text: var(--tui-color-text-label-active-light);
             --color-checkmark: var(--tui-color-accent);
         }
 
-        &.disabled {
-            --color-text: var(--tui-color-text-disabled-light);
-            --color-checkmark: var(--tui-color-text-disabled-light);
-        }
     }
 
     &.dark {
-        --color-text: var(--tui-color-text-label-dark);
-        --color-checkmark: var(--tui-color-text-label-dark);
+        --color-text: var(--tui-color-text-dark);
+        --color-checkmark: var(--tui-color-text-dark);
 
         &.checked,
         &.indeterminate {
-            --color-text: var(--tui-color-text-label-active-dark);
             --color-checkmark: var(--tui-color-accent);
         }
 
-        &.disabled {
-            --color-text: var(--tui-color-text-disabled-dark);
-            --color-checkmark: var(--tui-color-text-disabled-dark);
-        }
     }
 
+    &.read-only {
+        cursor: default;
+        user-select: initial;
+    }
+
+    &.disabled {
+        opacity: var(--tui-opacity-disabled-element);
+        cursor: not-allowed;
+    }
 }

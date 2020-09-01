@@ -58,9 +58,9 @@
     --tui-color-text-on-success: rgba(255, 255, 255, .9);
     --tui-color-text-on-warning: rgba(255, 255, 255, .9);
 
-    --tui-color-text-label-light: rgba(0, 0, 0, .5);
+    --tui-color-text-label-light: rgba(0, 0, 0, .6);
     --tui-color-text-label-active-light: rgba(0, 0, 0, .9);
-    --tui-color-text-label-dark: rgba(255, 255, 255, .5);
+    --tui-color-text-label-dark: rgba(255, 255, 255, .6);
     --tui-color-text-label-active-dark: rgba(255, 255, 255, .9);
 
     --tui-color-text-disabled-light: rgba(0, 0, 0, .3);
