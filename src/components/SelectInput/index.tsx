@@ -13,14 +13,15 @@ import styles from './styles.css';
 type OptionKey = string | number;
 interface Option extends Object {}
 
-export interface SelectInputProps<T extends OptionKey> {
+export interface SelectInputProps<T extends OptionKey, K> {
     value: T,
-    onChange: (newValue: T) => void;
+    onChange: (newValue: T, name: K) => void;
     options: Option[],
     keySelector: (option: Option) => T,
     labelSelector: (option: Option) => string,
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
+    name: K;
 }
 
 const Option = ({
@@ -42,7 +43,7 @@ const DefaultEmptyComponent = () => (
     </div>
 );
 
-function SelectInput<T extends OptionKey>(props: SelectInputProps<T>) {
+function SelectInput<T extends OptionKey, K extends string>(props: SelectInputProps<T, K>) {
     const {
         value,
         onChange,
@@ -51,6 +52,7 @@ function SelectInput<T extends OptionKey>(props: SelectInputProps<T>) {
         labelSelector,
         searchPlaceholder = 'Type to search',
         optionsEmptyComponent = <DefaultEmptyComponent />,
+        name,
     } = props;
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
@@ -75,6 +77,7 @@ function SelectInput<T extends OptionKey>(props: SelectInputProps<T>) {
 
     return (
         <SelectInputContainer
+            name={name}
             options={filteredOptions}
             optionKeySelector={keySelector}
             optionRenderer={Option}

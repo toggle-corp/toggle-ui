@@ -15,12 +15,13 @@ interface Option extends Object {}
 
 export interface MultiSelectInputProps<T extends OptionKey, K> {
     value: T[];
-    onChange: (newValue: T[]) => void;
+    onChange: (newValue: T[], name: K) => void;
     options: Option[];
     keySelector: (option: Option) => OptionKey;
     labelSelector: (option: Option) => string;
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
+    name: K;
 }
 
 const Option = ({
@@ -43,7 +44,7 @@ const DefaultEmptyComponent = () => (
     </div>
 );
 
-function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T, K>) {
+function MultiSelectInput<T extends OptionKey, K extends string>(props: MultiSelectInputProps<T, K>) {
     const {
         value,
         onChange,
@@ -52,6 +53,7 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
         labelSelector,
         searchPlaceholder = 'Type to search',
         optionsEmptyComponent = <DefaultEmptyComponent />,
+        name,
     } = props;
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
@@ -85,8 +87,8 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
             newValue.push(optionKey as T);
         }
 
-        onChange(newValue);
-    }, [value, onChange]);
+        onChange(newValue, name);
+    }, [value, onChange, name]);
 
     const valueDisplay = React.useMemo(() => (
         value.map((v) => optionsLabelMap[v]).join(', ')
@@ -94,6 +96,7 @@ function MultiSelectInput<T extends OptionKey, K>(props: MultiSelectInputProps<T
 
     return (
         <SelectInputContainer
+            name={name}
             options={filteredOptions}
             optionKeySelector={keySelector}
             optionRenderer={Option}

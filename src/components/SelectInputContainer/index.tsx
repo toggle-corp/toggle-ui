@@ -11,14 +11,14 @@ import { useBlurEffect } from '../../hooks';
 import styles from './styles.css';
 
 type OptionKey = string | number;
-interface Option { [index: string]: any; }
+interface Option extends Object {}
 
 export interface SelectInputContainerProps<T extends OptionKey, N> extends Omit<InputContainerProps, 'input'> {
     options: Option[];
     optionKeySelector: (datum: Option, index: number) => T;
     optionRenderer: React.ReactNode;
     optionRendererParams: (optionKey: OptionKey, option: Option) => React.ReactNode;
-    onOptionClick: (optionKey: T) => void;
+    onOptionClick: (optionKey: T, name: N) => void;
     optionContainerClassName?: string;
     onSearchInputChange: (search: string) => void;
     valueDisplay: string;
@@ -128,11 +128,11 @@ function SelectInputContainer<T extends OptionKey, N extends string>(
     useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
 
     const handleOptionClick = React.useCallback((value) => {
-        onOptionClick(value);
+        onOptionClick(value, name);
         if (!persistantOptionPopup) {
             setShowDropdown(false);
         }
-    }, [onOptionClick, setShowDropdown, persistantOptionPopup]);
+    }, [onOptionClick, setShowDropdown, persistantOptionPopup, name]);
 
     const optionListRendererParams = React.useCallback((key, option) => ({
         contentRendererParam: optionRendererParams,
