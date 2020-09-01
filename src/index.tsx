@@ -31,7 +31,7 @@ export { default as MultiSelectInput } from './components/MultiSelectInput';
 export type { MultiSelectInputProps } from './components/MultiSelectInput';
 
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
-export type { TabsProps } from './components/Tabs';
+export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
 
 export { default as ThemeContext } from './components/ThemeContext';
 export type { ThemeContextProps } from './components/ThemeContext';

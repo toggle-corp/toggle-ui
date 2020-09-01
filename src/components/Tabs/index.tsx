@@ -5,14 +5,19 @@ import Button, { ButtonProps } from '../Button';
 import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
-const TabContext = React.createContext({
+type TabKey = string | undefined;
+
+export interface TabContextProps {
+    activeTab: TabKey;
+    setActiveTab: (key: TabKey) => void;
+}
+
+const TabContext = React.createContext<TabContextProps>({
     activeTab: undefined,
     setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
 });
 
-type TabKey = string | undefined;
-
-export interface TabProps<T> extends Omit<ButtonProps, 'onClick'>{
+export interface TabProps<T extends TabKey> extends Omit<ButtonProps<T>, 'onClick'>{
     name: T;
     setActiveTab: (name: T) => void;
 }
@@ -25,8 +30,6 @@ export function Tab<T extends TabKey>(props: TabProps<T>) {
 
     const {
         className,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-        onClick, // capture onClick
         name,
         uiMode,
         ...otherProps
@@ -54,14 +57,20 @@ export function Tab<T extends TabKey>(props: TabProps<T>) {
     );
 }
 
-export function TabList(props) {
+export interface TabListProps extends React.HTMLProps<HTMLDivElement> {
+    children: React.ReactNode;
+}
+
+export function TabList(props: TabListProps) {
     const {
         children,
         className,
+        ...otherProps
     } = props;
 
     return (
         <div
+            {...otherProps}
             className={_cs(className, styles.tabList)}
             role="tablist"
         >
@@ -70,11 +79,17 @@ export function TabList(props) {
     );
 }
 
-export function TabPanel(props) {
+export interface TabPanelProps extends React.HTMLProps<HTMLDivElement> {
+    name: TabKey;
+    elementRef?: React.Ref<HTMLDivElement>;
+}
+
+export function TabPanel(props: TabPanelProps) {
     const { activeTab } = React.useContext(TabContext);
 
     const {
         name,
+        elementRef,
         ...otherProps
     } = props;
 
@@ -84,20 +99,21 @@ export function TabPanel(props) {
 
     return (
         <div
-            role="tabpanel"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
+            role="tabpanel"
+            ref={elementRef}
         />
     );
 }
 
-export interface TabsProps<T> {
+export interface TabsProps {
     children: React.ReactNode;
-    value: T;
-    onChange: (key: T) => void;
+    value: TabKey;
+    onChange: (key: TabKey) => void;
 }
 
-export function Tabs<T extends TabKey>(props: TabsProps<T>) {
+export function Tabs(props: TabsProps) {
     const {
         children,
         value,
