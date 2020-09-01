@@ -5,7 +5,7 @@ import Portal from '../Portal';
 
 import styles from './styles.css';
 
-interface Props {
+export interface PopupProps {
     className?: string;
     parentRef: React.RefObject<HTMLElement>;
     children: React.ReactNode;
@@ -86,7 +86,7 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     return placement;
 }
 
-const Popup = React.forwardRef<HTMLDivElement, Props>(
+const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
     (props, ref) => {
         const {
             parentRef,

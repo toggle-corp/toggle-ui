@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, forwardRef, useMemo } from 'react';
 import {
     _cs,
     getContrastYIQ,
@@ -38,7 +38,7 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
     * Content for the button
     */
-    children?: React.ReactNode;
+    children?: ReactNode;
     /**
     * Style for the button
     */
@@ -66,17 +66,17 @@ export interface ButtonProps extends Omit<RawButtonProps, 'ref'> {
     /**
     * Content before main content of the button
     */
-    icons?: React.ReactNode;
+    icons?: ReactNode;
     /**
     * Content after main content of the button
     */
-    actions?: React.ReactNode;
+    actions?: ReactNode;
 }
 
 /**
  * Basic button component
  */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ({
         variant = 'default',
         className: classNameFromProps,
@@ -93,7 +93,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         uiMode,
         ...otherProps
     }, ref) => {
-        const innerUiMode: UiMode = React.useMemo(() => {
+        const innerUiMode: UiMode = useMemo(() => {
             // NOTE: color is returned as ' #ffffff' in development but '#ffffff' on production
             const color = getComputedStyle(document.documentElement)
                 .getPropertyValue(buttonVariantToVariableNameMap[variant])
