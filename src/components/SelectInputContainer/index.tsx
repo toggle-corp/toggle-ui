@@ -122,8 +122,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
     const handlePopupBlur = React.useCallback((isClickedWithin: boolean) => {
         if (!isClickedWithin) {
             setShowDropdown(false);
-        } else if (persistantOptionPopup) {
-            inputElementRef?.current?.focus();
+        } else if (persistantOptionPopup && inputElementRef.current) {
+            inputElementRef.current.focus();
         }
     }, [setShowDropdown, persistantOptionPopup]);
 
