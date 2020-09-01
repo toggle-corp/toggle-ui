@@ -10,10 +10,10 @@
     height: 100%;
 
     &.light {
-        background-color: var(--tui-color-background-light);
+        background-color: var(--tui-color-backdrop-light);
     }
 
     &.dark {
-        background-color: var(--tui-color-background-dark);
+        background-color: var(--tui-color-backdrop-dark);
     }
 }
