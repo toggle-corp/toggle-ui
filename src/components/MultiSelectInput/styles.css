@@ -16,14 +16,6 @@
     .label {
         padding: 0 var(--tui-spacing-small);
     }
-
-    &:last-child {
-        margin-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
-    }
-
-    &:nth-child(2) {
-        margin-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
-    }
 }
 
 .empty {
@@ -32,9 +24,6 @@
 }
 
 .options-popup {
-    max-height: var(--tui-height-max-select-input-popup);
-    overflow: auto;
-
     .empty {
         padding: var(--tui-spacing-large);
         color: var(--tui-color-text-disabled-light);

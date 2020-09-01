@@ -1,7 +1,6 @@
 .option {
     display: flex;
     align-items: center;
-    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
 
     .icon {
         display: flex;
@@ -21,20 +20,9 @@
             opacity: 1;
         }
     }
-
-    &:last-child {
-        margin-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
-    }
-
-    &:nth-child(2) {
-        margin-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
-    }
 }
 
 .options-popup {
-    max-height: var(--tui-height-max-select-input-popup);
-    overflow: auto;
-
     .empty {
         padding: var(--tui-spacing-large);
         color: var(--tui-color-text-disabled-light);

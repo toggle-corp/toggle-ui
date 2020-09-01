@@ -103,4 +103,6 @@
     --tui-radius-popup-border: 3px;
 
     --tui-height-max-select-input-popup: 50vh;
+    --tui-color-shadow: rgba(0, 0, 0, .5);
+    --tui-radius-blur-shadow: 1px;
 }

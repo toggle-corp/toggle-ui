@@ -7,7 +7,9 @@ import styles from './styles.css';
 
 export interface PopupProps {
     className?: string;
+    contentClassName?: string;
     parentRef: React.RefObject<HTMLElement>;
+    elementRef?: React.RefObject<HTMLDivElement>;
     children: React.ReactNode;
 }
 
@@ -86,38 +88,40 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     return placement;
 }
 
-const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
-    (props, ref) => {
-        const {
-            parentRef,
-            children,
-            className,
-        } = props;
+function Popup(props: PopupProps) {
+    const {
+        parentRef,
+        children,
+        className,
+        contentClassName,
+        elementRef,
+    } = props;
 
-        const {
-            placement,
-            horizontalPosition,
-            verticalPosition,
-        } = useAttachedFloatingPlacement(parentRef);
+    const {
+        placement,
+        horizontalPosition,
+        verticalPosition,
+    } = useAttachedFloatingPlacement(parentRef);
 
-        return (
-            <Portal>
-                <div
-                    ref={ref}
-                    style={placement}
-                    className={_cs(
-                        styles.popup,
-                        className,
-                        horizontalPosition === 'left' ? styles.left : styles.right,
-                        verticalPosition === 'top' ? styles.top : styles.bottom,
-                    )}
-                >
-                    <div className={styles.tip} />
+    return (
+        <Portal>
+            <div
+                style={placement}
+                ref={elementRef}
+                className={_cs(
+                    styles.popup,
+                    className,
+                    horizontalPosition === 'left' ? styles.left : styles.right,
+                    verticalPosition === 'top' ? styles.top : styles.bottom,
+                )}
+            >
+                <div className={styles.tip} />
+                <div className={_cs(styles.content, contentClassName)}>
                     { children }
                 </div>
-            </Portal>
-        );
-    },
-);
+            </div>
+        </Portal>
+    );
+}
 
 export default Popup;

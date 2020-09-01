@@ -102,10 +102,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         optionsPopupClassName,
     } = props;
 
-    const containerRef = React.useRef(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const inputSectionRef = React.useRef<HTMLDivElement>(null);
     const inputElementRef = React.useRef<HTMLInputElement>(null);
-    const popupRef = React.useRef(null);
+    const popupRef = React.useRef<HTMLDivElement>(null);
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
     const [showDropdown, setShowDropdown] = React.useState(false);
@@ -186,9 +186,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             />
             { showDropdown && (
                 <Popup
-                    ref={popupRef}
+                    elementRef={popupRef}
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
+                    contentClassName={styles.popupContent}
                 >
                     { options.length === 0 ? (
                         optionsEmptyComponent
