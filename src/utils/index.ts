@@ -5,7 +5,11 @@ import {
 } from '@togglecorp/fujs';
 
 // eslint-disable-next-line import/prefer-default-export
-export function rankedSearchOnList(list, searchString, labelSelector) {
+export function rankedSearchOnList<T>(
+    list: T[],
+    searchString: string | undefined,
+    labelSelector: (item: T) => string,
+) {
     if (isFalsyString(searchString)) {
         return list;
     }
