@@ -117,8 +117,12 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
 
     const handleSearchInputClick = React.useCallback(() => {
         if (readOnly) { return; }
+        // NOTE: reset last search value
+        setSearchInputValue('');
+        onSearchInputChange('');
+
         setShowDropdown(true);
-    }, [readOnly, setShowDropdown]);
+    }, [readOnly, setShowDropdown, onSearchInputChange]);
 
     const handlePopupBlur = React.useCallback((isClickedWithin: boolean) => {
         if (!isClickedWithin) {
