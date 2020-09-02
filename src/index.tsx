@@ -35,3 +35,12 @@ export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './comp
 
 export { default as ThemeContext } from './components/ThemeContext';
 export type { ThemeContextProps } from './components/ThemeContext';
+
+export { default as Checkmark } from './components/Checkmark';
+export type { CheckmarkProps } from './components/Checkmark';
+
+export { default as Checkbox } from './components/Checkbox';
+export type { CheckboxProps } from './components/Checkbox';
+
+export { default as SwitchIcon } from './components/SwitchIcon';
+export { default as SwitchIconProps } from './components/SwitchIcon';

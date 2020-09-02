@@ -1,43 +1,41 @@
 import React, { useCallback } from 'react';
-import {
-    MdCheckBox,
-    MdCheckBoxOutlineBlank,
-    MdIndeterminateCheckBox,
-} from 'react-icons/md';
 import { _cs } from '@togglecorp/fujs';
+
+import DefaultCheckmark, { CheckmarkProps } from '../Checkmark';
 import { UiMode } from '../ThemeContext';
 import VisualFeedback from '../VisualFeedback';
 import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface CheckboxProps<T, K> {
+export interface CheckboxProps<N> {
     className?: string;
     labelClassName?: string;
-    checkIconClassName?: string;
-    label?: string | number;
+    checkmark?: (p: CheckmarkProps) => React.ReactElement;
+    checkmarkClassName?: string;
+    label?: React.ReactNode;
     disabled?: boolean;
     readOnly?: boolean;
-    // NOTE: if value is false and indeterminate is true, show a filled checkbox
     indeterminate?: boolean;
     uiMode?: UiMode;
     tooltip?: string;
-    value: T;
-    onChange: (value: T, name: K) => void;
-    name: K;
+    value: boolean;
+    onChange: (value: boolean, name: N) => void;
+    name: N;
 }
 
-function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K>) {
+function Checkbox<N extends string>(props: CheckboxProps<N>) {
     const {
         label,
         tooltip,
+        checkmark: Checkmark = DefaultCheckmark,
         className: classNameFromProps,
         value,
         disabled,
         readOnly,
         onChange,
-        checkIconClassName,
-        labelClassName: labelClassNameFromProps,
+        checkmarkClassName,
+        labelClassName,
         indeterminate,
         uiMode,
         name,
@@ -46,7 +44,7 @@ function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K
 
     const handleChange = useCallback(
         (e: React.FormEvent<HTMLInputElement>) => {
-            const v = e.target.checked;
+            const v = e.currentTarget.checked;
             onChange(v, name);
         },
         [name, onChange],
@@ -56,34 +54,12 @@ function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K
 
     const className = _cs(
         styles.checkbox,
-        'tui-checkbox',
         classNameFromProps,
         indeterminate && styles.indeterminate,
-        indeterminate && 'tui-indeterminate',
         !indeterminate && value && styles.checked,
-        !indeterminate && value && 'tui-checked',
         disabled && styles.disabled,
-        disabled && 'tui-disabled',
         readOnly && styles.readOnly,
-        readOnly && 'tui-read-only',
         themeClassName,
-    );
-
-    const iconClassName = _cs(
-        styles.checkmark,
-        'checkmark',
-        checkIconClassName,
-    );
-
-    const inputClassName = _cs(
-        'input',
-        styles.input,
-    );
-
-    const labelClassName = _cs(
-        'label',
-        styles.label,
-        labelClassNameFromProps,
     );
 
     return (
@@ -95,30 +71,21 @@ function Checkbox<T extends boolean, K extends string>(props: CheckboxProps<T, K
                 disabled={disabled}
                 readOnly={readOnly}
             />
-            {indeterminate && (
-                <MdIndeterminateCheckBox
-                    className={iconClassName}
-                />
-            )}
-            {value && !indeterminate && (
-                <MdCheckBox
-                    className={iconClassName}
-                />
-            )}
-            {!value && !indeterminate && (
-                <MdCheckBoxOutlineBlank
-                    className={iconClassName}
-                />
-            )}
+            <Checkmark
+                className={_cs(checkmarkClassName, styles.checkmark)}
+                value={value}
+                indeterminate={indeterminate}
+                uiMode={uiMode}
+            />
             <input
                 onChange={handleChange}
-                className={inputClassName}
+                className={styles.input}
                 type="checkbox"
                 checked={value}
                 disabled={disabled || readOnly}
                 {...otherProps}
             />
-            <div className={labelClassName}>
+            <div className={_cs(styles.label, labelClassName)}>
                 { label }
             </div>
         </label>
