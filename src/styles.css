@@ -79,8 +79,11 @@
 
     --tui-radius-button: 4px;
 
-    --tui-color-background-light: #f5f5f5;
-    --tui-color-background-dark: #414141;
+    --tui-color-foreground-light: #ffffff;
+    --tui-color-foreground-dark: #616161;
+
+    --tui-color-background-light: #f4f5f6;
+    --tui-color-background-dark: #313131;
 
     --tui-color-background-hover-light: rgba(0, 0, 0, .1);
     --tui-color-background-hover-dark: rgba(255, 255, 255, .1);
@@ -88,7 +91,7 @@
     --tui-color-background-active-light: rgba(0, 0, 0, .16);
     --tui-color-background-active-dark: rgba(255, 255, 255, .16);
 
-    --tui-color-background-input-section-light: rgba(0, 0, 0, .1);
+    --tui-color-background-input-section-light: rgba(0, 29, 71, .1);
     --tui-color-background-input-section-dark: rgba(255, 255, 255, .1);
 
     --tui-radius-border-input-section: .22em;
@@ -107,9 +110,18 @@
     --tui-color-backdrop-light: rgba(0, 0, 0, .5);
     --tui-color-backdrop-dark: rgba(255, 255, 255, .5);
 
-    --tui-radius-popup-border: 3px;
+    --tui-color-background-switch-icon-light: rgba(0, 0, 0, .4);
+    --tui-color-background-switch-icon-dark: rgba(255, 255, 255, .4);
 
+    --tui-color-background-switch-knob-light: #ffffff;
+    --tui-color-background-switch-knob-dark: #ffffff;
+
+    --tui-radius-popup-border: 3px;
     --tui-radius-blur-shadow: 1px;
 
     --tui-height-max-select-input-popup: 50vh;
+
+    --tui-duration-animation-fast: .1s;
+    --tui-duration-animation-medium: .3s;
+    --tui-duration-animation-slow: .6s;
 }

@@ -1,0 +1,47 @@
+.switch-icon {
+    --gap: .05em;
+    --border-width: var(--tui-width-separator-thin);
+    --knob-diameter: calc(1em - 2 * var(--gap) - 2 * var(--border-width));
+    --background-color: transparent;
+    --border-color: transparent;
+    --knob-color: transparent;
+
+    display: flex;
+    align-items: center;
+    transition: var(--tui-duration-animation-medium) background-color ease-in-out;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: .5em;
+    background-color: var(--background-color);
+    padding: var(--gap);
+    width: calc(1em + var(--knob-diameter));
+    height: 1em;
+
+    &.light {
+        --background-color: var(--tui-color-background-switch-icon-light);
+        --border-color: var(--tui-color-separator-light);
+        --knob-color: var(--tui-color-background-switch-knob-light);
+    }
+
+    &.dark {
+        --background-color: var(--tui-color-background-switch-icon-dark);
+        --border-color: var(--tui-color-separator-dark);
+        --knob-color: var(--tui-color-background-switch-knob-dark);
+    }
+
+    .knob {
+        transition: var(--tui-duration-animation-medium) transform ease-in-out, var(--tui-duration-animation-medium) background-color ease-in-out;
+        border-radius: calc(calc(1em - var(--gap) * 2) / 2);
+        background-color: var(--knob-color);
+        width: var(--knob-diameter);
+        height: var(--knob-diameter);
+    }
+
+    &.on {
+        background-color: var(--tui-color-accent);
+
+        .knob {
+            transform: translateX(100%);
+        }
+    }
+
+}

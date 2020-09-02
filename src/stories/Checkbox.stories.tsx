@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { useArgs } from '@storybook/client-api';
 import Checkbox, { CheckboxProps } from '#components/Checkbox';
 
@@ -12,7 +11,7 @@ export default {
 const Template = (args: CheckboxProps) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleClick = (e) => {
+    const handleChange = (e) => {
         updateArgs({ value: e });
     };
 
@@ -20,7 +19,7 @@ const Template = (args: CheckboxProps) => {
         <Checkbox
             {...args}
             value={value}
-            onChange={handleClick}
+            onChange={handleChange}
         />
     );
 };
