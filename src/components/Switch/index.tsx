@@ -3,10 +3,10 @@ import React from 'react';
 import Checkbox, { CheckboxProps } from '../Checkbox';
 import SwitchIcon from '../SwitchIcon';
 
-export interface SwitchProps<K extends boolean, N extends string> extends Omit<CheckboxProps<K, N>, 'indeterminate' | 'checkmark'> {
+export interface SwitchProps<N extends string> extends Omit<CheckboxProps<N>, 'indeterminate' | 'checkmark'> {
 }
 
-function Switch<K extends boolean, N extends string>(props: SwitchProps<K, N>) {
+function Switch<N extends string>(props: SwitchProps<N>) {
     return (
         <Checkbox
             {...props}

@@ -8,7 +8,7 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface CheckboxProps<K, N> {
+export interface CheckboxProps<N> {
     className?: string;
     labelClassName?: string;
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
@@ -19,12 +19,12 @@ export interface CheckboxProps<K, N> {
     indeterminate?: boolean;
     uiMode?: UiMode;
     tooltip?: string;
-    value: K;
-    onChange: (value: K, name: N) => void;
+    value: boolean;
+    onChange: (value: boolean, name: N) => void;
     name: N;
 }
 
-function Checkbox<K extends boolean, N extends string>(props: CheckboxProps<K, N>) {
+function Checkbox<N extends string>(props: CheckboxProps<N>) {
     const {
         label,
         tooltip,
@@ -45,7 +45,7 @@ function Checkbox<K extends boolean, N extends string>(props: CheckboxProps<K, N
     const handleChange = useCallback(
         (e: React.FormEvent<HTMLInputElement>) => {
             const v = e.currentTarget.checked;
-            onChange(v as K, name);
+            onChange(v, name);
         },
         [name, onChange],
     );
