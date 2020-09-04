@@ -1,0 +1,18 @@
+.accordion {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .group {
+        display: flex;
+        flex-direction: column;
+
+        .group-header {
+            display: block;
+            padding: var(--tui-spacing-small);
+            width: 100%;
+            font-size: var(--tui-font-size-small-medium);
+            font-weight: var(--tui-font-weight-light);
+        }
+    }
+}
