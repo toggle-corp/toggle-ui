@@ -1,0 +1,55 @@
+.modal {
+    --background-color: transparent;
+    --text-color: transparent;
+    --border-color: transparent;
+    display: flex;
+    flex-direction: column;
+    border: var(--tui-width-separator-thin) solid var(--color-border);
+    border-radius: var(--tui-radius-modal);
+    background-color: var(--background-color);
+    min-width: var(--tui-width-min-modal);
+    max-width: var(--tui-width-max-modal);
+    max-height: var(--tui-height-max-modal);
+    overflow: auto;
+    color: var(--text-color);
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+
+        .title-container {
+            flex-grow: 1;
+            padding: var(--tui-spacing-small);
+        }
+
+        .close-button {
+            flex-shrink: 0;
+            font-size: var(--tui-font-size-large);
+        }
+    }
+
+    .modal-body {
+        flex-grow: 1;
+        padding: var(--tui-spacing-large);
+        overflow: auto;
+    }
+
+    .modal-footer {
+        flex-shrink: 0;
+        padding: var(--tui-spacing-large);
+    }
+
+    &.light {
+        --background-color: var(--tui-color-background-light);
+        --text-color: var(--tui-color-text-light);
+        --text-border: var(--tui-color-separator-light);
+    }
+
+    &.dark {
+        --background-color: var(--tui-color-background-dark);
+        --text-color: var(--tui-color-text-dark);
+        --text-border: var(--tui-color-separator-dark);
+    }
+}

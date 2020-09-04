@@ -7,4 +7,12 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
+
+    &.light {
+        background-color: var(--tui-color-backdrop-light);
+    }
+
+    &.dark {
+        background-color: var(--tui-color-backdrop-dark);
+    }
 }
