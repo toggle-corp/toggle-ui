@@ -13,7 +13,7 @@ interface AccordionGroupProps<D, GP, GK extends OptionKey> {
     children: React.ReactNode;
     isGroupOpen: boolean;
     setGroupOpen: (key: GK) => void;
-    groupTitleRenderer: React.ComponentType<GP>;
+    groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
     groupTitleRendererClassName?: string;
 }
@@ -69,9 +69,9 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
     );
 }
 
-export interface AccordionProps<D, P, K extends OptionKey, GP, GK extends OptionKey> extends
-GroupedListProps<D, P, K, GP, GK> {
-    groupTitleRenderer: React.ComponentType<GP>;
+// eslint-disable-next-line max-len
+export interface AccordionProps<D, P, K extends OptionKey, GP, GK extends OptionKey> extends GroupedListProps<D, P, K, GP, GK> {
+    groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
     groupTitleRendererClassName?: string;
 }
@@ -111,19 +111,21 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
         groupTitleRendererClassName,
     ]);
 
+    // NOTE: setting this directly idk why it doesn't work otherwise
     return (
         <div className={styles.accordion}>
-            <List
+            <List<D, P, K, AccordionGroupProps<D, GP, GK>, GK>
                 groupKeySelector={groupKeySelector}
                 groupComparator={groupComparator}
-                renderer={renderer}
                 groupRenderer={AccordionGroup}
                 groupRendererParams={groupRendererParams}
+                grouped
+
+                renderer={renderer}
                 data={data}
                 keySelector={keySelector}
                 rendererParams={rendererParams}
                 rendererClassName={rendererClassName}
-                grouped
             />
         </div>
     );

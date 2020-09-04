@@ -8,10 +8,15 @@ export const typedMemo: (<T>(c: T) => T) = memo;
 
 type OptionKey = string | number;
 
+interface GroupCommonProps {
+    className?: string;
+    children: React.ReactNode;
+}
+
 interface BaseProps<D, P, K extends OptionKey> {
     data: D[];
     keySelector(datum: D, index: number): K;
-    renderer: React.ComponentType<P>;
+    renderer: (props: P) => JSX.Element;
     rendererClassName?: string;
     rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
 }
@@ -19,9 +24,9 @@ interface BaseProps<D, P, K extends OptionKey> {
 interface GroupOptions<D, GP, GK extends OptionKey> {
     groupComparator?: (a: GK, b: GK) => number;
     groupKeySelector(datum: D): GK;
-    groupRenderer: React.ComponentType<GP>;
+    groupRenderer: (props: GP) => JSX.Element;
     groupRendererClassName?: string;
-    groupRendererParams: (key: GK, index: number, data: D[]) => GP;
+    groupRendererParams: (key: GK, index: number, data: D[]) => Omit<GP, 'children' | 'className'>;
     grouped: true;
 }
 
@@ -29,10 +34,12 @@ interface NoGroupOptions {
     grouped?: false;
 }
 
+// eslint-disable-next-line max-len
 export type ListProps<D, P, K extends OptionKey, GP, GK extends OptionKey> = (
     BaseProps<D, P, K> & (GroupOptions<D, GP, GK> | NoGroupOptions)
 );
 
+// eslint-disable-next-line max-len
 export type GroupedListProps<D, P, K extends OptionKey, GP, GK extends OptionKey> = (
     BaseProps<D, P, K> & GroupOptions<D, GP, GK>
 );
@@ -43,7 +50,7 @@ function hasGroup<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     return !!(props as BaseProps<D, P, K> & GroupOptions<D, GP, GK>).grouped;
 }
 
-function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
+function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends OptionKey>(
     props: GroupedListProps<D, P, K, GP, GK>,
 ) {
     const {
@@ -75,14 +82,18 @@ function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     const renderGroup = (groupKey: GK, index: number, children: React.ReactNode) => {
         const extraProps = groupRendererParams(groupKey, index, data);
 
+        const finalProps = {
+            ...extraProps,
+            className: groupRendererClassName,
+            children,
+        };
+
         return (
             <GroupRenderer
                 key={groupKey}
-                className={groupRendererClassName}
-                {...extraProps}
-            >
-                { children }
-            </GroupRenderer>
+                // FIXME: currently typescript is not smart enough to join Omit
+                {...finalProps as GP}
+            />
         );
     };
 
@@ -110,7 +121,7 @@ function GroupedList<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     );
 }
 
-function List<D, P, K extends OptionKey, GP, GK extends OptionKey>(
+function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends OptionKey>(
     props: ListProps<D, P, K, GP, GK>,
 ) {
     const {
