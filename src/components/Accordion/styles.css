@@ -8,11 +8,21 @@
         flex-direction: column;
 
         .group-header {
-            display: block;
-            padding: var(--tui-spacing-small);
+            display: flex;
+            align-items: center;
+            padding: var(--tui-spacing-extra-small);
             width: 100%;
             font-size: var(--tui-font-size-small-medium);
             font-weight: var(--tui-font-weight-light);
+
+            .group-title {
+                flex-grow: 1;
+            }
+
+            .actions {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 }

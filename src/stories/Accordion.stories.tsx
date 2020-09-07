@@ -10,7 +10,11 @@ export default {
 };
 
 const Template = (args: AccordionProps) => (
-    <Accordion {...args} />
+    <div style={{ width: '240px' }}>
+        <Accordion
+            {...args}
+        />
+    </div>
 );
 
 const options = [
@@ -22,13 +26,13 @@ const options = [
 ];
 
 const Title = ({ title }) => (
-    <h3 style={{ color: 'red' }}>
+    <h3>
         {title}
     </h3>
 );
 
 const Option = ({ children }) => (
-    <div>
+    <div style={{ padding: '8px 4px' }}>
         { children }
     </div>
 );

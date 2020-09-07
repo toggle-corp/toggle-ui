@@ -1,6 +1,9 @@
 import React, { useMemo, useState, useCallback } from 'react';
+import { _cs } from '@togglecorp/fujs';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import List, { GroupedListProps } from '../List';
+import ToggleButton from '../ToggleButton';
 
 import styles from './styles.css';
 
@@ -11,11 +14,12 @@ interface AccordionGroupProps<D, GP, GK extends OptionKey> {
     groupIndex: number;
     data: D[];
     children: React.ReactNode;
-    isGroupOpen: boolean;
+    groupOpened: boolean;
     setGroupOpen: (key: GK) => void;
     groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
     groupTitleRendererClassName?: string;
+    groupHeaderClassName?: string;
 }
 
 function AccordionGroup<D, GP, GK extends OptionKey>({
@@ -23,28 +27,21 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
     children,
     groupKey,
     groupIndex,
-    isGroupOpen,
+    groupOpened,
     setGroupOpen,
+    groupHeaderClassName,
     groupTitleRenderer: GroupTitleRenderer,
     groupTitleRendererParams,
     groupTitleRendererClassName,
 }: AccordionGroupProps<D, GP, GK>) {
-    const handleGroupOpen = useCallback(() => {
+    const handleGroupClick = useCallback(() => {
         setGroupOpen(groupKey);
     }, [groupKey, setGroupOpen]);
 
-    const renderTitle = useMemo(() => {
-        const extraProps = groupTitleRendererParams(groupKey, groupIndex, data);
-
-        return (
-            <GroupTitleRenderer
-                className={groupTitleRendererClassName}
-                {...extraProps}
-            />
-        );
-    }, [
+    const titleExtraProps = useMemo(() => (
+        groupTitleRendererParams(groupKey, groupIndex, data)
+    ), [
         groupTitleRendererParams,
-        groupTitleRendererClassName,
         data,
         groupKey,
         groupIndex,
@@ -52,18 +49,25 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
 
     return (
         <div className={styles.group}>
-            <button
-                className={styles.groupHeader}
-                name="asd"
-                onClick={handleGroupOpen}
-                type="button"
+            <ToggleButton
+                className={_cs(styles.groupHeader, groupHeaderClassName)}
+                name="group-header"
+                value={groupOpened}
+                onChange={handleGroupClick}
+                actionsClassName={styles.actions}
+                actions={(groupOpened ? <IoIosArrowUp /> : <IoIosArrowDown />)}
+                childrenClassName={styles.groupTitle}
+                transparent
             >
-                {renderTitle}
-            </button>
-            {isGroupOpen && (
-                <div>
+                <GroupTitleRenderer
+                    className={groupTitleRendererClassName}
+                    {...titleExtraProps}
+                />
+            </ToggleButton>
+            {groupOpened && (
+                <>
                     { children }
-                </div>
+                </>
             )}
         </div>
     );
@@ -74,6 +78,7 @@ export interface AccordionProps<D, P, K extends OptionKey, GP, GK extends Option
     groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
     groupTitleRendererClassName?: string;
+    multipleExpandEnabled?: boolean;
 }
 
 function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
@@ -90,22 +95,42 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
         keySelector,
         rendererParams,
         rendererClassName,
+        multipleExpandEnabled,
     } = props;
 
-    const [openGroup, setOpenGroup] = useState<GK | undefined>(undefined);
+    const [openGroups, setOpenGroups] = useState<GK[]>([]);
+
+    const handleGroupOpenChange = useCallback((groupKey) => {
+        let newOpenGroups = [...openGroups];
+        const selectedGroupIndex = newOpenGroups.indexOf(groupKey);
+
+        if (selectedGroupIndex !== -1) {
+            if (multipleExpandEnabled) {
+                newOpenGroups.splice(selectedGroupIndex, 1);
+            } else {
+                newOpenGroups = [];
+            }
+        } else if (multipleExpandEnabled) {
+            newOpenGroups.push(groupKey);
+        } else {
+            newOpenGroups = [groupKey];
+        }
+
+        setOpenGroups(newOpenGroups);
+    }, [openGroups, setOpenGroups, multipleExpandEnabled]);
 
     const groupRendererParams = useCallback((key, index, allData) => ({
         data: allData,
         groupKey: key,
         groupIndex: index,
-        isGroupOpen: key === openGroup,
-        setGroupOpen: setOpenGroup,
+        groupOpened: openGroups.indexOf(key) !== -1,
+        setGroupOpen: handleGroupOpenChange,
         groupTitleRenderer,
         groupTitleRendererParams,
         groupTitleRendererClassName,
     }), [
-        setOpenGroup,
-        openGroup,
+        handleGroupOpenChange,
+        openGroups,
         groupTitleRenderer,
         groupTitleRendererParams,
         groupTitleRendererClassName,
