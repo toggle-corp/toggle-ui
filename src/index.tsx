@@ -30,6 +30,9 @@ export type { SelectInputProps } from './components/SelectInput';
 export { default as MultiSelectInput } from './components/MultiSelectInput';
 export type { MultiSelectInputProps } from './components/MultiSelectInput';
 
+export { default as Modal } from './components/Modal';
+export type { ModalProps } from './components/Modal';
+
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
 export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
 
@@ -47,3 +50,6 @@ export { default as SwitchIconProps } from './components/SwitchIcon';
 
 export { default as Accordion } from './components/Accordion';
 export { default as AccordionProps } from './components/Accordion';
+
+export { default as Switch } from './components/Switch';
+export { default as SwitchProps } from './components/Switch';

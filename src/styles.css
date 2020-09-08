@@ -124,4 +124,9 @@
     --tui-duration-animation-fast: .1s;
     --tui-duration-animation-medium: .3s;
     --tui-duration-animation-slow: .6s;
+
+    --tui-radius-modal: 5px;
+    --tui-height-max-modal: 96vh;
+    --tui-width-max-modal: 96vw;
+    --tui-width-min-modal: 360px;
 }
