@@ -30,7 +30,7 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     /**
      * ref to the element
      */
-    elementRef: React.Ref<HTMLInputElement>;
+    elementRef?: React.Ref<HTMLInputElement>;
 }
 
 /**

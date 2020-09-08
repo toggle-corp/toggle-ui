@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import Modal, { ModalProps } from '#components/Modal';
 import { useArgs } from '@storybook/client-api';
+
 import Button from '#components/Button';
+import Modal, { ModalProps } from '#components/Modal';
 
 export default {
     title: 'View/Modal',
