@@ -43,7 +43,7 @@ export interface SelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> extends Omit<SelectInputContainerProps<T, K, O, P>, 'optionsEmptyComponent'> {
+> extends Omit<SelectInputContainerProps<T, K, O, P>, 'optionsEmptyComponent' | 'optionKeySelector' | 'optionRenderer' | 'optionRendererParams' | 'onOptionClick' > {
     value: T,
     onChange: (newValue: T, name: K) => void;
     options: O[],

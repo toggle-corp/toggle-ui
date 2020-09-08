@@ -51,20 +51,20 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
 }
 
 export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends Def> extends Omit<InputContainerProps, 'input'> {
-    options: O[];
+    name: N,
+    onOptionClick: (optionKey: OK, name: N) => void;
+    onSearchInputChange: (search: string) => void;
+    optionContainerClassName?: string;
     optionKeySelector: (datum: O, index: number) => OK;
     optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
     optionRendererParams: (optionKey: OK, option: O) => P;
-    onOptionClick: (optionKey: OK, name: N) => void;
-    optionContainerClassName?: string;
-    onSearchInputChange: (search: string) => void;
-    valueDisplay: string;
+    options: O[];
+    optionsEmptyComponent: React.ReactNode;
+    optionsPending?: boolean;
+    optionsPopupClassName?: string;
     persistantOptionPopup?: boolean;
     searchPlaceholder?: string;
-    optionsPopupClassName?: string;
-    optionsPending?: boolean;
-    optionsEmptyComponent: React.ReactNode;
-    name: N,
+    valueDisplay: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types, max-len
@@ -94,7 +94,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         optionRendererParams,
         onOptionClick,
         optionContainerClassName,
-        valueDisplay,
+        valueDisplay = '',
         onSearchInputChange,
         persistantOptionPopup,
         searchPlaceholder,
