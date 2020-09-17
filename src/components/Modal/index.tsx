@@ -55,7 +55,7 @@ function Modal(props: ModalProps) {
                 {heading !== null && (
                     <div className={_cs(styles.modalHeader, headingClassName)}>
                         <div className={styles.titleContainer}>
-                            { heading }
+                            {heading}
                         </div>
                         {!closeButtonHidden && (
                             <Button
@@ -71,7 +71,7 @@ function Modal(props: ModalProps) {
                     </div>
                 )}
                 <div className={_cs(styles.modalBody, bodyClassName)}>
-                    { children }
+                    {children}
                 </div>
                 {footer && (
                     <div className={_cs(styles.modalFooter, footerClassName)}>
