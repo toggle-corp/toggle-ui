@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    _cs,
     isNotDefined,
     formattedNormalize,
     Lang,
@@ -28,7 +27,7 @@ export function getAutoPrecision(value: number | undefined) {
 export function formatNumber(
     value: number | undefined,
     separator: string,
-    normalize?: boolean,
+    abbreviate?: boolean,
     precision?: number,
 ) {
     if (isNotDefined(value)) {
@@ -43,7 +42,7 @@ export function formatNumber(
     let output = '';
     let suffix: string | undefined;
 
-    if (normalize) {
+    if (abbreviate) {
         const { number, normalizeSuffix } = formattedNormalize(sanitizedValue, Lang.en);
         suffix = normalizeSuffix;
         output = isTruthyString(suffix)
@@ -77,20 +76,45 @@ export function formatNumber(
 
 interface NumeralProps {
     value: number | undefined;
+    /**
+    * Max no. of digits after decimal.
+    * A value of -1 will automatically calculate precision based on value
+    */
     precision?: number | undefined;
+    /**
+    * Style for the component
+    */
     className?: string;
-    normalize?: boolean;
+    /**
+    * Abbreviate the number value
+    */
+    abbreviate?: boolean;
+    /**
+    * Character used for thousand separators
+    */
     separator?: string;
+    /**
+    * Prefix added to the value
+    */
     prefix?: string;
+    /**
+    * Suffix added to the value
+    */
     suffix?: string;
+    /**
+    * Content to show when value is not defined
+    */
     placeholder?: string;
 }
 
+/**
+ * Number formatting component
+ */
 function Numeral({
     value,
     precision = -1,
     className,
-    normalize,
+    abbreviate,
     separator = ',',
     prefix = '',
     suffix = '',
@@ -108,7 +132,7 @@ function Numeral({
     const output = formatNumber(
         value,
         separator,
-        normalize,
+        abbreviate,
         precise,
     );
 
