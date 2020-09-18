@@ -6,7 +6,7 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-interface SwitchIconProps {
+export interface SwitchIconProps {
     className?: string;
     value?: boolean;
     uiMode?: UiMode;
