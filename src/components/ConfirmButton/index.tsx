@@ -8,28 +8,29 @@ import Modal from '../Modal';
 import styles from './styles.css';
 
 export interface ConfirmButtonProps<N extends number | string | undefined> extends ButtonProps<N> {
-    confirmLabel?: string;
-    cancelLabel?: string;
+    confirmLabel?: ReactNode;
+    cancelLabel?: ReactNode;
     onConfirm: () => void,
     confirmButtonClassName?: string,
     cancelButtonClassName?: string,
     confirmationHeader?: ReactNode,
-    confirmationMessage?: string,
+    confirmationMessage?: ReactNode,
     actionButtonsClassName?: string,
     children?: ReactNode;
+    onCancel: () => void,
 }
 
 function ConfirmButton<N extends number | string | undefined>(props: ConfirmButtonProps<N>) {
     const {
-        confirmationHeader = 'Confirm Now !',
+        confirmationHeader = 'Confirmation',
         confirmationMessage = 'Are you sure?',
         onConfirm,
+        onCancel,
         confirmButtonClassName,
         cancelButtonClassName,
         actionButtonsClassName,
         confirmLabel = 'Confirm',
         cancelLabel = 'Cancel',
-        children,
         ...otherProps
     } = props;
 
@@ -40,22 +41,21 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
     }, []);
 
     const handleConfirmModalClose = useCallback(() => {
+        onCancel();
         setShowConfirmModal(false);
-    }, []);
+    }, [onCancel]);
 
     const handleConfirmModalConfirm = useCallback(() => {
         onConfirm();
-        handleConfirmModalClose();
-    }, [onConfirm, handleConfirmModalClose]);
+        setShowConfirmModal(false);
+    }, [onConfirm]);
 
     return (
         <>
             <Button
                 {...otherProps}
                 onClick={handleConfirmModalShow}
-            >
-                {children}
-            </Button>
+            />
             {showConfirmModal && (
                 <Modal
                     heading={confirmationHeader}
@@ -74,6 +74,7 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                                 name="confirm-button"
                                 onClick={handleConfirmModalConfirm}
                                 variant="primary"
+                                autoFocus
                             >
                                 {confirmLabel}
                             </Button>

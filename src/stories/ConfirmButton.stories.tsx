@@ -18,7 +18,6 @@ const Template = (args: ConfirmButtonProps) => (
         name="confirm-button"
         confirmationHeader={ConfirmationHeader}
         confirmationMessage="Confirmation message"
-        onConfirm={() => console.log('confirmed')}
     >
         Confirm Button
     </ConfirmButton>
