@@ -63,19 +63,19 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                     footer={(
                         <div className={_cs(styles.actionButtonsRow, actionButtonsClassName)}>
                             <Button
+                                className={_cs(styles.actionButton, cancelButtonClassName)}
+                                name="cancel-button"
+                                onClick={handleConfirmModalClose}
+                            >
+                                {cancelLabel}
+                            </Button>
+                            <Button
                                 className={_cs(styles.actionButton, confirmButtonClassName)}
                                 name="confirm-button"
                                 onClick={handleConfirmModalConfirm}
                                 variant="primary"
                             >
                                 {confirmLabel}
-                            </Button>
-                            <Button
-                                className={_cs(styles.actionButton, cancelButtonClassName)}
-                                name="cancel-button"
-                                onClick={handleConfirmModalClose}
-                            >
-                                {cancelLabel}
                             </Button>
                         </div>
                     )}
