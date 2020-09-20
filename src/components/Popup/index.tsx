@@ -95,12 +95,12 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     }, [setPlacement, parentRef]);
 
     React.useEffect(() => {
-        document.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleResize);
+        document.addEventListener('scroll', handleScroll, true);
+        window.addEventListener('resize', handleResize, true);
 
         return () => {
-            document.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('scroll', handleScroll, true);
+            window.removeEventListener('resize', handleResize, true);
         };
     }, [handleScroll, handleResize]);
 
