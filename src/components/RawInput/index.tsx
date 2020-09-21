@@ -6,7 +6,7 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'value' | 'name'>{
+export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'value' | 'name'> {
     /**
     * Style for the input
     */
@@ -31,6 +31,10 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
      * ref to the element
      */
     elementRef?: React.Ref<HTMLInputElement>;
+    /**
+     * placeholder value
+     */
+    placeholder?: string;
 }
 
 /**
@@ -42,6 +46,7 @@ function RawInput<K extends string>(
         onChange,
         uiMode,
         elementRef,
+        placeholder,
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -72,6 +77,7 @@ function RawInput<K extends string>(
             ref={elementRef}
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
+            placeholder={placeholder}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />

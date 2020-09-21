@@ -59,9 +59,9 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                         uiMode={uiMode}
                         name={undefined}
                     >
-                        { showPassword ? <IoMdEyeOff /> : <IoMdEye /> }
+                        {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
                     </ToggleButton>
-                    { actions }
+                    {actions}
                 </>
             )}
             input={(

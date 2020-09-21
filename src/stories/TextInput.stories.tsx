@@ -33,3 +33,10 @@ ReadOnly.args = {
     value: 'Mr. Frozen Helium',
     readOnly: true,
 };
+
+export const WithPlaceholder = Template.bind({});
+WithPlaceholder.args = {
+    icons: <MdTextFields />,
+    label: 'Name',
+    placeholder: 'Name',
+};

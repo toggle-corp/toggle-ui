@@ -120,37 +120,37 @@ const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
                     !!error && styles.errored,
                 )}
             >
-                { label && (
+                {label && (
                     <div className={_cs(styles.inputLabel, labelContainerClassName)}>
-                        { label }
+                        {label}
                     </div>
                 )}
                 <div
                     ref={inputSectionRef}
                     className={_cs(styles.inputSection, inputSectionClassName)}
                 >
-                    { icons && (
+                    {icons && (
                         <div className={_cs(styles.icons, iconsContainerClassName)}>
-                            { icons }
+                            {icons}
                         </div>
                     )}
                     <div className={_cs(styles.input, inputContainerClassName)}>
-                        { input }
+                        {input}
                     </div>
-                    { (!readOnly && actions) && (
+                    {(!readOnly && actions) && (
                         <div className={_cs(styles.actions, actionsContainerClassName)}>
-                            { actions }
+                            {actions}
                         </div>
                     )}
                 </div>
-                { error && (
+                {error && (
                     <div className={_cs(styles.error, errorContainerClassName)}>
-                        { error }
+                        {error}
                     </div>
                 )}
-                { !error && hint && (
+                {!error && hint && (
                     <div className={_cs(styles.hint, hintContainerClassName)}>
-                        { hint }
+                        {hint}
                     </div>
                 )}
             </div>
