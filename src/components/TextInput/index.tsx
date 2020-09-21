@@ -22,7 +22,6 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
-        placeholder,
         ...rawInputProps
     } = props;
 
@@ -49,7 +48,6 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
-                    placeholder={placeholder}
                 />
             )}
         />
