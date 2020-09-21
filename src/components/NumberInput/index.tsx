@@ -3,7 +3,8 @@ import { getNumberAndSign } from '../../utils';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
-export type NumberInputProps<T> = Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange'> & {
+export type NumberInputProps<T> = Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'> & {
+    value: number | undefined;
     onChange?: (value: number | undefined, name: T, e: React.FormEvent<HTMLInputElement>) => void;
 };
 
@@ -30,23 +31,27 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
         ...rawInputProps
     } = props;
 
-    const handleChange = (v: string, n: T, e: React.FormEvent<HTMLInputElement>) => {
-        if (onChange) {
-            const {
-                number = '',
-                sign = '',
-            } = getNumberAndSign(v);
-            let realValue: number | undefined;
-            if (number === '' && sign !== '') {
-                realValue = NaN;
-            } else if (number === '' && sign === '') {
-                realValue = undefined;
-            } else {
-                realValue = +`${sign}${number}`;
+    const handleChange = React.useCallback(
+        (v: string, n: T, e: React.FormEvent<HTMLInputElement>) => {
+            if (onChange) {
+                const {
+                    number = '',
+                    sign = '',
+                } = getNumberAndSign(v);
+                let realValue: number | undefined;
+                if (number === '' && sign !== '') {
+                    realValue = NaN;
+                } else if (number === '' && sign === '') {
+                    realValue = undefined;
+                } else {
+                    realValue = +`${sign}${number}`;
+                }
+
+                onChange(realValue, n, e);
             }
-            onChange(realValue, n, e);
-        }
-    };
+        },
+        [onChange],
+    );
 
     return (
         <InputContainer
@@ -74,7 +79,7 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
                     onChange={handleChange}
                     type="number"
                     name={name}
-                    value={value}
+                    value={value as unknown as string}
                 />
             )}
         />
