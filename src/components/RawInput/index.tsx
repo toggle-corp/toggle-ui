@@ -18,11 +18,11 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     /**
     * input value
     */
-    value: string;
+    value: string | undefined;
     /**
     * Gets called when the content of input changes
     */
-    onChange?: (value: string, name: K, e: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: (value: string | undefined, name: K, e: React.FormEvent<HTMLInputElement>) => void;
     /**
      * UI mode: light or dark
      */
@@ -31,10 +31,6 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
      * ref to the element
      */
     elementRef?: React.Ref<HTMLInputElement>;
-    /**
-     * placeholder value
-     */
-    placeholder?: string;
 }
 
 /**
@@ -46,28 +42,24 @@ function RawInput<K extends string>(
         onChange,
         uiMode,
         elementRef,
-        placeholder,
+        value = '',
+        name,
         ...otherProps
     }: RawInputProps<K>,
 ) {
     const handleChange = React.useCallback(
         (e: React.FormEvent<HTMLInputElement>) => {
-            const {
-                currentTarget: {
-                    name,
-                    value,
-                },
-            } = e;
+            const { currentTarget: { value: newValue } } = e;
 
             if (onChange) {
                 onChange(
-                    value,
-                    name as K,
+                    newValue === '' ? undefined : newValue,
+                    name,
                     e,
                 );
             }
         },
-        [onChange],
+        [name, onChange],
     );
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
@@ -77,7 +69,8 @@ function RawInput<K extends string>(
             ref={elementRef}
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
-            placeholder={placeholder}
+            name={name}
+            value={value}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
