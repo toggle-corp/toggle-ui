@@ -31,3 +31,9 @@ Disabled.args = {
     disabled: true,
     value: 'xyz',
 };
+
+export const WithPlaceholder = Template.bind({});
+WithPlaceholder.args = {
+    label: 'Password',
+    placeholder: 'Enter Password',
+};

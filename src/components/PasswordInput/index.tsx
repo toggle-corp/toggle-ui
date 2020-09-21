@@ -27,6 +27,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
+        placeholder,
         ...rawInputProps
     } = props;
 
@@ -59,9 +60,9 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                         uiMode={uiMode}
                         name={undefined}
                     >
-                        { showPassword ? <IoMdEyeOff /> : <IoMdEye /> }
+                        {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
                     </ToggleButton>
-                    { actions }
+                    {actions}
                 </>
             )}
             input={(
@@ -71,6 +72,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                     uiMode={uiMode}
                     readOnly={readOnly}
                     disabled={disabled}
+                    placeholder={placeholder}
                     type={showPassword ? 'text' : 'password'}
                 />
             )}
