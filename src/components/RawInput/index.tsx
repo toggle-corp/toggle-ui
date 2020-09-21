@@ -32,7 +32,6 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
      */
     elementRef?: React.Ref<HTMLInputElement>;
 }
-
 /**
  * The most basic input component (without styles)
  */
