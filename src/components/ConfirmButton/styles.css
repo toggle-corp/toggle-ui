@@ -1,11 +1,12 @@
 .action-buttons-row {
     display: flex;
     justify-content: flex-end;
-    padding-bottom: var(--tui-spacing-small);
 
     .action-button {
         flex-shrink: 0;
-        font-size: var(--tui-font-size-medium);
-        margin-right: var(--tui-spacing-large);
+
+        &:not(:first-child) {
+            margin-left: var(--tui-spacing-medium);
+        }
     }
 }

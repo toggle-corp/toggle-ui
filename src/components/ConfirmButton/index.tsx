@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useCallback, Children } from 'react';
+import React, { ReactNode, useState, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button, { ButtonProps } from '../Button';
@@ -15,7 +15,6 @@ export interface ConfirmButtonProps<N extends number | string | undefined> exten
     cancelButtonClassName?: string,
     confirmationHeader?: ReactNode,
     confirmationMessage?: ReactNode,
-    actionButtonsClassName?: string,
     children?: ReactNode;
     onCancel: () => void,
 }
@@ -28,7 +27,6 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
         onCancel,
         confirmButtonClassName,
         cancelButtonClassName,
-        actionButtonsClassName,
         confirmLabel = 'Confirm',
         cancelLabel = 'Cancel',
         ...otherProps
@@ -60,8 +58,9 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                 <Modal
                     heading={confirmationHeader}
                     onClose={handleConfirmModalClose}
+                    footerClassName={styles.actionButtonsRow}
                     footer={(
-                        <div className={_cs(styles.actionButtonsRow, actionButtonsClassName)}>
+                        <>
                             <Button
                                 className={_cs(styles.actionButton, cancelButtonClassName)}
                                 name="cancel-button"
@@ -78,7 +77,7 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                             >
                                 {confirmLabel}
                             </Button>
-                        </div>
+                        </>
                     )}
                 >
                     {confirmationMessage}

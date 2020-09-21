@@ -58,15 +58,17 @@ function Modal(props: ModalProps) {
                             {heading}
                         </div>
                         {!closeButtonHidden && (
-                            <Button
-                                className={styles.closeButton}
-                                onClick={onClose}
-                                transparent
-                                name="Close"
-                                uiMode={uiMode}
-                            >
-                                <IoMdClose />
-                            </Button>
+                            <div className={styles.actions}>
+                                <Button
+                                    className={styles.closeButton}
+                                    onClick={onClose}
+                                    transparent
+                                    name="Close"
+                                    uiMode={uiMode}
+                                >
+                                    <IoMdClose />
+                                </Button>
+                            </div>
                         )}
                     </div>
                 )}
