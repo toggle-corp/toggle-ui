@@ -55,23 +55,25 @@ function Modal(props: ModalProps) {
                 {heading !== null && (
                     <div className={_cs(styles.modalHeader, headingClassName)}>
                         <div className={styles.titleContainer}>
-                            { heading }
+                            {heading}
                         </div>
                         {!closeButtonHidden && (
-                            <Button
-                                className={styles.closeButton}
-                                onClick={onClose}
-                                transparent
-                                name="Close"
-                                uiMode={uiMode}
-                            >
-                                <IoMdClose />
-                            </Button>
+                            <div className={styles.actions}>
+                                <Button
+                                    className={styles.closeButton}
+                                    onClick={onClose}
+                                    transparent
+                                    name="Close"
+                                    uiMode={uiMode}
+                                >
+                                    <IoMdClose />
+                                </Button>
+                            </div>
                         )}
                     </div>
                 )}
                 <div className={_cs(styles.modalBody, bodyClassName)}>
-                    { children }
+                    {children}
                 </div>
                 {footer && (
                     <div className={_cs(styles.modalFooter, footerClassName)}>

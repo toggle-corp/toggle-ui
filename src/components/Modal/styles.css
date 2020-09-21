@@ -24,9 +24,14 @@
             padding: var(--tui-spacing-small);
         }
 
-        .close-button {
+        .actions {
             flex-shrink: 0;
-            font-size: var(--tui-font-size-large);
+            padding: var(--tui-spacing-small);
+
+            .close-button {
+                padding: calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small));
+                font-size: var(--tui-font-size-large);
+            }
         }
     }
 
