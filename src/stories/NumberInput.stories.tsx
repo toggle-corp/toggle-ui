@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { MdTextFields } from 'react-icons/md';
+import { TiSortNumerically } from 'react-icons/ti';
 
 import NumberInput, { NumberInputProps } from '#components/NumberInput';
 
@@ -16,7 +16,7 @@ const Template = (args: NumberInputProps) => (
 
 export const Default = Template.bind({});
 Default.args = {
-    icons: <MdTextFields />,
+    icons: <TiSortNumerically />,
     label: 'Value',
 };
 
