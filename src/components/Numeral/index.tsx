@@ -57,11 +57,9 @@ export function formatNumber(
     const indexOfDecimal = output.indexOf('.');
     if (indexOfDecimal !== -1) {
         if (/\.0+$/.test(output)) {
-            console.warn('there', output);
             // Remove all trailing zeros starting immediately after decimal
             output = output.substr(0, indexOfDecimal);
         } else {
-            console.warn('here', output);
             // Remove trailing zeros after decimal
             output = output.replace(/(\.\d*[1-9]+)0+/, '$1');
         }
@@ -85,6 +83,18 @@ interface NumeralProps {
     * Style for the component
     */
     className?: string;
+    /**
+    * Style for the component
+    */
+    prefixClassName?: string;
+    /**
+    * Style for the component
+    */
+    valueClassName?: string;
+    /**
+    * Style for the suffix
+    */
+    suffixClassName?: string;
     /**
     * Abbreviate the number value
     */
@@ -119,12 +129,15 @@ function Numeral({
     prefix = '',
     suffix = '',
     placeholder = '',
+    prefixClassName,
+    valueClassName,
+    suffixClassName,
 }: NumeralProps) {
     if (isNotDefined(value)) {
         return (placeholder && (
-            <div className={className}>
+            <span className={className}>
                 {placeholder}
-            </div>
+            </span>
         ));
     }
 
@@ -138,7 +151,19 @@ function Numeral({
 
     return (
         <span className={className}>
-            {`${prefix}${output}${suffix}`}
+            { prefix && (
+                <span className={prefixClassName}>
+                    { prefix }
+                </span>
+            )}
+            <span className={valueClassName}>
+                { output }
+            </span>
+            { suffix && (
+                <span className={suffixClassName}>
+                    { suffix }
+                </span>
+            )}
         </span>
     );
 }
