@@ -18,6 +18,8 @@ const Template = (args: NumberInputProps) => {
         updateArgs({ value: e });
     };
 
+    console.log('outside', value);
+
     return (
         <NumberInput
             {...args}

@@ -41,19 +41,23 @@ function RawInput<K extends string>(
         onChange,
         uiMode,
         elementRef,
-        value = '',
         name,
+        value = '',
         ...otherProps
     }: RawInputProps<K>,
 ) {
     const handleChange = React.useCallback(
         (e: React.FormEvent<HTMLInputElement>) => {
-            const { currentTarget: { value: newValue } } = e;
+            const {
+                currentTarget: {
+                    value: v,
+                },
+            } = e;
 
             if (onChange) {
                 onChange(
-                    newValue === '' ? undefined : newValue,
-                    name,
+                    v === '' ? undefined : v,
+                    name as K,
                     e,
                 );
             }
