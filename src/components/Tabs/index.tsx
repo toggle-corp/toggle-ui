@@ -5,7 +5,7 @@ import Button, { ButtonProps } from '../Button';
 import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
-type TabKey = string | undefined;
+type TabKey = string;
 
 export interface TabContextProps {
     activeTab: TabKey;
@@ -13,13 +13,12 @@ export interface TabContextProps {
 }
 
 const TabContext = React.createContext<TabContextProps>({
-    activeTab: undefined,
+    activeTab: '',
     setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
 });
 
 export interface TabProps<T extends TabKey> extends Omit<ButtonProps<T>, 'onClick'>{
     name: T;
-    setActiveTab: (name: T) => void;
 }
 
 export function Tab<T extends TabKey>(props: TabProps<T>) {
