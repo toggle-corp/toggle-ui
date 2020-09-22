@@ -1,6 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
@@ -166,7 +166,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                 actions={(
                     <>
                         {actions}
-                        <IoIosArrowDown />
+                        {showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                     </>
                 )}
                 actionsContainerClassName={actionsContainerClassName}
