@@ -81,7 +81,7 @@ function formatNumberRaw(
     };
 }
 
-interface NumeralProps {
+export interface NumeralProps {
     value: number | undefined;
     /**
     * Max no. of digits after decimal.
