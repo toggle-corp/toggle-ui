@@ -5,7 +5,7 @@
     --color-text: transparent;
     --color-hint: transparent;
 
-    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small)) 0;
+    padding: 0;
     color: var(--color-text);
 
     &.light {
