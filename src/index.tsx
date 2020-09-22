@@ -46,10 +46,13 @@ export { default as Checkbox } from './components/Checkbox';
 export type { CheckboxProps } from './components/Checkbox';
 
 export { default as SwitchIcon } from './components/SwitchIcon';
-export { default as SwitchIconProps } from './components/SwitchIcon';
+export type { SwitchIconProps } from './components/SwitchIcon';
 
 export { default as Accordion } from './components/Accordion';
-export { default as AccordionProps } from './components/Accordion';
+export type { AccordionProps } from './components/Accordion';
 
 export { default as Switch } from './components/Switch';
-export { default as SwitchProps } from './components/Switch';
+export type { SwitchProps } from './components/Switch';
+
+export { default as Numeral } from './components/Numeral';
+export type { NumeralProps } from './components/Numeral';
