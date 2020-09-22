@@ -79,7 +79,10 @@ export interface InputContainerProps {
      * Is input readonly?
      */
     readOnly?: boolean;
-
+    /**
+     * Is the value in invalid state?
+     */
+    invalid?: boolean;
     inputSectionRef?: React.RefObject<HTMLDivElement>;
 }
 
@@ -106,8 +109,10 @@ const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
         hint,
         error,
         inputSectionRef,
+        invalid,
     }, ref) => {
         const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+
         return (
             <div
                 ref={ref}
@@ -117,7 +122,7 @@ const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
                     themeClassName,
                     disabled && styles.disabled,
                     readOnly && styles.readOnly,
-                    !!error && styles.errored,
+                    (invalid || !!error) && styles.errored,
                 )}
             >
                 {label && (

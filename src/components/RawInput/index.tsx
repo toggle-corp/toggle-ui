@@ -32,7 +32,6 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
      */
     elementRef?: React.Ref<HTMLInputElement>;
 }
-
 /**
  * The most basic input component (without styles)
  */
@@ -49,11 +48,15 @@ function RawInput<K extends string>(
 ) {
     const handleChange = React.useCallback(
         (e: React.FormEvent<HTMLInputElement>) => {
-            const { currentTarget: { value: newValue } } = e;
+            const {
+                currentTarget: {
+                    value: v,
+                },
+            } = e;
 
             if (onChange) {
                 onChange(
-                    newValue === '' ? undefined : newValue,
+                    v === '' ? undefined : v,
                     name,
                     e,
                 );
