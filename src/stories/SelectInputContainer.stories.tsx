@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { BsCheckAll } from 'react-icons/bs';
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
 
 export default {
@@ -34,4 +35,15 @@ Default.args = {
     optionRenderer: Option,
     optionRendererParams: (key, option) => ({ children: option.label }),
     valueDisplay: '',
+};
+
+export const WithAction = Template.bind({});
+WithAction.args = {
+    label: 'Name',
+    options,
+    optionKeySelector: (d) => d.key,
+    optionRenderer: Option,
+    optionRendererParams: (key, option) => ({ children: option.label }),
+    valueDisplay: '',
+    actions: <BsCheckAll />,
 };
