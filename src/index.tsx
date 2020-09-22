@@ -18,6 +18,8 @@ export type { ConfirmButtonProps } from './components/ConfirmButton';
 export { default as ConfirmButton } from './components/ConfirmButton';
 export { default as InputContainer } from './components/InputContainer';
 export type { InputContainerProps } from './components/InputContainer';
+export type { DateInputProps } from './components/DateInput';
+export { default as DateInput } from './components/DateInput';
 export type { ListProps } from './components/List';
 export { default as List } from './components/List';
 export type { ModalProps } from './components/Modal';
