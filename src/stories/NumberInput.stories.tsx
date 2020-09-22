@@ -12,7 +12,7 @@ export default {
 };
 
 const Template = (args: NumberInputProps) => {
-    const [{ value }, updateArgs] = useArgs();
+    const [{ value }, updateArgs] = useArgs(10000);
 
     const handleChange = (e) => {
         updateArgs({ value: e });
@@ -30,11 +30,12 @@ const Template = (args: NumberInputProps) => {
 export const Default = Template.bind({});
 Default.args = {
     icons: <TiSortNumerically />,
-    label: 'Value',
+    label: 'Amount',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
+    icons: <TiSortNumerically />,
     label: 'Amount',
     value: 10000,
     disabled: true,
@@ -42,7 +43,8 @@ Disabled.args = {
 
 export const ReadOnly = Template.bind({});
 ReadOnly.args = {
+    icons: <TiSortNumerically />,
     label: 'Amount',
-    value: 20000,
+    value: 10000,
     readOnly: true,
 };

@@ -2,6 +2,7 @@
     --color-text: transparent;
     --color-background: transparent;
     --border-color: transparent;
+    --padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
 
     display: flex;
     position: relative;
@@ -11,11 +12,15 @@
     border: var(--tui-width-separator-thin) solid var(--border-color);
     border-radius: var(--tui-radius-button);
     background-color: var(--color-background);
-    padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+    padding: var(--padding);
     overflow: hidden;
     color: var(--color-text);
     font-family: inherit;
     font-weight: var(--tui-font-weight-bold);
+
+    &.compact {
+        padding: var(--tui-spacing-extra-small);
+    }
 
     .icons {
         display: flex;

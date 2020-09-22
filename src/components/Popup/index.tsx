@@ -82,7 +82,7 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
         verticalPosition: 'top',
     });
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         setPlacement(getFloatPlacement(parentRef));
     }, [setPlacement, parentRef]);
 

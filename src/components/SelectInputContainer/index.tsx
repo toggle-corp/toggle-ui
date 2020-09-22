@@ -1,5 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
@@ -162,7 +163,12 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             <InputContainer
                 ref={containerRef}
                 inputSectionRef={inputSectionRef}
-                actions={actions}
+                actions={(
+                    <>
+                        {actions}
+                        {showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    </>
+                )}
                 actionsContainerClassName={actionsContainerClassName}
                 className={className}
                 disabled={disabled}
