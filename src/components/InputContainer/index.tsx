@@ -79,10 +79,11 @@ export interface InputContainerProps {
      * Is input readonly?
      */
     readOnly?: boolean;
-
+    /**
+     * Is the value in invalid state?
+     */
+    invalid?: boolean;
     inputSectionRef?: React.RefObject<HTMLDivElement>;
-
-    invalid: boolean;
 }
 
 /**

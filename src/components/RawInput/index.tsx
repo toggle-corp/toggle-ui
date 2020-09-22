@@ -41,8 +41,8 @@ function RawInput<K extends string>(
         onChange,
         uiMode,
         elementRef,
-        name,
         value = '',
+        name,
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -57,7 +57,7 @@ function RawInput<K extends string>(
             if (onChange) {
                 onChange(
                     v === '' ? undefined : v,
-                    name as K,
+                    name,
                     e,
                 );
             }

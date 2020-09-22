@@ -45,7 +45,7 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
             // NOTE: we don't clear tempValue if it is equal to input value
             // eg. tempValue: 1.00000, value: 1
             setTempValue((val) => (
-                isValidNumericString(val) && +val === value
+                isDefined(val) && isValidNumericString(val) && +val === value
                     ? val
                     : undefined
             ));
@@ -54,29 +54,35 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
     );
 
     const handleChange = React.useCallback(
-        (v: string, n: T, event: React.FormEvent<HTMLInputElement>) => {
+        (v: string | undefined, n: T, event: React.FormEvent<HTMLInputElement>) => {
+            if (!onChange) {
+                return;
+            }
+
             if (isFalsyString(v)) {
                 setTempValue(undefined);
                 onChange(undefined, n, event);
+                return;
             }
 
             if (!isValidNumericString(v)) {
                 setTempValue(v);
-            } else {
-                // NOTE: we set tempValue if it is valid but is a transient state
-                // eg. 1.0000 is valid but transient
-                setTempValue(
-                    isValidDecimalTrailingZeroString(v)
-                        ? v
-                        : undefined,
-                );
-                const numericValue = bound(
-                    +v,
-                    -Number.MAX_SAFE_INTEGER,
-                    Number.MAX_SAFE_INTEGER,
-                );
-                onChange(numericValue, n, event);
+                return;
             }
+
+            // NOTE: we set tempValue if it is valid but is a transient state
+            // eg. 1.0000 is valid but transient
+            setTempValue(
+                isValidDecimalTrailingZeroString(v)
+                    ? v
+                    : undefined,
+            );
+            const numericValue = bound(
+                +v,
+                -Number.MAX_SAFE_INTEGER,
+                Number.MAX_SAFE_INTEGER,
+            );
+            onChange(numericValue, n, event);
         },
         [onChange],
     );
