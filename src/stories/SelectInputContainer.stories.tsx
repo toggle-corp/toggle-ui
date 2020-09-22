@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BsCheckAll } from 'react-icons/bs';
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
+import Button from '#components/Button';
 
 export default {
     title: 'Input/Private/SelectInputContainer',
@@ -45,5 +46,5 @@ WithAction.args = {
     optionRenderer: Option,
     optionRendererParams: (key, option) => ({ children: option.label }),
     valueDisplay: '',
-    actions: <BsCheckAll />,
+    actions: <Button transparent compact><BsCheckAll /></Button>,
 };

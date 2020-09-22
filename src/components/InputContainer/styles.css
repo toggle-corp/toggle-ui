@@ -103,6 +103,8 @@
         }
 
         .actions {
+            display: flex;
+            align-items: center;
             flex-shrink: 0;
             padding: var(--tui-spacing-small);
         }

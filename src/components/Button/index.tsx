@@ -71,6 +71,10 @@ export interface ButtonProps<N extends number | string | undefined> extends RawB
     * Content after main content of the button
     */
     actions?: ReactNode;
+    /**
+     * Makes the button compact, i.e. with low padding
+     */
+    compact?: boolean;
 }
 
 /**
@@ -91,6 +95,7 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
         icons,
         actions,
         uiMode,
+        compact,
         ...otherProps
     } = props;
     const innerUiMode: UiMode = useMemo(() => {
@@ -127,6 +132,7 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
         transparent && styles.transparent,
         themeClassName,
         innerThemeClassName,
+        compact && styles.compact,
     );
 
     return (
