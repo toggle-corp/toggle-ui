@@ -7,24 +7,29 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
-export function getAutoPrecision(value: number | undefined) {
+export function getAutoPrecision(
+    value: number | undefined,
+    largeNumber: number,
+    defaultPrecision: number,
+) {
     if (!value) {
         return 0;
     }
 
     const absoluteValue = Math.abs(value);
     if (absoluteValue < 1) {
+        // NOTE: the value is hardcoded here
         return Math.ceil(-Math.log10(absoluteValue)) + 1;
     }
 
     // NOTE: ignore precision for large numbers
-    if (absoluteValue > 100) {
+    if (absoluteValue > largeNumber) {
         return 0;
     }
-    return 2;
+    return defaultPrecision;
 }
 
-export function formatNumber(
+function formatNumberRaw(
     value: number | undefined,
     separator: string,
     abbreviate?: boolean,
@@ -40,11 +45,12 @@ export function formatNumber(
     }
 
     let output = '';
-    let suffix: string | undefined;
+    let suffix : string | undefined;
 
     if (abbreviate) {
         const { number, normalizeSuffix } = formattedNormalize(sanitizedValue, Lang.en);
         suffix = normalizeSuffix;
+        // NOTE: the value is hardcoded here
         output = isTruthyString(suffix)
             ? number.toFixed(1)
             : number.toFixed(precision);
@@ -69,7 +75,10 @@ export function formatNumber(
         output = addSeparator(output, separator);
     }
 
-    return `${output}${suffix ?? ''}`;
+    return {
+        value: output,
+        valueSuffix: suffix,
+    };
 }
 
 interface NumeralProps {
@@ -96,6 +105,10 @@ interface NumeralProps {
     */
     suffixClassName?: string;
     /**
+    * Style for the abbreviation suffix
+    */
+    abbrClassName?: string;
+    /**
     * Abbreviate the number value
     */
     abbreviate?: boolean;
@@ -115,6 +128,14 @@ interface NumeralProps {
     * Content to show when value is not defined
     */
     placeholder?: string;
+    /**
+    * Specify the value for a large number. Digits after decimal are hidden for large numbers
+    */
+    largeNumber?: number;
+    /**
+    * The no. of digits after decimal to show
+    */
+    defaultPrecision?: number;
 }
 
 /**
@@ -132,22 +153,33 @@ function Numeral({
     prefixClassName,
     valueClassName,
     suffixClassName,
+    abbrClassName,
+    largeNumber = 100,
+    defaultPrecision = 2,
 }: NumeralProps) {
+    const fallback = (placeholder && (
+        <span className={className}>
+            {placeholder}
+        </span>
+    ));
+
     if (isNotDefined(value)) {
-        return (placeholder && (
-            <span className={className}>
-                {placeholder}
-            </span>
-        ));
+        return fallback;
     }
 
-    const precise = precision < 0 ? getAutoPrecision(value) : precision;
-    const output = formatNumber(
+    const precise = precision < 0
+        ? getAutoPrecision(value, largeNumber, defaultPrecision)
+        : precision;
+    const output = formatNumberRaw(
         value,
         separator,
         abbreviate,
         precise,
     );
+
+    if (isNotDefined(output)) {
+        return fallback;
+    }
 
     return (
         <span className={className}>
@@ -157,9 +189,14 @@ function Numeral({
                 </span>
             )}
             <span className={valueClassName}>
-                { output }
+                { output.value }
             </span>
-            { suffix && (
+            {isTruthyString(output.valueSuffix) && (
+                <span className={abbrClassName}>
+                    { output.valueSuffix }
+                </span>
+            )}
+            {suffix && (
                 <span className={suffixClassName}>
                     { suffix }
                 </span>
