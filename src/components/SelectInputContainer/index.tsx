@@ -67,6 +67,8 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     valueDisplay: string;
 }
 
+const emptyList: unknown[] = [];
+
 // eslint-disable-next-line @typescript-eslint/ban-types, max-len
 function SelectInputContainer<OK extends OptionKey, N extends string, O extends object, P extends Def>(
     props: SelectInputContainerProps<OK, N, O, P>,
@@ -76,7 +78,6 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         actionsContainerClassName,
         className,
         disabled,
-        name,
         error,
         errorContainerClassName,
         hint,
@@ -86,20 +87,21 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         inputSectionClassName,
         label,
         labelContainerClassName,
-        readOnly,
-        uiMode,
-        options,
+        name,
+        onOptionClick,
+        onSearchInputChange,
+        optionContainerClassName,
         optionKeySelector,
         optionRenderer,
         optionRendererParams,
-        onOptionClick,
-        optionContainerClassName,
-        valueDisplay = '',
-        onSearchInputChange,
-        persistantOptionPopup,
-        searchPlaceholder,
+        options = emptyList,
         optionsEmptyComponent,
         optionsPopupClassName,
+        persistantOptionPopup,
+        readOnly,
+        searchPlaceholder,
+        uiMode,
+        valueDisplay = '',
     } = props;
 
     const containerRef = React.useRef<HTMLDivElement>(null);
