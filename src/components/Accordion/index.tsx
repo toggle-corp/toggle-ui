@@ -18,8 +18,8 @@ interface AccordionGroupProps<D, GP, GK extends OptionKey> {
     setGroupOpen: (key: GK) => void;
     groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
-    groupTitleRendererClassName?: string;
     groupHeaderClassName?: string;
+    groupClassName?: string;
 }
 
 function AccordionGroup<D, GP, GK extends OptionKey>({
@@ -30,9 +30,9 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
     groupOpened,
     setGroupOpen,
     groupHeaderClassName,
+    groupClassName,
     groupTitleRenderer: GroupTitleRenderer,
     groupTitleRendererParams,
-    groupTitleRendererClassName,
 }: AccordionGroupProps<D, GP, GK>) {
     const handleGroupClick = useCallback(() => {
         setGroupOpen(groupKey);
@@ -48,7 +48,7 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
     ]);
 
     return (
-        <div className={styles.group}>
+        <div className={_cs(styles.group, groupClassName)}>
             <ToggleButton
                 className={_cs(styles.groupHeader, groupHeaderClassName)}
                 name="group-header"
@@ -60,7 +60,6 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
                 transparent
             >
                 <GroupTitleRenderer
-                    className={groupTitleRendererClassName}
                     {...titleExtraProps}
                 />
             </ToggleButton>
@@ -77,7 +76,8 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
 export interface AccordionProps<D, P, K extends OptionKey, GP, GK extends OptionKey> extends GroupedListProps<D, P, K, GP, GK> {
     groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
-    groupTitleRendererClassName?: string;
+    groupClassName?: string;
+    groupHeaderClassName?: string;
     multipleExpandEnabled?: boolean;
 }
 
@@ -87,7 +87,6 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     const {
         groupTitleRenderer,
         groupTitleRendererParams,
-        groupTitleRendererClassName,
         groupKeySelector,
         groupComparator,
         renderer,
@@ -96,6 +95,8 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
         rendererParams,
         rendererClassName,
         multipleExpandEnabled,
+        groupClassName,
+        groupHeaderClassName,
     } = props;
 
     const [openGroups, setOpenGroups] = useState<GK[]>([]);
@@ -126,14 +127,16 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
         groupOpened: openGroups.indexOf(key) !== -1,
         setGroupOpen: handleGroupOpenChange,
         groupTitleRenderer,
+        groupClassName,
+        groupHeaderClassName,
         groupTitleRendererParams,
-        groupTitleRendererClassName,
     }), [
         handleGroupOpenChange,
         openGroups,
         groupTitleRenderer,
+        groupHeaderClassName,
+        groupClassName,
         groupTitleRendererParams,
-        groupTitleRendererClassName,
     ]);
 
     // NOTE: setting this directly idk why it doesn't work otherwise
