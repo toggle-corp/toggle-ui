@@ -63,7 +63,7 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     optionsEmptyComponent: React.ReactNode;
     optionsPending?: boolean;
     optionsPopupClassName?: string;
-    persistantOptionPopup?: boolean;
+    persistentOptionPopup?: boolean;
     searchPlaceholder?: string;
     valueDisplay: string;
 }
@@ -98,7 +98,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         options = emptyList,
         optionsEmptyComponent,
         optionsPopupClassName,
-        persistantOptionPopup,
+        persistentOptionPopup,
         readOnly,
         searchPlaceholder,
         uiMode,
@@ -130,19 +130,19 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
     const handlePopupBlur = React.useCallback((isClickedWithin: boolean) => {
         if (!isClickedWithin) {
             setShowDropdown(false);
-        } else if (persistantOptionPopup && inputElementRef.current) {
+        } else if (persistentOptionPopup && inputElementRef.current) {
             inputElementRef.current.focus();
         }
-    }, [setShowDropdown, persistantOptionPopup]);
+    }, [setShowDropdown, persistentOptionPopup]);
 
     useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
 
     const handleOptionClick = React.useCallback((value) => {
         onOptionClick(value, name);
-        if (!persistantOptionPopup) {
+        if (!persistentOptionPopup) {
             setShowDropdown(false);
         }
-    }, [onOptionClick, setShowDropdown, persistantOptionPopup, name]);
+    }, [onOptionClick, setShowDropdown, persistentOptionPopup, name]);
 
     const optionListRendererParams = React.useCallback((key, option) => ({
         contentRendererParam: optionRendererParams,

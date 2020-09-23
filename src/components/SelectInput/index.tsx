@@ -37,13 +37,13 @@ function DefaultEmptyComponent() {
 
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
-export interface SelectInputProps<
+export type SelectInputProps<
     T extends OptionKey,
     K,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> extends Omit<SelectInputContainerProps<T, K, O, P>, 'optionsEmptyComponent' | 'optionKeySelector' | 'optionRenderer' | 'optionRendererParams' | 'onOptionClick' > {
+> = {
     value: T,
     onChange: (newValue: T, name: K) => void;
     options: O[],
@@ -54,7 +54,17 @@ export interface SelectInputProps<
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-}
+} & Omit<
+    SelectInputContainerProps<T, K, O, P>,
+        'optionsEmptyComponent'
+        | 'optionKeySelector'
+        | 'optionRenderer'
+        | 'optionRendererParams'
+        | 'onOptionClick'
+        | 'name'
+        | 'valueDisplay'
+        | 'onSearchInputChange'
+    >;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(

@@ -45,13 +45,13 @@ function DefaultEmptyComponent() {
 type Def = { containerClassName?: string };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export interface MultiSelectInputProps<
+export type MultiSelectInputProps<
     T extends OptionKey,
     K,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> extends Omit<SelectInputContainerProps<T, K, O, P>, 'optionsEmptyComponent' | 'optionKeySelector' | 'optionRenderer' | 'optionRendererParams' | 'onOptionClick'> {
+> = {
     value: T[];
     onChange: (newValue: T[], name: K) => void;
     options: O[];
@@ -62,7 +62,17 @@ export interface MultiSelectInputProps<
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-}
+} & Omit<
+    SelectInputContainerProps<T, K, O, P>,
+        'optionsEmptyComponent'
+        | 'optionKeySelector'
+        | 'optionRenderer'
+        | 'optionRendererParams'
+        | 'onOptionClick'
+        | 'name'
+        | 'valueDisplay'
+        | 'onSearchInputChange'
+    >;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -132,7 +142,7 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
             valueDisplay={valueDisplay}
             searchPlaceholder={searchPlaceholder}
             optionsEmptyComponent={optionsEmptyComponent}
-            persistantOptionPopup
+            persistentOptionPopup
             optionsPopupClassName={styles.optionsPopup}
         />
     );
