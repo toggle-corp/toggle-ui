@@ -16,7 +16,7 @@ export interface ConfirmButtonProps<N extends number | string | undefined> exten
     confirmationHeader?: ReactNode,
     confirmationMessage?: ReactNode,
     children?: ReactNode;
-    onCancel: () => void,
+    onCancel?: () => void,
 }
 
 function ConfirmButton<N extends number | string | undefined>(props: ConfirmButtonProps<N>) {
@@ -39,7 +39,10 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
     }, []);
 
     const handleConfirmModalClose = useCallback(() => {
-        onCancel();
+        if (onCancel) {
+            onCancel();
+        }
+
         setShowConfirmModal(false);
     }, [onCancel]);
 
