@@ -54,3 +54,5 @@ export type { ToggleButtonProps } from './components/ToggleButton';
 export { default as ToggleButton } from './components/ToggleButton';
 export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
+export type { createColumn, TableProps } from './components/Table';
+export type { default as Table } from './components/Table';
