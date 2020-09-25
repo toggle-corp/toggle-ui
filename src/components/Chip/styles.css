@@ -1,0 +1,48 @@
+.chip-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--tui-color-background-active-light);
+    padding: var(--tui-spacing-small) var(--tui-spacing-large);
+    border-radius: var(--tui-spacing-extra-large);
+    vertical-align: middle;
+
+    .label {
+        margin: 0 var(--tui-spacing-small);
+    };
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .disabled {
+        cursor: auto;
+    }
+
+    .icon {
+        align-self: center;
+    }
+
+    .disabled-label {
+        color:var(--tui-color-text-disabled-dark)
+    }
+
+    .action-component {
+        height: var(--tui-font-size-extra-large);
+        width: var(--tui-font-size-extra-large);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .action {
+            margin: var(---tui-spacing-medium) var(--tui-spacing-large);
+            cursor: pointer;
+            color: var(--tui-color-text-disabled-light);
+            background-color: transparent;
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            border-color: transparent;
+        }
+    }
+}

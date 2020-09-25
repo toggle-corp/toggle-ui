@@ -1,4 +1,4 @@
-.button-variants {
+.chip-variants {
     section {
         padding: var(--tui-spacing-medium);
 
@@ -6,9 +6,13 @@
             display: flex;
             flex-wrap: wrap;
 
-            button {
+            .chip {
                 flex-shrink: 0;
-                margin: var(--tui-spacing-large);
+                margin: var(--tui-spacing-small);
+            }
+
+            .round-button {
+                color: black;
             }
         }
     }
