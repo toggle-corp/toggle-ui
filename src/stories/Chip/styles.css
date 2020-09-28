@@ -1,3 +1,9 @@
+.chip {
+    flex-shrink: 0;
+    margin: var(--tui-spacing-small);
+    width: fit-content;
+}
+
 .chip-variants {
     section {
         padding: var(--tui-spacing-medium);
@@ -9,11 +15,18 @@
             .chip {
                 flex-shrink: 0;
                 margin: var(--tui-spacing-small);
+                width: fit-content;
             }
 
             .round-button {
-                color: black;
+                color: var(--tui-color-background-dark);
+                
+                &:hover {
+                    color: var(--tui-color-foreground-dark);
+                }
             }
+
+
         }
     }
 }

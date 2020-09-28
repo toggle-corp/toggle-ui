@@ -2,80 +2,40 @@ import React, { ReactNode } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.css';
-import Button, { ButtonProps } from '../Button';
 
-export interface ActionComponentProps {
+export interface ChipProps {
     /**
-     * Right component of the chip
+    * Class name for Chip
      */
-    action?: ReactNode,
-    /**
-     * Class name for action
-     */
-    actionClassName?: string;
-    /**
-     * Handle click for action component
-     */
-    onClick?: () => void,
-}
-
-function ActionComponent(props: ActionComponentProps) {
-    const {
-        action,
-        actionClassName,
-        onClick,
-    } = props;
-
-    return (
-        <span
-            role="button"
-            className={styles.actionComponent}
-        >
-            <Button
-                name="action"
-                onClick={onClick}
-                className={_cs(
-                    styles.action,
-                    actionClassName,
-                )}
-            >
-                {action}
-            </Button>
-        </span>
-    );
-}
-
-export interface ChipProps extends ActionComponentProps {
+    className?: string;
     /**
      * Label for the chip
      */
-    label: ReactNode,
+    label?: ReactNode,
     /**
-     * Check if chip is clickable
+     * Class name of Chip label
      */
-    clickable?: boolean,
+    labelClassName?: string;
     /**
      * Left component of the chip
      */
     icon?: ReactNode,
     /**
-     * Check if chip is disabled
-     */
-    disabled?: boolean,
-    /**
-     * Classname of icon
+     * Class name of icon
      */
     iconClassName?: string;
-
     /**
-     * Content for the chip
+     * Right component of the chip
+     */
+    action?: ReactNode;
+    /**
+     * Class name for action
+     */
+    actionClassName?: string;
+    /**
+     * Children for the chip
      */
     children?: ReactNode;
-
-    /**
-     * Class name for Chip
-     */
-    className?: string;
 }
 
 function Chip(props: ChipProps) {
@@ -84,10 +44,10 @@ function Chip(props: ChipProps) {
         icon = null,
         action,
         className,
+        labelClassName,
         iconClassName,
         actionClassName,
         children,
-        onClick,
     } = props;
 
     return (
@@ -99,26 +59,38 @@ function Chip(props: ChipProps) {
         >
             {icon && (
                 <span
-                    className={_cs(styles.icon, iconClassName)}
+                    className={_cs(
+                        styles.icon,
+                        iconClassName,
+                    )}
                 >
                     {icon}
                 </span>
             )}
-            {children ? { children } : (
+            {children ? (
+                <>
+                    {children}
+                </>
+            )
+                : (
+                    <span
+                        className={_cs(
+                            styles.label,
+                            labelClassName,
+                        )}
+                    >
+                        {label}
+                    </span>
+                )}
+            {action && (
                 <span
                     className={_cs(
-                        styles.label,
+                        styles.action,
+                        actionClassName,
                     )}
                 >
-                    {label}
+                    {action}
                 </span>
-            )}
-            {action && (
-                <ActionComponent
-                    action={action}
-                    actionClassName={actionClassName}
-                    onClick={onClick}
-                />
             )}
         </div>
     );
