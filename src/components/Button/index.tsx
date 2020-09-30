@@ -147,17 +147,17 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
         >
             {icons && (
                 <div className={_cs(iconsClassName, styles.icons)}>
-                    { icons }
+                    {icons}
                 </div>
             )}
             {children && (
                 <div className={_cs(childrenClassName, styles.children)}>
-                    { children }
+                    {children}
                 </div>
             )}
             {actions && (
                 <div className={_cs(actionsClassName, styles.actions)}>
-                    { actions }
+                    {actions}
                 </div>
             )}
         </RawButton>

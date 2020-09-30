@@ -1,9 +1,39 @@
-import React, { ReactNode } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import React, { ReactNode, useMemo } from 'react';
+import {
+    _cs,
+    getContrastYIQ,
+} from '@togglecorp/fujs';
 
 import styles from './styles.css';
 
+import { UiMode } from '../ThemeContext';
+import { useThemeClassName } from '../../hooks';
+
+export type ChipVariant = (
+    'accent'
+    | 'danger'
+    | 'default'
+    | 'primary'
+    | 'success'
+    | 'warning'
+);
+
+const chipVariantToVariableNameMap: {
+    [key in ChipVariant]: string;
+} = {
+    accent: '--tui-color-accent',
+    danger: '--tui-color-danger',
+    primary: '--tui-color-primary',
+    warning: '--tui-color-warning',
+    success: '--tui-color-success',
+    default: '--tui-color-background-button',
+};
+
 export interface ChipProps {
+    /**
+    * Variant of the chip
+     */
+    variant?: ChipVariant;
     /**
     * Class name for Chip
      */
@@ -40,7 +70,8 @@ export interface ChipProps {
 
 function Chip(props: ChipProps) {
     const {
-        label,
+        variant = 'default',
+        label = 'Default',
         icon = null,
         action,
         className,
@@ -50,13 +81,37 @@ function Chip(props: ChipProps) {
         children,
     } = props;
 
+    const innerUiMode: UiMode = useMemo(() => {
+        const color = getComputedStyle(document.documentElement)
+            .getPropertyValue(chipVariantToVariableNameMap[variant])
+            .trim();
+
+        const luma = getContrastYIQ(color);
+        const mode = luma >= 0.5 ? 'light' : 'dark';
+
+        return mode;
+    }, [variant]);
+
+    const themeClassName = useThemeClassName(innerUiMode, styles.light, styles.dark);
+    const innerThemeClassName = useThemeClassName(
+        innerUiMode,
+        styles.innerLight,
+        styles.innerDark,
+    );
+
+    console.log(innerUiMode);
+
+    const chipClassName = _cs(
+        className,
+        styles.chipRow,
+        variant,
+        styles[variant],
+        themeClassName,
+        innerThemeClassName,
+    );
+
     return (
-        <div
-            className={_cs(
-                styles.chipRow,
-                className,
-            )}
-        >
+        <div className={chipClassName}>
             {icon && (
                 <span
                     className={_cs(
@@ -68,9 +123,9 @@ function Chip(props: ChipProps) {
                 </span>
             )}
             {children ? (
-                <>
+                <span className={styles.children}>
                     {children}
-                </>
+                </span>
             )
                 : (
                     <span
@@ -82,6 +137,7 @@ function Chip(props: ChipProps) {
                         {label}
                     </span>
                 )}
+
             {action && (
                 <span
                     className={_cs(

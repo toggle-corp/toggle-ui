@@ -15,7 +15,6 @@ export default {
 const Template = (args: ChipProps) => (
     <Chip
         {...args}
-        label="default with action"
         action={
             <MdCancel />
         }
@@ -29,6 +28,37 @@ Default.args = {};
 export const Variants = () => (
     <div className={styles.chipVariants}>
         <section>
+            <h3>Variants</h3>
+            <div className={styles.content}>
+                <Chip
+                    label="Default"
+                    className={styles.chip}
+                    variant="default"
+                />
+                <Chip
+                    label="Primary"
+                    className={styles.chip}
+                    variant="primary"
+                />
+                <Chip
+                    label="Accent"
+                    className={styles.chip}
+                    variant="accent"
+                />
+                <Chip
+                    label="Warning"
+                    className={styles.chip}
+                    variant="warning"
+                />
+                <Chip
+                    className={styles.chip}
+                    label="Danger"
+                    variant="danger"
+                />
+            </div>
+        </section>
+        <section>
+            <h3>Icon, Action and Children</h3>
             <div className={styles.content}>
                 <Chip
                     label="Basic"
@@ -50,7 +80,7 @@ export const Variants = () => (
                     label="Icon and Action"
                     icon={<MdPerson />}
                     className={styles.chip}
-                    action={<MdCancel style={{ marginBottom: 0 }} />}
+                    action={<MdCancel />}
                     actionClassName={styles.roundButton}
                 />
 

@@ -1,9 +1,51 @@
 .chip-row {
     display: flex;
     align-items: center;
-    background-color: var(--tui-color-background-active-light);
     padding: var(--tui-spacing-small) var(--tui-spacing-large);
     border-radius: var(--tui-spacing-extra-large);
+    color: var(--color-text);
+    font-weight: var(--tui-font-weight-bold);
+    background-color: var(--color-background);
+
+    &.default {
+        --color-background: var(--tui-color-background-button);
+    }
+
+    &.accent {
+        --color-background: var(--tui-color-accent);
+    }
+
+    &.danger {
+        --color-background: var(--tui-color-danger);
+    }
+
+    &.primary {
+        --color-background: var(--tui-color-primary);
+    }
+
+    &.success {
+        --color-background: var(--tui-color-success);
+    }
+
+    &.warning {
+        --color-background: var(--tui-color-warning);
+    }
+
+    &.light {
+        --border-color: var(--tui-color-separator-light);
+    }
+
+    &.dark {
+        --border-color: var(--tui-color-separator-dark);
+    }
+
+    &.inner-light {
+        --color-text: var(--tui-color-text-button-light);
+    }
+
+    &.inner-dark {
+        --color-text: var(--tui-color-text-button-dark);
+    }
 
     .icon {
         flex-shrink: 0;
@@ -11,6 +53,11 @@
     }
 
     .label {
+        margin: 0 var(--tui-spacing-small);
+        flex-grow: 1;
+    }
+
+    .children {
         margin: 0 var(--tui-spacing-small);
         flex-grow: 1;
     }
