@@ -1,0 +1,17 @@
+.dropdown-menu {
+    padding: var(--spacing-small);
+
+    &.dropdown-shown {
+        background-color: var(--color-background);
+    }
+
+    &.light {
+        --color-background: var(--tui-color-background-light);
+    }
+
+    &.dark {
+        --color-background: var(--tui-color-background-dark);
+    }
+
+
+}

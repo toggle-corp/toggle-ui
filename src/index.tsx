@@ -16,6 +16,8 @@ export type { CheckmarkProps } from './components/Checkmark';
 export { default as Checkmark } from './components/Checkmark';
 export type { ConfirmButtonProps } from './components/ConfirmButton';
 export { default as ConfirmButton } from './components/ConfirmButton';
+export { default as DropdownMenu } from './components/DropdownMenu';
+export type { DropdownMenuProps } from './components/DropdownMenu';
 export { default as InputContainer } from './components/InputContainer';
 export type { InputContainerProps } from './components/InputContainer';
 export type { ListProps } from './components/List';

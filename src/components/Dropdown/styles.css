@@ -1,0 +1,23 @@
+.dropdown-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border: var(--tui-width-separator-thin) solid var(--color-separator);
+    box-shadow: 0 0 5px 0 var(--tui-color-shadow);
+    background-color: var(--color-foreground);
+    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small)) calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    max-width: 90vw;
+    max-height: 50vh;
+    overflow: auto;
+
+    &.light {
+        --color-separator: var(--tui-color-separator-light);
+        --color-foreground: var(--tui-color-foreground-light);
+    }
+
+
+    &.dark {
+        --color-separator: var(--tui-color-separator-dark);
+        --color-foreground: var(--tui-color-foreground-dark);
+    }
+}
