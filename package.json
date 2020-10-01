@@ -43,6 +43,8 @@
         "@storybook/client-api": "^6.0.21",
         "@togglecorp/fujs": "^1.9.2-beta.0",
         "file-saver": "^2.0.2",
+        "d3-axis": "^2.0.0",
+        "d3-scale": "^3.2.3",
         "react-icons": "^3.11.0",
         "resize-observer": "^1.0.0"
     },
