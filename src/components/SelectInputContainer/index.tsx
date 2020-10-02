@@ -59,7 +59,7 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     optionKeySelector: (datum: O, index: number) => OK;
     optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
     optionRendererParams: (optionKey: OK, option: O) => P;
-    options: O[];
+    options: O[] | undefined;
     optionsEmptyComponent: React.ReactNode;
     optionsPending?: boolean;
     optionsPopupClassName?: string;
@@ -95,7 +95,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         optionKeySelector,
         optionRenderer,
         optionRendererParams,
-        options = emptyList,
+        options = (emptyList as O[]),
         optionsEmptyComponent,
         optionsPopupClassName,
         persistentOptionPopup,

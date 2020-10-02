@@ -52,9 +52,9 @@ export type MultiSelectInputProps<
     O extends object,
     P extends Def,
 > = {
-    value: T[];
+    value: T[] | undefined;
     onChange: (newValue: T[], name: K) => void;
-    options: O[];
+    options: O[] | undefined;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
     searchPlaceholder?: string;
@@ -74,14 +74,16 @@ export type MultiSelectInputProps<
         | 'onSearchInputChange'
     >;
 
+const emptyList: unknown[] = [];
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
     props: MultiSelectInputProps<T, K, O, P>,
 ) {
     const {
-        value,
+        value = (emptyList as T[]),
         onChange,
-        options,
+        options = (emptyList as O[]),
         keySelector,
         labelSelector,
         searchPlaceholder = 'Type to search',
