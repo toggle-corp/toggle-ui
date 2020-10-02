@@ -46,7 +46,7 @@ export type SelectInputProps<
 > = {
     value: T,
     onChange: (newValue: T, name: K) => void;
-    options: O[],
+    options: O[] | undefined,
     keySelector: (option: O) => T,
     labelSelector: (option: O) => string,
     searchPlaceholder?: string;
@@ -66,6 +66,8 @@ export type SelectInputProps<
         | 'onSearchInputChange'
     >;
 
+const emptyList: unknown[] = [];
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
     props: SelectInputProps<T, K, O, P>,
@@ -73,7 +75,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
     const {
         value,
         onChange,
-        options,
+        options = (emptyList as O[]),
         keySelector,
         labelSelector,
         searchPlaceholder = 'Type to search',
