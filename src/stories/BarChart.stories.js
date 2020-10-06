@@ -18,8 +18,8 @@ const data = [
 
 export const Default = () => (
     <BarChart
-        width={300}
-        height={200}
+        width={600}
+        height={300}
         data={data}
         valueSelector={d => d.value}
         labelSelector={d => d.label}

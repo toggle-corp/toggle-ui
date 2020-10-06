@@ -1,0 +1,8 @@
+.line {
+    stroke-width: var(--tui-width-separator-thin);
+    stroke: var(--tui-color-accent);
+}
+.label {
+    fill: var(--tui-color-text);
+    font-size: var(--tui-font-size-medium);
+}
