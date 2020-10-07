@@ -4,6 +4,7 @@ import { useArgs } from '@storybook/client-api';
 import { TiSortNumerically } from 'react-icons/ti';
 
 import Cell from '#components/Table/Cell';
+import Numeral from '#components/Numeral';
 import HeaderCell from '#components/Table/HeaderCell';
 import Table, { TableProps, createColumn } from '#components/Table';
 
@@ -36,7 +37,7 @@ const data:Program[] = [
 ];
 
 const getColumns = () => {
-    const column = (colName: string) => ({
+    const stringColumn = (colName: string) => ({
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             name: colName,
@@ -44,17 +45,32 @@ const getColumns = () => {
         },
         cellAsHeader: true,
         cellRenderer: Cell,
-        cellRendererParams: (key: number, datum: Program) => ({
+        cellRendererParams: (_: number, datum: Program) => ({
             value: datum[colName],
         }),
         valueSelector: (v: Program) => v[colName],
         valueType: 'string',
     });
 
+    const numberColumn = (colName: number) => ({
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            name: colName,
+            sortable: false,
+        },
+        cellAsHeader: true,
+        cellRenderer: Numeral,
+        cellRendererParams: (_: number, datum: Program) => ({
+            value: datum[colName],
+        }),
+        valueSelector: (v: Program) => v[colName],
+        valueType: 'number',
+    });
+
     return [
-        createColumn(column, 'id', 'Id'),
-        createColumn(column, 'name', 'Name'),
-        createColumn(column, 'budget', 'Budget'),
+        createColumn(numberColumn, 'id', 'Id'),
+        createColumn(stringColumn, 'name', 'Name'),
+        createColumn(numberColumn, 'budget', 'Budget'),
     ];
 };
 
