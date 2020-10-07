@@ -54,7 +54,7 @@ function BarChart<K>(props: Props<K>) {
         .range([height - bottom, top]),
     [data, valueSelector, bottom, top, height]);
 
-    const bars = useMemo(() => data.map((d) => (
+    const bars = data.map((d) => (
         <g
             key={`bar-${labelSelector(d)}`}
             fill={colorSelector ? colorSelector(d) : '#b4d9cc'}
@@ -66,10 +66,9 @@ function BarChart<K>(props: Props<K>) {
                 width={x.bandwidth()}
             />
         </g>
-    )),
-    [data, valueSelector, labelSelector, colorSelector, x, y]);
+    ));
 
-    const xAxisLabels = useMemo(() => data.map((d) => (
+    const xAxisLabels = data.map((d) => (
         <g
             key={`x-axis-label-${labelSelector(d)}`}
             transform={`translate(${x(labelSelector(d))}, ${y(0)})`}
@@ -84,28 +83,25 @@ function BarChart<K>(props: Props<K>) {
                 {labelSelector(d)}
             </text>
         </g>
-    )),
-    [data, labelSelector, x, y]);
+    ));
 
-    const yAxisLabels = useMemo(() => {
-        const ticks = y.ticks(height / 50);
-        return ticks.map((d) => (
-            <g
-                key={`y-axis-label-${d}`}
-                transform={`translate(${left}, ${y(d)})`}
+    const ticks = y.ticks(height / 50);
+    const yAxisLabels = ticks.map((d:number) => (
+        <g
+            key={`y-axis-label-${d}`}
+            transform={`translate(${left}, ${y(d)})`}
+        >
+            <text
+                textAnchor="end"
+                className={styles.label}
+                y={0}
+                x={-5}
+                dy="0.32em"
             >
-                <text
-                    textAnchor="end"
-                    className={styles.label}
-                    y={0}
-                    x={-5}
-                    dy="0.32em"
-                >
-                    {d}
-                </text>
-            </g>
-        ));
-    }, [y, left, height]);
+                {d}
+            </text>
+        </g>
+    ));
 
     return (
         <svg
