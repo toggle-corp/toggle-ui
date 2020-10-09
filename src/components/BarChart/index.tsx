@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { max } from 'd3-array';
+import { max } from '@togglecorp/fujs';
 
 import styles from './styles.css';
 
@@ -34,39 +34,34 @@ function BarChart<K>(props: Props<K>) {
         valueSelector,
         labelSelector,
         colorSelector,
-        margin: {
-            top = 0,
-            right = 0,
-            bottom = 0,
-            left = 0,
-        } = {},
+        margin,
     } = props;
 
-    const x = useMemo(() => scaleBand()
-        .domain(data.map((d) => labelSelector(d)))
-        .range([left, width - right])
-        .padding(0.1),
-    [data, labelSelector, left, right, width]);
+    const {
+        top,
+        right,
+        bottom,
+        left,
+    } = margin ?? { top: 0, bottom: 0, right: 0, left: 0 };
 
-    const y = useMemo(() => scaleLinear()
-        .domain([0, max(data, valueSelector)])
-        .nice()
-        .range([height - bottom, top]),
-    [data, valueSelector, bottom, top, height]);
+    const x = useMemo(
+        () => scaleBand()
+            .domain(data.map((d) => labelSelector(d)))
+            .range([left, width - right])
+            .padding(0.1),
+        [data, labelSelector, left, right, width],
+    );
 
-    const bars = data.map((d) => (
-        <g
-            key={`bar-${labelSelector(d)}`}
-            fill={colorSelector ? colorSelector(d) : '#b4d9cc'}
-        >
-            <rect
-                y={y(valueSelector(d))}
-                x={x(labelSelector(d))}
-                height={y(0) - y(valueSelector(d))}
-                width={x.bandwidth()}
-            />
-        </g>
-    ));
+    const y = useMemo(
+        () => {
+            const maxValue = max(data, valueSelector) ?? 0;
+            return scaleLinear()
+                .domain([0, maxValue])
+                .nice()
+                .range([height - bottom, top]);
+        },
+        [data, valueSelector, bottom, top, height],
+    );
 
     const xAxisLabels = data.map((d) => (
         <g
@@ -108,7 +103,22 @@ function BarChart<K>(props: Props<K>) {
             width={width}
             height={height}
         >
-            {bars}
+            {data.map((d) => {
+                const xHeight = (y(0) ?? 0) - (y(valueSelector(d)) ?? 0);
+                return (
+                    <g
+                        key={`bar-${labelSelector(d)}`}
+                        fill={colorSelector ? colorSelector(d) : '#b4d9cc'}
+                    >
+                        <rect
+                            y={y(valueSelector(d))}
+                            x={x(labelSelector(d))}
+                            height={xHeight}
+                            width={x.bandwidth()}
+                        />
+                    </g>
+                );
+            })}
             <g
                 key="x-axis"
             >

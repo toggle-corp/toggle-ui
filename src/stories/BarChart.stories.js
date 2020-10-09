@@ -1,10 +1,9 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import BarChart from '#components/BarChart';
 
 export default {
-    title: 'View/BarChart',
+    title: 'Visualization/BarChart',
     component: BarChart,
     argTypes: {},
 };
@@ -21,7 +20,7 @@ export const Default = () => (
         width={600}
         height={300}
         data={data}
-        valueSelector={d => d.value}
-        labelSelector={d => d.label}
+        valueSelector={(d) => d.value}
+        labelSelector={(d) => d.label}
     />
 );
