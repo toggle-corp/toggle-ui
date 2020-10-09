@@ -2,7 +2,7 @@ import React from 'react';
 
 import { typedMemo } from '../../../utils/index';
 
-interface CellProps<T>{
+export interface CellProps<T>{
     className?: string;
     value: T;
 }

@@ -10,8 +10,8 @@ export function useOrderState<T extends OrderStateItem>(keys: T[]) {
 
     const moveOrderingItem = useCallback(
         (drag: string, drop: string) => {
-            const dragPosition = ordering.findIndex(o => o.name === drag);
-            const dropPosition = ordering.findIndex(o => o.name === drop);
+            const dragPosition = ordering.findIndex((o) => o.name === drag);
+            const dropPosition = ordering.findIndex((o) => o.name === drop);
             if (dragPosition === dropPosition) {
                 return;
             }
@@ -55,14 +55,14 @@ function useOrdering<T extends OrderColumn, K extends OrderStateItem>(
         () => {
             const mapping = listToMap(
                 ordering,
-                item => item.name,
+                (item) => item.name,
                 (item, __, index) => ({
                     ...item,
                     order: index,
                 }),
             );
             const sortedColumns = columns
-                .filter(foo => !!mapping[foo.id])
+                .filter((foo) => !!mapping[foo.id])
                 .sort((foo, bar) => {
                     // FIXME: this can be optimized
                     const fooOrder = mapping[foo.id]?.order;

@@ -27,7 +27,7 @@ import { useDropHandler } from '../../../hooks';
 
 import styles from './styles.css';
 
-interface HeaderCellProps extends BaseHeader {
+export interface HeaderCellProps extends BaseHeader {
     onSortChange?: (value: SortParameter | undefined) => void;
 
     sortable?: boolean;
@@ -246,13 +246,13 @@ function HeaderCell(props: HeaderCellProps) {
             <div className={styles.filterContainer}>
                 {filterType === FilterType.string && (
                     <TextInput
-                        name="header cell filter"
+                        name="textFilter"
                         icons={<FaSearch className={styles.icon} />}
                         className={styles.textInput}
                         inputContainerClassName={styles.rawInputContainer}
                         value={filterValue?.subMatch}
                         placeholder="Search"
-                        onChange={(value: string) => {
+                        onChange={(value) => {
                             onFilterValueChange(
                                 name,
                                 { ...filterValue, subMatch: value },
@@ -263,13 +263,14 @@ function HeaderCell(props: HeaderCellProps) {
                 {filterType === FilterType.number && (
                     <>
                         <NumberInput
+                            name="numberFilterMin"
                             icons={<FaGreaterThanEqual className={styles.icon} />}
                             className={styles.numberInput}
                             inputContainerClassName={styles.rawInputContainer}
                             value={filterValue?.greaterThanOrEqualTo}
                             placeholder="Min"
                             type="number"
-                            onChange={(value: number) => {
+                            onChange={(value) => {
                                 onFilterValueChange(
                                     name,
                                     { ...filterValue, greaterThanOrEqualTo: value },
@@ -277,13 +278,13 @@ function HeaderCell(props: HeaderCellProps) {
                             }}
                         />
                         <NumberInput
+                            name="numberFilterMax"
                             icons={<FaLessThanEqual className={styles.icon} />}
                             className={styles.numberInput}
                             inputContainerClassName={styles.rawInputContainer}
-                            inputClassName={styles.rawInput}
                             value={filterValue?.lessThanOrEqualTo}
                             placeholder="Max"
-                            onChange={(value: number) => {
+                            onChange={(value) => {
                                 onFilterValueChange(
                                     name,
                                     { ...filterValue, lessThanOrEqualTo: value },

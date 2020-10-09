@@ -74,6 +74,10 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
 
+          // note you must disable the base rule as it can report incorrect errors
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+
         'jsx-a11y/anchor-is-valid': ['error', {
             components: ['Link'],
             specialLink: ['to'],

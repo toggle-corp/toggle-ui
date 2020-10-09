@@ -49,7 +49,7 @@ export function convertJsonToCsv(
 
     data.forEach((item) => {
         result += keys
-            .map(key => item[key])
+            .map((key) => item[key])
             .map((str) => {
                 if (isNotDefined(str)) {
                     return emptyValue;

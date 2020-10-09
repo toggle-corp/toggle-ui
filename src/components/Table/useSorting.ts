@@ -2,15 +2,16 @@ import { useMemo, useState } from 'react';
 
 import { SortDirection } from './types';
 
+export interface SortParameter {
+    name: string;
+    direction: SortDirection;
+}
+
 export function useSortState(defaultValue?: SortParameter) {
     const [sortState, setSortState] = useState<SortParameter | undefined>(defaultValue);
     return { sortState, setSortState };
 }
 
-export interface SortParameter {
-    name: string;
-    direction: SortDirection;
-}
 interface SortColumn<T> {
     id: string;
     sorter?: (foo: T, bar: T) => number; // FIXME: this is problematic
@@ -24,7 +25,7 @@ export function useSorting<T>(
 ) {
     const selectedSorter = useMemo(
         () => {
-            const columnToSort = columns.find(column => column.id === sortParameter?.name);
+            const columnToSort = columns.find((column) => column.id === sortParameter?.name);
             return columnToSort?.sorter;
         },
         [columns, sortParameter?.name],

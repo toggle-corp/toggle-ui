@@ -6,7 +6,7 @@ export function useFilterState(defaultValue?: FilterParameter[]) {
     const setFilteringItem = useCallback(
         (id: string, value: Omit<FilterParameter, 'id'> | undefined) => {
             setFiltering((oldFiltering = []) => {
-                const index = oldFiltering.findIndex(item => item.id === id);
+                const index = oldFiltering.findIndex((item) => item.id === id);
                 if (isNotDefined(value)) {
                     const newFiltering = [...oldFiltering];
                     if (index === -1) {
@@ -38,7 +38,7 @@ export function useFilterState(defaultValue?: FilterParameter[]) {
             if (!filtering) {
                 return undefined;
             }
-            return filtering.find(item => item.id === id);
+            return filtering.find((item) => item.id === id);
         },
         [filtering],
     );
@@ -71,10 +71,10 @@ export function useFiltering<T>(
             }
             const columnsMapping = listToMap(
                 columns,
-                column => column.id,
-                column => column,
+                (column) => column.id,
+                (column) => column,
             );
-            return data?.filter(datum => (
+            return data?.filter((datum) => (
                 filterParameters.every((filterParameter) => {
                     let test = true;
 

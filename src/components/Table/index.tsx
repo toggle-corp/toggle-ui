@@ -7,21 +7,6 @@ import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
-// Helper method so that during column creation, id can be re-used
-export function createColumn<KK extends string, D, K, C, H>(
-    modifier: (id: KK) => Omit<Column<D, K, C, H>, 'id' | 'title' | 'cellAsHeader'>,
-    id: KK,
-    title: string,
-    cellAsHeader?: boolean,
-): Column<D, K, C, H> {
-    return {
-        ...modifier(id),
-        id,
-        title,
-        cellAsHeader,
-    };
-}
-
 interface Column<D, K, C, H> {
     id: string;
     title: string;
@@ -38,8 +23,23 @@ interface Column<D, K, C, H> {
     uiMode?: UiMode;
 }
 
+// Helper method so that during column creation, id can be re-used
+export function createColumn<KK extends string, D, K, C, H>(
+    modifier: (identifier: KK) => Omit<Column<D, K, C, H>, 'id' | 'title' | 'cellAsHeader'>,
+    id: KK,
+    title: string,
+    cellAsHeader?: boolean,
+): Column<D, K, C, H> {
+    return {
+        ...modifier(id),
+        id,
+        title,
+        cellAsHeader,
+    };
+}
+
 type VerifyColumn<T, D, K> = unknown extends (
-    T extends Column<D, K, infer A, infer B>
+    T extends Column<D, K, any, any>
         ? never
         : unknown
 )
