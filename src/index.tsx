@@ -65,6 +65,8 @@ export { default as useSorting, useSortState } from './components/Table/useSorti
 export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
 export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
+export type { TextAreaProps } from './components/TextArea';
+export { default as TextArea } from './components/TextArea';
 export type { TextInputProps } from './components/TextInput';
 export { default as TextInput } from './components/TextInput';
 export type { ThemeContextProps } from './components/ThemeContext';
