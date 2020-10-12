@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import {
     isFalsyString,
     caseInsensitiveSubmatch,
@@ -22,3 +24,5 @@ export function rankedSearchOnList<T>(
             searchString,
         ));
 }
+
+export const typedMemo: (<T>(c: T) => T) = memo;

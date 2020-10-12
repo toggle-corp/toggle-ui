@@ -54,3 +54,24 @@ export type { ToggleButtonProps } from './components/ToggleButton';
 export { default as ToggleButton } from './components/ToggleButton';
 export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
+
+export { default as Table } from './components/Table';
+export type { createColumn, TableProps } from './components/Table';
+
+export { default as TableCell } from './components/Table/Cell';
+export type { CellProps as TableCellProps } from './components/Table/Cell';
+
+export { default as TableHeaderCell } from './components/Table/HeaderCell';
+export type { HeaderCellProps as TableHeaderCellProps } from './components/Table/HeaderCell';
+
+export type { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
+
+export { default as useDownloading, convertTableData, convertJsonToCsv } from './components/Table/useDownloading';
+
+export { default as useFiltering, useFilterState } from './components/Table/useFiltering';
+export type { FilterParameter as TableFilterParameter } from './components/Table/useFiltering';
+
+export { default as useOrdering, useOrderState } from './components/Table/useOrdering';
+
+export { default as useSorting, useSortState } from './components/Table/useSorting';
+export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
