@@ -75,3 +75,6 @@ export { default as useOrdering, useOrderState } from './components/Table/useOrd
 
 export { default as useSorting, useSortState } from './components/Table/useSorting';
 export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
+
+export { default as BarChart } from './components/BarChart';
+export type { BarChartProps } from './components/BarChart';
