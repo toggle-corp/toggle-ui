@@ -63,6 +63,10 @@ export interface ChipProps {
      */
     actionClassName?: string;
     /**
+     * Class name for children container
+     */
+    childrenClassName?: string;
+    /**
      * Children for the chip
      */
     children?: ReactNode;
@@ -72,13 +76,14 @@ function Chip(props: ChipProps) {
     const {
         variant = 'default',
         label = 'Default',
-        icon = null,
+        icon,
         action,
         className,
         labelClassName,
         iconClassName,
         actionClassName,
         children,
+        childrenClassName,
     } = props;
 
     const innerUiMode: UiMode = useMemo(() => {
@@ -99,11 +104,9 @@ function Chip(props: ChipProps) {
         styles.innerDark,
     );
 
-    console.log(innerUiMode);
-
     const chipClassName = _cs(
         className,
-        styles.chipRow,
+        styles.chip,
         variant,
         styles[variant],
         themeClassName,
@@ -113,40 +116,41 @@ function Chip(props: ChipProps) {
     return (
         <div className={chipClassName}>
             {icon && (
-                <span
+                <div
                     className={_cs(
                         styles.icon,
                         iconClassName,
                     )}
                 >
                     {icon}
-                </span>
+                </div>
             )}
             {children ? (
-                <span className={styles.children}>
+                <div
+                    className={_cs(childrenClassName, styles.children)}
+                >
                     {children}
-                </span>
-            )
-                : (
-                    <span
-                        className={_cs(
-                            styles.label,
-                            labelClassName,
-                        )}
-                    >
-                        {label}
-                    </span>
-                )}
+                </div>
+            ) : (
+                <div
+                    className={_cs(
+                        styles.label,
+                        labelClassName,
+                    )}
+                >
+                    {label}
+                </div>
+            )}
 
             {action && (
-                <span
+                <div
                     className={_cs(
                         styles.action,
                         actionClassName,
                     )}
                 >
                     {action}
-                </span>
+                </div>
             )}
         </div>
     );

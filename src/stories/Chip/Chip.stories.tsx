@@ -13,90 +13,76 @@ export default {
 };
 
 const Template = (args: ChipProps) => (
-    <Chip
-        {...args}
-        action={
-            <MdCancel />
-        }
-        className={styles.chip}
-    />
+    <Chip {...args} />
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+    className: styles.chip,
+};
+
+export const IconAndAction = () => (
+    <div className={styles.chipIconsAndActions}>
+        <Chip
+            className={styles.chip}
+            label="Basic"
+        />
+        <Chip
+            className={styles.chip}
+            label="Left Icon"
+            icon={<MdPerson />}
+        />
+        <Chip
+            className={styles.chip}
+            label="Only Action"
+            action={<MdCancel />}
+            actionClassName={styles.roundButton}
+        />
+        <Chip
+            className={styles.chip}
+            label="Icon and Action"
+            icon={<MdPerson />}
+            action={<MdCancel />}
+            actionClassName={styles.roundButton}
+        />
+        <Chip
+            className={styles.chip}
+            label="Text Icon"
+            icon="I am a text"
+            action={<MdCancel />}
+        />
+        <Chip className={styles.chip}>
+            I am children
+        </Chip>
+    </div>
+);
 
 export const Variants = () => (
     <div className={styles.chipVariants}>
-        <section>
-            <h3>Variants</h3>
-            <div className={styles.content}>
-                <Chip
-                    label="Default"
-                    className={styles.chip}
-                    variant="default"
-                />
-                <Chip
-                    label="Primary"
-                    className={styles.chip}
-                    variant="primary"
-                />
-                <Chip
-                    label="Accent"
-                    className={styles.chip}
-                    variant="accent"
-                />
-                <Chip
-                    label="Warning"
-                    className={styles.chip}
-                    variant="warning"
-                />
-                <Chip
-                    className={styles.chip}
-                    label="Danger"
-                    variant="danger"
-                />
-            </div>
-        </section>
-        <section>
-            <h3>Icon, Action and Children</h3>
-            <div className={styles.content}>
-                <Chip
-                    label="Basic"
-                    className={styles.chip}
-                />
-                <Chip
-                    label="Left Icon"
-                    icon={<MdPerson />}
-                    className={styles.chip}
-                />
-                <Chip
-                    label="Only Action"
-                    className={styles.chip}
-                    action={<MdCancel />}
-                    actionClassName={styles.roundButton}
-                />
-
-                <Chip
-                    label="Icon and Action"
-                    icon={<MdPerson />}
-                    className={styles.chip}
-                    action={<MdCancel />}
-                    actionClassName={styles.roundButton}
-                />
-
-                <Chip
-                    className={styles.chip}
-                    label="Text Icon"
-                    icon="I am a text"
-                    action={<MdCancel />}
-                />
-
-                <Chip
-                    className={styles.chip}
-                >
-                    I am children
-                </Chip>
-            </div>
-        </section>
+        <Chip
+            className={styles.chip}
+            label="Default"
+            variant="default"
+        />
+        <Chip
+            className={styles.chip}
+            label="Primary"
+            variant="primary"
+        />
+        <Chip
+            className={styles.chip}
+            label="Accent"
+            variant="accent"
+        />
+        <Chip
+            className={styles.chip}
+            label="Warning"
+            variant="warning"
+        />
+        <Chip
+            className={styles.chip}
+            label="Danger"
+            variant="danger"
+        />
     </div>
 );

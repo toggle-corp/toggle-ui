@@ -1,11 +1,15 @@
-.chip-row {
+.chip {
+    --inner-spacing: var(--tui-spacing-small);
+    --outer-vertical-padding: calc(var(--tui-spacing-medium) - var(--inner-spacing));
+
     display: flex;
     align-items: center;
-    padding: var(--tui-spacing-small) var(--tui-spacing-large);
-    border-radius: var(--tui-spacing-extra-large);
+    border-radius: calc(1em + 2 * var(--outer-vertical-padding));
+    background-color: var(--color-background);
+    padding: var(--outer-vertical-padding) calc(var(--tui-spacing-large) - var(--inner-spacing));
+    width: fit-content;
     color: var(--color-text);
     font-weight: var(--tui-font-weight-bold);
-    background-color: var(--color-background);
 
     &.default {
         --color-background: var(--tui-color-background-button);
@@ -48,27 +52,30 @@
     }
 
     .icon {
+        display: flex;
+        align-items: center;
         flex-shrink: 0;
-        margin-top: inherit;
+        padding: var(--inner-spacing);
     }
 
     .label {
-        margin: 0 var(--tui-spacing-small);
+        display: flex;
+        align-items: center;
         flex-grow: 1;
+        padding: var(--inner-spacing);
     }
 
     .children {
-        margin: 0 var(--tui-spacing-small);
+        display: flex;
+        align-items: center;
         flex-grow: 1;
+        padding: var(--inner-spacing);
     }
 
     .action {
+        display: flex;
+        align-items: center;
         flex-shrink: 0;
-        cursor: pointer;
-        margin-top: inherit;
+        padding: var(--inner-spacing);
     }
-}
-
-.clickable {
-    cursor: pointer;
 }

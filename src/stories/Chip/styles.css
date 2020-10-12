@@ -1,32 +1,13 @@
 .chip {
-    flex-shrink: 0;
     margin: var(--tui-spacing-small);
-    width: fit-content;
 }
 
 .chip-variants {
-    section {
-        padding: var(--tui-spacing-medium);
+    display: flex;
+    flex-wrap: wrap;
+}
 
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-
-            .chip {
-                flex-shrink: 0;
-                margin: var(--tui-spacing-small);
-                width: fit-content;
-            }
-
-            .round-button {
-                color: var(--tui-color-background-dark);
-                
-                &:hover {
-                    color: var(--tui-color-foreground-dark);
-                }
-            }
-
-
-        }
-    }
+.chip-icons-and-actions {
+    display: flex;
+    flex-wrap: wrap;
 }

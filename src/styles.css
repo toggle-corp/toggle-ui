@@ -33,11 +33,11 @@
     --tui-font-weight-bold: 700;
 
     /* COLOR PALETTE */
-    --tui-color-primary: #05367d;
-    --tui-color-accent: #289f8c;
+    --tui-color-primary: #174683;
+    --tui-color-accent: #389f8c;
     --tui-color-danger: #e04656;
     --tui-color-success: #12f094;
-    --tui-color-warning: #f5ef53;
+    --tui-color-warning: #ffe073;
 
     /* COLOR GENERAL */
     --tui-color-foreground: #fff;
