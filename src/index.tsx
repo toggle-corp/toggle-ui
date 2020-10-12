@@ -1,5 +1,7 @@
 import './styles.css';
 
+export { default as Pager } from './components/Pager';
+export type { PagerProps } from './components/Pager';
 export { default as Accordion } from './components/Accordion';
 export { default as AccordionProps } from './components/Accordion';
 export { default as Backdrop } from './components/Backdrop';
