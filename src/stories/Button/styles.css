@@ -8,7 +8,7 @@
 
             button {
                 flex-shrink: 0;
-                margin: var(--tui-spacing-medium);
+                margin: var(--tui-spacing-large);
             }
         }
     }

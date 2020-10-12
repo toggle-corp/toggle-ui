@@ -1,0 +1,81 @@
+.chip {
+    --inner-spacing: var(--tui-spacing-small);
+    --outer-vertical-padding: calc(var(--tui-spacing-medium) - var(--inner-spacing));
+
+    display: flex;
+    align-items: center;
+    border-radius: calc(1em + 2 * var(--outer-vertical-padding));
+    background-color: var(--color-background);
+    padding: var(--outer-vertical-padding) calc(var(--tui-spacing-large) - var(--inner-spacing));
+    width: fit-content;
+    color: var(--color-text);
+    font-weight: var(--tui-font-weight-bold);
+
+    &.default {
+        --color-background: var(--tui-color-background-button);
+    }
+
+    &.accent {
+        --color-background: var(--tui-color-accent);
+    }
+
+    &.danger {
+        --color-background: var(--tui-color-danger);
+    }
+
+    &.primary {
+        --color-background: var(--tui-color-primary);
+    }
+
+    &.success {
+        --color-background: var(--tui-color-success);
+    }
+
+    &.warning {
+        --color-background: var(--tui-color-warning);
+    }
+
+    &.light {
+        --border-color: var(--tui-color-separator-light);
+    }
+
+    &.dark {
+        --border-color: var(--tui-color-separator-dark);
+    }
+
+    &.inner-light {
+        --color-text: var(--tui-color-text-button-light);
+    }
+
+    &.inner-dark {
+        --color-text: var(--tui-color-text-button-dark);
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        padding: var(--inner-spacing);
+    }
+
+    .label {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        padding: var(--inner-spacing);
+    }
+
+    .children {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        padding: var(--inner-spacing);
+    }
+
+    .action {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        padding: var(--inner-spacing);
+    }
+}
