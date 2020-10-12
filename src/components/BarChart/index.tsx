@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { max } from '@togglecorp/fujs';
 
 import styles from './styles.css';
+
+// FIXME: Remove all hardcoded values
 
 interface Margin {
     top: number;
@@ -11,7 +12,8 @@ interface Margin {
     bottom: number;
     left: number;
 }
-interface Props<K> {
+
+export interface BarChartProps<K> {
     width: number;
     height: number;
     data: K[];
@@ -21,20 +23,27 @@ interface Props<K> {
     margin?: Margin;
 }
 
-const defaultProps = {
-    colorSelector: () => '#b4d9cc',
-    margin: { top: 30, right: 0, bottom: 40, left: 50 },
+const colorAccent = getComputedStyle(document.documentElement)
+    .getPropertyValue('--tui-color-accent')
+    .trim();
+
+const defaultColorSelector = () => colorAccent;
+const defaultMargin = {
+    top: 10,
+    right: 0,
+    bottom: 32,
+    left: 48,
 };
 
-function BarChart<K>(props: Props<K>) {
+function BarChart<K>(props: BarChartProps<K>) {
     const {
         width,
         height,
         data,
         valueSelector,
         labelSelector,
-        colorSelector,
-        margin,
+        colorSelector = defaultColorSelector,
+        margin = defaultMargin,
     } = props;
 
     const {
@@ -42,7 +51,7 @@ function BarChart<K>(props: Props<K>) {
         right,
         bottom,
         left,
-    } = margin ?? { top: 0, bottom: 0, right: 0, left: 0 };
+    } = margin;
 
     const x = useMemo(
         () => scaleBand()
@@ -54,7 +63,7 @@ function BarChart<K>(props: Props<K>) {
 
     const y = useMemo(
         () => {
-            const maxValue = max(data, valueSelector) ?? 0;
+            const maxValue = Math.max(...data.map(valueSelector)) ?? 0;
             return scaleLinear()
                 .domain([0, maxValue])
                 .nice()
@@ -108,7 +117,7 @@ function BarChart<K>(props: Props<K>) {
                 return (
                     <g
                         key={`bar-${labelSelector(d)}`}
-                        fill={colorSelector ? colorSelector(d) : '#b4d9cc'}
+                        fill={colorSelector(d)}
                     >
                         <rect
                             y={y(valueSelector(d))}
@@ -146,7 +155,5 @@ function BarChart<K>(props: Props<K>) {
         </svg>
     );
 }
-
-BarChart.defaultProps = defaultProps;
 
 export default BarChart;

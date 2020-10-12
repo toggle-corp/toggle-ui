@@ -54,7 +54,6 @@ export type { ToggleButtonProps } from './components/ToggleButton';
 export { default as ToggleButton } from './components/ToggleButton';
 export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
-<<<<<<< HEAD
 
 export { default as Table } from './components/Table';
 export type { createColumn, TableProps } from './components/Table';
@@ -76,6 +75,6 @@ export { default as useOrdering, useOrderState } from './components/Table/useOrd
 
 export { default as useSorting, useSortState } from './components/Table/useSorting';
 export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
-=======
+
 export { default as BarChart } from './components/BarChart';
->>>>>>> 32d56df... Add BarChart component
+export type { BarChartProps } from './components/BarChart';
