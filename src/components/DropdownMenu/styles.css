@@ -1,17 +1,15 @@
 .dropdown-menu {
-    padding: var(--spacing-small);
-
-    &.dropdown-shown {
-        background-color: var(--color-background);
+    .dropdown-button {
     }
+    .popup {
+        padding-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+        padding-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
 
-    &.light {
-        --color-background: var(--tui-color-background-light);
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+            max-height: var(--tui-height-max-select-input-popup);
+        }
     }
-
-    &.dark {
-        --color-background: var(--tui-color-background-dark);
-    }
-
 
 }

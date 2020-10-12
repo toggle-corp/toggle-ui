@@ -5,7 +5,7 @@ import { useThemeClassName } from '../../hooks';
 
 import useBlurEffect from '../../hooks/useBlurEffect';
 
-import Portal from '../Portal';
+import Popup from '../Popup';
 import RawButton from '../RawButton';
 import Dropdown from '../Dropdown';
 
@@ -31,6 +31,8 @@ function DropdownMenu(props: DropdownMenuProps) {
 
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const dropdownRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const popupRef = React.useRef<HTMLDivElement>(null);
 
     const [showDropdown, setShowDropdown] = React.useState(false);
 
@@ -45,14 +47,12 @@ function DropdownMenu(props: DropdownMenuProps) {
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
     return (
-        <>
+        <div
+            className={_cs(className, themeClassName, styles.dropdownMenu)}
+            ref={containerRef}
+        >
             <RawButton
-                className={_cs(
-                    className,
-                    styles.dropdownMenu,
-                    showDropdown && styles.dropdownShown,
-                    themeClassName,
-                )}
+                className={styles.dropdownButton}
                 name="dropdown-button"
                 elementRef={buttonRef}
                 onClick={handleShowDropdown}
@@ -62,18 +62,23 @@ function DropdownMenu(props: DropdownMenuProps) {
                 { label }
             </RawButton>
             {showDropdown && (
-                <Portal>
+                <Popup
+                    elementRef={popupRef}
+                    parentRef={containerRef}
+                    className={styles.popup}
+                    contentClassName={styles.popupContent}
+                >
                     <Dropdown
                         ref={dropdownRef}
                         className={dropdownContainerClassName}
-                        parentRef={buttonRef}
+                        parentRef={containerRef}
                         uiMode={uiMode}
                     >
                         { children }
                     </Dropdown>
-                </Portal>
+                </Popup>
             )}
-        </>
+        </div>
     );
 }
 
