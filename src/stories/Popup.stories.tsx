@@ -18,11 +18,12 @@ export const Default = () => {
             <div
                 style={{
                     display: 'flex',
+                    justifyContent: 'space-between',
                     flexWrap: 'wrap',
                     height: '100vh',
                 }}
             >
-                <div style={{ flexBasis: '70%' }}>
+                <div style={{ width: '70vw' }}>
                     <div
                         ref={ref1}
                         style={{
@@ -37,7 +38,7 @@ export const Default = () => {
                         </div>
                     </Popup>
                 </div>
-                <div style={{ flexBasis: '30%' }}>
+                <div style={{ width: '20vw' }}>
                     <div
                         ref={ref2}
                         style={{
@@ -52,7 +53,7 @@ export const Default = () => {
                         </div>
                     </Popup>
                 </div>
-                <div style={{ flexBasis: '50%' }}>
+                <div style={{ flexBasis: '40vw' }}>
                     <div
                         ref={ref3}
                         style={{
@@ -67,7 +68,7 @@ export const Default = () => {
                         </div>
                     </Popup>
                 </div>
-                <div style={{ flexBasis: '50%' }}>
+                <div style={{ flexBasis: '40vw' }}>
                     <div
                         ref={ref4}
                         style={{
