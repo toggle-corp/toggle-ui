@@ -1,104 +1,71 @@
 .pager {
     display: flex;
-    align-items: baseline;
-
-    .items-per-page {
-        display: flex;
-        align-items: baseline;
-        flex-shrink: 0;
-        padding: 0 var(--tui-spacing-small);
-
-        .input {
-            /* FIXME: constant */
-            width: 80px;
-            /* font-family: var(--tui-font-family-monospace); */
-
-            :global {
-                input {
-                    text-align: right;
-                }
-            }
-        }
-
-        .per-page {
-            padding: 0 var(--tui-spacing-small);
-        }
-    }
-
-    .current-range-information {
-        display: flex;
-        flex-shrink: 0;
-        padding: 0 var(--tui-spacing-small);
-
-        .showing {
-            padding-right: var(--tui-spacing-small);
-        }
-
-        /*
-        .current-items-start {
-            font-family: var(--tui-font-family-monospace);
-        }
-        */
-
-        .range-indicator {
-            padding: 0 var(--tui-spacing-extra-small);
-        }
-
-        /*
-        .current-items-end {
-            font-family: var(--tui-font-family-monospace);
-        }
-        */
-
-        .of {
-            padding: 0 var(--tui-spacing-small);
-        }
-
-        /*
-        .item-count {
-            font-family: var(--tui-font-family-monospace);
-        }
-        */
-    }
+    align-items: center;
+    flex-wrap: wrap;
 
     .page-list {
-        padding: 0 var(--tui-spacing-small);
+        display: flex;
+        align-items: center;
+        padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
 
-        .paginate-btn {
-            display: inline-flex;
-            /*
-            align-items: center;
-            justify-content: center;
-            outline: 0;
-            border: 0;
-            background-color: transparent;
-            cursor: pointer;
-            */
-            padding: var(--tui-spacing-extra-small) 0;
-            /*
-            min-width: var(--tui-width-icon-extra-large);
-            font-family: inherit;
-            font-size: inherit;
-
-            &:hover {
-                background-color: var(--tui-color-background-hover);
-            }
-            */
+        .page-button {
+            margin: 0 var(--tui-spacing-extra-small);
         }
 
-        .paginate-span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--tui-spacing-extra-small) 0;
+        .page-span {
+            display: flex;
+            align-items: baseline;
+            margin: 0 var(--tui-spacing-extra-small);
+            padding: 0 var(--tui-spacing-medium);
             color: var(--tui-color-text-label);
             font-weight: var(--tui-font-weight-bold);
             user-select: none;
+        }
+    }
 
-            &.active {
-                background-color: var(--tui-color-accent);
-                color: var(--tui-color-text-on-accent);
+    .info-and-config {
+        display: flex;
+        padding: var(--tui-spacing-small) 0;
+
+        .items-per-page {
+            display: flex;
+            align-items: baseline;
+            flex-shrink: 0;
+            padding: 0 var(--tui-spacing-medium);
+
+            .input {
+                width: 112px;
+            }
+        }
+
+        .current-range-information {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 0 calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+
+            .showing {
+                padding: 0 var(--tui-spacing-extra-small);
+            }
+
+            .range {
+                display: flex;
+                align-items: center;
+
+                .from,
+                .to,
+                .separator {
+                    padding: 0 var(--tui-spacing-extra-small);
+                }
+            }
+
+            .of {
+                padding: 0 var(--tui-spacing-extra-small);
             }
         }
     }
+}
+
+.per-page-option-popup {
+    width: 132px;
 }

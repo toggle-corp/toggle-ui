@@ -80,6 +80,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         labelSelector,
         searchPlaceholder = 'Type to search',
         optionsEmptyComponent,
+        optionsPopupClassName,
         ...otherProps
     } = props;
 
@@ -118,7 +119,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             valueDisplay={optionsLabelMap[value]}
             searchPlaceholder={searchPlaceholder}
             optionsEmptyComponent={optionsEmptyComponent ?? <DefaultEmptyComponent />}
-            optionsPopupClassName={styles.optionsPopup}
+            optionsPopupClassName={_cs(optionsPopupClassName, styles.optionsPopup)}
         />
     );
 }
