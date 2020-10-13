@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import InputContainer, { InputContainerProps } from '#components/InputContainer';
 import RawInput from '#components/RawInput';

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { action } from '@storybook/addon-actions';
 
 import List, { ListProps, GroupedListProps } from '#components/List';
 import ToggleButton from '#components/ToggleButton';

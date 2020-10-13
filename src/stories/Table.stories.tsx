@@ -1,7 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
-import { useArgs } from '@storybook/client-api';
-import { TiSortNumerically } from 'react-icons/ti';
 
 import Cell from '#components/Table/Cell';
 import Numeral from '#components/Numeral';

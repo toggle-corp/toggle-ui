@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useArgs } from '@storybook/client-api';
 
 import Button from '#components/Button';
 import Modal, { ModalProps } from '#components/Modal';

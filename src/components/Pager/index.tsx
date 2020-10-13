@@ -200,39 +200,41 @@ function Pager(props: PagerProps) {
                         'Prev'
                     )}
                 </Button>
-                {pages.map((page) => (
-                    <>
-                        {page.type === 'button' && (
+                {pages.map((page) => {
+                    if (page.type === 'button') {
+                        return (
                             <Button
-                                name={undefined}
                                 key={`button-${page.index}`}
+                                name={undefined}
                                 onClick={() => onActivePageChange(page.index)}
                                 className={styles.pageButton}
                                 disabled={disabled}
                             >
                                 {page.index}
                             </Button>
-                        )}
-                        {page.type === 'fakeButton' && (
+                        );
+                    }
+                    if (page.type === 'fakeButton') {
+                        return (
                             <Button
+                                key={`button-${page.key}`}
                                 variant="accent"
                                 name={undefined}
-                                key={`button-${page.key}`}
                                 className={_cs(styles.pageButton, styles.active)}
                             >
                                 {page.label}
                             </Button>
-                        )}
-                        {page.type === 'span' && (
-                            <div
-                                key={`span-${page.key}`}
-                                className={styles.pageSpan}
-                            >
-                                {page.label}
-                            </div>
-                        )}
-                    </>
-                ))}
+                        );
+                    }
+                    return (
+                        <div
+                            key={`span-${page.key}`}
+                            className={styles.pageSpan}
+                        >
+                            {page.label}
+                        </div>
+                    );
+                })}
                 <Button
                     name={undefined}
                     onClick={() => onActivePageChange(activePage + 1)}

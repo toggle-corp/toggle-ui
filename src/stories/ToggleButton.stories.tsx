@@ -9,7 +9,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: ToggleButton) => {
+const Template = (args: ToggleButtonProps) => {
     const [{ value }, updateArgs] = useArgs();
 
     const handleChange = (e) => {
