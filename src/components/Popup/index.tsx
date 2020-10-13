@@ -18,8 +18,6 @@ const defaultPlacement = {
     right: 'unset',
     bottom: 'unset',
     left: 'unset',
-    minWidth: 'unset',
-    width: 'unset',
 };
 
 interface FloatingPlacementProps {
@@ -28,9 +26,8 @@ interface FloatingPlacementProps {
         right: string | undefined;
         bottom: string | undefined;
         left: string | undefined;
-        minWidth: string | undefined;
-        width: string | undefined;
     };
+    width: string | undefined;
     horizontalPosition: 'left' | 'right' | undefined;
     verticalPosition: 'top' | 'bottom' | undefined;
 }
@@ -42,6 +39,7 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
 
     let horizontalPosition: 'left' | 'right' | undefined;
     let verticalPosition: 'bottom' | 'top' | undefined;
+    let contentWidth = 'auto';
 
     if (parentRef?.current) {
         const parentBCR = parentRef.current.getBoundingClientRect();
@@ -65,11 +63,12 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
             placement.top = `${y + height + 10}px`;
         }
 
-        placement.width = `${width}px`;
+        contentWidth = `${width}px`;
     }
 
     return {
         placement,
+        width: contentWidth,
         horizontalPosition,
         verticalPosition,
     };
@@ -78,6 +77,7 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
 function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     const [placement, setPlacement] = React.useState<FloatingPlacementProps>({
         placement: defaultPlacement,
+        width: 'auto',
         horizontalPosition: 'left',
         verticalPosition: 'top',
     });
@@ -118,6 +118,7 @@ function Popup(props: PopupProps) {
 
     const {
         placement,
+        width,
         horizontalPosition,
         verticalPosition,
     } = useAttachedFloatingPlacement(parentRef);
@@ -135,7 +136,10 @@ function Popup(props: PopupProps) {
                 )}
             >
                 <div className={styles.tip} />
-                <div className={_cs(styles.content, contentClassName)}>
+                <div
+                    className={_cs(styles.content, contentClassName)}
+                    style={{ minWidth: width }}
+                >
                     { children }
                 </div>
             </div>

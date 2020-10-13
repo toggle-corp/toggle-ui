@@ -1,0 +1,71 @@
+.pager {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .page-list {
+        display: flex;
+        align-items: center;
+        padding: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+
+        .page-button {
+            margin: 0 var(--tui-spacing-extra-small);
+        }
+
+        .page-span {
+            display: flex;
+            align-items: baseline;
+            margin: 0 var(--tui-spacing-extra-small);
+            padding: 0 var(--tui-spacing-medium);
+            color: var(--tui-color-text-label);
+            font-weight: var(--tui-font-weight-bold);
+            user-select: none;
+        }
+    }
+
+    .info-and-config {
+        display: flex;
+        padding: var(--tui-spacing-small) 0;
+
+        .items-per-page {
+            display: flex;
+            align-items: baseline;
+            flex-shrink: 0;
+            padding: 0 var(--tui-spacing-medium);
+
+            .input {
+                width: 112px;
+            }
+        }
+
+        .current-range-information {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 0 calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
+
+            .showing {
+                padding: 0 var(--tui-spacing-extra-small);
+            }
+
+            .range {
+                display: flex;
+                align-items: center;
+
+                .from,
+                .to,
+                .separator {
+                    padding: 0 var(--tui-spacing-extra-small);
+                }
+            }
+
+            .of {
+                padding: 0 var(--tui-spacing-extra-small);
+            }
+        }
+    }
+}
+
+.per-page-option-popup {
+    width: 132px;
+}
