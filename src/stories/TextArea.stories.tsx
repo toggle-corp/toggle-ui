@@ -1,5 +1,5 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
+import { useArgs } from '@storybook/client-api';
 import { MdTextFields } from 'react-icons/md';
 
 import TextArea, { TextAreaProps } from '#components/TextArea';
@@ -10,9 +10,20 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: TextAreaProps) => (
-    <TextArea {...args} />
-);
+const Template = (args: TextAreaProps) => {
+    const [{ value }, updateArgs] = useArgs();
+    const handleChange = (e) => {
+        updateArgs({ value: e });
+    };
+
+    return (
+        <TextArea
+            {...args}
+            value={value}
+            onChange={handleChange}
+        />
+    );
+};
 
 export const Default = Template.bind({});
 Default.args = {

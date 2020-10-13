@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InputContainer, { InputContainerProps } from '../InputContainer';
+import RawTextArea from '../RawTextArea';
 import { UiMode } from '../ThemeContext';
 
 export type TextAreaProps<T> = Omit<InputContainerProps, 'input'> & {
@@ -34,28 +35,8 @@ function TextArea<T extends string>(props: TextAreaProps<T>) {
         uiMode,
         onChange,
         value,
-        name,
         ...textAreaProps
     } = props;
-
-    const handleChange = React.useCallback(
-        (e: React.FormEvent<HTMLTextAreaElement>) => {
-            const {
-                currentTarget: {
-                    value: v,
-                },
-            } = e;
-
-            if (onChange) {
-                onChange(
-                    v === '' ? undefined : v,
-                    name,
-                    e,
-                );
-            }
-        },
-        [name, onChange],
-    );
 
     return (
         <InputContainer
@@ -75,9 +56,9 @@ function TextArea<T extends string>(props: TextAreaProps<T>) {
             readOnly={readOnly}
             uiMode={uiMode}
             input={(
-                <textarea
+                <RawTextArea
                     {...textAreaProps}
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={value}
                 />
             )}
