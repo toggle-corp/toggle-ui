@@ -34,6 +34,8 @@ export type { PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export type { PopupProps } from './components/Popup';
 export { default as Popup } from './components/Popup';
+export { default as PopupButton } from './components/PopupButton';
+export type { PopupButtonProps } from './components/PopupButton';
 export type { PortalProps } from './components/Portal';
 export { default as Portal } from './components/Portal';
 export type { RawButtonProps } from './components/RawButton';
