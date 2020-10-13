@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 // import { select, boolean } from '@storybook/addon-knobs';
 
 import List, { ListProps } from '#components/List';
-import DropdownMenu, { DropdownMenuProps } from '#components/DropdownMenu';
+import PopupButton, { PopupButtonProps } from '#components/PopupButton';
 
 const options = [
     { key: '1', label: 'Superman', group: 'Air' },
@@ -14,8 +14,8 @@ const options = [
 ];
 
 export default {
-    title: 'Action/DropdownMenu',
-    component: DropdownMenu,
+    title: 'Action/PopupButton',
+    component: PopupButton,
     argTypes: {},
 };
 
@@ -26,27 +26,31 @@ const Option = ({ children }) => (
 );
 
 const MenuItems = () => (
-    <List
-        data={options}
-        keySelector={(d) => d.key}
-        renderer={Option}
-        rendererParams={(_, option) => ({ children: option.label })}
-    />
+    <div style={{ padding: '12px' }}>
+        <List
+            data={options}
+            keySelector={(d) => d.key}
+            renderer={Option}
+            rendererParams={(_, option) => ({ children: option.label })}
+        />
+    </div>
 );
 
-const Template = (args: DropdownMenuProps) => (
-    <DropdownMenu {...args} />
+const Template = (args: PopupButtonProps) => (
+    <PopupButton {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-    label: 'DropdownMenu',
+    label: 'PopupButton',
+    transparent: true,
     children: <MenuItems />,
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    label: 'DropdownMenu',
+    label: 'PopupButton',
     children: <MenuItems />,
+    transparent: true,
     disabled: true,
 };
