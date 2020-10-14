@@ -50,8 +50,9 @@ export { default as Switch } from './components/Switch';
 export { default as SwitchProps } from './components/Switch';
 export { default as SwitchIcon } from './components/SwitchIcon';
 export { default as SwitchIconProps } from './components/SwitchIcon';
-export { default as Table } from './components/Table';
-export type { createColumn, TableProps } from './components/Table';
+
+export { default as Table, createColumn } from './components/Table';
+export type { TableProps } from './components/Table';
 export { default as TableCell } from './components/Table/Cell';
 export type { CellProps as TableCellProps } from './components/Table/Cell';
 export { default as TableHeaderCell } from './components/Table/HeaderCell';
@@ -63,6 +64,7 @@ export type { FilterParameter as TableFilterParameter } from './components/Table
 export { default as useOrdering, useOrderState } from './components/Table/useOrdering';
 export { default as useSorting, useSortState } from './components/Table/useSorting';
 export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
+
 export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
 export type { TextAreaProps } from './components/TextArea';
