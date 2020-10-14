@@ -25,7 +25,6 @@ const Template = (args: PagerProps) => {
             {...args}
             onItemsPerPageChange={setItemsPerPage}
             onActivePageChange={setActivePage}
-
             itemsPerPage={itemsPerPage}
             activePage={activePage}
         />

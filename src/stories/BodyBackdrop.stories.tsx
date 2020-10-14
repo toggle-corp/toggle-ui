@@ -1,5 +1,5 @@
 import React from 'react';
-import BodyBackdrop, { BodyBackdropProps } from '#components/BodyBackdrop';
+import BodyBackdrop from '#components/BodyBackdrop';
 
 export default {
     title: 'View/Private/BodyBackdrop',

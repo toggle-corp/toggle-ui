@@ -53,9 +53,8 @@ module.exports = {
         'no-unused-vars': [1, { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
         'no-console': 0,
 
-        // NOTE: remove following rule after problem with
-        // https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined
-        'no-use-before-define': 1,
+        'no-use-before-define': 0,
+        '@typescript-eslint/no-use-before-define': 1,
 
         'prefer-destructuring': 'warn',
         'function-paren-newline': ['warn', 'consistent'],
@@ -74,7 +73,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
 
-          // note you must disable the base rule as it can report incorrect errors
+        // note you must disable the base rule as it can report incorrect errors
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
 
@@ -106,6 +105,8 @@ module.exports = {
                 'render',
             ],
         }],
+
+        'react/require-default-props': ['warn', { ignoreFunctionalComponents: true }],
 
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',

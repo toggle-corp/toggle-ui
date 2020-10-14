@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { useArgs } from '@storybook/client-api';
 import { TiSortNumerically } from 'react-icons/ti';
 
@@ -12,7 +11,7 @@ export default {
 };
 
 const Template = (args: NumberInputProps) => {
-    const [{ value }, updateArgs] = useArgs(10000);
+    const [{ value }, updateArgs] = useArgs();
 
     const handleChange = (e) => {
         updateArgs({ value: e });

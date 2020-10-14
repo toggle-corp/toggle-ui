@@ -148,7 +148,6 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
                 groupRenderer={AccordionGroup}
                 groupRendererParams={groupRendererParams}
                 grouped
-
                 renderer={renderer}
                 data={data}
                 keySelector={keySelector}

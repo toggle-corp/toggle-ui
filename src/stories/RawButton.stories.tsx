@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 // import { select, boolean } from '@storybook/addon-knobs';
 
 import RawButton, { RawButtonProps } from '#components/RawButton';

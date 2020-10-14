@@ -32,6 +32,10 @@ module.exports = (api) => {
                 // "targets": { "firefox": 42 }
             }],
 
+            require.resolve('@babel/plugin-proposal-do-expressions'),
+            require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
+            require.resolve('@babel/plugin-proposal-optional-chaining'),
+
             // Stage 2
             [require.resolve('@babel/plugin-proposal-decorators'), { 'legacy': true }],
             require.resolve('@babel/plugin-proposal-function-sent'),
