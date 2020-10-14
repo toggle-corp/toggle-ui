@@ -36,7 +36,7 @@ export interface HeaderCellProps extends BaseHeader {
 
     filterType?: FilterType;
     filterValue?: Omit<FilterParameter, 'id'>;
-    onFilterValueChange: (name: string, value: Omit<FilterParameter, 'id'>) => void;
+    onFilterValueChange?: (name: string, value: Omit<FilterParameter, 'id'>) => void;
 
     draggable?: boolean;
     onReorder?: (drag: string, drop: string) => void;
@@ -180,6 +180,31 @@ function HeaderCell(props: HeaderCellProps) {
         onDrop,
     } = useDropHandler(handleDragEnter, handleDrop);
 
+    const onStringFilterChange = ((value: string | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, subMatch: value },
+            );
+        }
+    });
+    const onNumericFilterMinChange = (value: number | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, greaterThanOrEqualTo: value },
+            );
+        }
+    };
+    const onNumericFilterMaxChange = (value: number | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, lessThanOrEqualTo: value },
+            );
+        }
+    };
+
     return (
         <div
             ref={containerRef}
@@ -252,12 +277,7 @@ function HeaderCell(props: HeaderCellProps) {
                         inputContainerClassName={styles.rawInputContainer}
                         value={filterValue?.subMatch}
                         placeholder="Search"
-                        onChange={(value) => {
-                            onFilterValueChange(
-                                name,
-                                { ...filterValue, subMatch: value },
-                            );
-                        }}
+                        onChange={onStringFilterChange}
                     />
                 )}
                 {filterType === FilterType.number && (
@@ -270,12 +290,7 @@ function HeaderCell(props: HeaderCellProps) {
                             value={filterValue?.greaterThanOrEqualTo}
                             placeholder="Min"
                             type="number"
-                            onChange={(value) => {
-                                onFilterValueChange(
-                                    name,
-                                    { ...filterValue, greaterThanOrEqualTo: value },
-                                );
-                            }}
+                            onChange={onNumericFilterMinChange}
                         />
                         <NumberInput
                             name="numberFilterMax"
@@ -284,12 +299,7 @@ function HeaderCell(props: HeaderCellProps) {
                             inputContainerClassName={styles.rawInputContainer}
                             value={filterValue?.lessThanOrEqualTo}
                             placeholder="Max"
-                            onChange={(value) => {
-                                onFilterValueChange(
-                                    name,
-                                    { ...filterValue, lessThanOrEqualTo: value },
-                                );
-                            }}
+                            onChange={onNumericFilterMaxChange}
                         />
                     </>
                 )}
