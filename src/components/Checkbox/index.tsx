@@ -19,7 +19,7 @@ export interface CheckboxProps<N> {
     indeterminate?: boolean;
     uiMode?: UiMode;
     tooltip?: string;
-    value: boolean;
+    value: boolean | undefined;
     onChange: (value: boolean, name: N) => void;
     name: N;
 }

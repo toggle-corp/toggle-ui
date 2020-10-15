@@ -44,7 +44,7 @@ export type SelectInputProps<
     O extends object,
     P extends Def,
 > = {
-    value: T,
+    value: T | undefined,
     onChange: (newValue: T, name: K) => void;
     options: O[] | undefined,
     keySelector: (option: O) => T,
@@ -116,7 +116,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             optionRendererParams={optionRendererParams}
             onOptionClick={onChange}
             onSearchInputChange={setSearchInputValue}
-            valueDisplay={optionsLabelMap[value]}
+            valueDisplay={value ? optionsLabelMap[value] : ''}
             searchPlaceholder={searchPlaceholder}
             optionsEmptyComponent={optionsEmptyComponent ?? <DefaultEmptyComponent />}
             optionsPopupClassName={_cs(optionsPopupClassName, styles.optionsPopup)}
