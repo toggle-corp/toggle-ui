@@ -56,6 +56,10 @@ module.exports = {
         'no-use-before-define': 0,
         '@typescript-eslint/no-use-before-define': 1,
 
+        // note you must disable the base rule as it can report incorrect errors
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+
         'prefer-destructuring': 'warn',
         'function-paren-newline': ['warn', 'consistent'],
         'object-curly-newline': [2, {
@@ -72,10 +76,6 @@ module.exports = {
         '@typescript-eslint/no-empty-interface': 0,
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
-
-        // note you must disable the base rule as it can report incorrect errors
-        'no-shadow': 'off',
-        '@typescript-eslint/no-shadow': ['error'],
 
         'jsx-a11y/anchor-is-valid': ['error', {
             components: ['Link'],

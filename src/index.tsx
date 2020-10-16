@@ -52,7 +52,7 @@ export { default as SwitchIcon } from './components/SwitchIcon';
 export { default as SwitchIconProps } from './components/SwitchIcon';
 
 export { default as Table, createColumn } from './components/Table';
-export type { TableProps } from './components/Table';
+export type { TableProps, Column as TableColumn } from './components/Table';
 export { default as TableCell } from './components/Table/Cell';
 export type { CellProps as TableCellProps } from './components/Table/Cell';
 export { default as TableHeaderCell } from './components/Table/HeaderCell';

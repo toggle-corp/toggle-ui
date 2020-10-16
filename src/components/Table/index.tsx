@@ -7,7 +7,7 @@ import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import styles from './styles.css';
 
-interface Column<D, K, C, H> {
+export interface Column<D, K, C, H> {
     id: string;
     title: string;
 
