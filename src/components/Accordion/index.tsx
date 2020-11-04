@@ -73,11 +73,18 @@ function AccordionGroup<D, GP, GK extends OptionKey>({
 }
 
 // eslint-disable-next-line max-len
-export interface AccordionProps<D, P, K extends OptionKey, GP, GK extends OptionKey> extends GroupedListProps<D, P, K, GP, GK> {
+export interface AccordionProps<
+    D,
+    P,
+    K extends OptionKey,
+    GP,
+    GK extends OptionKey
+> extends Omit<GroupedListProps<D, P, K, GP, GK>, 'groupRenderer' | 'groupRendererClassName' | 'groupRendererParams' | 'grouped'> {
     groupTitleRenderer: (props: GP) => JSX.Element;
     groupTitleRendererParams: (key: GK, index: number, data: D[]) => GP;
     groupClassName?: string;
     groupHeaderClassName?: string;
+    // FIXME: rename this to multiExpandable
     multipleExpandEnabled?: boolean;
 }
 
@@ -87,16 +94,18 @@ function Accordion<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     const {
         groupTitleRenderer,
         groupTitleRendererParams,
+        groupClassName,
+        groupHeaderClassName,
+        multipleExpandEnabled,
+
         groupKeySelector,
         groupComparator,
+
         renderer,
         data,
         keySelector,
         rendererParams,
         rendererClassName,
-        multipleExpandEnabled,
-        groupClassName,
-        groupHeaderClassName,
     } = props;
 
     const [openGroups, setOpenGroups] = useState<GK[]>([]);
