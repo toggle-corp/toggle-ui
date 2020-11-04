@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs } from '@storybook/client-api';
 import { MdTextFields } from 'react-icons/md';
 
 import TextInput, { TextInputProps } from '#components/TextInput';
@@ -6,12 +7,22 @@ import TextInput, { TextInputProps } from '#components/TextInput';
 export default {
     title: 'Input/TextInput',
     component: TextInput,
-    argTypes: {},
 };
 
-const Template = (args: TextInputProps) => (
-    <TextInput {...args} />
-);
+const Template = (args: TextInputProps) => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const handleChange = (e) => {
+        updateArgs({ value: e });
+    };
+    return (
+        <TextInput
+            {...args}
+            value={value}
+            onChange={handleChange}
+        />
+    );
+};
 
 export const Default = Template.bind({});
 Default.args = {

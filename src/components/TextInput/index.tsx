@@ -22,7 +22,7 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
-        ...rawInputProps
+        ...textInputProps
     } = props;
 
     return (
@@ -44,10 +44,11 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
             uiMode={uiMode}
             input={(
                 <RawInput<T>
-                    {...rawInputProps}
+                    {...textInputProps}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
+                    type="text"
                 />
             )}
         />
