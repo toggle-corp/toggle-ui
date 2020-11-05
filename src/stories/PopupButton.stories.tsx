@@ -1,8 +1,7 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 // import { select, boolean } from '@storybook/addon-knobs';
 
-import List, { ListProps } from '#components/List';
+import List from '#components/List';
 import PopupButton, { PopupButtonProps } from '#components/PopupButton';
 
 const options = [

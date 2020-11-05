@@ -1,6 +1,5 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
-import { action } from '@storybook/addon-actions';
 
 import DateInput, { DateInputProps } from '#components/DateInput';
 
