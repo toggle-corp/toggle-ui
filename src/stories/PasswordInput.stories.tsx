@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs } from '@storybook/client-api';
 
 import PasswordInput, { PasswordInputProps } from '#components/PasswordInput';
 
@@ -8,9 +9,19 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: PasswordInputProps) => (
-    <PasswordInput {...args} />
-);
+const Template = (args: PasswordInputProps) => {
+    const [{ value }, updateArgs] = useArgs();
+    const handleChange = (e) => {
+        updateArgs({ value: e });
+    };
+    return (
+        <PasswordInput
+            {...args}
+            value={value}
+            onChange={handleChange}
+        />
+    );
+};
 
 export const Default = Template.bind({});
 Default.args = {

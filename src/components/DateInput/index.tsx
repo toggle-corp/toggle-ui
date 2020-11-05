@@ -3,9 +3,9 @@ import React from 'react';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
 
-export type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
+export type DateInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
-function TextInput<T extends string>(props: TextInputProps<T>) {
+function DateInput<T extends string>(props: DateInputProps<T>) {
     const {
         actions,
         actionsContainerClassName,
@@ -22,7 +22,7 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
-        ...textInputProps
+        ...rawInputProps
     } = props;
 
     return (
@@ -44,15 +44,15 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
             uiMode={uiMode}
             input={(
                 <RawInput<T>
-                    {...textInputProps}
+                    {...rawInputProps}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
-                    type="text"
+                    type="date"
                 />
             )}
         />
     );
 }
 
-export default TextInput;
+export default DateInput;

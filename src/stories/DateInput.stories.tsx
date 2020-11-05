@@ -1,22 +1,23 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
-import { MdTextFields } from 'react-icons/md';
 
-import TextInput, { TextInputProps } from '#components/TextInput';
+import DateInput, { DateInputProps } from '#components/DateInput';
 
 export default {
-    title: 'Input/TextInput',
-    component: TextInput,
+    title: 'Input/DateInput',
+    component: DateInput,
+    argTypes: {},
 };
 
-const Template = (args: TextInputProps) => {
+const Template = (args: DateInputProps) => {
     const [{ value }, updateArgs] = useArgs();
 
     const handleChange = (e) => {
         updateArgs({ value: e });
     };
+
     return (
-        <TextInput
+        <DateInput
             {...args}
             value={value}
             onChange={handleChange}
@@ -26,27 +27,17 @@ const Template = (args: TextInputProps) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    icons: <MdTextFields />,
-    label: 'Name',
+    label: 'Date',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    label: 'Name',
-    value: 'Mr. Frozen Helium',
+    label: 'Date',
     disabled: true,
 };
 
 export const ReadOnly = Template.bind({});
 ReadOnly.args = {
-    label: 'Name',
-    value: 'Mr. Frozen Helium',
+    label: 'Date',
     readOnly: true,
-};
-
-export const WithPlaceholder = Template.bind({});
-WithPlaceholder.args = {
-    icons: <MdTextFields />,
-    label: 'Name',
-    placeholder: 'Name',
 };
