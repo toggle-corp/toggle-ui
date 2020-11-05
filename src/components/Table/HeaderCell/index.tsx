@@ -268,42 +268,44 @@ function HeaderCell(props: HeaderCellProps) {
                     </div>
                 )}
             </div>
-            <div className={styles.filterContainer}>
-                {filterType === FilterType.string && (
-                    <TextInput
-                        name="textFilter"
-                        icons={<FaSearch className={styles.icon} />}
-                        className={styles.textInput}
-                        inputContainerClassName={styles.rawInputContainer}
-                        value={filterValue?.subMatch}
-                        placeholder="Search"
-                        onChange={onStringFilterChange}
-                    />
-                )}
-                {filterType === FilterType.number && (
-                    <>
-                        <NumberInput
-                            name="numberFilterMin"
-                            icons={<FaGreaterThanEqual className={styles.icon} />}
-                            className={styles.numberInput}
+            { filterType && (
+                <div className={styles.filterContainer}>
+                    {filterType === FilterType.string && (
+                        <TextInput
+                            name="textFilter"
+                            icons={<FaSearch className={styles.icon} />}
+                            className={styles.textInput}
                             inputContainerClassName={styles.rawInputContainer}
-                            value={filterValue?.greaterThanOrEqualTo}
-                            placeholder="Min"
-                            type="number"
-                            onChange={onNumericFilterMinChange}
+                            value={filterValue?.subMatch}
+                            placeholder="Search"
+                            onChange={onStringFilterChange}
                         />
-                        <NumberInput
-                            name="numberFilterMax"
-                            icons={<FaLessThanEqual className={styles.icon} />}
-                            className={styles.numberInput}
-                            inputContainerClassName={styles.rawInputContainer}
-                            value={filterValue?.lessThanOrEqualTo}
-                            placeholder="Max"
-                            onChange={onNumericFilterMaxChange}
-                        />
-                    </>
-                )}
-            </div>
+                    )}
+                    {filterType === FilterType.number && (
+                        <>
+                            <NumberInput
+                                name="numberFilterMin"
+                                icons={<FaGreaterThanEqual className={styles.icon} />}
+                                className={styles.numberInput}
+                                inputContainerClassName={styles.rawInputContainer}
+                                value={filterValue?.greaterThanOrEqualTo}
+                                placeholder="Min"
+                                type="number"
+                                onChange={onNumericFilterMinChange}
+                            />
+                            <NumberInput
+                                name="numberFilterMax"
+                                icons={<FaLessThanEqual className={styles.icon} />}
+                                className={styles.numberInput}
+                                inputContainerClassName={styles.rawInputContainer}
+                                value={filterValue?.lessThanOrEqualTo}
+                                placeholder="Max"
+                                onChange={onNumericFilterMaxChange}
+                            />
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
