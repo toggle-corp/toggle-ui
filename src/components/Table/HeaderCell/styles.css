@@ -11,17 +11,18 @@
     &.dropping {
         border-left: var(--tui-width-separator-thin) solid var(--tui-color-accent);
     }
+
     &.dropping-behind {
         border-right: var(--tui-width-separator-thin) solid var(--tui-color-accent);
     }
 
     .title-container {
         display: flex;
-        padding: var(--tui-spacing-extra-small);
+        padding: 0 calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small));
 
         .title {
             flex-grow: 1;
-            padding: 0 var(--tui-spacing-small);
+            padding: 0 var(--tui-spacing-extra-small);
             text-align: left;
         }
 
@@ -33,7 +34,7 @@
         .grip {
             flex-shrink: 0;
             visibility: hidden;
-            margin-left: var(--tui-spacing-small);
+            margin-left: var(--tui-spacing-extra-small);
             cursor: move;
         }
     }
@@ -54,7 +55,7 @@
         padding: var(--tui-spacing-extra-small);
 
         >:not(:last-child) {
-            margin-right: var(--tui-spacing-small);
+            margin-right: var(--tui-spacing-extra-small);
         }
 
         .text-input,

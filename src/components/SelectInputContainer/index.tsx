@@ -194,6 +194,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         onChange={handleSearchInputChange}
                         onClick={handleSearchInputClick}
                         placeholder={searchPlaceholder}
+                        autoComplete="off"
                     />
                 )}
             />

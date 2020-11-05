@@ -137,9 +137,9 @@ export interface PagerProps {
     itemsCount: number;
     maxItemsPerPage: number;
     onActivePageChange: (pageNumber: number) => void;
-    totalCapacity: number;
+    totalCapacity?: number;
     onItemsPerPageChange: (pageCapacity: number) => void;
-    options: PagerOption[];
+    options?: PagerOption[];
     infoHidden?: boolean;
     itemsPerPageControlHidden?: boolean;
     disabled?: boolean;

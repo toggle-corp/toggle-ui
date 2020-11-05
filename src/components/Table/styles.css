@@ -22,7 +22,7 @@
             }
 
             .header-component {
-                padding: var(--tui-spacing-medium);
+                padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
             }
         }
     }

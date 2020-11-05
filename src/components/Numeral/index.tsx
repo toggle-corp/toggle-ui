@@ -157,11 +157,13 @@ function Numeral({
     largeNumber = 100,
     defaultPrecision = 2,
 }: NumeralProps) {
-    const fallback = (placeholder && (
-        <span className={className}>
-            {placeholder}
-        </span>
-    ));
+    const fallback = isTruthyString(placeholder)
+        ? (
+            <span className={className}>
+                {placeholder}
+            </span>
+        )
+        : null;
 
     if (isNotDefined(value)) {
         return fallback;

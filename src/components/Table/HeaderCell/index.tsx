@@ -36,7 +36,7 @@ export interface HeaderCellProps extends BaseHeader {
 
     filterType?: FilterType;
     filterValue?: Omit<FilterParameter, 'id'>;
-    onFilterValueChange: (name: string, value: Omit<FilterParameter, 'id'>) => void;
+    onFilterValueChange?: (name: string, value: Omit<FilterParameter, 'id'>) => void;
 
     draggable?: boolean;
     onReorder?: (drag: string, drop: string) => void;
@@ -180,6 +180,31 @@ function HeaderCell(props: HeaderCellProps) {
         onDrop,
     } = useDropHandler(handleDragEnter, handleDrop);
 
+    const onStringFilterChange = ((value: string | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, subMatch: value },
+            );
+        }
+    });
+    const onNumericFilterMinChange = (value: number | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, greaterThanOrEqualTo: value },
+            );
+        }
+    };
+    const onNumericFilterMaxChange = (value: number | undefined) => {
+        if (onFilterValueChange) {
+            onFilterValueChange(
+                name,
+                { ...filterValue, lessThanOrEqualTo: value },
+            );
+        }
+    };
+
     return (
         <div
             ref={containerRef}
@@ -243,57 +268,44 @@ function HeaderCell(props: HeaderCellProps) {
                     </div>
                 )}
             </div>
-            <div className={styles.filterContainer}>
-                {filterType === FilterType.string && (
-                    <TextInput
-                        name="textFilter"
-                        icons={<FaSearch className={styles.icon} />}
-                        className={styles.textInput}
-                        inputContainerClassName={styles.rawInputContainer}
-                        value={filterValue?.subMatch}
-                        placeholder="Search"
-                        onChange={(value) => {
-                            onFilterValueChange(
-                                name,
-                                { ...filterValue, subMatch: value },
-                            );
-                        }}
-                    />
-                )}
-                {filterType === FilterType.number && (
-                    <>
-                        <NumberInput
-                            name="numberFilterMin"
-                            icons={<FaGreaterThanEqual className={styles.icon} />}
-                            className={styles.numberInput}
+            { filterType && (
+                <div className={styles.filterContainer}>
+                    {filterType === FilterType.string && (
+                        <TextInput
+                            name="textFilter"
+                            icons={<FaSearch className={styles.icon} />}
+                            className={styles.textInput}
                             inputContainerClassName={styles.rawInputContainer}
-                            value={filterValue?.greaterThanOrEqualTo}
-                            placeholder="Min"
-                            type="number"
-                            onChange={(value) => {
-                                onFilterValueChange(
-                                    name,
-                                    { ...filterValue, greaterThanOrEqualTo: value },
-                                );
-                            }}
+                            value={filterValue?.subMatch}
+                            placeholder="Search"
+                            onChange={onStringFilterChange}
                         />
-                        <NumberInput
-                            name="numberFilterMax"
-                            icons={<FaLessThanEqual className={styles.icon} />}
-                            className={styles.numberInput}
-                            inputContainerClassName={styles.rawInputContainer}
-                            value={filterValue?.lessThanOrEqualTo}
-                            placeholder="Max"
-                            onChange={(value) => {
-                                onFilterValueChange(
-                                    name,
-                                    { ...filterValue, lessThanOrEqualTo: value },
-                                );
-                            }}
-                        />
-                    </>
-                )}
-            </div>
+                    )}
+                    {filterType === FilterType.number && (
+                        <>
+                            <NumberInput
+                                name="numberFilterMin"
+                                icons={<FaGreaterThanEqual className={styles.icon} />}
+                                className={styles.numberInput}
+                                inputContainerClassName={styles.rawInputContainer}
+                                value={filterValue?.greaterThanOrEqualTo}
+                                placeholder="Min"
+                                type="number"
+                                onChange={onNumericFilterMinChange}
+                            />
+                            <NumberInput
+                                name="numberFilterMax"
+                                icons={<FaLessThanEqual className={styles.icon} />}
+                                className={styles.numberInput}
+                                inputContainerClassName={styles.rawInputContainer}
+                                value={filterValue?.lessThanOrEqualTo}
+                                placeholder="Max"
+                                onChange={onNumericFilterMaxChange}
+                            />
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

@@ -24,6 +24,7 @@ interface BaseProps<D, P, K extends OptionKey> {
 interface GroupOptions<D, GP, GK extends OptionKey> {
     groupComparator?: (a: GK, b: GK) => number;
     groupKeySelector(datum: D): GK;
+
     groupRenderer: (props: GP) => JSX.Element;
     groupRendererClassName?: string;
     groupRendererParams: (key: GK, index: number, data: D[]) => Omit<GP, 'children' | 'className'>;
