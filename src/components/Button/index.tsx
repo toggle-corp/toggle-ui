@@ -84,10 +84,7 @@ export function useButtonFeatures<N extends number | string | undefined>(props:B
         actionsClassName,
         iconsClassName,
         childrenClassName,
-        disabled = false,
         transparent = false,
-        type = 'button',
-        onClick,
         children,
         icons,
         actions,
@@ -168,11 +165,13 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
     const {
         className,
         children,
+        type = 'button',
         ...otherProps
     } = useButtonFeatures(props);
 
     return (
         <RawButton
+            type={type}
             className={className}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
