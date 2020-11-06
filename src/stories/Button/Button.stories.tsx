@@ -1,7 +1,13 @@
 import React from 'react';
+import { IoIosSend } from 'react-icons/io';
 // import { select, boolean } from '@storybook/addon-knobs';
 
-import Button, { ButtonProps } from '#components/Button';
+import Button, {
+    ButtonProps,
+    useButtonFeatures,
+} from '#components/Button';
+import VisualFeedback from '#components/VisualFeedback';
+
 import styles from './styles.css';
 
 export default {
@@ -145,4 +151,47 @@ export const Variants = () => (
             </div>
         </section>
     </div>
+);
+
+const ButtonLikeLink = (props) => {
+    const {
+        className,
+        children,
+        icons,
+        variant,
+        href,
+    } = props;
+
+    const {
+        children: buttonChildren,
+        className: buttonClassName,
+    } = useButtonFeatures({
+        className,
+        icons,
+        children,
+        variant,
+    });
+
+    return (
+        <a
+            className={buttonClassName}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <VisualFeedback />
+            { buttonChildren }
+        </a>
+    );
+};
+
+export const UseButtonFeatures = () => (
+    <ButtonLikeLink
+        className={styles.buttonLikeLink}
+        icons={<IoIosSend />}
+        variant="accent"
+        href="https://togglecorp.com"
+    >
+        Goto Togglecorp
+    </ButtonLikeLink>
 );

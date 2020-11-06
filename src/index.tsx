@@ -9,7 +9,7 @@ export type { BarChartProps } from './components/BarChart';
 export { default as BodyBackdrop } from './components/BodyBackdrop';
 export type { BodyBackdropProps } from './components/BodyBackdrop';
 export type { ButtonProps } from './components/Button';
-export { default as Button } from './components/Button';
+export { default as Button, useButtonFeatures } from './components/Button';
 export type { CheckboxProps } from './components/Checkbox';
 export { default as Checkbox } from './components/Checkbox';
 export type { CheckmarkProps } from './components/Checkmark';
