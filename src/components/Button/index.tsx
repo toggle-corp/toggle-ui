@@ -178,6 +178,7 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
         icons,
         actions,
         uiMode,
+        disabled,
         compact,
 
         type = 'button',
@@ -196,6 +197,7 @@ function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
         actions,
         uiMode,
         compact,
+        disabled,
     });
 
     return (
