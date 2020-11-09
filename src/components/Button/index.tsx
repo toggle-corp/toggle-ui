@@ -77,7 +77,11 @@ export interface ButtonProps<N extends number | string | undefined> extends RawB
     compact?: boolean;
 }
 
-export function useButtonFeatures<N extends number | string | undefined>(props:ButtonProps<N>) {
+type ButtonFeatureKeys = 'variant' | 'className' | 'actionsClassName' | 'iconsClassName' | 'childrenClassName' | 'transparent' | 'children' | 'icons' | 'actions' | 'uiMode' | 'compact';
+
+export function useButtonFeatures(
+    props: Pick<ButtonProps<string>, ButtonFeatureKeys>,
+) {
     const {
         variant = 'default',
         className: classNameFromProps,
@@ -90,7 +94,6 @@ export function useButtonFeatures<N extends number | string | undefined>(props:B
         actions,
         uiMode,
         compact,
-        ...otherProps
     } = props;
 
     const innerUiMode: UiMode = useMemo(() => {
@@ -151,7 +154,6 @@ export function useButtonFeatures<N extends number | string | undefined>(props:B
     );
 
     return {
-        ...otherProps,
         className: buttonClassName,
         children: buttonChildren,
         uiMode: transparent ? uiMode : innerUiMode,
@@ -163,22 +165,44 @@ export function useButtonFeatures<N extends number | string | undefined>(props:B
  */
 function Button<N extends number | string | undefined>(props: ButtonProps<N>) {
     const {
+        variant,
         className,
+        actionsClassName,
+        iconsClassName,
+        childrenClassName,
+        transparent = false,
         children,
+        icons,
+        actions,
+        uiMode,
+        compact,
+
         type = 'button',
         ...otherProps
-    } = useButtonFeatures(props);
+    } = props;
+
+    const buttonProps = useButtonFeatures({
+        variant,
+        className,
+        actionsClassName,
+        iconsClassName,
+        childrenClassName,
+        transparent,
+        children,
+        icons,
+        actions,
+        uiMode,
+        compact,
+    });
 
     return (
         <RawButton
             type={type}
-            className={className}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
-        >
-            { children }
-        </RawButton>
-
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...buttonProps}
+        />
     );
 }
 
