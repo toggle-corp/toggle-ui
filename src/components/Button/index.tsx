@@ -159,7 +159,7 @@ export function useButtonFeatures(
         className: buttonClassName,
         children: buttonChildren,
         uiMode: transparent ? uiMode : innerUiMode,
-        disabled: disabled,
+        disabled,
     };
 }
 
