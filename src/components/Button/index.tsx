@@ -77,7 +77,7 @@ export interface ButtonProps<N extends number | string | undefined> extends RawB
     compact?: boolean;
 }
 
-type ButtonFeatureKeys = 'variant' | 'className' | 'actionsClassName' | 'iconsClassName' | 'childrenClassName' | 'transparent' | 'children' | 'icons' | 'actions' | 'uiMode' | 'compact';
+type ButtonFeatureKeys = 'variant' | 'className' | 'actionsClassName' | 'iconsClassName' | 'childrenClassName' | 'transparent' | 'children' | 'icons' | 'actions' | 'uiMode' | 'compact' | 'disabled';
 
 export function useButtonFeatures(
     props: Pick<ButtonProps<string>, ButtonFeatureKeys>,
@@ -88,6 +88,7 @@ export function useButtonFeatures(
         actionsClassName,
         iconsClassName,
         childrenClassName,
+        disabled,
         transparent = false,
         children,
         icons,
@@ -131,6 +132,7 @@ export function useButtonFeatures(
         themeClassName,
         innerThemeClassName,
         compact && styles.compact,
+        disabled && styles.disabled,
     );
 
     const buttonChildren = (
@@ -157,6 +159,7 @@ export function useButtonFeatures(
         className: buttonClassName,
         children: buttonChildren,
         uiMode: transparent ? uiMode : innerUiMode,
+        disabled: disabled,
     };
 }
 
