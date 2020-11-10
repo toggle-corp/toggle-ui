@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Story } from '@storybook/react/types-6-0';
 import ConfirmButton, { ConfirmButtonProps } from '#components/ConfirmButton';
 
 export default {
@@ -8,15 +8,11 @@ export default {
     argTypes: {},
 };
 
-const ConfirmationHeader = (
-    <h2>Confirm Action?</h2>
-);
-
-const Template = (args: ConfirmButtonProps) => (
+const Template: Story<ConfirmButtonProps<string>> = (args) => (
     <ConfirmButton
         {...args}
         name="confirm-button"
-        confirmationHeader={ConfirmationHeader}
+        confirmationHeader={<h2>Confirm Action?</h2>}
         confirmationMessage="Confirmation message"
     >
         Confirm Button

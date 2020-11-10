@@ -1,5 +1,6 @@
 import React from 'react';
-import Backdrop from '#components/Backdrop';
+import { Story } from '@storybook/react/types-6-0';
+import Backdrop, { BackdropProps } from '#components/Backdrop';
 
 export default {
     title: 'View/Private/Backdrop',
@@ -7,7 +8,7 @@ export default {
     argTypes: {},
 };
 
-export const Default = () => {
+const Template: Story<BackdropProps> = (props) => {
     const ref = React.useRef(null);
 
     return (
@@ -21,9 +22,16 @@ export const Default = () => {
             }}
         >
             This is the parent content
-            <Backdrop>
+            <Backdrop
+                {...props}
+                parentRef={ref}
+            >
                 Child
             </Backdrop>
         </div>
     );
+};
+
+export const Default = Template.bind({});
+Default.args = {
 };

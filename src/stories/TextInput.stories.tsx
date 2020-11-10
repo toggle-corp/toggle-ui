@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import { useArgs } from '@storybook/client-api';
 import { MdTextFields } from 'react-icons/md';
 
@@ -9,10 +10,10 @@ export default {
     component: TextInput,
 };
 
-const Template = (args: TextInputProps) => {
+const Template: Story<TextInputProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: string | undefined) => {
         updateArgs({ value: e });
     };
     return (

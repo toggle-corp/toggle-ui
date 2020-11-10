@@ -1,6 +1,7 @@
 import React from 'react';
-
-import MultiSelectInput from '#components/MultiSelectInput';
+import { Story } from '@storybook/react/types-6-0';
+import { useArgs } from '@storybook/client-api';
+import MultiSelectInput, { MultiSelectInputProps } from '#components/MultiSelectInput';
 
 export default {
     title: 'Input/MultiSelectInput',
@@ -8,7 +9,12 @@ export default {
     argTypes: {},
 };
 
-const options = [
+interface Option {
+    key: string;
+    label: string;
+}
+
+const options: Option[] = [
     { key: '1', label: 'Potato' },
     { key: '2', label: 'Tomato' },
     { key: '3', label: 'Pumpkin' },
@@ -17,12 +23,18 @@ const options = [
     { key: '6', label: 'Eggplant' },
 ];
 
-export const Default = () => {
-    const [value, setValue] = React.useState(['1', '3']);
+// eslint-disable-next-line max-len
+const Template: Story<MultiSelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const setValue = (e: string[]) => {
+        updateArgs({ value: e });
+    };
 
     return (
         <MultiSelectInput
             label="Vegetables"
+            {...props}
             options={options}
             value={value}
             onChange={setValue}
@@ -32,34 +44,19 @@ export const Default = () => {
     );
 };
 
-export const Disabled = () => {
-    const [value, setValue] = React.useState(['1', '3']);
-
-    return (
-        <MultiSelectInput
-            label="Vegetables"
-            options={options}
-            value={value}
-            onChange={setValue}
-            keySelector={(d) => d.key}
-            labelSelector={(d) => d.label}
-            disabled
-        />
-    );
+export const Default = Template.bind({});
+Default.args = {
+    value: ['1', '3'],
 };
 
-export const ReadOnly = () => {
-    const [value, setValue] = React.useState(['1', '3']);
+export const Disabled = Template.bind({});
+Disabled.args = {
+    value: ['1', '3'],
+    disabled: true,
+};
 
-    return (
-        <MultiSelectInput
-            label="Vegetables"
-            options={options}
-            value={value}
-            onChange={setValue}
-            keySelector={(d) => d.key}
-            labelSelector={(d) => d.label}
-            readOnly
-        />
-    );
+export const ReadOnly = Template.bind({});
+ReadOnly.args = {
+    value: ['1', '3'],
+    readOnly: true,
 };

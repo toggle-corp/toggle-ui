@@ -19,7 +19,7 @@ export interface CheckboxProps<N> {
     indeterminate?: boolean;
     uiMode?: UiMode;
     tooltip?: string;
-    value: boolean | undefined;
+    value: boolean | undefined | null;
     onChange: (value: boolean, name: N) => void;
     name: N;
 }
@@ -73,7 +73,7 @@ function Checkbox<N extends string>(props: CheckboxProps<N>) {
             />
             <Checkmark
                 className={_cs(checkmarkClassName, styles.checkmark)}
-                value={value}
+                value={value ?? false}
                 indeterminate={indeterminate}
                 uiMode={uiMode}
             />
@@ -81,7 +81,7 @@ function Checkbox<N extends string>(props: CheckboxProps<N>) {
                 onChange={handleChange}
                 className={styles.input}
                 type="checkbox"
-                checked={value}
+                checked={value ?? false}
                 disabled={disabled || readOnly}
                 {...otherProps}
             />

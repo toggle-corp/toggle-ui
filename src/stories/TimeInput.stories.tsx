@@ -1,5 +1,6 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 
 import TimeInput, { TimeInputProps } from '#components/TimeInput';
 
@@ -9,10 +10,10 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: TimeInputProps) => {
+const Template: Story<TimeInputProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: string | undefined) => {
         updateArgs({ value: e });
     };
 

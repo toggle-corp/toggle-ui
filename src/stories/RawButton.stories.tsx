@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 // import { select, boolean } from '@storybook/addon-knobs';
 
 import RawButton, { RawButtonProps } from '#components/RawButton';
@@ -9,7 +10,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: RawButtonProps) => (
+const Template: Story<RawButtonProps<string>> = (args) => (
     <RawButton {...args} />
 );
 

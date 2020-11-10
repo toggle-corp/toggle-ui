@@ -44,9 +44,9 @@ export type SelectInputProps<
     O extends object,
     P extends Def,
 > = {
-    value: T | undefined,
+    value: T | undefined | null,
     onChange: (newValue: T, name: K) => void;
-    options: O[] | undefined,
+    options: O[] | undefined | null,
     keySelector: (option: O) => T,
     labelSelector: (option: O) => string,
     searchPlaceholder?: string;
@@ -75,7 +75,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
     const {
         value,
         onChange,
-        options = (emptyList as O[]),
+        options: optionsFromProps,
         keySelector,
         labelSelector,
         searchPlaceholder = 'Type to search',
@@ -83,6 +83,8 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         optionsPopupClassName,
         ...otherProps
     } = props;
+
+    const options = optionsFromProps ?? (emptyList as O[]);
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
 

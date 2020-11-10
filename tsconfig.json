@@ -35,5 +35,5 @@
             "#components/*": ["./src/components/*"]
         }
     },
-    "include": ["src/index.tsx", "src/declarations"]
+    "include": ["src/index.tsx", "src/stories", "src/declarations"]
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Story } from '@storybook/react/types-6-0';
 import { MdCancel, MdPerson } from 'react-icons/md';
 
 import Chip, { ChipProps } from '#components/Chip';
@@ -12,7 +12,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: ChipProps) => (
+const Template: Story<ChipProps> = (args) => (
     <Chip {...args} />
 );
 

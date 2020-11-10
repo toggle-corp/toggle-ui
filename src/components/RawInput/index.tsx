@@ -18,11 +18,15 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     /**
     * input value
     */
-    value: string | undefined;
+    value: string | undefined | null;
     /**
     * Gets called when the content of input changes
     */
-    onChange?: (value: string | undefined, name: K, e: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: (
+        value: string | undefined,
+        name: K,
+        e: React.FormEvent<HTMLInputElement>,
+    ) => void;
     /**
      * UI mode: light or dark
      */
@@ -41,7 +45,7 @@ function RawInput<K extends string>(
         onChange,
         uiMode,
         elementRef,
-        value = '',
+        value,
         name,
         ...otherProps
     }: RawInputProps<K>,
@@ -73,7 +77,7 @@ function RawInput<K extends string>(
             className={_cs(className, styles.rawInput, themeClassName)}
             onChange={handleChange}
             name={name}
-            value={value}
+            value={value ?? ''}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />

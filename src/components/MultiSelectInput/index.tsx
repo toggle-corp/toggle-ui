@@ -52,9 +52,9 @@ export type MultiSelectInputProps<
     O extends object,
     P extends Def,
 > = {
-    value: T[] | undefined;
+    value: T[] | undefined | null;
     onChange: (newValue: T[], name: K) => void;
-    options: O[] | undefined;
+    options: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
     searchPlaceholder?: string;
@@ -81,9 +81,9 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
     props: MultiSelectInputProps<T, K, O, P>,
 ) {
     const {
-        value = (emptyList as T[]),
+        value: valueFromProps,
         onChange,
-        options = (emptyList as O[]),
+        options: optionsFromProps,
         keySelector,
         labelSelector,
         searchPlaceholder = 'Type to search',
@@ -91,6 +91,9 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
         name,
         ...otherProps
     } = props;
+
+    const options = optionsFromProps ?? (emptyList as O[]);
+    const value = valueFromProps ?? (emptyList as T[]);
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
 

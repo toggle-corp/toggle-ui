@@ -11,7 +11,7 @@ function isValidDecimalTrailingZeroString(val: string) {
 }
 
 export type NumberInputProps<T> = Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'> & {
-    value: number | undefined;
+    value: number | undefined | null;
     onChange?: (value: number | undefined, name: T, e: React.FormEvent<HTMLInputElement>) => void;
 };
 

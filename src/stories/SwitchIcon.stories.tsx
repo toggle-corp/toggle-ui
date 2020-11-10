@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import SwitchIcon, { SwitchIconProps } from '#components/SwitchIcon';
 
 export default {
@@ -7,7 +8,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: SwitchIconProps) => (
+const Template: Story<SwitchIconProps> = (args) => (
     <SwitchIcon {...args} />
 );
 

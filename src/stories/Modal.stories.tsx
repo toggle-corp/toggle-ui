@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-
+import { Story } from '@storybook/react/types-6-0';
 import Button from '#components/Button';
 import Modal, { ModalProps } from '#components/Modal';
 
@@ -9,11 +9,7 @@ export default {
     argTypes: {},
 };
 
-const Header = (
-    <h2>Test Modal</h2>
-);
-
-const Template = (args: ModalProps) => {
+const Template: Story<ModalProps> = (args) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleModalShow = useCallback(() => {
@@ -35,7 +31,7 @@ const Template = (args: ModalProps) => {
             {showModal && (
                 <Modal
                     {...args}
-                    heading={Header}
+                    heading={<h2>Test Modal</h2>}
                     onClose={handleModalClose}
                 >
                     This is a modal

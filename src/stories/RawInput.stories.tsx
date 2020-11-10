@@ -1,6 +1,9 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
+import { useArgs } from '@storybook/client-api';
 
-import RawInput, { RawInputProps } from '#components/RawInput';
+import RawInput from '#components/RawInput';
+import type { RawInputProps } from '#components/RawInput';
 
 export default {
     title: 'Input/Private/RawInput',
@@ -8,9 +11,21 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: RawInputProps) => (
-    <RawInput {...args} />
-);
+const Template: Story<RawInputProps<string>> = (args) => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const handleChange = (e: string | undefined) => {
+        updateArgs({ value: e });
+    };
+
+    return (
+        <RawInput
+            {...args}
+            value={value}
+            onChange={handleChange}
+        />
+    );
+};
 
 export const Default = Template.bind({});
 Default.args = {

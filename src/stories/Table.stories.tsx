@@ -1,16 +1,22 @@
 import React from 'react';
-
+import { Story } from '@storybook/react/types-6-0';
 import Cell from '#components/Table/Cell';
 import Numeral from '#components/Numeral';
 import HeaderCell from '#components/Table/HeaderCell';
-import Table, { TableProps, createColumn } from '#components/Table';
+import Table, { TableProps, createColumn, Column } from '#components/Table';
+
+export default {
+    title: 'View/Table',
+    component: Table,
+    argTypes: {},
+};
 
 interface Program {
     id: number;
     name: string;
     budget: number;
 }
-const data:Program[] = [
+const data: Program[] = [
     {
         id: 1,
         name: 'Program A',
@@ -34,7 +40,16 @@ const data:Program[] = [
 ];
 
 const getColumns = () => {
-    const stringColumn = (colName: string) => ({
+    type NoNull<T> = T extends null ? never : T;
+
+    type ExtractKeys<T, M> = {
+        [K in keyof Required<T>]: NoNull<Required<T>[K]> extends M ? K : never
+    }[keyof T];
+
+    type stringKeys = ExtractKeys<Program, string>;
+    type numberKeys = ExtractKeys<Program, number>;
+
+    const stringColumn = (colName: stringKeys) => ({
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             name: colName,
@@ -49,7 +64,7 @@ const getColumns = () => {
         valueType: 'string',
     });
 
-    const numberColumn = (colName: number) => ({
+    const numberColumn = (colName: numberKeys) => ({
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             name: colName,
@@ -71,22 +86,15 @@ const getColumns = () => {
     ];
 };
 
-export default {
-    title: 'View/Table',
-    component: Table,
-    argTypes: {},
-};
-
-const Template = (args: TableProps) => (
+const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => (
     <Table
         {...args}
     />
 );
 
-const columns = getColumns();
 export const Default = Template.bind({});
 Default.args = {
     data,
-    keySelector: (d: Program) => d.id,
-    columns,
+    keySelector: (d) => d.id,
+    columns: getColumns(),
 };

@@ -169,4 +169,5 @@ List.defaultProps = {
     data: [],
 };
 
-export default typedMemo(List);
+const MemoList = typedMemo(List);
+export default MemoList;

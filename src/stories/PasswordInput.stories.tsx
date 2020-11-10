@@ -1,5 +1,6 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 
 import PasswordInput, { PasswordInputProps } from '#components/PasswordInput';
 
@@ -9,9 +10,9 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: PasswordInputProps) => {
+const Template: Story<PasswordInputProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
-    const handleChange = (e) => {
+    const handleChange = (e: string | undefined) => {
         updateArgs({ value: e });
     };
     return (

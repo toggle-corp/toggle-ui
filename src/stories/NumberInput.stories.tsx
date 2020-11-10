@@ -1,5 +1,6 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 import { TiSortNumerically } from 'react-icons/ti';
 
 import NumberInput, { NumberInputProps } from '#components/NumberInput';
@@ -10,10 +11,10 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: NumberInputProps) => {
+const Template: Story<NumberInputProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: number | undefined) => {
         updateArgs({ value: e });
     };
 
@@ -30,6 +31,7 @@ export const Default = Template.bind({});
 Default.args = {
     icons: <TiSortNumerically />,
     label: 'Amount',
+    value: 10000,
 };
 
 export const Disabled = Template.bind({});

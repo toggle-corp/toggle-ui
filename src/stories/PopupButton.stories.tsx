@@ -1,8 +1,14 @@
 import React from 'react';
 // import { select, boolean } from '@storybook/addon-knobs';
-
+import { Story } from '@storybook/react/types-6-0';
 import List from '#components/List';
 import PopupButton, { PopupButtonProps } from '#components/PopupButton';
+
+export default {
+    title: 'Action/PopupButton',
+    component: PopupButton,
+    argTypes: {},
+};
 
 const options = [
     { key: '1', label: 'Superman', group: 'Air' },
@@ -12,18 +18,14 @@ const options = [
     { key: '5', label: 'Green Lantern', group: 'Air' },
 ];
 
-export default {
-    title: 'Action/PopupButton',
-    component: PopupButton,
-    argTypes: {},
-};
-
-const Option = ({ children }) => (
+interface OptionProps {
+    children: React.ReactNode;
+}
+const Option = ({ children }: OptionProps) => (
     <div>
         { children }
     </div>
 );
-
 const MenuItems = () => (
     <div style={{ padding: '12px' }}>
         <List
@@ -35,7 +37,7 @@ const MenuItems = () => (
     </div>
 );
 
-const Template = (args: PopupButtonProps) => (
+const Template: Story<PopupButtonProps<string>> = (args) => (
     <PopupButton {...args} />
 );
 

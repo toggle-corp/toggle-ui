@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Story } from '@storybook/react/types-6-0';
 import { BsCheckAll } from 'react-icons/bs';
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
 import Button from '#components/Button';
@@ -10,11 +10,12 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: SelectInputContainerProps) => (
-    <SelectInputContainer {...args} />
-);
+interface Option {
+    key: string;
+    label: string;
+}
 
-const options = [
+const options: Option[] = [
     { key: '1', label: 'Option 1' },
     { key: '2', label: 'Option 2' },
     { key: '3', label: 'Option 3' },
@@ -22,7 +23,15 @@ const options = [
     { key: '5', label: 'Option 5' },
 ];
 
-const Option = ({ children }) => (
+// eslint-disable-next-line max-len
+const Template: Story<SelectInputContainerProps<string, string, Option, { containerClassName?: string, children: React.ReactNode }>> = (props) => (
+    <SelectInputContainer {...props} />
+);
+
+interface OptionItemProps {
+    children: React.ReactNode;
+}
+const OptionItem = ({ children }: OptionItemProps) => (
     <div>
         { children }
     </div>
@@ -33,8 +42,8 @@ Default.args = {
     label: 'Name',
     options,
     optionKeySelector: (d) => d.key,
-    optionRenderer: Option,
-    optionRendererParams: (key, option) => ({ children: option.label }),
+    optionRenderer: OptionItem,
+    optionRendererParams: (_, option) => ({ children: option.label }),
     valueDisplay: '',
 };
 
@@ -43,8 +52,8 @@ WithAction.args = {
     label: 'Name',
     options,
     optionKeySelector: (d) => d.key,
-    optionRenderer: Option,
-    optionRendererParams: (key, option) => ({ children: option.label }),
+    optionRenderer: OptionItem,
+    optionRendererParams: (_, option) => ({ children: option.label }),
     valueDisplay: '',
-    actions: <Button transparent compact><BsCheckAll /></Button>,
+    actions: <Button name={undefined} transparent compact><BsCheckAll /></Button>,
 };

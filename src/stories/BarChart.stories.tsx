@@ -1,12 +1,18 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 
-import BarChart from '#components/BarChart';
+import BarChart, { BarChartProps } from '#components/BarChart';
 
 export default {
     title: 'Visualization/BarChart',
     component: BarChart,
     argTypes: {},
 };
+
+interface Item {
+    label: string;
+    value: number;
+}
 
 const data = [
     { label: 'Jhapa', value: 20000 },
@@ -15,8 +21,9 @@ const data = [
     { label: 'Taplejung', value: 50000 },
 ];
 
-export const Default = () => (
+const Template: Story<BarChartProps<Item>> = (props) => (
     <BarChart
+        {...props}
         width={600}
         height={300}
         data={data}
@@ -24,3 +31,7 @@ export const Default = () => (
         labelSelector={(d) => d.label}
     />
 );
+
+export const Default = Template.bind({});
+Default.args = {
+};
