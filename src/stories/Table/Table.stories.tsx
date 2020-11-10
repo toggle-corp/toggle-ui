@@ -11,6 +11,8 @@ export default {
     argTypes: {},
 };
 
+import styles from './styles.css';
+
 interface Program {
     id: number;
     name: string;
@@ -55,6 +57,8 @@ const getColumns = () => {
             name: colName,
             sortable: false,
         },
+        headerContainerClassName: styles.stringHeader,
+        cellContainerClassName: styles.stringCell,
         cellAsHeader: true,
         cellRenderer: Cell,
         cellRendererParams: (_: number, datum: Program) => ({
