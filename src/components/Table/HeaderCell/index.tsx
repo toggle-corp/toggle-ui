@@ -61,7 +61,7 @@ function HeaderCell(props: HeaderCellProps) {
         name,
         index,
 
-        defaultSortDirection,
+        defaultSortDirection = SortDirection.asc,
         sortDirection,
         sortable,
         onSortChange,
@@ -309,9 +309,5 @@ function HeaderCell(props: HeaderCellProps) {
         </div>
     );
 }
-
-HeaderCell.defaultProps = {
-    defaultSortDirection: SortDirection.asc,
-};
 
 export default memo(HeaderCell);

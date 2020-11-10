@@ -8,7 +8,7 @@ export const typedMemo: (<T>(c: T) => T) = memo;
 
 type OptionKey = string | number;
 
-interface GroupCommonProps {
+export interface GroupCommonProps {
     className?: string;
     children: React.ReactNode;
 }
@@ -165,9 +165,4 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
     );
 }
 
-List.defaultProps = {
-    data: [],
-};
-
-const MemoList = typedMemo(List);
-export default MemoList;
+export default typedMemo(List);

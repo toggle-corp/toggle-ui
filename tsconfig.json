@@ -24,16 +24,14 @@
         "module": "esnext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "emitDeclarationOnly": true,
-        "declaration": true,
+        "noEmit": true,
         "jsx": "react",
         "rootDir": "./src",
         "sourceMap": true,
-        "outDir": "./build",
         "baseUrl": ".",
         "paths": {
             "#components/*": ["./src/components/*"]
         }
     },
-    "include": ["src/index.tsx", "src/stories", "src/declarations"]
+    "include": ["./src/index.tsx", "./src/stories", "./src/declarations"]
 }

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
-import MyList, { ListProps } from '#components/List';
+import List, { ListProps } from '#components/List';
 import ToggleButton from '#components/ToggleButton';
 
 export default {
     title: 'View/List',
-    component: MyList,
+    component: List,
     argTypes: {},
 };
 
@@ -86,7 +86,7 @@ const CollapsedGroup = ({
 };
 
 const Template: Story<ListProps<Option, OptionProps, string, GroupProps, string>> = (args) => (
-    <MyList {...args} />
+    <List {...args} />
 );
 
 export const Default = Template.bind({});
