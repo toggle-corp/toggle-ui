@@ -1,10 +1,11 @@
 import React from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { typedMemo } from '../../../utils/index';
 
 export interface CellProps<T>{
     className?: string;
-    value: T;
+    value: T | null | undefined;
 }
 
 function Cell<T>(props: CellProps<T>) {
@@ -12,6 +13,11 @@ function Cell<T>(props: CellProps<T>) {
         className,
         value,
     } = props;
+
+    if (isNotDefined(value)) {
+        return null;
+    }
+
     return (
         <div className={className}>
             {value}
