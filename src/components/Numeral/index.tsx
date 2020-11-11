@@ -12,7 +12,7 @@ export function getAutoPrecision(
     largeNumber: number,
     defaultPrecision: number,
 ) {
-    if (isNotDefined(value)) {
+    if (isNotDefined(value) || value === 0) {
         return 0;
     }
 
