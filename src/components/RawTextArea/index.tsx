@@ -18,7 +18,7 @@ export interface RawTextAreaProps<K> extends Omit<React.HTMLProps<HTMLTextAreaEl
     /**
     * input value
     */
-    value: string | undefined;
+    value: string | undefined | null;
     /**
     * Gets called when the content of input changes
     */
@@ -45,7 +45,7 @@ function RawTextArea<K extends string>(
         onChange,
         uiMode,
         elementRef,
-        value = '',
+        value,
         name,
         ...otherProps
     }: RawTextAreaProps<K>,
@@ -77,7 +77,7 @@ function RawTextArea<K extends string>(
             className={_cs(className, styles.rawTextArea, themeClassName)}
             onChange={handleChange}
             name={name}
-            value={value}
+            value={value ?? ''}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />

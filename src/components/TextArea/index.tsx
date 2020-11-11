@@ -1,20 +1,9 @@
 import React from 'react';
 
 import InputContainer, { InputContainerProps } from '../InputContainer';
-import RawTextArea from '../RawTextArea';
-import { UiMode } from '../ThemeContext';
+import RawTextArea, { RawTextAreaProps } from '../RawTextArea';
 
-export type TextAreaProps<T> = Omit<InputContainerProps, 'input'> & {
-    name: T;
-    value: string | undefined;
-    onChange?: (
-        value: string | undefined,
-        name: T,
-        e: React.FormEvent<HTMLTextAreaElement>,
-    ) => void;
-    uiMode?: UiMode;
-
-};
+export type TextAreaProps<T> = Omit<InputContainerProps, 'input'> & RawTextAreaProps<T>;
 
 function TextArea<T extends string>(props: TextAreaProps<T>) {
     const {

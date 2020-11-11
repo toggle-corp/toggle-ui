@@ -8,11 +8,11 @@ import {
 } from '@togglecorp/fujs';
 
 export function getAutoPrecision(
-    value: number | undefined,
+    value: number | undefined | null,
     largeNumber: number,
     defaultPrecision: number,
 ) {
-    if (!value) {
+    if (isNotDefined(value) || value === 0) {
         return 0;
     }
 
@@ -30,7 +30,7 @@ export function getAutoPrecision(
 }
 
 function formatNumberRaw(
-    value: number | undefined,
+    value: number | undefined | null,
     separator: string,
     abbreviate?: boolean,
     precision?: number,
@@ -82,7 +82,7 @@ function formatNumberRaw(
 }
 
 export interface NumeralProps {
-    value: number | undefined;
+    value: number | undefined | null;
     /**
     * Max no. of digits after decimal.
     * A value of -1 will automatically calculate precision based on value

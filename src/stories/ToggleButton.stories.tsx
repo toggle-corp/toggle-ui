@@ -1,5 +1,6 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 
 import ToggleButton, { ToggleButtonProps } from '#components/ToggleButton';
 
@@ -9,10 +10,10 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: ToggleButtonProps) => {
+const Template: Story<ToggleButtonProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: boolean | undefined) => {
         updateArgs({ value: e });
     };
 

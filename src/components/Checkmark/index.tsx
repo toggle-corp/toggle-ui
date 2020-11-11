@@ -12,7 +12,7 @@ import styles from './styles.css';
 
 export interface CheckmarkProps {
     className?: string;
-    value: boolean | undefined;
+    value: boolean | undefined | null;
     indeterminate?: boolean;
     uiMode?: UiMode;
 }

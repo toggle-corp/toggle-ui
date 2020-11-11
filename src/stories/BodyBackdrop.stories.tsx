@@ -1,5 +1,6 @@
 import React from 'react';
-import BodyBackdrop from '#components/BodyBackdrop';
+import { Story } from '@storybook/react/types-6-0';
+import BodyBackdrop, { BodyBackdropProps } from '#components/BodyBackdrop';
 
 export default {
     title: 'View/Private/BodyBackdrop',
@@ -7,8 +8,10 @@ export default {
     argTypes: {},
 };
 
-export const Default = () => (
-    <BodyBackdrop>
+const Template: Story<BodyBackdropProps> = (props) => (
+    <BodyBackdrop
+        {...props}
+    >
         <div
             style={{
                 backgroundColor: 'white',
@@ -19,3 +22,7 @@ export const Default = () => (
         </div>
     </BodyBackdrop>
 );
+
+export const Default = Template.bind({});
+Default.args = {
+};

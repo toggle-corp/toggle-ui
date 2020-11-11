@@ -1,10 +1,12 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import { IoIosSend } from 'react-icons/io';
 // import { select, boolean } from '@storybook/addon-knobs';
 
 import Button, {
     ButtonProps,
     useButtonFeatures,
+    ButtonVariant,
 } from '#components/Button';
 import VisualFeedback from '#components/VisualFeedback';
 
@@ -16,7 +18,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: ButtonProps) => (
+const Template: Story<ButtonProps<string>> = (args) => (
     <Button {...args} />
 );
 
@@ -30,19 +32,19 @@ export const Variants = () => (
         <section>
             <h3>Normal</h3>
             <div className={styles.content}>
-                <Button>
+                <Button name={undefined}>
                     Default
                 </Button>
-                <Button variant="primary">
+                <Button variant="primary" name={undefined}>
                     Primary
                 </Button>
-                <Button variant="accent">
+                <Button variant="accent" name={undefined}>
                     Accent
                 </Button>
-                <Button variant="warning">
+                <Button variant="warning" name={undefined}>
                     Warning
                 </Button>
-                <Button variant="danger">
+                <Button variant="danger" name={undefined}>
                     Danger
                 </Button>
             </div>
@@ -50,30 +52,34 @@ export const Variants = () => (
         <section>
             <h3>Normal and Disabled</h3>
             <div className={styles.content}>
-                <Button disabled>
+                <Button disabled name={undefined}>
                     Default
                 </Button>
                 <Button
                     variant="primary"
                     disabled
+                    name={undefined}
                 >
                     Primary
                 </Button>
                 <Button
                     variant="accent"
                     disabled
+                    name={undefined}
                 >
                     Accent
                 </Button>
                 <Button
                     variant="warning"
                     disabled
+                    name={undefined}
                 >
                     Warning
                 </Button>
                 <Button
                     variant="danger"
                     disabled
+                    name={undefined}
                 >
                     Danger
                 </Button>
@@ -82,30 +88,34 @@ export const Variants = () => (
         <section>
             <h3>Transparent</h3>
             <div className={styles.content}>
-                <Button transparent>
+                <Button transparent name={undefined}>
                     Default
                 </Button>
                 <Button
                     variant="primary"
                     transparent
+                    name={undefined}
                 >
                     Primary
                 </Button>
                 <Button
                     variant="accent"
                     transparent
+                    name={undefined}
                 >
                     Accent
                 </Button>
                 <Button
                     variant="warning"
                     transparent
+                    name={undefined}
                 >
                     Warning
                 </Button>
                 <Button
                     variant="danger"
                     transparent
+                    name={undefined}
                 >
                     Danger
                 </Button>
@@ -117,6 +127,7 @@ export const Variants = () => (
                 <Button
                     disabled
                     transparent
+                    name={undefined}
                 >
                     Default
                 </Button>
@@ -124,6 +135,7 @@ export const Variants = () => (
                     variant="primary"
                     disabled
                     transparent
+                    name={undefined}
                 >
                     Primary
                 </Button>
@@ -131,6 +143,7 @@ export const Variants = () => (
                     variant="accent"
                     disabled
                     transparent
+                    name={undefined}
                 >
                     Accent
                 </Button>
@@ -138,6 +151,7 @@ export const Variants = () => (
                     variant="warning"
                     disabled
                     transparent
+                    name={undefined}
                 >
                     Warning
                 </Button>
@@ -145,6 +159,7 @@ export const Variants = () => (
                     variant="danger"
                     disabled
                     transparent
+                    name={undefined}
                 >
                     Danger
                 </Button>
@@ -153,7 +168,14 @@ export const Variants = () => (
     </div>
 );
 
-const ButtonLikeLink = (props) => {
+interface ButtonLikeLinkProps {
+    className?: string;
+    children: React.ReactNode;
+    icons?: React.ReactNode;
+    variant?: ButtonVariant;
+    href: string;
+}
+const ButtonLikeLink = (props: ButtonLikeLinkProps) => {
     const {
         className,
         children,

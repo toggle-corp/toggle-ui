@@ -8,7 +8,7 @@ import styles from './styles.css';
 
 export interface SwitchIconProps {
     className?: string;
-    value?: boolean;
+    value?: boolean | null;
     uiMode?: UiMode;
 }
 

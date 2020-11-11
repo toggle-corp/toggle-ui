@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import { useArgs } from '@storybook/client-api';
 import Checkbox, { CheckboxProps } from '#components/Checkbox';
 
@@ -8,10 +9,10 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: CheckboxProps) => {
+const Template: Story<CheckboxProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: boolean | undefined) => {
         updateArgs({ value: e });
     };
 

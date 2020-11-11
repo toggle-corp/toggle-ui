@@ -139,7 +139,7 @@ export interface PagerProps {
     onActivePageChange: (pageNumber: number) => void;
     totalCapacity?: number;
     onItemsPerPageChange: (pageCapacity: number) => void;
-    options?: PagerOption[];
+    options?: PagerOption[] | null;
     infoHidden?: boolean;
     itemsPerPageControlHidden?: boolean;
     disabled?: boolean;
@@ -160,7 +160,7 @@ function Pager(props: PagerProps) {
         itemsCount,
         onActivePageChange,
         onItemsPerPageChange,
-        options = defaultOptions,
+        options,
         maxItemsPerPage = 25,
         totalCapacity = 7,
         disabled = false,
@@ -277,7 +277,7 @@ function Pager(props: PagerProps) {
                         <SelectInput
                             name="itemsPerPageSelection"
                             className={styles.input}
-                            options={options}
+                            options={options ?? defaultOptions}
                             keySelector={(item) => item.key}
                             labelSelector={(item) => item.label}
                             value={maxItemsPerPage}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import { useArgs } from '@storybook/client-api';
 
 import Switch, { SwitchProps } from '#components/Switch';
@@ -9,10 +10,10 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: SwitchProps) => {
+const Template: Story<SwitchProps<string>> = (args) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const handleChange = (e) => {
+    const handleChange = (e: boolean | undefined) => {
         updateArgs({ value: e });
     };
 

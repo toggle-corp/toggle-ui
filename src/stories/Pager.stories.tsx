@@ -1,5 +1,6 @@
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 
 import Pager, { PagerProps } from '#components/Pager';
 
@@ -9,14 +10,14 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: PagerProps) => {
+const Template: Story<PagerProps> = (args) => {
     const [{ activePage, itemsPerPage }, handleArgsChange] = useArgs();
 
-    const setActivePage = (e) => {
+    const setActivePage = (e: number) => {
         handleArgsChange({ activePage: e });
     };
 
-    const setItemsPerPage = (e) => {
+    const setItemsPerPage = (e: number) => {
         handleArgsChange({ itemsPerPage: e });
     };
 
@@ -25,7 +26,7 @@ const Template = (args: PagerProps) => {
             {...args}
             onItemsPerPageChange={setItemsPerPage}
             onActivePageChange={setActivePage}
-            itemsPerPage={itemsPerPage}
+            maxItemsPerPage={itemsPerPage}
             activePage={activePage}
         />
     );

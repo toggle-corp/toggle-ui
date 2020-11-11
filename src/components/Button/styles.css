@@ -12,6 +12,7 @@
     border: var(--tui-width-separator-thin) solid var(--border-color);
     border-radius: var(--tui-radius-button);
     background-color: var(--color-background);
+    cursor: pointer;
     padding: var(--padding);
     overflow: hidden;
     color: var(--color-text);
@@ -113,7 +114,7 @@
         }
     }
 
-    &:disabled {
+    &.disabled {
         opacity: var(--tui-opacity-disabled-element);
         cursor: not-allowed;
     }

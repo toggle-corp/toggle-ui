@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 import Checkmark, { CheckmarkProps } from '#components/Checkmark';
 
 export default {
@@ -7,7 +8,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: CheckmarkProps) => (
+const Template: Story<CheckmarkProps> = (args) => (
     <Checkmark {...args} />
 );
 

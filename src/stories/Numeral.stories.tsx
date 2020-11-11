@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 
 import Numeral, { NumeralProps } from '#components/Numeral';
 
@@ -8,7 +9,7 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: NumeralProps) => (
+const Template: Story<NumeralProps> = (args) => (
     <Numeral {...args} />
 );
 

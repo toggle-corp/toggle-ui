@@ -1,4 +1,5 @@
 import React from 'react';
+import { Story } from '@storybook/react/types-6-0';
 
 import Accordion, { AccordionProps } from '#components/Accordion';
 
@@ -8,15 +9,9 @@ export default {
     argTypes: {},
 };
 
-const Template = (args: AccordionProps) => (
-    <div style={{ width: '240px' }}>
-        <Accordion
-            {...args}
-        />
-    </div>
-);
+type Option = { key: string; label: string; group: string; };
 
-const options = [
+const options: Option[] = [
     { key: '1', label: 'Superman', group: 'Air' },
     { key: '2', label: 'Batman', group: 'Land' },
     { key: '3', label: 'Flash', group: 'Land' },
@@ -24,15 +19,28 @@ const options = [
     { key: '5', label: 'Green Lantern', group: 'Air' },
 ];
 
-const Title = ({ title }) => (
+interface TitleProps {
+    title: string;
+}
+const Title = ({ title }: TitleProps) => (
     <h3>
         {title}
     </h3>
 );
-
-const Option = ({ children }) => (
+interface OptionProps {
+    children: React.ReactNode;
+}
+const Option = ({ children }: OptionProps) => (
     <div style={{ padding: '8px 4px' }}>
         { children }
+    </div>
+);
+
+const Template: Story<AccordionProps<Option, OptionProps, string, TitleProps, string>> = (args) => (
+    <div style={{ width: '240px' }}>
+        <Accordion
+            {...args}
+        />
     </div>
 );
 
@@ -41,9 +49,8 @@ Default.args = {
     data: options,
     keySelector: (d) => d.key,
     renderer: Option,
-    rendererParams: (key, option) => ({ children: option.label }),
+    rendererParams: (_, option) => ({ children: option.label }),
     groupKeySelector: (d) => d.group,
-    groupRendererParams: (key) => ({ title: key }),
     groupTitleRenderer: Title,
     groupTitleRendererParams: (key) => ({ title: key }),
 };

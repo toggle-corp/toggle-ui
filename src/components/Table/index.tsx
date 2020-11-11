@@ -51,7 +51,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     caption?: React.ReactNode;
     keySelector: (data: D, index: number) => K;
     columns: C[] & VerifyColumn<C, D, K>;
-    data: D[] | undefined;
+    data: D[] | undefined | null;
     captionClassName?: string;
     headerRowClassName?: string;
     headerCellClassName?: string;

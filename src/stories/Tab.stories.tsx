@@ -1,10 +1,13 @@
 import React from 'react';
+import { useArgs } from '@storybook/client-api';
+import { Story } from '@storybook/react/types-6-0';
 
 import {
     Tabs,
     Tab,
     TabPanel,
     TabList,
+    TabsProps,
 } from '#components/Tabs';
 
 export default {
@@ -13,13 +16,17 @@ export default {
     argTypes: {},
 };
 
-export const Default = () => {
-    const [activeTab, setActiveTab] = React.useState('hello');
+const Template: Story<TabsProps<string>> = () => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const setValue = (e: string) => {
+        updateArgs({ value: e });
+    };
 
     return (
         <Tabs
-            value={activeTab}
-            onChange={setActiveTab}
+            value={value}
+            onChange={setValue}
         >
             <TabList>
                 <Tab name="hello">
@@ -38,4 +45,9 @@ export const Default = () => {
             </TabPanel>
         </Tabs>
     );
+};
+
+export const Default = Template.bind({});
+Default.args = {
+    value: 'hello',
 };
