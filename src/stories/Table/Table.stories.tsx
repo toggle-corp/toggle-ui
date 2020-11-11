@@ -5,13 +5,13 @@ import Numeral from '#components/Numeral';
 import HeaderCell from '#components/Table/HeaderCell';
 import Table, { TableProps, createColumn, Column } from '#components/Table';
 
+import styles from './styles.css';
+
 export default {
     title: 'View/Table',
     component: Table,
     argTypes: {},
 };
-
-import styles from './styles.css';
 
 interface Program {
     id: number;
