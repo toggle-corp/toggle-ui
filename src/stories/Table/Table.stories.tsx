@@ -5,6 +5,8 @@ import Numeral from '#components/Numeral';
 import HeaderCell from '#components/Table/HeaderCell';
 import Table, { TableProps, createColumn, Column } from '#components/Table';
 
+import styles from './styles.css';
+
 export default {
     title: 'View/Table',
     component: Table,
@@ -55,6 +57,8 @@ const getColumns = () => {
             name: colName,
             sortable: false,
         },
+        headerContainerClassName: styles.stringHeader,
+        cellContainerClassName: styles.stringCell,
         cellAsHeader: true,
         cellRenderer: Cell,
         cellRendererParams: (_: number, datum: Program) => ({

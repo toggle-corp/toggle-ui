@@ -14,10 +14,12 @@ export interface Column<D, K, C, H> {
     headerCellRenderer: React.ComponentType<H>;
     headerCellRendererParams: Omit<H, keyof BaseHeader>;
     headerCellRendererClassName?: string;
+    headerContainerClassName?: string;
 
     cellRenderer: React.ComponentType<C>;
     cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
     cellRendererClassName?: string;
+    cellContainerClassName?: string;
 
     cellAsHeader?: boolean;
     uiMode?: UiMode;
@@ -99,6 +101,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             headerCellRendererClassName,
                             cellAsHeader,
                             headerCellRendererParams,
+                            headerContainerClassName,
                         } = column;
 
                         const children = (
@@ -118,6 +121,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                     styles.headerCell,
                                     cellAsHeader && styles.stickLeft,
                                     headerCellClassName,
+                                    headerContainerClassName,
                                 )}
                             >
                                 {children}
@@ -141,6 +145,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                     cellRendererClassName,
                                     cellRendererParams,
                                     cellAsHeader,
+                                    cellContainerClassName,
                                 } = column;
                                 const otherProps = cellRendererParams(key, datum, index);
                                 const children = (
@@ -154,7 +159,11 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                     return (
                                         <th
                                             key={id}
-                                            className={_cs(styles.rowHeaderCell, cellClassName)}
+                                            className={_cs(
+                                                styles.rowHeaderCell,
+                                                cellClassName,
+                                                cellContainerClassName,
+                                            )}
                                             scope="row"
                                         >
                                             {children}
@@ -164,7 +173,11 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                 return (
                                     <td
                                         key={id}
-                                        className={_cs(styles.cell, cellClassName)}
+                                        className={_cs(
+                                            styles.cell,
+                                            cellClassName,
+                                            cellContainerClassName,
+                                        )}
                                     >
                                         {children}
                                     </td>
