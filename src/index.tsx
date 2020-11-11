@@ -22,6 +22,8 @@ export type { TimeInputProps } from './components/TimeInput';
 export { default as TimeInput } from './components/TimeInput';
 export type { DateInputProps } from './components/DateInput';
 export { default as DateInput } from './components/DateInput';
+export type { DateTimeInputProps } from './components/DateTimeInput';
+export { default as DateTimeInput } from './components/DateTimeInput';
 export type { ListProps } from './components/List';
 export { default as List } from './components/List';
 export type { ModalProps } from './components/Modal';
@@ -54,7 +56,6 @@ export { default as Switch } from './components/Switch';
 export { default as SwitchProps } from './components/Switch';
 export { default as SwitchIcon } from './components/SwitchIcon';
 export { default as SwitchIconProps } from './components/SwitchIcon';
-
 export { default as Table, createColumn } from './components/Table';
 export type { TableProps, Column as TableColumn } from './components/Table';
 export { default as TableCell } from './components/Table/Cell';
@@ -68,7 +69,6 @@ export type { FilterParameter as TableFilterParameter } from './components/Table
 export { default as useOrdering, useOrderState } from './components/Table/useOrdering';
 export { default as useSorting, useSortState } from './components/Table/useSorting';
 export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
-
 export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
 export type { TextAreaProps } from './components/TextArea';
