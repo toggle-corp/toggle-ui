@@ -9,6 +9,8 @@ export enum FilterType {
 
 export interface BaseHeader {
     className?: string;
+    titleClassName?: string;
+    titleContainerClassName?: string;
     name: string;
     index: number;
 

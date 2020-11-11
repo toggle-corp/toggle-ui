@@ -57,6 +57,8 @@ let tempDropInfo: DropInfo | undefined;
 function HeaderCell(props: HeaderCellProps) {
     const {
         className,
+        titleClassName,
+        titleContainerClassName,
         title,
         name,
         index,
@@ -224,7 +226,7 @@ function HeaderCell(props: HeaderCellProps) {
             onDrop={onDrop}
         >
             <div
-                className={_cs(styles.titleContainer)}
+                className={_cs(titleContainerClassName, styles.titleContainer)}
             >
                 {sortable && (
                     <Button
@@ -240,7 +242,7 @@ function HeaderCell(props: HeaderCellProps) {
                     </Button>
                 )}
                 <div
-                    className={styles.title}
+                    className={_cs(titleClassName, styles.title)}
                 >
                     {title}
                 </div>
