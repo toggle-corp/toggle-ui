@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     _cs,
     listToMap,
@@ -133,6 +133,13 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
         value.map((v) => optionsLabelMap[v]).join(', ')
     ), [value, optionsLabelMap]);
 
+    const handleClear = useCallback(
+        () => {
+            onChange([], name);
+        },
+        [name, onChange],
+    );
+
     return (
         <SelectInputContainer
             {...otherProps}
@@ -149,6 +156,7 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
             optionsEmptyComponent={optionsEmptyComponent}
             persistentOptionPopup
             optionsPopupClassName={styles.optionsPopup}
+            onClear={handleClear}
         />
     );
 }

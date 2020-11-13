@@ -57,7 +57,9 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                         disabled={disabled}
                         transparent
                         uiMode={uiMode}
+                        compact
                         name={undefined}
+                        title={showPassword ? 'Hide password' : 'Show password'}
                     >
                         {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
                     </ToggleButton>

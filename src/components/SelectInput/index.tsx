@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     _cs,
     listToMap,
@@ -45,7 +45,7 @@ export type SelectInputProps<
     P extends Def,
 > = {
     value: T | undefined | null,
-    onChange: (newValue: T, name: K) => void;
+    onChange: (newValue: T | undefined, name: K) => void;
     options: O[] | undefined | null,
     keySelector: (option: O) => T,
     labelSelector: (option: O) => string,
@@ -73,6 +73,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
     props: SelectInputProps<T, K, O, P>,
 ) {
     const {
+        name,
         value,
         onChange,
         options: optionsFromProps,
@@ -109,9 +110,17 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         rankedSearchOnList(options, searchInputValue, labelSelector)
     ), [options, searchInputValue, labelSelector]);
 
+    const handleClear = useCallback(
+        () => {
+            onChange(undefined, name);
+        },
+        [name, onChange],
+    );
+
     return (
         <SelectInputContainer
             {...otherProps}
+            name={name}
             options={filteredOptions}
             optionKeySelector={keySelector}
             optionRenderer={Option}
@@ -122,6 +131,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             searchPlaceholder={searchPlaceholder}
             optionsEmptyComponent={optionsEmptyComponent ?? <DefaultEmptyComponent />}
             optionsPopupClassName={_cs(optionsPopupClassName, styles.optionsPopup)}
+            onClear={handleClear}
         />
     );
 }

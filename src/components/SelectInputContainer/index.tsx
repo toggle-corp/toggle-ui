@@ -1,10 +1,11 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 
 import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput from '../RawInput';
+import Button from '../Button';
 import RawButton, { RawButtonProps } from '../RawButton';
 import List from '../List';
 import { useBlurEffect } from '../../hooks';
@@ -66,6 +67,9 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     persistentOptionPopup?: boolean;
     searchPlaceholder?: string;
     valueDisplay: string;
+
+    nonClearable?: boolean;
+    onClear: () => void;
 }
 
 const emptyList: unknown[] = [];
@@ -103,6 +107,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         searchPlaceholder,
         uiMode,
         valueDisplay = '',
+        nonClearable,
+        onClear,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
@@ -165,9 +171,22 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             <InputContainer
                 ref={containerRef}
                 inputSectionRef={inputSectionRef}
-                actions={(
+                actions={!readOnly && (
                     <>
                         {actions}
+                        {!nonClearable && (
+                            <Button
+                                onClick={onClear}
+                                disabled={disabled}
+                                transparent
+                                compact
+                                uiMode={uiMode}
+                                name={undefined}
+                                title="Clear"
+                            >
+                                <IoMdClose />
+                            </Button>
+                        )}
                         {showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                     </>
                 )}
