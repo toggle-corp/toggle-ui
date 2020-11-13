@@ -1,26 +1,31 @@
 .avatar {
+    --size: 1em;
     display: flex;
-    width: 100%;
-    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: var(--size);
+    height: var(--size);
 
     .image {
-        display: flex;
-        flex-grow: 1;
-        flex-shrink: 0;
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator);
         border-radius: 50%;
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
     }
 
     .icon {
         display: flex;
         align-items: center;
-        flex-grow: 1;
-        flex-shrink: 0;
         justify-content: center;
+        border: var(--tui-width-separator-thin) solid var(--tui-color-separator);
         border-radius: 50%;
+        width: 100%;
+        height: 100%;
         text-align: center;
         text-transform: uppercase;
-        font-size: var(--tui-font-size-ultra-large);
+        font-size: calc(0.6 * var(--size));
     }
 }

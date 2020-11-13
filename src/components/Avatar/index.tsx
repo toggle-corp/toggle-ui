@@ -36,16 +36,8 @@ function useImage(props: ImageLoadProps) {
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
-        setLoading(false);
+        setLoading(true);
         setHasError(false);
-
-        const image = new Image();
-        if (src) {
-            image.src = src;
-        }
-        if (srcSet) {
-            image.srcset = srcSet;
-        }
 
         const handleLoad = () => {
             setLoading(false);
@@ -57,8 +49,17 @@ function useImage(props: ImageLoadProps) {
             setHasError(true);
         };
 
-        image.onload = handleLoad;
-        image.onerror = handleError;
+        const image = new Image();
+        image.addEventListener('error', handleError);
+        image.addEventListener('load', handleLoad);
+
+        if (src) {
+            image.src = src;
+        }
+
+        if (srcSet) {
+            image.srcset = srcSet;
+        }
 
         return () => {
             image.removeEventListener('error', handleError);

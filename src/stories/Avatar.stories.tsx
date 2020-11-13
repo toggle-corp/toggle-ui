@@ -11,8 +11,7 @@ export default {
 const Template: Story<AvatarProps> = (props) => (
     <div
         style={{
-            width: '100px',
-            height: '100px',
+            fontSize: '100px',
         }}
     >
         <Avatar
