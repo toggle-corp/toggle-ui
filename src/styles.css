@@ -107,8 +107,8 @@
 
     --tui-color-shadow: rgba(0, 0, 0, .5);
 
-    --tui-color-backdrop-light: rgba(0, 0, 0, .5);
-    --tui-color-backdrop-dark: rgba(255, 255, 255, .5);
+    --tui-color-backdrop-light: rgba(0, 0, 0, .6);
+    --tui-color-backdrop-dark: rgba(255, 255, 255, .7);
 
     --tui-color-background-switch-icon-light: rgba(0, 0, 0, .4);
     --tui-color-background-switch-icon-dark: rgba(255, 255, 255, .4);
@@ -129,4 +129,8 @@
     --tui-height-max-modal: 96vh;
     --tui-width-max-modal: 96vw;
     --tui-width-min-modal: 360px;
+
+
+    --tui-color-loading-particle-light: rgba(0, 0, 0, 1);
+    --tui-color-loading-particle-dark: rgba(255, 255, 255, 1);
 }

@@ -6,34 +6,36 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
-export interface BackdropProps {
+export interface LoadingAnimationProps {
     className?: string;
-    children?: React.ReactNode;
     uiMode?: UiMode;
+    compact?: boolean;
 }
 
-function Backdrop(props: BackdropProps) {
+function LoadingAnimation(props: LoadingAnimationProps) {
     const {
         className,
-        children,
         uiMode,
+        compact,
     } = props;
 
-    const ref = React.useRef<HTMLDivElement>(null);
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
     return (
-        <div
-            ref={ref}
-            className={_cs(
+        <div className={
+            _cs(
                 className,
-                styles.backdrop,
                 themeClassName,
-            )}
+                styles.loadingAnimation,
+                compact && styles.compact,
+            )
+        }
         >
-            { children }
+            <div className={styles.particle} />
+            <div className={styles.particle} />
+            <div className={styles.particle} />
         </div>
     );
 }
 
-export default Backdrop;
+export default LoadingAnimation;

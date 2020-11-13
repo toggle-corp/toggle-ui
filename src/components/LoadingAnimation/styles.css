@@ -1,0 +1,54 @@
+.loading-animation {
+    --size: 0.4em;
+    --half-size: 0.2em;
+    --gap: 0.1em;
+    --color: transparent;
+    --transition-duration: 1s;
+
+    display: flex;
+    align-items: center;
+
+    &.compact {
+        --size: 0.24em;
+        --half-size: 0.12em;
+        --gap: 0.06em;
+    }
+
+    &.light {
+        --color: var(--tui-color-loading-particle-light);
+    }
+
+    &.dark {
+        --color: var(--tui-color-loading-particle-dark);
+    }
+
+    .particle {
+        flex-shrink: 0;
+        margin: var(--gap);
+        border-radius: 50%;
+        background-color: var(--color);
+        width: var(--size);
+        height: var(--size);
+        animation: wiggle-vertically var(--transition-duration) linear infinite;
+
+        &:nth-child(1) {
+            animation-delay: 0;
+        }
+
+        &:nth-child(2) {
+            animation-delay: calc(var(--transition-duration) / 3);
+        }
+
+        &:nth-child(3) {
+            animation-delay: calc(2 * var(--transition-duration) / 3);
+        }
+    }
+}
+
+@keyframes wiggle-vertically {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(calc(-1 * var(--half-size))); }
+    75% { transform: translateY(calc(-1 * var(--half-size))); }
+    100% { transform: translateY(0); }
+}
+

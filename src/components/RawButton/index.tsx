@@ -4,6 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import VisualFeedback from '../VisualFeedback';
+import Loading from '../Loading';
 
 import styles from './styles.css';
 
@@ -23,6 +24,10 @@ export interface RawButtonProps<N extends number | string | undefined> extends O
     uiMode?: UiMode;
     name: N;
     elementRef?: React.Ref<HTMLButtonElement>;
+    /**
+     * Shows the loading animation
+     */
+    pending?: boolean;
 }
 
 /**
@@ -37,6 +42,7 @@ function RawButton<N extends number | string | undefined>(props: RawButtonProps<
         disabled,
         elementRef,
         name,
+        pending,
         ...otherProps
     } = props;
 
@@ -61,6 +67,11 @@ function RawButton<N extends number | string | undefined>(props: RawButtonProps<
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
+            {pending && (
+                <Loading
+                    uiMode={uiMode}
+                />
+            )}
             <VisualFeedback
                 disabled={disabled}
                 uiMode={uiMode}

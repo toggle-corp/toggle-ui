@@ -26,6 +26,8 @@ export type { DateTimeInputProps } from './components/DateTimeInput';
 export { default as DateTimeInput } from './components/DateTimeInput';
 export type { ListProps } from './components/List';
 export { default as List } from './components/List';
+export type { LoadingAnimationProps } from './components/LoadingAnimation';
+export { default as LoadingAnimation } from './components/LoadingAnimation';
 export type { ModalProps } from './components/Modal';
 export { default as Modal } from './components/Modal';
 export type { MultiSelectInputProps } from './components/MultiSelectInput';
