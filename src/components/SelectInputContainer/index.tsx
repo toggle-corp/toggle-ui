@@ -171,10 +171,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             <InputContainer
                 ref={containerRef}
                 inputSectionRef={inputSectionRef}
-                actions={!readOnly && (
+                actions={(
                     <>
                         {actions}
-                        {!nonClearable && (
+                        {!readOnly && !nonClearable && (
                             <Button
                                 onClick={onClear}
                                 disabled={disabled}
@@ -187,7 +187,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                                 <IoMdClose />
                             </Button>
                         )}
-                        {showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        {!readOnly && (showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />)}
                     </>
                 )}
                 actionsContainerClassName={actionsContainerClassName}
