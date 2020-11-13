@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { _cs } from '@togglecorp/fujs';
-import { MdPerson } from 'react-icons/md';
+import {
+    _cs,
+    getHexFromString,
+    getColorOnBgColor,
+} from '@togglecorp/fujs';
 
 import styles from './styles.css';
 
-export interface AvatarProps {
-    className?: string;
-    alt?: string;
-    children?: React.ReactNode;
-    src?: string;
-    srcSet?: string;
-    sizes?: string;
-    imgProps?: React.ImgHTMLAttributes<HTMLImageElement>;
+function getInitials(name: string) {
+    if (name.length <= 0) {
+        return '?';
+    }
+    const letters = name.trim().split(/\s/).map((item) => item[0]);
+    return (
+        letters.length <= 1
+            ? letters[0]
+            : `${letters[0]}${letters[letters.length - 1]}`
+    );
 }
 
 interface ImageLoadProps {
@@ -24,6 +29,8 @@ function useImage(props: ImageLoadProps) {
         src,
         srcSet,
     } = props;
+
+    const hasImage = src || srcSet;
 
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
@@ -59,60 +66,56 @@ function useImage(props: ImageLoadProps) {
         };
     }, [src, srcSet]);
 
-    return { loading, hasError };
+    return { isLoading: loading, hasError, hasImage };
+}
+
+export interface AvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+    className?: string;
+    alt: string;
 }
 
 function Avatar(props: AvatarProps) {
     const {
+        className: classNameFromProps,
         alt,
         src,
         srcSet,
-        sizes,
-        imgProps,
-        className: classNameFromProps,
-        children,
+        ...otherProps
     } = props;
 
-    const { loading, hasError } = useImage({ src, srcSet });
-    const hasImage = src || srcSet;
+    const { isLoading, hasError, hasImage } = useImage({ src, srcSet });
+
     const className = _cs(classNameFromProps, styles.avatar);
 
-    if (hasImage && !hasError && !loading) {
+    if (!hasImage || hasError || isLoading) {
+        const initials = getInitials(alt);
+        const backgroundColor = getHexFromString(alt);
+        const textColor = getColorOnBgColor(backgroundColor);
+
         return (
             <div className={className}>
-                <img
-                    className={styles.image}
-                    alt={alt}
-                    src={src}
-                    srcSet={srcSet}
-                    sizes={sizes}
-                    {...imgProps}
-                />
-            </div>
-        );
-    }
-    if (children) {
-        return (
-            <div className={className}>
-                {children}
-            </div>
-        );
-    }
-    if (alt && (!hasImage || loading)) {
-        const initials = alt.match(/(\b\S)?/g)?.join('')?.match(/(^\S|\S$)?/g)?.join('');
-        return (
-            <div className={className}>
-                <div className={styles.icon}>
+                <div
+                    className={styles.icon}
+                    style={{
+                        backgroundColor,
+                        color: textColor,
+                    }}
+                >
                     {initials}
                 </div>
             </div>
         );
     }
+
     return (
         <div className={className}>
-            <div className={styles.icon}>
-                <MdPerson />
-            </div>
+            <img
+                className={styles.image}
+                alt={alt}
+                src={src}
+                srcSet={srcSet}
+                {...otherProps}
+            />
         </div>
     );
 }

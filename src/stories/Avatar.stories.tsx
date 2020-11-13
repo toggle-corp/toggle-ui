@@ -1,5 +1,6 @@
 import React from 'react';
-import Avatar from '#components/Avatar';
+import { Story } from '@storybook/react/types-6-0';
+import Avatar, { AvatarProps } from '#components/Avatar';
 
 export default {
     title: 'View/Avatar',
@@ -7,7 +8,7 @@ export default {
     argTypes: {},
 };
 
-export const Default = () => (
+const Template: Story<AvatarProps> = (props) => (
     <div
         style={{
             width: '100px',
@@ -15,8 +16,19 @@ export const Default = () => (
         }}
     >
         <Avatar
-            src="https://images.freeimages.com/images/large-previews/023/geek-avatar-1632962.jpg"
-            alt="hero"
+            {...props}
         />
     </div>
 );
+
+export const Default = Template.bind({});
+Default.args = {
+    src: 'https://images.freeimages.com/images/large-previews/023/geek-avatar-1632962.jpg',
+    alt: 'Ram Bahadur',
+};
+
+export const WithoutImage = Template.bind({});
+WithoutImage.args = {
+    src: '',
+    alt: 'Ram Bahadur',
+};
