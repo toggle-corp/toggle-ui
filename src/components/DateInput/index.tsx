@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { IoMdTime } from 'react-icons/io';
 
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput, { RawInputProps } from '../RawInput';
+import Button from '../Button';
+import { getLocalISOString } from '../../utils';
 
 export type DateInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
 
@@ -22,12 +25,24 @@ function DateInput<T extends string>(props: DateInputProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
+        onChange,
+        name,
         ...rawInputProps
     } = props;
 
+    const handleNowSet = useCallback(
+        () => {
+            if (!onChange) {
+                return;
+            }
+            const value = getLocalISOString().substr(0, 10);
+            onChange(value, name, undefined);
+        },
+        [onChange, name],
+    );
+
     return (
         <InputContainer
-            actions={actions}
             actionsContainerClassName={actionsContainerClassName}
             className={className}
             disabled={disabled}
@@ -45,11 +60,31 @@ function DateInput<T extends string>(props: DateInputProps<T>) {
             input={(
                 <RawInput<T>
                     {...rawInputProps}
+                    name={name}
+                    onChange={onChange}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}
                     type="date"
                 />
+            )}
+            actions={(
+                <>
+                    {actions}
+                    {!readOnly && (
+                        <Button
+                            onClick={handleNowSet}
+                            disabled={disabled}
+                            transparent
+                            compact
+                            uiMode={uiMode}
+                            name={undefined}
+                            title="Set now"
+                        >
+                            <IoMdTime />
+                        </Button>
+                    )}
+                </>
             )}
         />
     );

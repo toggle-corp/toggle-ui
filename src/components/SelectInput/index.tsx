@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     _cs,
     listToMap,
@@ -45,7 +45,6 @@ export type SelectInputProps<
     P extends Def,
 > = {
     value: T | undefined | null,
-    onChange: (newValue: T, name: K) => void;
     options: O[] | undefined | null,
     keySelector: (option: O) => T,
     labelSelector: (option: O) => string,
@@ -54,7 +53,10 @@ export type SelectInputProps<
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-} & Omit<
+} & (
+    { nonClearable: true; onChange: (newValue: T, name: K) => void }
+    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
+) & Omit<
     SelectInputContainerProps<T, K, O, P>,
         'optionsEmptyComponent'
         | 'optionKeySelector'
@@ -64,6 +66,8 @@ export type SelectInputProps<
         | 'name'
         | 'valueDisplay'
         | 'onSearchInputChange'
+        | 'nonClearable'
+        | 'onClear'
     >;
 
 const emptyList: unknown[] = [];
@@ -73,6 +77,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
     props: SelectInputProps<T, K, O, P>,
 ) {
     const {
+        name,
         value,
         onChange,
         options: optionsFromProps,
@@ -109,9 +114,19 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         rankedSearchOnList(options, searchInputValue, labelSelector)
     ), [options, searchInputValue, labelSelector]);
 
+    const handleClear = useCallback(
+        () => {
+            if (!props.nonClearable) {
+                props.onChange(undefined, name);
+            }
+        },
+        [name, props.onChange, props.nonClearable],
+    );
+
     return (
         <SelectInputContainer
             {...otherProps}
+            name={name}
             options={filteredOptions}
             optionKeySelector={keySelector}
             optionRenderer={Option}
@@ -122,6 +137,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             searchPlaceholder={searchPlaceholder}
             optionsEmptyComponent={optionsEmptyComponent ?? <DefaultEmptyComponent />}
             optionsPopupClassName={_cs(optionsPopupClassName, styles.optionsPopup)}
+            onClear={handleClear}
         />
     );
 }

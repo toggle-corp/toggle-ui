@@ -39,6 +39,7 @@ const Template: Story<SelectInputProps<string, string, Option, { containerClassN
             keySelector={(d) => d.key}
             labelSelector={(d) => d.label}
             onChange={setValue}
+            nonClearable
         />
     );
 };

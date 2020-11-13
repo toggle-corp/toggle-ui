@@ -25,7 +25,7 @@ export interface RawInputProps<K> extends Omit<React.HTMLProps<HTMLInputElement>
     onChange?: (
         value: string | undefined,
         name: K,
-        e: React.FormEvent<HTMLInputElement>,
+        e: React.FormEvent<HTMLInputElement> | undefined,
     ) => void;
     /**
      * UI mode: light or dark
