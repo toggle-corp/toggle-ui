@@ -12,7 +12,11 @@ function isValidDecimalTrailingZeroString(val: string) {
 
 export type NumberInputProps<T> = Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'> & {
     value: number | undefined | null;
-    onChange?: (value: number | undefined, name: T, e: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: (
+        value: number | undefined,
+        name: T,
+        e: React.FormEvent<HTMLInputElement> | undefined,
+    ) => void;
 };
 
 function NumberInput<T extends string>(props: NumberInputProps<T>) {
@@ -54,7 +58,11 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
     );
 
     const handleChange = React.useCallback(
-        (v: string | undefined, n: T, event: React.FormEvent<HTMLInputElement>) => {
+        (
+            v: string | undefined,
+            n: T,
+            event: React.FormEvent<HTMLInputElement> | undefined,
+        ) => {
             if (!onChange) {
                 return;
             }

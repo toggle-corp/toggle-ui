@@ -45,7 +45,6 @@ export type SelectInputProps<
     P extends Def,
 > = {
     value: T | undefined | null,
-    onChange: (newValue: T | undefined, name: K) => void;
     options: O[] | undefined | null,
     keySelector: (option: O) => T,
     labelSelector: (option: O) => string,
@@ -54,7 +53,10 @@ export type SelectInputProps<
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-} & Omit<
+} & (
+    { nonClearable: true; onChange: (newValue: T, name: K) => void }
+    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
+) & Omit<
     SelectInputContainerProps<T, K, O, P>,
         'optionsEmptyComponent'
         | 'optionKeySelector'
@@ -64,6 +66,8 @@ export type SelectInputProps<
         | 'name'
         | 'valueDisplay'
         | 'onSearchInputChange'
+        | 'nonClearable'
+        | 'onClear'
     >;
 
 const emptyList: unknown[] = [];
@@ -112,9 +116,11 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
 
     const handleClear = useCallback(
         () => {
-            onChange(undefined, name);
+            if (!props.nonClearable) {
+                props.onChange(undefined, name);
+            }
         },
-        [name, onChange],
+        [name, props.onChange, props.nonClearable],
     );
 
     return (

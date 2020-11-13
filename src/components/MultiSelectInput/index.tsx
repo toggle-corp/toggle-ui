@@ -72,6 +72,7 @@ export type MultiSelectInputProps<
         | 'name'
         | 'valueDisplay'
         | 'onSearchInputChange'
+        | 'onClear'
     >;
 
 const emptyList: unknown[] = [];

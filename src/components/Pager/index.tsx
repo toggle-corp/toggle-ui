@@ -285,6 +285,7 @@ function Pager(props: PagerProps) {
                             disabled={disabled}
                             searchPlaceholder=""
                             optionsPopupClassName={styles.perPageOptionPopup}
+                            nonClearable
                         />
                     </div>
                 )}
