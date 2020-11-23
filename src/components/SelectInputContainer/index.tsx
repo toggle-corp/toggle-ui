@@ -73,6 +73,7 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     optionsPending?: boolean;
     optionsPopupClassName?: string;
     persistentOptionPopup?: boolean;
+    placeholder?: string;
     searchPlaceholder?: string;
     valueDisplay: string;
 
@@ -113,6 +114,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         persistentOptionPopup,
         readOnly,
         searchPlaceholder,
+        placeholder,
         uiMode,
         valueDisplay = '',
         nonClearable,
@@ -222,7 +224,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         value={showDropdown ? searchInputValue : valueDisplay}
                         onChange={handleSearchInputChange}
                         onClick={handleSearchInputClick}
-                        placeholder={searchPlaceholder}
+                        placeholder={showDropdown ? searchPlaceholder : placeholder}
                         autoComplete="off"
                     />
                 )}
