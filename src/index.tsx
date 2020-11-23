@@ -30,6 +30,8 @@ export { default as Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
 export { default as MultiSelectInput } from './components/MultiSelectInput';
 export type { MultiSelectInputProps } from './components/MultiSelectInput';
+export { default as SearchMultiSelectInput } from './components/MultiSelectInput/SearchMultiSelectInput';
+export type { SearchMultiSelectInputProps } from './components/MultiSelectInput/SearchMultiSelectInput';
 export { default as NumberInput } from './components/NumberInput';
 export type { NumberInputProps } from './components/NumberInput';
 export { default as Numeral } from './components/Numeral';

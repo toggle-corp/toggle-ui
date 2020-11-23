@@ -2,24 +2,29 @@ import React, { useCallback } from 'react';
 import {
     _cs,
     listToMap,
+    isDefined,
 } from '@togglecorp/fujs';
-import { MdCheck } from 'react-icons/md';
-
+import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
-import EmptyOptions from './EmptyOptions';
-import EmptySelectedOptions from './EmptySelectedOptions';
+import EmptyOptions from '../SelectInput/EmptyOptions';
+import EmptySelectedOptions from '../SelectInput/EmptySelectedOptions';
 
 import styles from './styles.css';
 
 interface OptionProps {
     children: React.ReactNode;
+    isActive: boolean;
 }
 function Option(props: OptionProps) {
-    const { children } = props;
+    const {
+        children,
+        isActive,
+    } = props;
+
     return (
         <>
             <div className={styles.icon}>
-                <MdCheck />
+                { isActive ? <MdCheckBox /> : <MdCheckBoxOutlineBlank /> }
             </div>
             <div className={styles.label}>
                 { children }
@@ -30,75 +35,79 @@ function Option(props: OptionProps) {
 
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
-
-export type SearchSelectInputProps<
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type SearchMultiSelectInputProps<
     T extends OptionKey,
     K,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-    OMISSION extends string,
-> = Omit<{
-    searchOptions: O[] | undefined | null,
-    onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
-    onSearchValueChange: (searchVal: string) => void,
-    value: T | undefined | null,
-    options: O[] | undefined | null,
-    keySelector: (option: O) => T,
-    labelSelector: (option: O) => string,
+> = {
+    value: T[] | undefined | null;
+    onChange: (newValue: T[], name: K) => void;
+    options: O[] | undefined | null;
+    keySelector: (option: O) => T;
+    labelSelector: (option: O) => string;
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
     searchOptionsShownInitially?: boolean;
-}, OMISSION> & (
-    { nonClearable: true; onChange: (newValue: T, name: K) => void }
-    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
-) & (
-    Omit<SelectInputContainerProps<T, K, O, P>,
-        'name'
-        | 'nonClearable'
-        | 'onClear'
-        | 'onOptionClick'
-        | 'onSearchInputChange'
+    onOptionsChange: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
+    searchOptions: O[] | undefined | null;
+    onSearchValueChange: (searchVal: string) => void,
+} & Omit<
+    SelectInputContainerProps<T, K, O, P>,
+        'optionsEmptyComponent'
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'optionsEmptyComponent'
+        | 'onOptionClick'
+        | 'name'
         | 'valueDisplay'
-    >
-);
+        | 'onSearchInputChange'
+        | 'onClear'
+    >;
+
 const emptyList: unknown[] = [];
 
-function SearchSelectInput<
+function SearchMultiSelectInput<
     T extends OptionKey,
     K extends string,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
 >(
-    props: SearchSelectInputProps<T, K, O, P, never>,
+    props: SearchMultiSelectInputProps<T, K, O, P>,
 ) {
     const {
+        value: valueFromProps,
+        onChange,
+        options: optionsFromProps,
         keySelector,
         labelSelector,
-        name,
-        onChange,
-        onSearchValueChange,
-        options: optionsFromProps,
+        searchPlaceholder = 'Type to search',
         optionsEmptyComponent,
         optionsPending,
         optionsPopupClassName,
-        searchOptions,
-        searchPlaceholder = 'Type to search',
-        value,
         onOptionsChange,
+        onSearchValueChange,
+        searchOptions,
+        name,
         searchOptionsShownInitially = false,
         ...otherProps
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
+    const value = valueFromProps ?? (emptyList as T[]);
+
+    const optionsMap = React.useMemo(
+        () => (
+            listToMap(options, keySelector, (i) => i)
+        ),
+        [options, keySelector],
+    );
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
 
@@ -108,13 +117,16 @@ function SearchSelectInput<
         ),
         [options, keySelector, labelSelector],
     );
+
     const optionRendererParams = React.useCallback(
-        (key: OptionKey, option: O) => {
-            const isActive = key === value;
+        (key, option) => {
+            // TODO: optimize using map
+            const isActive = value.indexOf(key) !== -1;
 
             return {
                 children: labelSelector(option),
                 containerClassName: _cs(styles.option, isActive && styles.active),
+                isActive,
             };
         },
         [value, labelSelector],
@@ -128,43 +140,45 @@ function SearchSelectInput<
         [setSearchInputValue, onSearchValueChange],
     );
 
-    const handleOptionClick = useCallback(
+    // FIXME: value should not be on dependency list
+    const handleOptionClick = React.useCallback(
         (k: T, v: O) => {
-            if (onOptionsChange) {
-                onOptionsChange(((existingOptions) => {
-                    const safeOptions = existingOptions ?? [];
-                    const opt = safeOptions.find((item) => keySelector(item) === k);
-                    if (opt) {
-                        return existingOptions;
-                    }
-                    return [...safeOptions, v];
-                }));
+            const newValue = [...value];
+
+            const optionKeyIndex = value.findIndex((d) => d === k);
+            if (optionKeyIndex !== -1) {
+                newValue.splice(optionKeyIndex, 1);
+            } else {
+                newValue.push(k);
+
+                if (onOptionsChange) {
+                    onOptionsChange(((existingOptions) => {
+                        const safeOptions = existingOptions ?? [];
+                        const opt = safeOptions.find((item) => keySelector(item) === k);
+                        if (opt) {
+                            return existingOptions;
+                        }
+                        return [...safeOptions, v];
+                    }));
+                }
             }
-            onChange(k, name);
+
+            onChange(newValue, name);
         },
-        [onChange, name, onOptionsChange, keySelector],
+        [value, onChange, name, onOptionsChange, keySelector],
     );
 
     const handleClear = useCallback(
         () => {
-            if (!props.nonClearable) {
-                props.onChange(undefined, name);
-            }
+            onChange([], name);
         },
-        // eslint-disable-next-line react/destructuring-assignment
-        [name, props.onChange, props.nonClearable],
+        [name, onChange],
     );
 
     // NOTE: we can skip this calculation if optionsShowInitially is false
     const selectedOptions = React.useMemo(
-        () => {
-            const selectedValue = options?.find((item) => keySelector(item) === value);
-            if (!selectedValue) {
-                return undefined;
-            }
-            return [selectedValue];
-        },
-        [options, keySelector, value],
+        () => value.map((valueKey) => optionsMap[valueKey]).filter(isDefined),
+        [value, optionsMap],
     );
 
     const showSelectedOptions = !searchInputValue && !searchOptionsShownInitially;
@@ -183,7 +197,12 @@ function SearchSelectInput<
             />
         );
 
-    const valueDisplay = value ? optionsLabelMap[value] ?? '?' : '';
+    const valueDisplay = React.useMemo(
+        () => (
+            value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
+        ),
+        [value, optionsLabelMap],
+    );
 
     return (
         <SelectInputContainer
@@ -202,8 +221,9 @@ function SearchSelectInput<
             optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
             optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
+            persistentOptionPopup
         />
     );
 }
 
-export default SearchSelectInput;
+export default SearchMultiSelectInput;

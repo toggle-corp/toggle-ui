@@ -17,15 +17,3 @@
         padding: 0 var(--tui-spacing-small);
     }
 }
-
-.empty {
-    padding: var(--tui-spacing-large);
-    color: var(--tui-color-text-disabled-light);
-}
-
-.options-popup {
-    .empty {
-        padding: var(--tui-spacing-large);
-        color: var(--tui-color-text-disabled-light);
-    }
-}
