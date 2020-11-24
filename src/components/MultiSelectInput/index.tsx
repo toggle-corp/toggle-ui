@@ -13,7 +13,7 @@ export type MultiSelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = Omit<SearchMultiSelectInputProps<T, K, O, P>, 'onSearchMultiValueChange' | 'searchOptions' | 'searchOptionsShownInitially'>;
+> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'searchOptionsShownInitially'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(

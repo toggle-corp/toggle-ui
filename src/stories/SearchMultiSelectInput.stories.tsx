@@ -25,7 +25,7 @@ const options: Option[] = [
 ];
 
 // eslint-disable-next-line max-len
-const Template: Story<SearchMultiSelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
+const Template: Story<SearchMultiSelectInputProps<string, string, Option, { containerClassName?: string }, never>> = (props) => {
     const [{ value }, updateArgs] = useArgs();
 
     const setValue = (e: string[]) => {

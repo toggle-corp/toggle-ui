@@ -35,14 +35,15 @@ function Option(props: OptionProps) {
 
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
-// eslint-disable-next-line @typescript-eslint/ban-types
+
 export type SearchMultiSelectInputProps<
     T extends OptionKey,
     K,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = {
+    OMISSION extends string,
+> = Omit<{
     value: T[] | undefined | null;
     onChange: (newValue: T[], name: K) => void;
     options: O[] | undefined | null;
@@ -54,21 +55,24 @@ export type SearchMultiSelectInputProps<
     disabled?: boolean;
     readOnly?: boolean;
     searchOptionsShownInitially?: boolean;
-    onOptionsChange: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
+    onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
     searchOptions: O[] | undefined | null;
     onSearchValueChange: (searchVal: string) => void,
-} & Omit<
-    SelectInputContainerProps<T, K, O, P>,
-        'optionsEmptyComponent'
+}, OMISSION> & (
+    Omit<SelectInputContainerProps<T, K, O, P>,
+        'name'
+        | 'nonClearable'
+        | 'onClear'
+        | 'onOptionClick'
+        | 'onSearchInputChange'
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'onOptionClick'
-        | 'name'
+        | 'optionsEmptyComponent'
+        | 'persistentOptionPopup'
         | 'valueDisplay'
-        | 'onSearchInputChange'
-        | 'onClear'
-    >;
+    >
+);
 
 const emptyList: unknown[] = [];
 
@@ -79,23 +83,23 @@ function SearchMultiSelectInput<
     O extends object,
     P extends Def,
 >(
-    props: SearchMultiSelectInputProps<T, K, O, P>,
+    props: SearchMultiSelectInputProps<T, K, O, P, never>,
 ) {
     const {
-        value: valueFromProps,
-        onChange,
-        options: optionsFromProps,
         keySelector,
         labelSelector,
-        searchPlaceholder = 'Type to search',
+        name,
+        onChange,
+        onOptionsChange,
+        onSearchValueChange,
+        options: optionsFromProps,
         optionsEmptyComponent,
         optionsPending,
         optionsPopupClassName,
-        onOptionsChange,
-        onSearchValueChange,
         searchOptions,
-        name,
         searchOptionsShownInitially = false,
+        searchPlaceholder = 'Type to search',
+        value: valueFromProps,
         ...otherProps
     } = props;
 
@@ -119,9 +123,9 @@ function SearchMultiSelectInput<
     );
 
     const optionRendererParams = React.useCallback(
-        (key, option) => {
+        (key: OptionKey, option: O) => {
+            const isActive = value.findIndex((item) => item === key) !== -1;
             // TODO: optimize using map
-            const isActive = value.indexOf(key) !== -1;
 
             return {
                 children: labelSelector(option),
@@ -140,7 +144,6 @@ function SearchMultiSelectInput<
         [setSearchInputValue, onSearchValueChange],
     );
 
-    // FIXME: value should not be on dependency list
     const handleOptionClick = React.useCallback(
         (k: T, v: O) => {
             const newValue = [...value];
@@ -166,6 +169,7 @@ function SearchMultiSelectInput<
             onChange(newValue, name);
         },
         [value, onChange, name, onOptionsChange, keySelector],
+        // FIXME: value should not be on dependency list
     );
 
     const handleClear = useCallback(
@@ -222,6 +226,7 @@ function SearchMultiSelectInput<
             optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
             persistentOptionPopup
+            nonClearable={false}
         />
     );
 }

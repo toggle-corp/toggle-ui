@@ -39,23 +39,20 @@ export type SearchSelectInputProps<
     P extends Def,
     OMISSION extends string,
 > = Omit<{
-    searchOptions: O[] | undefined | null,
-    onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
-    onSearchValueChange: (searchVal: string) => void,
-    value: T | undefined | null,
-    options: O[] | undefined | null,
-    keySelector: (option: O) => T,
-    labelSelector: (option: O) => string,
+    value: T | undefined | null;
+    options: O[] | undefined | null;
+    keySelector: (option: O) => T;
+    labelSelector: (option: O) => string;
     searchPlaceholder?: string;
     optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
     searchOptionsShownInitially?: boolean;
+    onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
+    searchOptions: O[] | undefined | null;
+    onSearchValueChange: (searchVal: string) => void,
 }, OMISSION> & (
-    { nonClearable: true; onChange: (newValue: T, name: K) => void }
-    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
-) & (
     Omit<SelectInputContainerProps<T, K, O, P>,
         'name'
         | 'nonClearable'
@@ -66,9 +63,14 @@ export type SearchSelectInputProps<
         | 'optionRenderer'
         | 'optionRendererParams'
         | 'optionsEmptyComponent'
+        | 'persistentOptionPopup'
         | 'valueDisplay'
     >
+) & (
+    { nonClearable: true; onChange: (newValue: T, name: K) => void }
+    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
 );
+
 const emptyList: unknown[] = [];
 
 function SearchSelectInput<
@@ -85,16 +87,16 @@ function SearchSelectInput<
         labelSelector,
         name,
         onChange,
+        onOptionsChange,
         onSearchValueChange,
         options: optionsFromProps,
         optionsEmptyComponent,
         optionsPending,
         optionsPopupClassName,
         searchOptions,
+        searchOptionsShownInitially = false,
         searchPlaceholder = 'Type to search',
         value,
-        onOptionsChange,
-        searchOptionsShownInitially = false,
         ...otherProps
     } = props;
 
@@ -108,6 +110,7 @@ function SearchSelectInput<
         ),
         [options, keySelector, labelSelector],
     );
+
     const optionRendererParams = React.useCallback(
         (key: OptionKey, option: O) => {
             const isActive = key === value;
@@ -202,6 +205,7 @@ function SearchSelectInput<
             optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
             optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
+            persistentOptionPopup={false}
         />
     );
 }
