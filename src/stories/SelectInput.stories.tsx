@@ -44,6 +44,11 @@ const Template: Story<SelectInputProps<string, string, Option, { containerClassN
     );
 };
 
+export const NoValue = Template.bind({});
+NoValue.args = {
+    value: undefined,
+};
+
 export const Default = Template.bind({});
 Default.args = {
     value: '1',

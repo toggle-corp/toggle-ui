@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 
@@ -6,7 +6,7 @@ import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput from '../RawInput';
 import Button from '../Button';
-import RawButton, { RawButtonProps } from '../RawButton';
+import RawButton from '../RawButton';
 import List from '../List';
 import { useBlurEffect } from '../../hooks';
 
@@ -21,7 +21,7 @@ interface GenericOptionRendererParams<P extends Def, OK extends OptionKey, O> {
     contentRendererParam: (key: OK, opt: O) => P;
     option: O;
     optionKey: OK;
-    onClick: RawButtonProps<OK>['onClick'];
+    onClick: (optionKey: OK, option: O) => void;
 }
 function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
     optionContainerClassName,
@@ -37,6 +37,13 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
         ...props
     } = params;
 
+    const handleClick = useCallback(
+        () => {
+            onClick(optionKey, option);
+        },
+        [optionKey, option, onClick],
+    );
+
     return (
         <RawButton
             className={_cs(
@@ -44,7 +51,7 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
                 optionContainerClassName,
                 containerClassName,
             )}
-            onClick={onClick}
+            onClick={handleClick}
             name={optionKey}
         >
             {contentRenderer(props)}
@@ -54,7 +61,7 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
 
 export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends Def> extends Omit<InputContainerProps, 'input'> {
     name: N,
-    onOptionClick: (optionKey: OK, name: N) => void;
+    onOptionClick: (optionKey: OK, option: O, name: N) => void;
     onSearchInputChange: (search: string) => void;
     optionContainerClassName?: string;
     optionKeySelector: (datum: O, index: number) => OK;
@@ -62,9 +69,11 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
     optionRendererParams: (optionKey: OK, option: O) => P;
     options: O[] | undefined | null;
     optionsEmptyComponent: React.ReactNode;
+    // FIXME: use this
     optionsPending?: boolean;
     optionsPopupClassName?: string;
     persistentOptionPopup?: boolean;
+    placeholder?: string;
     searchPlaceholder?: string;
     valueDisplay: string;
 
@@ -105,6 +114,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         persistentOptionPopup,
         readOnly,
         searchPlaceholder,
+        placeholder,
         uiMode,
         valueDisplay = '',
         nonClearable,
@@ -145,8 +155,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
 
     useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
 
-    const handleOptionClick = React.useCallback((value) => {
-        onOptionClick(value, name);
+    const handleOptionClick = React.useCallback((valueKey, value) => {
+        onOptionClick(valueKey, value, name);
         if (!persistentOptionPopup) {
             setShowDropdown(false);
         }
@@ -214,7 +224,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         value={showDropdown ? searchInputValue : valueDisplay}
                         onChange={handleSearchInputChange}
                         onClick={handleSearchInputClick}
-                        placeholder={searchPlaceholder}
+                        placeholder={showDropdown ? searchPlaceholder : placeholder}
                         autoComplete="off"
                     />
                 )}

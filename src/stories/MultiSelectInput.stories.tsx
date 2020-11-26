@@ -44,6 +44,11 @@ const Template: Story<MultiSelectInputProps<string, string, Option, { containerC
     );
 };
 
+export const NoValue = Template.bind({});
+NoValue.args = {
+    value: undefined,
+};
+
 export const Default = Template.bind({});
 Default.args = {
     value: ['1', '3'],

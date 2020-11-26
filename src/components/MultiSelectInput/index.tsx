@@ -1,163 +1,47 @@
-import React, { useCallback } from 'react';
-import {
-    _cs,
-    listToMap,
-} from '@togglecorp/fujs';
-import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
-
-import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
+import React from 'react';
+import SearchMultiSelectInput, { SearchMultiSelectInputProps } from './SearchMultiSelectInput';
 import { rankedSearchOnList } from '../../utils';
 
-import styles from './styles.css';
-
+type Def = { containerClassName?: string };
 type OptionKey = string | number;
 
-interface OptionProps {
-    children: React.ReactNode;
-    isActive: boolean;
-}
-function Option(props: OptionProps) {
-    const {
-        children,
-        isActive,
-    } = props;
+const emptyList: unknown[] = [];
 
-    return (
-        <>
-            <div className={styles.icon}>
-                { isActive ? <MdCheckBox /> : <MdCheckBoxOutlineBlank /> }
-            </div>
-            <div className={styles.label}>
-                { children }
-            </div>
-        </>
-    );
-}
-
-function DefaultEmptyComponent() {
-    return (
-        <div className={styles.empty}>
-            No options available
-        </div>
-    );
-}
-
-type Def = { containerClassName?: string };
-
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type MultiSelectInputProps<
     T extends OptionKey,
-    K,
+    K extends string,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = {
-    value: T[] | undefined | null;
-    onChange: (newValue: T[], name: K) => void;
-    options: O[] | undefined | null;
-    keySelector: (option: O) => T;
-    labelSelector: (option: O) => string;
-    searchPlaceholder?: string;
-    optionsEmptyComponent?: React.ReactNode;
-    name: K;
-    disabled?: boolean;
-    readOnly?: boolean;
-} & Omit<
-    SelectInputContainerProps<T, K, O, P>,
-        'optionsEmptyComponent'
-        | 'optionKeySelector'
-        | 'optionRenderer'
-        | 'optionRendererParams'
-        | 'onOptionClick'
-        | 'name'
-        | 'valueDisplay'
-        | 'onSearchInputChange'
-        | 'onClear'
-    >;
-
-const emptyList: unknown[] = [];
+> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'searchOptionsShownInitially'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
     props: MultiSelectInputProps<T, K, O, P>,
 ) {
     const {
-        value: valueFromProps,
-        onChange,
-        options: optionsFromProps,
-        keySelector,
-        labelSelector,
-        searchPlaceholder = 'Type to search',
-        optionsEmptyComponent = <DefaultEmptyComponent />,
         name,
+        options,
+        labelSelector,
         ...otherProps
     } = props;
 
-    const options = optionsFromProps ?? (emptyList as O[]);
-    const value = valueFromProps ?? (emptyList as T[]);
-
     const [searchInputValue, setSearchInputValue] = React.useState('');
 
-    const optionsLabelMap = React.useMemo(() => (
-        listToMap(options, keySelector, labelSelector)
-    ), [options, keySelector, labelSelector]);
-
-    const optionRendererParams = React.useCallback((key, option) => {
-        // TODO: optimize using map
-        const isActive = value.indexOf(key) !== -1;
-
-        return {
-            children: labelSelector(option),
-            containerClassName: _cs(styles.option, isActive && styles.active),
-            isActive,
-        };
-    }, [value, labelSelector]);
-
-    const filteredOptions = React.useMemo(() => (
-        rankedSearchOnList(options, searchInputValue, labelSelector)
-    ), [options, searchInputValue, labelSelector]);
-
-    const handleOptionClick = React.useCallback((optionKey: T) => {
-        const optionKeyIndex = value.findIndex((d) => d === optionKey);
-        const newValue = [...value];
-
-        if (optionKeyIndex !== -1) {
-            newValue.splice(optionKeyIndex, 1);
-        } else {
-            newValue.push(optionKey);
-        }
-
-        onChange(newValue, name);
-    }, [value, onChange, name]);
-
-    const valueDisplay = React.useMemo(() => (
-        value.map((v) => optionsLabelMap[v]).join(', ')
-    ), [value, optionsLabelMap]);
-
-    const handleClear = useCallback(
-        () => {
-            onChange([], name);
-        },
-        [name, onChange],
+    const searchOptions = React.useMemo(
+        () => rankedSearchOnList(options ?? (emptyList as O[]), searchInputValue, labelSelector),
+        [options, searchInputValue, labelSelector],
     );
 
     return (
-        <SelectInputContainer
+        <SearchMultiSelectInput
             {...otherProps}
             name={name}
-            options={filteredOptions}
-            optionKeySelector={keySelector}
-            optionRenderer={Option}
-            optionRendererParams={optionRendererParams}
-            onOptionClick={handleOptionClick}
-            optionContainerClassName={styles.optionContainer}
-            onSearchInputChange={setSearchInputValue}
-            valueDisplay={valueDisplay}
-            searchPlaceholder={searchPlaceholder}
-            optionsEmptyComponent={optionsEmptyComponent}
-            persistentOptionPopup
-            optionsPopupClassName={styles.optionsPopup}
-            onClear={handleClear}
+            options={options}
+            labelSelector={labelSelector}
+            onSearchValueChange={setSearchInputValue}
+            searchOptions={searchOptions}
+            searchOptionsShownInitially
         />
     );
 }
