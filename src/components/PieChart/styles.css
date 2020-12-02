@@ -1,0 +1,4 @@
+.text-label {
+    fill: var(--tui-color-text);
+    font-size: var(--tui-font-size-medium);
+}

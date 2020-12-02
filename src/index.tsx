@@ -89,3 +89,5 @@ export { default as ToggleButton } from './components/ToggleButton';
 export type { ToggleButtonProps } from './components/ToggleButton';
 export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
+export { default as PieChart } from './components/PieChart';
+export type { PieChartProps } from './components/PieChart';
