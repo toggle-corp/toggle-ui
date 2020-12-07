@@ -1,0 +1,28 @@
+.small {
+    font-size: var(--tui-font-size-small);
+}
+.medium {
+    font-size: var(--tui-font-size-medium);
+}
+.large {
+    font-size: var(--tui-font-size-large);
+}
+.extra-large {
+    font-size: var(--tui-font-size-extra-large);
+}
+.super-large {
+    font-size: var(--tui-font-size-super-large);
+}
+.ultra-large {
+    font-size: var(--tui-font-size-ultra-large);
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+
+    >* {
+        flex-shrink: 0;
+        margin: var(--tui-spacing-large);
+    }
+}
