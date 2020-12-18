@@ -10,12 +10,14 @@ import Button, { ButtonProps } from '../Button';
 import styles from './styles.css';
 
 export interface PopupButtonProps<N extends number | string | undefined> extends Omit<ButtonProps<N>, 'label'> {
-    popupContainerClassName?: string;
+    popupClassName?: string;
+    popupContentClassName?: string;
     label: React.ReactNode;
 }
 function PopupButton<N extends number | string | undefined>(props: PopupButtonProps<N>) {
     const {
-        popupContainerClassName,
+        popupClassName,
+        popupContentClassName,
         children,
         label,
         name,
@@ -57,8 +59,8 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
                 <Popup
                     elementRef={popupRef}
                     parentRef={buttonRef}
-                    className={_cs(styles.popup, popupContainerClassName)}
-                    contentClassName={styles.popupContent}
+                    className={_cs(styles.popup, popupClassName)}
+                    contentClassName={_cs(styles.popupContent, popupContentClassName)}
                 >
                     {children}
                 </Popup>

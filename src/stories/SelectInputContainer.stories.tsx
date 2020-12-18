@@ -24,7 +24,7 @@ const options: Option[] = [
 ];
 
 // eslint-disable-next-line max-len
-const Template: Story<SelectInputContainerProps<string, string, Option, { containerClassName?: string, children: React.ReactNode }>> = (props) => (
+const Template: Story<SelectInputContainerProps<string, string, Option, { containerClassName?: string, children: React.ReactNode }, never>> = (props) => (
     <SelectInputContainer {...props} />
 );
 

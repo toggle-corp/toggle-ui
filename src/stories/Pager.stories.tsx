@@ -24,6 +24,7 @@ const Template: Story<PagerProps> = (args) => {
     return (
         <Pager
             {...args}
+            itemsPerPageControlHidden={false}
             onItemsPerPageChange={setItemsPerPage}
             onActivePageChange={setActivePage}
             maxItemsPerPage={itemsPerPage}
@@ -34,7 +35,26 @@ const Template: Story<PagerProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    activePage: 3,
+    activePage: 8,
     maxItemsPerPage: 25,
     itemsCount: 345,
+};
+export const FirstPage = Template.bind({});
+FirstPage.args = {
+    activePage: 1,
+    maxItemsPerPage: 25,
+    itemsCount: 345,
+};
+export const LastPage = Template.bind({});
+LastPage.args = {
+    activePage: 14,
+    maxItemsPerPage: 25,
+    itemsCount: 345,
+};
+
+export const LowItems = Template.bind({});
+LowItems.args = {
+    activePage: 1,
+    maxItemsPerPage: 25,
+    itemsCount: 12,
 };

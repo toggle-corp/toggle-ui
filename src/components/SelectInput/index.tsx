@@ -42,7 +42,9 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         return (
             <SearchSelectInput
                 {...otherProps}
+                // eslint-disable-next-line react/destructuring-assignment
                 onChange={props.onChange}
+                // eslint-disable-next-line react/destructuring-assignment
                 nonClearable={props.nonClearable}
                 name={name}
                 options={options}

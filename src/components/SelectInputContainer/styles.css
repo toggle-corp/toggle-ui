@@ -6,6 +6,23 @@
         display: flex;
         flex-direction: column;
         max-height: var(--tui-height-max-select-input-popup);
+
+        .group {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+
+            .group-header {
+                padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+                color: var(--tui-color-text-label-light);
+                font-weight: var(--tui-font-weight-bold);
+            }
+
+            .group-children {
+                display: flex;
+                flex-direction: column;
+            }
+        }
     }
 }
 
