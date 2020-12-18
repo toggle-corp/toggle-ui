@@ -131,20 +131,24 @@ interface PagerOption {
     label: string;
 }
 
-export interface PagerProps {
+export type PagerProps = {
     activePage: number;
     className?: string;
     itemsCount: number;
     maxItemsPerPage: number;
     onActivePageChange: (pageNumber: number) => void;
     totalCapacity?: number;
-    onItemsPerPageChange: (pageCapacity: number) => void;
     options?: PagerOption[] | null;
     infoHidden?: boolean;
-    itemsPerPageControlHidden?: boolean;
     disabled?: boolean;
-    hideLabel?: boolean;
-}
+    showLabel?: boolean;
+} & ({
+    itemsPerPageControlHidden: true;
+    onItemsPerPageChange: undefined;
+} | {
+    itemsPerPageControlHidden?: false;
+    onItemsPerPageChange: (pageCapacity: number) => void;
+})
 
 const defaultOptions: PagerOption[] = [
     { label: '10 / page', key: 10 },
@@ -160,14 +164,12 @@ function Pager(props: PagerProps) {
         className,
         itemsCount,
         onActivePageChange,
-        onItemsPerPageChange,
         options,
         maxItemsPerPage = 25,
         totalCapacity = 7,
         disabled = false,
-        itemsPerPageControlHidden = false,
-        infoHidden = false,
-        hideLabel,
+        infoHidden,
+        showLabel,
     } = props;
 
     const showingTitle = 'Showing';
@@ -189,67 +191,73 @@ function Pager(props: PagerProps) {
 
     return (
         <div className={_cs(className, styles.pager)}>
-            <div className={styles.pageList}>
-                <Button
-                    name={undefined}
-                    className={styles.pageButton}
-                    onClick={() => onActivePageChange(activePage - 1)}
-                    disabled={activePage <= 1 || disabled}
-                    icons={<FaChevronLeft />}
-                >
-                    {!hideLabel && (
-                        'Prev'
-                    )}
-                </Button>
-                {pages.map((page) => {
-                    if (page.type === 'button') {
+            {pages.length > 1 && (
+                <div className={styles.pageList}>
+                    <Button
+                        name={undefined}
+                        className={styles.pageButton}
+                        onClick={() => onActivePageChange(activePage - 1)}
+                        disabled={activePage <= 1 || disabled}
+                        icons={<FaChevronLeft />}
+                        transparent
+                    >
+                        {showLabel && (
+                            'Prev'
+                        )}
+                    </Button>
+                    {pages.map((page) => {
+                        if (page.type === 'button') {
+                            return (
+                                <Button
+                                    key={`button-${page.index}`}
+                                    name={undefined}
+                                    onClick={() => onActivePageChange(page.index)}
+                                    className={styles.pageButton}
+                                    disabled={disabled}
+                                    transparent
+                                >
+                                    {page.index}
+                                </Button>
+                            );
+                        }
+                        if (page.type === 'fakeButton') {
+                            return (
+                                <Button
+                                    key={`button-${page.key}`}
+                                    variant="accent"
+                                    name={undefined}
+                                    className={_cs(styles.pageButton, styles.active)}
+                                    transparent
+                                >
+                                    {page.label}
+                                </Button>
+                            );
+                        }
                         return (
-                            <Button
-                                key={`button-${page.index}`}
-                                name={undefined}
-                                onClick={() => onActivePageChange(page.index)}
-                                className={styles.pageButton}
-                                disabled={disabled}
-                            >
-                                {page.index}
-                            </Button>
-                        );
-                    }
-                    if (page.type === 'fakeButton') {
-                        return (
-                            <Button
-                                key={`button-${page.key}`}
-                                variant="accent"
-                                name={undefined}
-                                className={_cs(styles.pageButton, styles.active)}
+                            <div
+                                key={`span-${page.key}`}
+                                className={styles.pageSpan}
                             >
                                 {page.label}
-                            </Button>
+                            </div>
                         );
-                    }
-                    return (
-                        <div
-                            key={`span-${page.key}`}
-                            className={styles.pageSpan}
-                        >
-                            {page.label}
-                        </div>
-                    );
-                })}
-                <Button
-                    name={undefined}
-                    onClick={() => onActivePageChange(activePage + 1)}
-                    disabled={activePage >= numPages || disabled}
-                    className={styles.pageButton}
-                    actions={<FaChevronRight />}
-                >
-                    {!hideLabel && (
-                        'Next'
-                    )}
-                </Button>
-            </div>
+                    })}
+                    <Button
+                        name={undefined}
+                        onClick={() => onActivePageChange(activePage + 1)}
+                        disabled={activePage >= numPages || disabled}
+                        className={styles.pageButton}
+                        actions={<FaChevronRight />}
+                        transparent
+                    >
+                        {showLabel && (
+                            'Next'
+                        )}
+                    </Button>
+                </div>
+            )}
             <div className={styles.infoAndConfig}>
-                {!infoHidden && (
+                {!infoHidden && (itemsCount > maxItemsPerPage) && (
                     <div className={styles.currentRangeInformation}>
                         <div className={styles.showing}>
                             { showingTitle }
@@ -273,7 +281,7 @@ function Pager(props: PagerProps) {
                         </div>
                     </div>
                 )}
-                {!itemsPerPageControlHidden && (
+                {!props.itemsPerPageControlHidden && (
                     <div className={styles.itemsPerPage}>
                         <SelectInput
                             name="itemsPerPageSelection"
@@ -282,7 +290,7 @@ function Pager(props: PagerProps) {
                             keySelector={(item) => item.key}
                             labelSelector={(item) => item.label}
                             value={maxItemsPerPage}
-                            onChange={onItemsPerPageChange}
+                            onChange={props.onItemsPerPageChange}
                             disabled={disabled}
                             searchPlaceholder=""
                             optionsPopupClassName={styles.perPageOptionPopup}

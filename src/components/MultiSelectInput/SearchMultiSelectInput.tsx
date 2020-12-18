@@ -59,7 +59,7 @@ export type SearchMultiSelectInputProps<
     searchOptions: O[] | undefined | null;
     onSearchValueChange: (searchVal: string) => void,
 }, OMISSION> & (
-    Omit<SelectInputContainerProps<T, K, O, P>,
+    SelectInputContainerProps<T, K, O, P,
         'name'
         | 'nonClearable'
         | 'onClear'

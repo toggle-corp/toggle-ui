@@ -12,15 +12,17 @@ export default {
 interface Option {
     key: string;
     label: string;
+    parentKey: string;
+    parentLabel: string;
 }
 
 const options: Option[] = [
-    { key: '1', label: 'Potato' },
-    { key: '2', label: 'Tomato' },
-    { key: '3', label: 'Pumpkin' },
-    { key: '4', label: 'Gourd' },
-    { key: '5', label: 'Spinach' },
-    { key: '6', label: 'Eggplant' },
+    { key: '1', label: 'Potato', parentKey: '1', parentLabel: 'Brown' },
+    { key: '2', label: 'Tomato', parentKey: '2', parentLabel: 'Red' },
+    { key: '3', label: 'Pumpkin', parentKey: '2', parentLabel: 'Red' },
+    { key: '4', label: 'Gourd', parentKey: '3', parentLabel: 'Green' },
+    { key: '5', label: 'Spinach', parentKey: '3', parentLabel: 'Green' },
+    { key: '6', label: 'Eggplant', parentKey: '4', parentLabel: 'Purple' },
 ];
 
 // eslint-disable-next-line max-len
@@ -62,6 +64,52 @@ Disabled.args = {
 
 export const ReadOnly = Template.bind({});
 ReadOnly.args = {
+    value: ['1', '3'],
+    readOnly: true,
+};
+
+// eslint-disable-next-line max-len
+const GroupedTemplate: Story<MultiSelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const setValue = (e: string[]) => {
+        updateArgs({ value: e });
+    };
+
+    return (
+        <MultiSelectInput
+            label="Vegetables"
+            {...props}
+            options={options}
+            value={value}
+            onChange={setValue}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            grouped
+            groupKeySelector={(d) => d.parentKey}
+            groupLabelSelector={(d) => d.parentLabel}
+        />
+    );
+};
+
+export const NoValueGrouped = GroupedTemplate.bind({});
+NoValueGrouped.args = {
+    value: undefined,
+};
+
+export const DefaultGrouped = GroupedTemplate.bind({});
+DefaultGrouped.args = {
+    value: ['1', '3'],
+};
+
+export const DisabledGrouped = GroupedTemplate.bind({});
+DisabledGrouped.args = {
+    value: ['1', '3'],
+    disabled: true,
+};
+
+export const ReadOnlyGrouped = GroupedTemplate.bind({});
+ReadOnlyGrouped.args = {
     value: ['1', '3'],
     readOnly: true,
 };

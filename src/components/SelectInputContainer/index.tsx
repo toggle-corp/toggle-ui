@@ -59,7 +59,38 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
     );
 }
 
-export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends Def> extends Omit<InputContainerProps, 'input'> {
+interface GroupProps {
+    title: string;
+    children: React.ReactNode;
+    className?: string;
+    headerContainerClassName?: string;
+    childrenContainerClassName?: string;
+}
+function Group({
+    className,
+    title,
+    children,
+    headerContainerClassName,
+    childrenContainerClassName,
+}: GroupProps) {
+    return (
+        <div className={_cs(className, styles.group)}>
+            <header className={_cs(headerContainerClassName, styles.groupHeader)}>
+                {title}
+            </header>
+            <div className={_cs(childrenContainerClassName, styles.groupChildren)}>
+                { children }
+            </div>
+        </div>
+    );
+}
+export type SelectInputContainerProps<
+    OK extends OptionKey,
+    N,
+    O,
+    P extends Def,
+    OMISSION extends string,
+> = Omit<{
     name: N,
     onOptionClick: (optionKey: OK, option: O, name: N) => void;
     onSearchInputChange: (search: string) => void;
@@ -79,13 +110,21 @@ export interface SelectInputContainerProps<OK extends OptionKey, N, O, P extends
 
     nonClearable?: boolean;
     onClear: () => void;
-}
+}, OMISSION> & Omit<InputContainerProps, 'input'> & ({
+    grouped: true;
+    groupLabelSelector: (option: O) => string;
+    groupKeySelector: (option: O) => string | number;
+} | {
+    grouped?: false;
+    groupLabelSelector?: undefined;
+    groupKeySelector?: undefined;
+});
 
 const emptyList: unknown[] = [];
 
 // eslint-disable-next-line @typescript-eslint/ban-types, max-len
 function SelectInputContainer<OK extends OptionKey, N extends string, O extends object, P extends Def>(
-    props: SelectInputContainerProps<OK, N, O, P>,
+    props: SelectInputContainerProps<OK, N, O, P, never>,
 ) {
     const {
         actions,
@@ -176,6 +215,43 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         handleOptionClick,
     ]);
 
+    const groupRendererParams = useCallback(
+        (_: string | number, index: number, values: O[]) => ({
+            title: props.grouped ? props.groupLabelSelector(values[index]) : '?',
+        }),
+        // FIXME: disabling because linter is not smart enough
+        // eslint-disable-next-line react-hooks/exhaustive-deps, react/destructuring-assignment
+        [props.grouped, props.groupLabelSelector],
+    );
+
+    let popup: React.ReactNode | null;
+    if (options.length <= 0) {
+        popup = optionsEmptyComponent;
+    // eslint-disable-next-line react/destructuring-assignment
+    } else if (props.grouped) {
+        popup = (
+            <List
+                data={options}
+                keySelector={optionKeySelector}
+                renderer={GenericOptionRenderer}
+                rendererParams={optionListRendererParams}
+                grouped
+                groupRenderer={Group}
+                groupRendererParams={groupRendererParams}
+                groupKeySelector={props.groupKeySelector}
+            />
+        );
+    } else {
+        popup = (
+            <List
+                data={options}
+                keySelector={optionKeySelector}
+                renderer={GenericOptionRenderer}
+                rendererParams={optionListRendererParams}
+            />
+        );
+    }
+
     return (
         <>
             <InputContainer
@@ -236,16 +312,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                     className={_cs(optionsPopupClassName, styles.popup)}
                     contentClassName={styles.popupContent}
                 >
-                    { options.length === 0 ? (
-                        optionsEmptyComponent
-                    ) : (
-                        <List
-                            data={options}
-                            keySelector={optionKeySelector}
-                            renderer={GenericOptionRenderer}
-                            rendererParams={optionListRendererParams}
-                        />
-                    )}
+                    {popup}
                 </Popup>
             )}
         </>

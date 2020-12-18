@@ -78,6 +78,7 @@ function RawTextArea<K extends string>(
             onChange={handleChange}
             name={name}
             value={value ?? ''}
+            autoComplete="off"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />

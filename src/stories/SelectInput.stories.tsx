@@ -12,14 +12,16 @@ export default {
 interface Option {
     key: string;
     label: string;
+    parentKey: string;
+    parentLabel: string;
 }
 
 const options: Option[] = [
-    { key: '1', label: 'Apple' },
-    { key: '2', label: 'Banana' },
-    { key: '3', label: 'Grapes' },
-    { key: '4', label: 'Avocado' },
-    { key: '5', label: 'Pear' },
+    { key: '1', label: 'Apple', parentKey: '1', parentLabel: 'Red' },
+    { key: '2', label: 'Banana', parentKey: '2', parentLabel: 'Yellow' },
+    { key: '3', label: 'Grapes', parentKey: '3', parentLabel: 'Green' },
+    { key: '4', label: 'Avocado', parentKey: '3', parentLabel: 'Green' },
+    { key: '5', label: 'Pear', parentKey: '4', parentLabel: 'Green' },
 ];
 
 // eslint-disable-next-line max-len
@@ -62,6 +64,53 @@ Disabled.args = {
 
 export const ReadOnly = Template.bind({});
 ReadOnly.args = {
+    value: '1',
+    readOnly: true,
+};
+
+// eslint-disable-next-line max-len
+const GroupedTemplate: Story<SelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
+    const [{ value }, updateArgs] = useArgs();
+
+    const setValue = (e: string) => {
+        updateArgs({ value: e });
+    };
+
+    return (
+        <SelectInput
+            label="Fruit"
+            {...props}
+            value={value}
+            options={options}
+            keySelector={(d) => d.key}
+            labelSelector={(d) => d.label}
+            onChange={setValue}
+            nonClearable
+            grouped
+            groupKeySelector={(d) => d.parentKey}
+            groupLabelSelector={(d) => d.parentLabel}
+        />
+    );
+};
+
+export const NoValueGrouped = GroupedTemplate.bind({});
+NoValueGrouped.args = {
+    value: undefined,
+};
+
+export const DefaultGrouped = GroupedTemplate.bind({});
+DefaultGrouped.args = {
+    value: '1',
+};
+
+export const DisabledGrouped = GroupedTemplate.bind({});
+DisabledGrouped.args = {
+    value: '1',
+    disabled: true,
+};
+
+export const ReadOnlyGrouped = GroupedTemplate.bind({});
+ReadOnlyGrouped.args = {
     value: '1',
     readOnly: true,
 };
