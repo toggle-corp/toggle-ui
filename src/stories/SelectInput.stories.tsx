@@ -21,7 +21,7 @@ const options: Option[] = [
     { key: '2', label: 'Banana', parentKey: '2', parentLabel: 'Yellow' },
     { key: '3', label: 'Grapes', parentKey: '3', parentLabel: 'Green' },
     { key: '4', label: 'Avocado', parentKey: '3', parentLabel: 'Green' },
-    { key: '5', label: 'Pear', parentKey: '4', parentLabel: 'Green' },
+    { key: '5', label: 'Pear', parentKey: '3', parentLabel: 'Green' },
 ];
 
 // eslint-disable-next-line max-len

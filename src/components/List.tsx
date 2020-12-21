@@ -80,8 +80,13 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
         );
     };
 
-    const renderGroup = (groupKey: GK, index: number, children: React.ReactNode) => {
-        const extraProps = groupRendererParams(groupKey, index, data);
+    const renderGroup = (
+        groupKey: GK,
+        index: number,
+        groupData: D[],
+        children: React.ReactNode,
+    ) => {
+        const extraProps = groupRendererParams(groupKey, index, groupData);
 
         const finalProps = {
             ...extraProps,
@@ -112,7 +117,7 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
     );
 
     const children: React.ReactNode[] = sortedGroupKeys.map((groupKey, i) => (
-        renderGroup(groupKey, i, groups[groupKey].map(renderListItem))
+        renderGroup(groupKey, i, groups[groupKey], groups[groupKey].map(renderListItem))
     ));
 
     return (
