@@ -5,7 +5,6 @@
     .popup-content {
         display: flex;
         flex-direction: column;
-        max-height: var(--tui-height-max-select-input-popup);
 
         .group {
             display: flex;
@@ -14,6 +13,9 @@
 
             .group-header {
                 padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 color: var(--tui-color-text-label-light);
                 font-weight: var(--tui-font-weight-bold);
             }

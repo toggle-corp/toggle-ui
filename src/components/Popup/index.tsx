@@ -30,6 +30,7 @@ interface FloatingPlacementProps {
     width: string | undefined;
     horizontalPosition: 'left' | 'right' | undefined;
     verticalPosition: 'top' | 'bottom' | undefined;
+    maxHeight: string | undefined;
 }
 
 function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPlacementProps {
@@ -40,6 +41,7 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
     let horizontalPosition: 'left' | 'right' | undefined;
     let verticalPosition: 'bottom' | 'top' | undefined;
     let contentWidth = 'auto';
+    let maxHeight = 'auto';
 
     if (parentRef?.current) {
         const parentBCR = parentRef.current.getBoundingClientRect();
@@ -64,6 +66,7 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
         }
 
         contentWidth = `${width}px`;
+        maxHeight = `calc(50vh - ${height / 2}px)`;
     }
 
     return {
@@ -71,6 +74,7 @@ function getFloatPlacement(parentRef: React.RefObject<HTMLElement>): FloatingPla
         width: contentWidth,
         horizontalPosition,
         verticalPosition,
+        maxHeight,
     };
 }
 
@@ -78,6 +82,7 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     const [placement, setPlacement] = React.useState<FloatingPlacementProps>({
         placement: defaultPlacement,
         width: 'auto',
+        maxHeight: 'auto',
         horizontalPosition: 'left',
         verticalPosition: 'top',
     });
@@ -86,10 +91,12 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
         setPlacement(getFloatPlacement(parentRef));
     }, [setPlacement, parentRef]);
 
+    // FIXME: throttle
     const handleScroll = React.useCallback(() => {
         setPlacement(getFloatPlacement(parentRef));
     }, [setPlacement, parentRef]);
 
+    // FIXME: throttle
     const handleResize = React.useCallback(() => {
         setPlacement(getFloatPlacement(parentRef));
     }, [setPlacement, parentRef]);
@@ -121,6 +128,7 @@ function Popup(props: PopupProps) {
         width,
         horizontalPosition,
         verticalPosition,
+        maxHeight,
     } = useAttachedFloatingPlacement(parentRef);
 
     return (
@@ -138,7 +146,7 @@ function Popup(props: PopupProps) {
                 <div className={styles.tip} />
                 <div
                     className={_cs(styles.content, contentClassName)}
-                    style={{ minWidth: width }}
+                    style={{ minWidth: width, maxHeight }}
                 >
                     { children }
                 </div>

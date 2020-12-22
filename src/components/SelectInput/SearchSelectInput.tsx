@@ -28,7 +28,7 @@ function Option(props: OptionProps) {
     );
 }
 
-type Def = { containerClassName?: string };
+type Def = { containerClassName?: string, title?: string; };
 type OptionKey = string | number;
 
 export type SearchSelectInputProps<
@@ -118,6 +118,7 @@ function SearchSelectInput<
             return {
                 children: labelSelector(option),
                 containerClassName: _cs(styles.option, isActive && styles.active),
+                title: labelSelector(option),
             };
         },
         [value, labelSelector],

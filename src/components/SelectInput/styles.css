@@ -1,16 +1,22 @@
 .option {
     display: flex;
     align-items: center;
+    overflow: auto;
 
     .icon {
         display: flex;
         align-items: center;
+        flex-shrink: 0;
         opacity: 0;
         padding: 0 var(--tui-spacing-small);
     }
 
     .label {
+        flex-grow: 1;
         padding: 0 var(--tui-spacing-small);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &.active {

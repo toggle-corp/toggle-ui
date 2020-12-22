@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 // import { select, boolean } from '@storybook/addon-knobs';
 import { Story } from '@storybook/react/types-6-0';
+import Button from '#components/Button';
 import List from '#components/List';
 import PopupButton, { PopupButtonProps } from '#components/PopupButton';
 
@@ -54,4 +55,37 @@ Disabled.args = {
     children: <MenuItems />,
     transparent: true,
     disabled: true,
+};
+
+const TemplateWithParent: Story<PopupButtonProps<string>> = (args) => {
+    const popupElementRef = useRef<{
+        setPopupVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+    }>(null);
+
+    const handleClick = useCallback(
+        () => {
+            popupElementRef.current?.setPopupVisibility(false);
+        },
+        [],
+    );
+
+    return (
+        <PopupButton
+            {...args}
+            componentRef={popupElementRef}
+        >
+            <div style={{ padding: '12px' }}>
+                <Button
+                    onClick={handleClick}
+                    name={undefined}
+                >
+                    Ok
+                </Button>
+            </div>
+        </PopupButton>
+    );
+};
+export const WithParent = TemplateWithParent.bind({});
+WithParent.args = {
+    label: 'PopupButton',
 };
