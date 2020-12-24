@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
@@ -13,6 +13,9 @@ export interface PopupButtonProps<N extends number | string | undefined> extends
     popupClassName?: string;
     popupContentClassName?: string;
     label: React.ReactNode;
+    componentRef?: React.MutableRefObject<{
+        setPopupVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+    } | null>;
 }
 function PopupButton<N extends number | string | undefined>(props: PopupButtonProps<N>) {
     const {
@@ -22,6 +25,7 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
         label,
         name,
         actions,
+        componentRef,
         ...otherProps
     } = props;
 
@@ -29,6 +33,17 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
     const popupRef = React.useRef<HTMLDivElement>(null);
 
     const [showPopup, setShowPopup] = React.useState(false);
+
+    useEffect(
+        () => {
+            if (componentRef) {
+                componentRef.current = {
+                    setPopupVisibility: setShowPopup,
+                };
+            }
+        },
+        [componentRef],
+    );
 
     useBlurEffect(showPopup, setShowPopup, popupRef, buttonRef);
 

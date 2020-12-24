@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+    overflow: auto;
 
     &.active {
         color: var(--tui-color-accent);
@@ -10,10 +11,15 @@
     .icon {
         display: flex;
         align-items: center;
+        flex-shrink: 0;
         padding: 0 var(--tui-spacing-small);
     }
 
     .label {
+        flex-grow: 1;
         padding: 0 var(--tui-spacing-small);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }

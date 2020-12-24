@@ -12,12 +12,12 @@ import { useBlurEffect } from '../../hooks';
 
 import styles from './styles.css';
 
-type Def = { containerClassName?: string };
+type Def = { containerClassName?: string, title?: string; };
 type OptionKey = string | number;
 
 interface GenericOptionRendererParams<P extends Def, OK extends OptionKey, O> {
     optionContainerClassName?: string;
-    contentRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
+    contentRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
     contentRendererParam: (key: OK, opt: O) => P;
     option: O;
     optionKey: OK;
@@ -34,6 +34,7 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
     const params = contentRendererParam(optionKey, option);
     const {
         containerClassName,
+        title,
         ...props
     } = params;
 
@@ -52,6 +53,7 @@ function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
                 containerClassName,
             )}
             onClick={handleClick}
+            title={title}
             name={optionKey}
         >
             {contentRenderer(props)}
@@ -75,7 +77,10 @@ function Group({
 }: GroupProps) {
     return (
         <div className={_cs(className, styles.group)}>
-            <header className={_cs(headerContainerClassName, styles.groupHeader)}>
+            <header
+                className={_cs(headerContainerClassName, styles.groupHeader)}
+                title={title}
+            >
                 {title}
             </header>
             <div className={_cs(childrenContainerClassName, styles.groupChildren)}>
@@ -96,7 +101,7 @@ export type SelectInputContainerProps<
     onSearchInputChange: (search: string) => void;
     optionContainerClassName?: string;
     optionKeySelector: (datum: O, index: number) => OK;
-    optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName'>>) => React.ReactNode;
+    optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
     optionRendererParams: (optionKey: OK, option: O) => P;
     options: O[] | undefined | null;
     optionsEmptyComponent: React.ReactNode;

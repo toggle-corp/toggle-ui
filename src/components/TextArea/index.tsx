@@ -22,8 +22,6 @@ function TextArea<T extends string>(props: TextAreaProps<T>) {
         labelContainerClassName,
         readOnly,
         uiMode,
-        onChange,
-        value,
         ...textAreaProps
     } = props;
 
@@ -47,8 +45,9 @@ function TextArea<T extends string>(props: TextAreaProps<T>) {
             input={(
                 <RawTextArea
                     {...textAreaProps}
-                    onChange={onChange}
-                    value={value}
+                    readOnly={readOnly}
+                    uiMode={uiMode}
+                    disabled={disabled}
                 />
             )}
         />

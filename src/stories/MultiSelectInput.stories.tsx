@@ -17,12 +17,12 @@ interface Option {
 }
 
 const options: Option[] = [
-    { key: '1', label: 'Potato', parentKey: '1', parentLabel: 'Brown' },
+    { key: '1', label: 'Potato Potato Potato Potato Potato Potato Potato', parentKey: '1', parentLabel: 'Brown' },
     { key: '2', label: 'Tomato', parentKey: '2', parentLabel: 'Red' },
     { key: '3', label: 'Pumpkin', parentKey: '2', parentLabel: 'Red' },
     { key: '4', label: 'Gourd', parentKey: '3', parentLabel: 'Green' },
     { key: '5', label: 'Spinach', parentKey: '3', parentLabel: 'Green' },
-    { key: '6', label: 'Eggplant', parentKey: '4', parentLabel: 'Purple' },
+    { key: '6', label: 'Eggplant', parentKey: '4', parentLabel: 'PurplePurplPurplPurplPurplPurplPurplPurplPurplPurplPurplPurplPurplPurpleeeeeeeeeeeee' },
 ];
 
 // eslint-disable-next-line max-len
