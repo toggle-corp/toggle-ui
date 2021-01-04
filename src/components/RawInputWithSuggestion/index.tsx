@@ -163,7 +163,7 @@ function RawInputWithSuggestion<K extends string, S>(
                 value={value}
                 {...otherProps}
             />
-            {showDropdown && props.suggestionKeySelector && (
+            {showDropdown && props.suggestionKeySelector && processedSuggestions.length > 0 && (
                 <Popup
                     elementRef={popupRef}
                     parentRef={inputSectionRef}
