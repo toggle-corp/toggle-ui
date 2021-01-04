@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { isDefined, isFalsyString, isTruthyString, bound } from '@togglecorp/fujs';
 import InputContainer, { InputContainerProps } from '../InputContainer';
-import RawInput, { RawInputProps } from '../RawInput';
+import RawInputWithSuggestion, { RawInputWithSuggestionProps } from '../RawInputWithSuggestion';
 
 function isValidNumericString(val: string) {
     return /^[+-]?\d+(\.\d+)?$/.test(val);
@@ -10,16 +10,18 @@ function isValidDecimalTrailingZeroString(val: string) {
     return /^[+-]?\d+\.\d*0$/.test(val);
 }
 
-export type NumberInputProps<T> = Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'> & {
-    value: number | undefined | null;
-    onChange?: (
-        value: number | undefined,
-        name: T,
-        e: React.FormEvent<HTMLInputElement> | undefined,
-    ) => void;
-};
+export type NumberInputProps<T extends string, S> = Omit<InputContainerProps, 'input'>
+    & RawInputWithSuggestionProps<T, S, 'onChange' | 'value' | 'containerRef' | 'inputSectionRef'>
+    & {
+        value: number | undefined | null;
+        onChange?: (
+            value: number | undefined,
+            name: T,
+            e: React.FormEvent<HTMLInputElement> | undefined,
+        ) => void;
+    };
 
-function NumberInput<T extends string>(props: NumberInputProps<T>) {
+function NumberInput<T extends string, S>(props: NumberInputProps<T, S>) {
     const {
         actions,
         actionsContainerClassName,
@@ -41,6 +43,9 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
         value,
         ...rawInputProps
     } = props;
+
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const inputSectionRef = React.useRef<HTMLDivElement>(null);
 
     const [tempValue, setTempValue] = useState<string | undefined>();
 
@@ -106,6 +111,8 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
 
     return (
         <InputContainer
+            ref={containerRef}
+            inputSectionRef={inputSectionRef}
             actions={actions}
             actionsContainerClassName={actionsContainerClassName}
             className={className}
@@ -123,8 +130,10 @@ function NumberInput<T extends string>(props: NumberInputProps<T>) {
             uiMode={uiMode}
             invalid={isTruthyString(tempValue)}
             input={(
-                <RawInput<T>
+                <RawInputWithSuggestion<T, S>
                     {...rawInputProps}
+                    containerRef={containerRef}
+                    inputSectionRef={inputSectionRef}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}

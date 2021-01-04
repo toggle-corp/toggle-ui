@@ -27,8 +27,3 @@
         }
     }
 }
-
-.option-renderer {
-    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
-    text-align: left;
-}

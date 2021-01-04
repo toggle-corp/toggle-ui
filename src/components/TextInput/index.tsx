@@ -1,11 +1,12 @@
 import React from 'react';
 
 import InputContainer, { InputContainerProps } from '../InputContainer';
-import RawInput, { RawInputProps } from '../RawInput';
+import RawInputWithSuggestion, { RawInputWithSuggestionProps } from '../RawInputWithSuggestion';
 
-export type TextInputProps<T> = Omit<InputContainerProps, 'input'> & RawInputProps<T>;
+export type TextInputProps<T extends string, S> = Omit<InputContainerProps, 'input'>
+    & RawInputWithSuggestionProps<T, S, 'containerRef' | 'inputSectionRef'>;
 
-function TextInput<T extends string>(props: TextInputProps<T>) {
+function TextInput<T extends string, S>(props: TextInputProps<T, S>) {
     const {
         actions,
         actionsContainerClassName,
@@ -25,8 +26,13 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
         ...textInputProps
     } = props;
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const inputSectionRef = React.useRef<HTMLDivElement>(null);
+
     return (
         <InputContainer
+            ref={containerRef}
+            inputSectionRef={inputSectionRef}
             actions={actions}
             actionsContainerClassName={actionsContainerClassName}
             className={className}
@@ -43,8 +49,10 @@ function TextInput<T extends string>(props: TextInputProps<T>) {
             readOnly={readOnly}
             uiMode={uiMode}
             input={(
-                <RawInput<T>
+                <RawInputWithSuggestion<T, S>
                     {...textInputProps}
+                    containerRef={containerRef}
+                    inputSectionRef={inputSectionRef}
                     readOnly={readOnly}
                     uiMode={uiMode}
                     disabled={disabled}

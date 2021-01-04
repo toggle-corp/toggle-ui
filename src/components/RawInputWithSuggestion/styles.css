@@ -1,0 +1,24 @@
+.popup {
+    padding-top: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+    padding-bottom: calc(var(--tui-spacing-large) - var(--tui-spacing-medium));
+
+    .popup-content {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.suggestion-header {
+    flex-grow: 1;
+    padding: var(--tui-spacing-small) var(--tui-spacing-large);
+    color: var(--tui-color-text-label-light);
+    font-weight: var(--tui-font-weight-bold);
+}
+
+.label {
+    flex-grow: 1;
+    padding: 0 var(--tui-spacing-small);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

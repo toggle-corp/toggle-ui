@@ -2,64 +2,15 @@ import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 
+import GenericOption, { ContentBaseProps, OptionKey } from '../GenericOption';
 import Popup from '../Popup';
 import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput from '../RawInput';
 import Button from '../Button';
-import RawButton from '../RawButton';
 import List from '../List';
 import { useBlurEffect } from '../../hooks';
 
 import styles from './styles.css';
-
-type Def = { containerClassName?: string, title?: string; };
-type OptionKey = string | number;
-
-interface GenericOptionRendererParams<P extends Def, OK extends OptionKey, O> {
-    optionContainerClassName?: string;
-    contentRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
-    contentRendererParam: (key: OK, opt: O) => P;
-    option: O;
-    optionKey: OK;
-    onClick: (optionKey: OK, option: O) => void;
-}
-function GenericOptionRenderer<P extends Def, OK extends OptionKey, O>({
-    optionContainerClassName,
-    contentRenderer,
-    contentRendererParam,
-    option,
-    onClick,
-    optionKey,
-}: GenericOptionRendererParams<P, OK, O>) {
-    const params = contentRendererParam(optionKey, option);
-    const {
-        containerClassName,
-        title,
-        ...props
-    } = params;
-
-    const handleClick = useCallback(
-        () => {
-            onClick(optionKey, option);
-        },
-        [optionKey, option, onClick],
-    );
-
-    return (
-        <RawButton
-            className={_cs(
-                styles.optionRenderer,
-                optionContainerClassName,
-                containerClassName,
-            )}
-            onClick={handleClick}
-            title={title}
-            name={optionKey}
-        >
-            {contentRenderer(props)}
-        </RawButton>
-    );
-}
 
 interface GroupProps {
     title: string;
@@ -93,7 +44,7 @@ export type SelectInputContainerProps<
     OK extends OptionKey,
     N,
     O,
-    P extends Def,
+    P extends ContentBaseProps,
     OMISSION extends string,
 > = Omit<{
     name: N,
@@ -128,7 +79,7 @@ export type SelectInputContainerProps<
 const emptyList: unknown[] = [];
 
 // eslint-disable-next-line @typescript-eslint/ban-types, max-len
-function SelectInputContainer<OK extends OptionKey, N extends string, O extends object, P extends Def>(
+function SelectInputContainer<OK extends OptionKey, N extends string, O extends object, P extends ContentBaseProps>(
     props: SelectInputContainerProps<OK, N, O, P, never>,
 ) {
     const {
@@ -238,7 +189,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             <List
                 data={options}
                 keySelector={optionKeySelector}
-                renderer={GenericOptionRenderer}
+                renderer={GenericOption}
                 rendererParams={optionListRendererParams}
                 grouped
                 groupRenderer={Group}
@@ -251,7 +202,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             <List
                 data={options}
                 keySelector={optionKeySelector}
-                renderer={GenericOptionRenderer}
+                renderer={GenericOption}
                 rendererParams={optionListRendererParams}
             />
         );
@@ -310,7 +261,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                     />
                 )}
             />
-            { showDropdown && (
+            {showDropdown && (
                 <Popup
                     elementRef={popupRef}
                     parentRef={inputSectionRef}
