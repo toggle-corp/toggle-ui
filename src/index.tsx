@@ -50,6 +50,8 @@ export { default as RawButton } from './components/RawButton';
 export type { RawButtonProps } from './components/RawButton';
 export { default as RawInput } from './components/RawInput';
 export type { RawInputProps } from './components/RawInput';
+export { default as RawInputWithSuggestion } from './components/RawInputWithSuggestion';
+export type { RawInputWithSuggestionProps } from './components/RawInputWithSuggestion';
 export { default as SelectInput } from './components/SelectInput';
 export type { SelectInputProps } from './components/SelectInput';
 export { default as SearchSelectInput } from './components/SelectInput/SearchSelectInput';
