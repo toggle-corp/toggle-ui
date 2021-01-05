@@ -144,7 +144,7 @@ function RawInputWithSuggestion<K extends string, S>(
         option,
         optionKey: key,
         onClick: handleOptionClick,
-        optionContainerClassName: props.suggestionContainerClassName,
+        optionContainerClassName: _cs(styles.listItem, props.suggestionContainerClassName),
     }), [
         optionRendererParams,
         props.suggestionContainerClassName,

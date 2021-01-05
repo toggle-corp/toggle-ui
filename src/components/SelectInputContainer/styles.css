@@ -25,5 +25,9 @@
                 flex-direction: column;
             }
         }
+
+        .list-item {
+            flex-shrink: 0;
+        }
     }
 }

@@ -163,7 +163,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         optionKey: key,
         contentRenderer: optionRenderer,
         onClick: handleOptionClick,
-        optionContainerClassName,
+        optionContainerClassName: _cs(optionContainerClassName, styles.listItem),
     }), [
         optionRenderer,
         optionRendererParams,

@@ -5,11 +5,15 @@
     .popup-content {
         display: flex;
         flex-direction: column;
+
+        .list-item {
+            flex-shrink: 0;
+        }
     }
 }
 
 .suggestion-header {
-    flex-grow: 1;
+    flex-shrink: 0;
     padding: var(--tui-spacing-small) var(--tui-spacing-large);
     color: var(--tui-color-text-label-light);
     font-weight: var(--tui-font-weight-bold);
