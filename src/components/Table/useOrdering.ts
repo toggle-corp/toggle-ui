@@ -1,27 +1,27 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, createContext } from 'react';
 import { listToMap, compareNumber } from '@togglecorp/fujs';
 
-interface OrderStateItem {
+interface OrderItemParameter {
     name: string;
 }
 
-export function useOrderState<T extends OrderStateItem>(keys: T[]) {
+export function useOrderState(keys: OrderItemParameter[]) {
     const [ordering, setOrdering] = useState(keys);
 
     const moveOrderingItem = useCallback(
         (drag: string, drop: string) => {
-            const dragPosition = ordering.findIndex((o) => o.name === drag);
-            const dropPosition = ordering.findIndex((o) => o.name === drop);
-            if (dragPosition === dropPosition) {
-                return;
-            }
-            if (dragPosition === -1 || dropPosition === -1) {
-                console.error('Drag or drop item could not be found');
-                return;
-            }
-            const dragItem = ordering[dragPosition];
-
             setOrdering((oldOrdering) => {
+                const dragPosition = oldOrdering.findIndex((o) => o.name === drag);
+                const dropPosition = oldOrdering.findIndex((o) => o.name === drop);
+                if (dragPosition === dropPosition) {
+                    return oldOrdering;
+                }
+                if (dragPosition === -1 || dropPosition === -1) {
+                    console.error('Drag or drop item could not be found');
+                    return oldOrdering;
+                }
+                const dragItem = oldOrdering[dragPosition];
+
                 const newOrdering = [...oldOrdering];
                 if (dragPosition > dropPosition) {
                     newOrdering.splice(dragPosition, 1);
@@ -33,7 +33,7 @@ export function useOrderState<T extends OrderStateItem>(keys: T[]) {
                 return newOrdering;
             });
         },
-        [ordering],
+        [],
     );
 
     return {
@@ -43,11 +43,27 @@ export function useOrderState<T extends OrderStateItem>(keys: T[]) {
     };
 }
 
+interface OrderContextInterface {
+    ordering: OrderItemParameter[];
+    setOrdering: React.Dispatch<React.SetStateAction<OrderItemParameter[]>>;
+    moveOrderingItem: (drag: string, drop: string) => void;
+}
+const initialValue: OrderContextInterface = {
+    ordering: [],
+    setOrdering: (state) => {
+        console.warn('Trying to set to ', state);
+    },
+    moveOrderingItem: (drag, drop) => {
+        console.warn(`Trying to drag item ${drag} to item ${drop}`);
+    },
+};
+export const OrderContext = createContext<OrderContextInterface>(initialValue);
+
 interface OrderColumn {
     id: string;
 }
 
-function useOrdering<T extends OrderColumn, K extends OrderStateItem>(
+function useOrdering<T extends OrderColumn, K extends OrderItemParameter>(
     columns: T[],
     ordering: K[],
 ) {

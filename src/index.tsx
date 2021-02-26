@@ -1,5 +1,7 @@
 import './styles.css';
 
+export { default as StringCell } from './components/StringCell';
+export type { StringCellProps } from './components/StringCell';
 export { default as Accordion } from './components/Accordion';
 export type { AccordionProps } from './components/Accordion';
 export { default as Avatar } from './components/Avatar';
@@ -63,7 +65,7 @@ export type { SwitchProps } from './components/Switch';
 export { default as SwitchIcon } from './components/SwitchIcon';
 export type { SwitchIconProps } from './components/SwitchIcon';
 
-export { default as Table, createColumn } from './components/Table';
+export { default as Table } from './components/Table';
 export type { TableProps, Column as TableColumn } from './components/Table';
 export { default as TableCell } from './components/Table/Cell';
 export type { CellProps as TableCellProps } from './components/Table/Cell';

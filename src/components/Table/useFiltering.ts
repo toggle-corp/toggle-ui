@@ -1,5 +1,14 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, createContext } from 'react';
 import { caseInsensitiveSubmatch, isNotDefined, isFalsyString, listToMap } from '@togglecorp/fujs';
+
+export interface FilterParameter {
+    id: string;
+
+    subMatch?: string;
+
+    greaterThanOrEqualTo?: number;
+    lessThanOrEqualTo?: number;
+}
 
 export function useFilterState(defaultValue?: FilterParameter[]) {
     const [filtering, setFiltering] = useState<FilterParameter[] | undefined>(defaultValue);
@@ -45,18 +54,30 @@ export function useFilterState(defaultValue?: FilterParameter[]) {
     return { filtering, setFiltering, setFilteringItem, getFilteringItem };
 }
 
-export interface FilterParameter {
-    id: string;
-
-    subMatch?: string;
-
-    greaterThanOrEqualTo?: number;
-    lessThanOrEqualTo?: number;
+interface FilterContextInterface {
+    filtering: FilterParameter[] | undefined;
+    setFiltering: React.Dispatch<React.SetStateAction<FilterParameter[] | undefined>>;
+    setFilteringItem: (id: string, value: Omit<FilterParameter, 'id'>) => void;
+    getFilteringItem: (id: string) => FilterParameter | undefined;
 }
+const initialValue: FilterContextInterface = {
+    filtering: undefined,
+    setFiltering: (state) => {
+        console.warn('Trying to set to ', state);
+    },
+    setFilteringItem: (id, state) => {
+        console.warn(`Trying to set ${id} to `, state);
+    },
+    getFilteringItem: (id) => {
+        console.warn(`Trying to get ${id}`);
+        return undefined;
+    },
+};
+export const FilterContext = createContext<FilterContextInterface>(initialValue);
 
 interface FilterColumn<T> {
     id: string;
-    valueSelector?: (foo: T) => string | number | undefined;
+    valueSelector?: (foo: T) => string | number | undefined | null;
 }
 
 export function useFiltering<T>(

@@ -1,4 +1,10 @@
-import React, { memo, useCallback, useState, useRef } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useState,
+    useRef,
+    useContext,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import {
@@ -20,31 +26,23 @@ import TextInput from '../../TextInput';
 import NumberInput from '../../NumberInput';
 
 import { BaseHeader, SortDirection, FilterType } from '../types';
-import { SortParameter } from '../useSorting';
-import { FilterParameter } from '../useFiltering';
+import { SortContext } from '../useSorting';
+import { FilterContext } from '../useFiltering';
+import { OrderContext } from '../useOrdering';
+import { HideContext } from '../useHiding';
 
 import { useDropHandler } from '../../../hooks';
 
 import styles from './styles.css';
 
 export interface HeaderCellProps extends BaseHeader {
-    onSortChange?: (value: SortParameter | undefined) => void;
+    uiMode?: UiMode;
 
     sortable?: boolean;
-    sortDirection?: SortDirection;
     defaultSortDirection?: SortDirection;
-
     filterType?: FilterType;
-    filterValue?: Omit<FilterParameter, 'id'>;
-    onFilterValueChange?: (name: string, value: Omit<FilterParameter, 'id'>) => void;
-
-    draggable?: boolean;
-    onReorder?: (drag: string, drop: string) => void;
-
+    orderable?: boolean;
     hideable?: boolean;
-    onHide?: (itemKey: string) => void;
-
-    uiMode?: UiMode;
 }
 
 interface DropInfo {
@@ -57,32 +55,47 @@ let tempDropInfo: DropInfo | undefined;
 function HeaderCell(props: HeaderCellProps) {
     const {
         className,
+        uiMode,
         titleClassName,
         titleContainerClassName,
         title,
         name,
         index,
 
-        defaultSortDirection = SortDirection.asc,
-        sortDirection,
         sortable,
-        onSortChange,
-
+        defaultSortDirection = SortDirection.asc,
         filterType,
-        filterValue,
-        onFilterValueChange,
-
-        draggable,
-        onReorder,
-
+        orderable,
         hideable,
-        onHide,
-
-        uiMode,
     } = props;
 
-    const [dragging, setDragging] = useState(false);
+    const {
+        setHidden: onHide,
+    } = useContext(HideContext);
+
+    const {
+        moveOrderingItem: onReorder,
+    } = useContext(OrderContext);
+
+    const {
+        setFilteringItem: onFilterValueChange,
+        getFilteringItem,
+    } = useContext(FilterContext);
+
+    const filterValue = getFilteringItem(name);
+
+    const {
+        sorting,
+        setSorting: onSortChange,
+    } = useContext(SortContext);
+
+    const sortDirection = sorting?.name === name
+        ? sorting.direction
+        : undefined;
+
     const containerRef = useRef<HTMLDivElement>(null);
+    const [dragging, setDragging] = useState(false);
+    const [dropInfo, setDropInfo] = useState<DropInfo | undefined>();
 
     const handleHideClick = useCallback(
         () => {
@@ -116,6 +129,42 @@ function HeaderCell(props: HeaderCellProps) {
         [name, onSortChange, sortDirection, defaultSortDirection],
     );
 
+    const handleStringFilterChange = useCallback(
+        (value: string | undefined) => {
+            if (onFilterValueChange) {
+                onFilterValueChange(
+                    name,
+                    { ...filterValue, subMatch: value },
+                );
+            }
+        },
+        [name, filterValue, onFilterValueChange],
+    );
+
+    const handleNumericFilterMinChange = useCallback(
+        (value: number | undefined) => {
+            if (onFilterValueChange) {
+                onFilterValueChange(
+                    name,
+                    { ...filterValue, greaterThanOrEqualTo: value },
+                );
+            }
+        },
+        [name, filterValue, onFilterValueChange],
+    );
+
+    const handleNumericFilterMaxChange = useCallback(
+        (value: number | undefined) => {
+            if (onFilterValueChange) {
+                onFilterValueChange(
+                    name,
+                    { ...filterValue, lessThanOrEqualTo: value },
+                );
+            }
+        },
+        [name, filterValue, onFilterValueChange],
+    );
+
     const handleDragStart = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {
             setDragging(true);
@@ -144,8 +193,6 @@ function HeaderCell(props: HeaderCellProps) {
         [],
     );
 
-    const [dropInfo, setDropInfo] = useState<DropInfo | undefined>();
-
     const handleDragEnter = useCallback(
         () => {
             // NOTE: this is a hack as we event.dataTransfer.getData() doesn't work
@@ -163,8 +210,10 @@ function HeaderCell(props: HeaderCellProps) {
             try {
                 const data = e.dataTransfer.getData('text/plain');
                 const parsedData = JSON.parse(data) as DropInfo;
+                console.warn(parsedData);
 
                 if (parsedData.name) {
+                    console.warn(parsedData.name, name);
                     onReorder(parsedData.name, name);
                 }
             } catch (ex) {
@@ -181,31 +230,6 @@ function HeaderCell(props: HeaderCellProps) {
         onDragLeave,
         onDrop,
     } = useDropHandler(handleDragEnter, handleDrop);
-
-    const onStringFilterChange = ((value: string | undefined) => {
-        if (onFilterValueChange) {
-            onFilterValueChange(
-                name,
-                { ...filterValue, subMatch: value },
-            );
-        }
-    });
-    const onNumericFilterMinChange = (value: number | undefined) => {
-        if (onFilterValueChange) {
-            onFilterValueChange(
-                name,
-                { ...filterValue, greaterThanOrEqualTo: value },
-            );
-        }
-    };
-    const onNumericFilterMaxChange = (value: number | undefined) => {
-        if (onFilterValueChange) {
-            onFilterValueChange(
-                name,
-                { ...filterValue, lessThanOrEqualTo: value },
-            );
-        }
-    };
 
     return (
         <div
@@ -258,7 +282,7 @@ function HeaderCell(props: HeaderCellProps) {
                         <IoMdEyeOff />
                     </Button>
                 )}
-                {draggable && (
+                {orderable && (
                     <div
                         className={styles.grip}
                         role="presentation"
@@ -280,7 +304,7 @@ function HeaderCell(props: HeaderCellProps) {
                             inputContainerClassName={styles.rawInputContainer}
                             value={filterValue?.subMatch}
                             placeholder="Search"
-                            onChange={onStringFilterChange}
+                            onChange={handleStringFilterChange}
                         />
                     )}
                     {filterType === FilterType.number && (
@@ -293,7 +317,7 @@ function HeaderCell(props: HeaderCellProps) {
                                 value={filterValue?.greaterThanOrEqualTo}
                                 placeholder="Min"
                                 type="number"
-                                onChange={onNumericFilterMinChange}
+                                onChange={handleNumericFilterMinChange}
                             />
                             <NumberInput
                                 name="numberFilterMax"
@@ -302,7 +326,7 @@ function HeaderCell(props: HeaderCellProps) {
                                 inputContainerClassName={styles.rawInputContainer}
                                 value={filterValue?.lessThanOrEqualTo}
                                 placeholder="Max"
-                                onChange={onNumericFilterMaxChange}
+                                onChange={handleNumericFilterMaxChange}
                             />
                         </>
                     )}
