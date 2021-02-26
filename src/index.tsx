@@ -1,7 +1,9 @@
 import './styles.css';
 
-export { default as StringCell } from './components/StringCell';
-export type { StringCellProps } from './components/StringCell';
+export { default as YesNo } from './components/YesNo';
+export type { YesNoProps } from './components/YesNo';
+export { default as DateTime } from './components/DateTime';
+export type { DateTimeProps } from './components/DateTime';
 export { default as Accordion } from './components/Accordion';
 export type { AccordionProps } from './components/Accordion';
 export { default as Avatar } from './components/Avatar';
@@ -71,13 +73,13 @@ export { default as TableCell } from './components/Table/Cell';
 export type { CellProps as TableCellProps } from './components/Table/Cell';
 export { default as TableHeaderCell } from './components/Table/HeaderCell';
 export type { HeaderCellProps as TableHeaderCellProps } from './components/Table/HeaderCell';
-export { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
 export { default as useDownloading, convertTableData, convertJsonToCsv } from './components/Table/useDownloading';
-export { default as useFiltering, useFilterState } from './components/Table/useFiltering';
-export type { FilterParameter as TableFilterParameter } from './components/Table/useFiltering';
-export { default as useOrdering, useOrderState } from './components/Table/useOrdering';
-export { default as useSorting, useSortState } from './components/Table/useSorting';
-export type { SortParameter as TableSortParameter } from './components/Table/useSorting';
+export { default as useFiltering, useFilterState, FilterContext } from './components/Table/useFiltering';
+export { default as useOrdering, useOrderState, OrderContext } from './components/Table/useOrdering';
+export { default as useSorting, useSortState, SortContext } from './components/Table/useSorting';
+export { HideContext } from './components/Table/useHiding';
+export { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
+export { createYesNoColumn, createStringColumn, createDateColumn, createDateTimeColumn, createNumberColumn } from './components/Table/predefinedColumns';
 
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
 export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';

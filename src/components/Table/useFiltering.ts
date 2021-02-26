@@ -77,7 +77,7 @@ export const FilterContext = createContext<FilterContextInterface>(initialValue)
 
 interface FilterColumn<T> {
     id: string;
-    valueSelector?: (foo: T) => string | number | undefined | null;
+    valueSelector?: (foo: T) => string | number | boolean | undefined | null;
 }
 
 export function useFiltering<T>(

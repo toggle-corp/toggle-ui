@@ -1,15 +1,18 @@
 import React from 'react';
-import { compareString, compareNumber } from '@togglecorp/fujs';
 
 import { Story } from '@storybook/react/types-6-0';
-import Cell, { CellProps } from '#components/Table/Cell';
-import Numeral, { NumeralProps } from '#components/Numeral';
-import HeaderCell, { HeaderCellProps } from '#components/Table/HeaderCell';
 import Table, { TableProps, Column } from '#components/Table';
-import { SortDirection, FilterType } from '#components/Table/types';
+import { FilterType } from '#components/Table/types';
 import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
 import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
+import {
+    createStringColumn,
+    createNumberColumn,
+    createDateColumn,
+    createDateTimeColumn,
+    createYesNoColumn,
+} from '#components/Table/predefinedColumns';
 
 export default {
     title: 'View/Table',
@@ -28,108 +31,34 @@ const data: Program[] = [
         id: 1,
         name: 'Program A',
         budget: 123123,
-        date: '2012-10-12',
+        date: '2012-10-12T12:00:00',
     },
     {
         id: 2,
         name: 'Program B',
         budget: 100,
-        date: '2010-11-02',
+        date: '2010-11-02T10:12:10',
     },
     {
         id: 3,
         name: 'Program C',
         budget: 10000,
-        date: '1994-04-17',
+        date: '1994-04-17T01:04:12',
     },
     {
         id: 4,
         name: 'Program D',
         budget: 10,
-        date: '2021-08-23',
+        date: '2021-08-23T06:01:18',
     },
 ];
-
-// Helper method so that during column creation, id can be re-used
-function createStringColumn<D, K>(
-    id: string,
-    title: string,
-    accessor: (item: D) => string | undefined | null,
-    options?: {
-        cellAsHeader?: boolean,
-        sortable?: boolean,
-        defaultSortDirection?: SortDirection,
-        filterType?: FilterType,
-        orderable?: boolean;
-        hideable?: boolean;
-    },
-) {
-    const item: Column<D, K, CellProps<string>, HeaderCellProps> & {
-        valueSelector: (item: D) => string | undefined | null,
-        valueComparator: (foo: D, bar: D) => number,
-    } = {
-        id,
-        title,
-        cellAsHeader: options?.cellAsHeader,
-        headerCellRenderer: HeaderCell,
-        headerCellRendererParams: {
-            sortable: options?.sortable,
-            filterType: options?.filterType,
-            orderable: options?.orderable,
-            hideable: options?.hideable,
-        },
-        cellRenderer: Cell,
-        cellRendererParams: (_: K, datum: D): CellProps<string> => ({
-            value: accessor(datum),
-        }),
-        valueSelector: accessor,
-        valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),
-    };
-    return item;
-}
-function createNumberColumn<D, K>(
-    id: string,
-    title: string,
-    accessor: (item: D) => number | undefined | null,
-    options?: {
-        cellAsHeader?: boolean,
-        sortable?: boolean,
-        defaultSortDirection?: SortDirection,
-        filterType?: FilterType,
-        orderable?: boolean;
-        hideable?: boolean;
-    },
-) {
-    const item: Column<D, K, NumeralProps, HeaderCellProps> & {
-        valueSelector: (item: D) => number | undefined | null,
-        valueComparator: (foo: D, bar: D) => number,
-    } = {
-        id,
-        title,
-        cellAsHeader: options?.cellAsHeader,
-        headerCellRenderer: HeaderCell,
-        headerCellRendererParams: {
-            sortable: options?.sortable,
-            filterType: options?.filterType,
-            orderable: options?.orderable,
-            hideable: options?.hideable,
-        },
-        cellRenderer: Numeral,
-        cellRendererParams: (_: K, datum: D): NumeralProps => ({
-            value: accessor(datum),
-        }),
-        valueSelector: accessor,
-        valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
-    };
-    return item;
-}
 
 const columns = [
     createNumberColumn<Program, number>(
         'id',
         'ID',
         (item) => item.id,
-        { cellAsHeader: true, sortable: true, filterType: FilterType.number, orderable: true },
+        { cellAsHeader: true, sortable: true, orderable: true },
     ),
     createStringColumn<Program, number>(
         'name',
@@ -143,12 +72,33 @@ const columns = [
         (item) => item.budget,
         { sortable: true, filterType: FilterType.number, orderable: true },
     ),
+    createDateColumn<Program, number>(
+        'date',
+        'Date',
+        (item) => item.date,
+        { sortable: true, orderable: true },
+    ),
+    createDateTimeColumn<Program, number>(
+        'datetime',
+        'Date Time',
+        (item) => item.date,
+        { sortable: true, orderable: true },
+    ),
+    createYesNoColumn<Program, number>(
+        'aboveBudget',
+        'Above Budget',
+        (item) => item.budget > 100,
+        { sortable: true, orderable: true },
+    ),
 ];
 
 const staticColumnOrdering = [
     { name: 'id' },
     { name: 'name' },
     { name: 'budget' },
+    { name: 'date' },
+    { name: 'datetime' },
+    { name: 'aboveBudget' },
 ];
 
 const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => {
