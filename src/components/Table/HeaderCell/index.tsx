@@ -259,6 +259,7 @@ function HeaderCell(props: HeaderCellProps) {
                         onClick={handleSortClick}
                         title="Sort column"
                         uiMode={uiMode}
+                        compact
                     >
                         {!sortDirection && <FaSort />}
                         {sortDirection === SortDirection.asc && <FaSortUp />}
@@ -278,6 +279,7 @@ function HeaderCell(props: HeaderCellProps) {
                         onClick={handleHideClick}
                         title="Hide column"
                         uiMode={uiMode}
+                        compact
                     >
                         <IoMdEyeOff />
                     </Button>
