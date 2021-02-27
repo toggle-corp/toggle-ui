@@ -5,7 +5,9 @@ import {
     Lang,
     addSeparator,
     isTruthyString,
+    _cs,
 } from '@togglecorp/fujs';
+import styles from './styles.css';
 
 export function getAutoPrecision(
     value: number | undefined | null,
@@ -159,7 +161,7 @@ function Numeral({
 }: NumeralProps) {
     const fallback = isTruthyString(placeholder)
         ? (
-            <span className={className}>
+            <span className={_cs(className, styles.placeholder)}>
                 {placeholder}
             </span>
         )

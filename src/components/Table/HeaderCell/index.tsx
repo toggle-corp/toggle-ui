@@ -210,10 +210,8 @@ function HeaderCell(props: HeaderCellProps) {
             try {
                 const data = e.dataTransfer.getData('text/plain');
                 const parsedData = JSON.parse(data) as DropInfo;
-                console.warn(parsedData);
 
                 if (parsedData.name) {
-                    console.warn(parsedData.name, name);
                     onReorder(parsedData.name, name);
                 }
             } catch (ex) {

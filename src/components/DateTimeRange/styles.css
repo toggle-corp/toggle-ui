@@ -1,0 +1,6 @@
+.date-time-range {
+    .to {
+        padding: 0 var(--tui-spacing-small);
+        color: var(--tui-color-text-label-light);
+    }
+}

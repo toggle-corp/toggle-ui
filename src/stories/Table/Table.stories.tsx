@@ -1,4 +1,5 @@
 import React from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
 import { Story } from '@storybook/react/types-6-0';
 import Table, { TableProps, Column } from '#components/Table';
@@ -23,7 +24,7 @@ export default {
 interface Program {
     id: number;
     name: string;
-    budget: number;
+    budget: number | undefined;
     date: string;
 }
 const data: Program[] = [
@@ -48,7 +49,7 @@ const data: Program[] = [
     {
         id: 4,
         name: 'Program D',
-        budget: 10,
+        budget: undefined,
         date: '2021-08-23T06:01:18',
     },
 ];
@@ -58,13 +59,13 @@ const columns = [
         'id',
         'ID',
         (item) => item.id,
-        { cellAsHeader: true, sortable: true, orderable: true },
+        { sortable: true, orderable: true },
     ),
     createStringColumn<Program, number>(
         'name',
         'Name',
         (item) => item.name,
-        { sortable: true, filterType: FilterType.string, orderable: true },
+        { sortable: true, filterType: FilterType.string, orderable: true, cellAsHeader: true },
     ),
     createNumberColumn<Program, number>(
         'budget',
@@ -87,7 +88,7 @@ const columns = [
     createYesNoColumn<Program, number>(
         'aboveBudget',
         'Above Budget',
-        (item) => item.budget > 100,
+        (item) => isDefined(item.budget) && item.budget > 100,
         { sortable: true, orderable: true },
     ),
 ];
