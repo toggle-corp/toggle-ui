@@ -25,21 +25,6 @@ export interface Column<D, K, C, H> {
     uiMode?: UiMode;
 }
 
-// Helper method so that during column creation, id can be re-used
-export function createColumn<KK extends string, D, K, C, H>(
-    modifier: (identifier: KK) => Omit<Column<D, K, C, H>, 'id' | 'title' | 'cellAsHeader'>,
-    id: KK,
-    title: string,
-    cellAsHeader?: boolean,
-): Column<D, K, C, H> {
-    return {
-        ...modifier(id),
-        id,
-        title,
-        cellAsHeader,
-    };
-}
-
 type VerifyColumn<T, D, K> = unknown extends (
     T extends Column<D, K, any, any>
         ? never

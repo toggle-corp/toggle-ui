@@ -9,6 +9,7 @@ import RawInput from '../RawInput';
 import Button from '../Button';
 import List from '../List';
 import { useBlurEffect } from '../../hooks';
+import useKeyboard from '../useKeyboard';
 
 import styles from './styles.css';
 
@@ -118,6 +119,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
 
     const options = optionsFromProps ?? (emptyList as O[]);
 
+    const [focusedKey, onFocusedKeyChange] = React.useState<OK | undefined>();
+
     const containerRef = React.useRef<HTMLDivElement>(null);
     const inputSectionRef = React.useRef<HTMLDivElement>(null);
     const inputElementRef = React.useRef<HTMLInputElement>(null);
@@ -130,6 +133,22 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         setSearchInputValue(value);
         onSearchInputChange(value);
     }, [setSearchInputValue, onSearchInputChange]);
+
+    const handleShowDropdown = useCallback(
+        () => {
+            setShowDropdown(true);
+            // NOTE: reset last search value
+            setSearchInputValue('');
+            onSearchInputChange('');
+        },
+        [onSearchInputChange],
+    );
+    const handleHideDropdown = useCallback(
+        () => {
+            setShowDropdown(false);
+        },
+        [],
+    );
 
     const handleSearchInputClick = React.useCallback(() => {
         if (readOnly) { return; }
@@ -150,25 +169,31 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
 
     useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
 
-    const handleOptionClick = React.useCallback((valueKey, value) => {
-        onOptionClick(valueKey, value, name);
-        if (!persistentOptionPopup) {
-            setShowDropdown(false);
-        }
-    }, [onOptionClick, setShowDropdown, persistentOptionPopup, name]);
+    const handleOptionClick = React.useCallback(
+        (valueKey: OK, value: O) => {
+            onOptionClick(valueKey, value, name);
+            if (!persistentOptionPopup) {
+                setShowDropdown(false);
+            }
+        },
+        [onOptionClick, setShowDropdown, persistentOptionPopup, name],
+    );
 
     const optionListRendererParams = React.useCallback((key, option) => ({
         contentRendererParam: optionRendererParams,
         option,
         optionKey: key,
+        focusedKey,
         contentRenderer: optionRenderer,
         onClick: handleOptionClick,
+        onFocus: onFocusedKeyChange,
         optionContainerClassName: _cs(optionContainerClassName, styles.listItem),
     }), [
         optionRenderer,
         optionRendererParams,
         optionContainerClassName,
         handleOptionClick,
+        focusedKey,
     ]);
 
     const groupRendererParams = useCallback(
@@ -178,6 +203,19 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         // FIXME: disabling because linter is not smart enough
         // eslint-disable-next-line react-hooks/exhaustive-deps, react/destructuring-assignment
         [props.grouped, props.groupLabelSelector],
+    );
+
+    const handleKeyDown = useKeyboard(
+        focusedKey,
+        undefined, // value,
+        optionKeySelector,
+        options,
+        showDropdown,
+
+        onFocusedKeyChange,
+        handleHideDropdown,
+        handleShowDropdown,
+        handleOptionClick,
     );
 
     let popup: React.ReactNode | null;
@@ -258,6 +296,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         onClick={handleSearchInputClick}
                         placeholder={showDropdown ? searchPlaceholder : placeholder}
                         autoComplete="off"
+                        onKeyDown={handleKeyDown}
                     />
                 )}
             />

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, createContext } from 'react';
 
 import { SortDirection } from './types';
 
@@ -8,13 +8,25 @@ export interface SortParameter {
 }
 
 export function useSortState(defaultValue?: SortParameter) {
-    const [sortState, setSortState] = useState<SortParameter | undefined>(defaultValue);
-    return { sortState, setSortState };
+    const [sorting, setSorting] = useState<SortParameter | undefined>(defaultValue);
+    return { sorting, setSorting };
 }
+
+interface SortContextInterface {
+    sorting: SortParameter | undefined;
+    setSorting: React.Dispatch<React.SetStateAction<SortParameter | undefined>>;
+}
+const initialValue: SortContextInterface = {
+    sorting: undefined,
+    setSorting: (state) => {
+        console.warn('Trying to set to ', state);
+    },
+};
+export const SortContext = createContext<SortContextInterface>(initialValue);
 
 interface SortColumn<T> {
     id: string;
-    sorter?: (foo: T, bar: T) => number; // FIXME: this is problematic
+    valueComparator?: (foo: T, bar: T) => number;
     defaultSortDirection?: SortDirection;
 }
 
@@ -26,7 +38,7 @@ export function useSorting<T>(
     const selectedSorter = useMemo(
         () => {
             const columnToSort = columns.find((column) => column.id === sortParameter?.name);
-            return columnToSort?.sorter;
+            return columnToSort?.valueComparator;
         },
         [columns, sortParameter?.name],
     );

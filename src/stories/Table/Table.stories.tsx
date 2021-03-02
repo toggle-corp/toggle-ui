@@ -1,11 +1,19 @@
 import React from 'react';
-import { Story } from '@storybook/react/types-6-0';
-import Cell from '#components/Table/Cell';
-import Numeral from '#components/Numeral';
-import HeaderCell from '#components/Table/HeaderCell';
-import Table, { TableProps, createColumn, Column } from '#components/Table';
+import { isDefined } from '@togglecorp/fujs';
 
-import styles from './styles.css';
+import { Story } from '@storybook/react/types-6-0';
+import Table, { TableProps, Column } from '#components/Table';
+import { FilterType } from '#components/Table/types';
+import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
+import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
+import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
+import {
+    createStringColumn,
+    createNumberColumn,
+    createDateColumn,
+    createDateTimeColumn,
+    createYesNoColumn,
+} from '#components/Table/predefinedColumns';
 
 export default {
     title: 'View/Table',
@@ -16,89 +24,114 @@ export default {
 interface Program {
     id: number;
     name: string;
-    budget: number;
+    budget: number | undefined;
+    date: string;
 }
 const data: Program[] = [
     {
         id: 1,
         name: 'Program A',
         budget: 123123,
+        date: '2012-10-12T12:00:00',
     },
     {
         id: 2,
         name: 'Program B',
         budget: 100,
+        date: '2010-11-02T10:12:10',
     },
     {
         id: 3,
         name: 'Program C',
         budget: 10000,
+        date: '1994-04-17T01:04:12',
     },
     {
         id: 4,
         name: 'Program D',
-        budget: 10,
+        budget: undefined,
+        date: '2021-08-23T06:01:18',
     },
 ];
 
-const getColumns = () => {
-    type NoNull<T> = T extends null ? never : T;
+const columns = [
+    createNumberColumn<Program, number>(
+        'id',
+        'ID',
+        (item) => item.id,
+        { sortable: true, orderable: true },
+    ),
+    createStringColumn<Program, number>(
+        'name',
+        'Name',
+        (item) => item.name,
+        { sortable: true, filterType: FilterType.string, orderable: true, cellAsHeader: true },
+    ),
+    createNumberColumn<Program, number>(
+        'budget',
+        'Budget',
+        (item) => item.budget,
+        { sortable: true, filterType: FilterType.number, orderable: true },
+    ),
+    createDateColumn<Program, number>(
+        'date',
+        'Date',
+        (item) => item.date,
+        { sortable: true, orderable: true },
+    ),
+    createDateTimeColumn<Program, number>(
+        'datetime',
+        'Date Time',
+        (item) => item.date,
+        { sortable: true, orderable: true },
+    ),
+    createYesNoColumn<Program, number>(
+        'aboveBudget',
+        'Above Budget',
+        (item) => isDefined(item.budget) && item.budget > 100,
+        { sortable: true, orderable: true },
+    ),
+];
 
-    type ExtractKeys<T, M> = {
-        [K in keyof Required<T>]: NoNull<Required<T>[K]> extends M ? K : never
-    }[keyof T];
+const staticColumnOrdering = [
+    { name: 'id' },
+    { name: 'name' },
+    { name: 'budget' },
+    { name: 'date' },
+    { name: 'datetime' },
+    { name: 'aboveBudget' },
+];
 
-    type stringKeys = ExtractKeys<Program, string>;
-    type numberKeys = ExtractKeys<Program, number>;
+const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => {
+    const sortState = useSortState();
+    const { sorting } = sortState;
 
-    const stringColumn = (colName: stringKeys) => ({
-        headerCellRenderer: HeaderCell,
-        headerCellRendererParams: {
-            name: colName,
-            sortable: false,
-        },
-        headerContainerClassName: styles.stringHeader,
-        cellContainerClassName: styles.stringCell,
-        cellAsHeader: true,
-        cellRenderer: Cell,
-        cellRendererParams: (_: number, datum: Program) => ({
-            value: datum[colName],
-        }),
-        valueSelector: (v: Program) => v[colName],
-        valueType: 'string',
-    });
+    const filterState = useFilterState();
+    const { filtering } = filterState;
 
-    const numberColumn = (colName: numberKeys) => ({
-        headerCellRenderer: HeaderCell,
-        headerCellRendererParams: {
-            name: colName,
-            sortable: false,
-        },
-        cellAsHeader: true,
-        cellRenderer: Numeral,
-        cellRendererParams: (_: number, datum: Program) => ({
-            value: datum[colName],
-        }),
-        valueSelector: (v: Program) => v[colName],
-        valueType: 'number',
-    });
+    const orderState = useOrderState(staticColumnOrdering);
+    const { ordering } = orderState;
 
-    return [
-        createColumn(numberColumn, 'id', 'Id'),
-        createColumn(stringColumn, 'name', 'Name'),
-        createColumn(numberColumn, 'budget', 'Budget'),
-    ];
+    const orderedColumns = useOrdering(columns, ordering);
+    const filteredData = useFiltering(filtering, orderedColumns, data);
+    const sortedData = useSorting(sorting, orderedColumns, filteredData);
+
+    return (
+        <SortContext.Provider value={sortState}>
+            <FilterContext.Provider value={filterState}>
+                <OrderContext.Provider value={orderState}>
+                    <Table
+                        {...args}
+                        columns={orderedColumns}
+                        data={sortedData}
+                    />
+                </OrderContext.Provider>
+            </FilterContext.Provider>
+        </SortContext.Provider>
+    );
 };
-
-const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => (
-    <Table
-        {...args}
-    />
-);
 
 export const Default = Template.bind({});
 Default.args = {
-    data,
     keySelector: (d) => d.id,
-    columns: getColumns(),
 };
