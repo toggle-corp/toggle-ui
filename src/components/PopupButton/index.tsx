@@ -16,6 +16,7 @@ export interface PopupButtonProps<N extends number | string | undefined> extends
     componentRef?: React.MutableRefObject<{
         setPopupVisibility: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
+    arrowHidden?: boolean;
 }
 function PopupButton<N extends number | string | undefined>(props: PopupButtonProps<N>) {
     const {
@@ -26,30 +27,31 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
         name,
         actions,
         componentRef,
+        arrowHidden,
         ...otherProps
     } = props;
 
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const popupRef = React.useRef<HTMLDivElement>(null);
 
-    const [showPopup, setShowPopup] = React.useState(false);
+    const [popupShown, setPopupShown] = React.useState(false);
 
     useEffect(
         () => {
             if (componentRef) {
                 componentRef.current = {
-                    setPopupVisibility: setShowPopup,
+                    setPopupVisibility: setPopupShown,
                 };
             }
         },
         [componentRef],
     );
 
-    useBlurEffect(showPopup, setShowPopup, popupRef, buttonRef);
+    useBlurEffect(popupShown, setPopupShown, popupRef, buttonRef);
 
     const handleShowPopup = useCallback(
         () => {
-            setShowPopup(true);
+            setPopupShown(true);
         },
         [],
     );
@@ -64,13 +66,17 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
                 actions={(
                     <>
                         {actions}
-                        {showPopup ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        {!arrowHidden && (
+                            <>
+                                {popupShown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                            </>
+                        )}
                     </>
                 )}
             >
                 {label}
             </Button>
-            {showPopup && (
+            {popupShown && (
                 <Popup
                     elementRef={popupRef}
                     parentRef={buttonRef}
