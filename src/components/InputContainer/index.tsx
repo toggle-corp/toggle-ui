@@ -142,7 +142,7 @@ const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
                     <div className={_cs(styles.input, inputContainerClassName)}>
                         {input}
                     </div>
-                    {(!readOnly && actions) && (
+                    {actions && (
                         <div className={_cs(styles.actions, actionsContainerClassName)}>
                             {actions}
                         </div>

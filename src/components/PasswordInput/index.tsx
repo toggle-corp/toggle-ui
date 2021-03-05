@@ -50,6 +50,7 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
             uiMode={uiMode}
             actions={(
                 <>
+                    {actions}
                     <ToggleButton
                         value={showPassword}
                         onChange={setShowPassword}
@@ -63,7 +64,6 @@ function PasswordInput<T extends string>(props: PasswordInputProps<T>) {
                     >
                         {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
                     </ToggleButton>
-                    {actions}
                 </>
             )}
             input={(
