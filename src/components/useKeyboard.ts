@@ -133,16 +133,12 @@ function useKeyboard<T, Q extends OptionKey>(
             }
 
             if (
-                selectedKey !== undefined
+                isDefined(selectedKey)
                 && getOptionIndex(selectedKey, options, keySelector) !== -1
             ) {
                 onFocusChange(selectedKey);
             } else {
-                onFocusChange((oldKey) => {
-                    // NOTE: this just check if the key exists or not
-                    const newFocusedKey = getNewKey(oldKey, 0, options, keySelector);
-                    return newFocusedKey;
-                });
+                onFocusChange(undefined);
             }
         },
         [isOptionsShown, options, keySelector, onFocusChange, selectedKey],

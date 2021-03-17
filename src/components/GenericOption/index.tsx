@@ -43,6 +43,7 @@ function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
     const divRef = useRef<HTMLButtonElement>(null);
     const focusedByMouse = useRef(false);
 
+    /*
     useEffect(
         () => {
             if (isFocused && !focusedByMouse.current && divRef.current) {
@@ -54,6 +55,7 @@ function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
         },
         [focusedByMouse, isFocused],
     );
+    */
 
     const handleClick = useCallback(
         () => {
