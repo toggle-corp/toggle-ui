@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import RawButton from '../RawButton';

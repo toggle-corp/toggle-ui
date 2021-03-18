@@ -68,7 +68,7 @@ export interface InputContainerProps {
     /**
     * Input error
     */
-    error?: React.ReactNode;
+    error?: string;
 
     /**
      * Is input disabled?
