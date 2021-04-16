@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     _cs,
     listToMap,
+    unique,
 } from '@togglecorp/fujs';
 import { MdCheck } from 'react-icons/md';
 
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
-import EmptyOptions from './EmptyOptions';
-import EmptySelectedOptions from './EmptySelectedOptions';
 
 import styles from './styles.css';
 
@@ -43,12 +42,9 @@ export type SearchSelectInputProps<
     options: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
-    searchPlaceholder?: string;
-    optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-    searchOptionsShownInitially?: boolean;
     onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
     searchOptions: O[] | undefined | null;
     onSearchValueChange: (searchVal: string) => void,
@@ -62,7 +58,7 @@ export type SearchSelectInputProps<
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'optionsEmptyComponent'
+        | 'optionsFiltered'
         | 'persistentOptionPopup'
         | 'valueDisplay'
     >
@@ -90,12 +86,9 @@ function SearchSelectInput<
         onOptionsChange,
         onSearchValueChange,
         options: optionsFromProps,
-        optionsEmptyComponent,
         optionsPending,
         optionsPopupClassName,
         searchOptions,
-        searchOptionsShownInitially = false,
-        searchPlaceholder = 'Type to search',
         value,
         ...otherProps
     } = props;
@@ -104,7 +97,7 @@ function SearchSelectInput<
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
 
-    const optionsLabelMap = React.useMemo(
+    const optionsLabelMap = useMemo(
         () => (
             listToMap(options, keySelector, labelSelector)
         ),
@@ -160,7 +153,7 @@ function SearchSelectInput<
     );
 
     // NOTE: we can skip this calculation if optionsShowInitially is false
-    const selectedOptions = React.useMemo(
+    const selectedOptions = useMemo(
         () => {
             const selectedValue = options?.find((item) => keySelector(item) === value);
             if (!selectedValue) {
@@ -171,21 +164,16 @@ function SearchSelectInput<
         [options, keySelector, value],
     );
 
-    const showSelectedOptions = !searchInputValue && !searchOptionsShownInitially;
-
-    const realOptions = showSelectedOptions
-        ? selectedOptions
-        : searchOptions;
-
-    const defaultOptionsEmptyComponent = showSelectedOptions
-        ? (
-            <EmptySelectedOptions />
-        ) : (
-            <EmptyOptions
-                isFiltered={searchInputValue?.length > 0}
-                optionsPending={optionsPending}
-            />
-        );
+    const realOptions = useMemo(
+        () => {
+            const agg = [
+                ...(searchOptions ?? []),
+                ...(selectedOptions ?? []),
+            ];
+            return unique(agg, keySelector);
+        },
+        [selectedOptions, searchOptions, keySelector],
+    );
 
     const valueDisplay = value ? optionsLabelMap[value] ?? '?' : '';
 
@@ -195,18 +183,18 @@ function SearchSelectInput<
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            optionsFiltered={searchInputValue?.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            searchPlaceholder={searchPlaceholder}
             onSearchInputChange={handleSearchValueChange}
-            optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
             optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
             persistentOptionPopup={false}
+            selectedKey={value ?? undefined}
         />
     );
 }

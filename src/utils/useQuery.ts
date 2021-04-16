@@ -19,7 +19,7 @@ export function entityListTransformer<T extends Entity>(
         values,
         variable,
         labelSelector,
-    );
+    ).slice(0, 10);
 }
 
 function useQuery<T, V>(
@@ -41,13 +41,13 @@ function useQuery<T, V>(
                 () => {
                     setPending(false);
                 },
-                400,
+                200 + Math.floor(400 * Math.random()),
             );
             return () => {
                 clearTimeout(timer);
             };
         },
-        [variable, transformer, skip],
+        [variable, skip],
     );
 
     const result = useMemo(

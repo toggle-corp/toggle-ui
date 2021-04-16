@@ -10,6 +10,7 @@ export interface VisualFeedbackProps {
     disabled?: boolean;
     readOnly?: boolean;
     uiMode?: UiMode;
+    focused?: boolean;
 }
 
 function VisualFeedback(props: VisualFeedbackProps) {
@@ -18,6 +19,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
         disabled,
         readOnly,
         uiMode,
+        focused,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
@@ -29,6 +31,7 @@ function VisualFeedback(props: VisualFeedbackProps) {
                 styles.visualFeedback,
                 disabled && styles.disabled,
                 readOnly && styles.readOnly,
+                focused && styles.focused,
                 themeClassName,
             )}
         />

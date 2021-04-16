@@ -13,7 +13,7 @@ export type SelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'searchOptionsShownInitially'>;
+> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -51,7 +51,6 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
                 labelSelector={labelSelector}
                 onSearchValueChange={setSearchInputValue}
                 searchOptions={searchOptions}
-                searchOptionsShownInitially
             />
         );
     }
@@ -67,7 +66,6 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             labelSelector={labelSelector}
             onSearchValueChange={setSearchInputValue}
             searchOptions={searchOptions}
-            searchOptionsShownInitially
         />
     );
 }

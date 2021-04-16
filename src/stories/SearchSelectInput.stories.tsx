@@ -17,9 +17,9 @@ interface Option {
 
 const options: Option[] = [
     { id: '1', name: 'Apple' },
+    { id: '4', name: 'Avocado' },
     { id: '2', name: 'Banana' },
     { id: '3', name: 'Grapes' },
-    { id: '4', name: 'Avocado' },
     { id: '5', name: 'Pear' },
 ];
 
@@ -40,7 +40,8 @@ const Template: Story<SearchSelectInputProps<string, string, Option, { container
         options,
         searchValue,
         entityListTransformer,
-        !searchValue,
+        false,
+        // !searchValue,
     );
 
     return (

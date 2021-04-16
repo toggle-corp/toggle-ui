@@ -1,15 +1,20 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     _cs,
     listToMap,
     isDefined,
+    unique,
 } from '@togglecorp/fujs';
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
-import EmptyOptions from '../SelectInput/EmptyOptions';
-import EmptySelectedOptions from '../SelectInput/EmptySelectedOptions';
+import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
+
+// FIXME: move this inside the select input container
+// FIXME: sort before passing to group
+// FIXME: grouping and selections at top confilct with each other
+// FIXME: only sort selections to top on popup open
 
 interface OptionProps {
     children: React.ReactNode;
@@ -49,12 +54,9 @@ export type SearchMultiSelectInputProps<
     options: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
-    searchPlaceholder?: string;
-    optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-    searchOptionsShownInitially?: boolean;
     onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
     searchOptions: O[] | undefined | null;
     onSearchValueChange: (searchVal: string) => void,
@@ -68,7 +70,7 @@ export type SearchMultiSelectInputProps<
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'optionsEmptyComponent'
+        | 'optionsFiltered'
         | 'persistentOptionPopup'
         | 'valueDisplay'
     >
@@ -93,12 +95,9 @@ function SearchMultiSelectInput<
         onOptionsChange,
         onSearchValueChange,
         options: optionsFromProps,
-        optionsEmptyComponent,
         optionsPending,
         optionsPopupClassName,
         searchOptions,
-        searchOptionsShownInitially = false,
-        searchPlaceholder = 'Type to search',
         value: valueFromProps,
         ...otherProps
     } = props;
@@ -106,7 +105,7 @@ function SearchMultiSelectInput<
     const options = optionsFromProps ?? (emptyList as O[]);
     const value = valueFromProps ?? (emptyList as T[]);
 
-    const optionsMap = React.useMemo(
+    const optionsMap = useMemo(
         () => (
             listToMap(options, keySelector, (i) => i)
         ),
@@ -115,7 +114,7 @@ function SearchMultiSelectInput<
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
 
-    const optionsLabelMap = React.useMemo(
+    const optionsLabelMap = useMemo(
         () => (
             listToMap(options, keySelector, labelSelector)
         ),
@@ -181,28 +180,23 @@ function SearchMultiSelectInput<
     );
 
     // NOTE: we can skip this calculation if optionsShowInitially is false
-    const selectedOptions = React.useMemo(
+    const selectedOptions = useMemo(
         () => value.map((valueKey) => optionsMap[valueKey]).filter(isDefined),
         [value, optionsMap],
     );
 
-    const showSelectedOptions = !searchInputValue && !searchOptionsShownInitially;
+    const realOptions = useMemo(
+        () => {
+            const agg = [
+                ...rankedSearchOnList(selectedOptions, searchInputValue, labelSelector),
+                ...(searchOptions ?? []),
+            ];
+            return unique(agg, keySelector);
+        },
+        [selectedOptions, searchOptions, labelSelector, searchInputValue, keySelector],
+    );
 
-    const realOptions = showSelectedOptions
-        ? selectedOptions
-        : searchOptions;
-
-    const defaultOptionsEmptyComponent = showSelectedOptions
-        ? (
-            <EmptySelectedOptions />
-        ) : (
-            <EmptyOptions
-                isFiltered={searchInputValue?.length > 0}
-                optionsPending={optionsPending}
-            />
-        );
-
-    const valueDisplay = React.useMemo(
+    const valueDisplay = useMemo(
         () => (
             value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
         ),
@@ -215,15 +209,14 @@ function SearchMultiSelectInput<
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            optionsFiltered={searchInputValue?.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            searchPlaceholder={searchPlaceholder}
             onSearchInputChange={handleSearchValueChange}
-            optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
             optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
             persistentOptionPopup
