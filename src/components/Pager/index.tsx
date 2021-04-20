@@ -295,7 +295,6 @@ function Pager(props: PagerProps) {
                 value={maxItemsPerPage}
                 onChange={props.onItemsPerPageChange}
                 disabled={disabled}
-                searchPlaceholder=""
                 optionsPopupClassName={styles.perPageOptionPopup}
                 nonClearable
             />

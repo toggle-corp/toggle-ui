@@ -5,15 +5,13 @@ import { rankedSearchOnList } from '../../utils';
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
 
-const emptyList: unknown[] = [];
-
 export type SelectInputProps<
     T extends OptionKey,
     K extends string,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions'>;
+> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -27,13 +25,6 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         onChange, // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
         ...otherProps
     } = props;
-
-    const [searchInputValue, setSearchInputValue] = React.useState('');
-
-    const searchOptions = React.useMemo(
-        () => rankedSearchOnList(options ?? (emptyList as O[]), searchInputValue, labelSelector),
-        [options, searchInputValue, labelSelector],
-    );
 
     // NOTE: this looks weird but we need to use typeguard to identify between
     // different union types (for onChange and nonClearable)
@@ -49,8 +40,8 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
                 name={name}
                 options={options}
                 labelSelector={labelSelector}
-                onSearchValueChange={setSearchInputValue}
-                searchOptions={searchOptions}
+                sortFunction={rankedSearchOnList}
+                searchOptions={options}
             />
         );
     }
@@ -64,8 +55,8 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
             name={name}
             options={options}
             labelSelector={labelSelector}
-            onSearchValueChange={setSearchInputValue}
-            searchOptions={searchOptions}
+            sortFunction={rankedSearchOnList}
+            searchOptions={options}
         />
     );
 }

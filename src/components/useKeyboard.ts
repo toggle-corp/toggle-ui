@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { modulo, isDefined } from '@togglecorp/fujs';
 
 type OptionKey = string | number | boolean;
@@ -16,9 +16,6 @@ enum Keys {
 /*
 # Feature
 - Handles setting value of focusedKey exclusively
-
-# Breaking change
-- Add prop selectedKey to set it as focusedKey if focusedKey is not defined
 */
 
 const specialKeys = [Keys.Up, Keys.Down, Keys.Enter, Keys.Backspace];
@@ -56,7 +53,6 @@ function getNewKey<T, Q extends OptionKey>(
 
 function useKeyboard<T, Q extends OptionKey>(
     focusedKey: { key: Q, mouse?: boolean } | undefined,
-    selectedKey: Q | undefined,
     keySelector: (option: T, index: number) => Q,
     options: T[],
     isOptionsShown: boolean,
@@ -114,26 +110,6 @@ function useKeyboard<T, Q extends OptionKey>(
             onShowOptions,
             options,
         ],
-    );
-
-    // FIXME: move this
-    // while opening
-    useEffect(
-        () => {
-            if (!isOptionsShown) {
-                return;
-            }
-
-            if (
-                isDefined(selectedKey)
-                && getOptionIndex(selectedKey, options, keySelector) !== -1
-            ) {
-                onFocusChange({ key: selectedKey });
-            } else {
-                onFocusChange(undefined);
-            }
-        },
-        [isOptionsShown, options, keySelector, onFocusChange, selectedKey],
     );
 
     return handleKeyDown;

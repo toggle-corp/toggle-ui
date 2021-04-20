@@ -48,7 +48,7 @@ export function useSorting<T>(
             if (!data || !selectedSorter) {
                 return data;
             }
-            if (sortParameter?.direction === SortDirection.dsc) {
+            if (sortParameter?.direction === 'dsc') {
                 return [...data].sort(selectedSorter).reverse();
             }
             return [...data].sort(selectedSorter);

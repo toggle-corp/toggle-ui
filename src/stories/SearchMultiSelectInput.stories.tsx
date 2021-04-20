@@ -33,6 +33,7 @@ const Template: Story<SearchMultiSelectInputProps<string, string, Option, { cont
     };
 
     const [searchValue, setSearchValue] = useState('');
+    const [opened, setOpened] = useState(false);
     const [cacheOptions, setCacheOptions] = useState<Option[] | undefined | null>([
         options[2],
         options[3],
@@ -42,8 +43,7 @@ const Template: Story<SearchMultiSelectInputProps<string, string, Option, { cont
         options,
         searchValue,
         entityListTransformer,
-        false,
-        // !searchValue,
+        !opened,
     );
 
     return (
@@ -59,6 +59,7 @@ const Template: Story<SearchMultiSelectInputProps<string, string, Option, { cont
             onSearchValueChange={setSearchValue}
             optionsPending={pending}
             onOptionsChange={setCacheOptions}
+            onShowDropdownChange={setOpened}
         />
     );
 };

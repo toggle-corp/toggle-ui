@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 
@@ -50,9 +50,15 @@ export type SelectInputContainerProps<
     OMISSION extends string,
 > = Omit<{
     name: N,
-    selectedKey?: OK;
     onOptionClick: (optionKey: OK, option: O, name: N) => void;
-    onSearchInputChange: (search: string) => void;
+    dropdownShown: boolean;
+    onDropdownShownChange: (value: boolean) => void;
+    focused: boolean;
+    onFocusedChange: (value: boolean) => void;
+    focusedKey: { key: OK, mouse?: boolean } | undefined;
+    onFocusedKeyChange: (value: { key: OK, mouse?: boolean } | undefined) => void;
+    searchText: string;
+    onSearchTextChange: (search: string) => void;
     optionContainerClassName?: string;
     optionKeySelector: (datum: O, index: number) => OK;
     optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
@@ -99,7 +105,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         labelContainerClassName,
         name,
         onOptionClick,
-        onSearchInputChange,
+        searchText,
+        onSearchTextChange,
         optionContainerClassName,
         optionKeySelector,
         optionRenderer,
@@ -115,59 +122,60 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         onClear,
         optionsPending,
         optionsFiltered,
-        selectedKey,
+        focused,
+        focusedKey,
+        onFocusedKeyChange,
+        onFocusedChange,
+        dropdownShown,
+        onDropdownShownChange,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
-
     const optionsEmpty = options.length <= 0;
 
-    const [focused, setFocused] = useState(false);
-    const [
-        focusedKey,
-        setFocusedKey,
-    ] = React.useState<{ key: OK, mouse?: boolean } | undefined>();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const inputSectionRef = useRef<HTMLDivElement>(null);
+    const inputElementRef = useRef<HTMLInputElement>(null);
+    const popupRef = useRef<HTMLDivElement>(null);
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
-    const inputSectionRef = React.useRef<HTMLDivElement>(null);
-    const inputElementRef = React.useRef<HTMLInputElement>(null);
-    const popupRef = React.useRef<HTMLDivElement>(null);
-
-    const [searchInputValue, setSearchInputValue] = React.useState('');
-    const [showDropdown, setShowDropdown] = React.useState(false);
-
-    const handleSearchInputChange = React.useCallback((value) => {
-        if (!showDropdown) {
-            setShowDropdown(true);
-            setFocusedKey(selectedKey ? { key: selectedKey } : undefined);
-        }
-        setSearchInputValue(value);
-        onSearchInputChange(value);
-    }, [showDropdown, setSearchInputValue, onSearchInputChange, selectedKey]);
+    const handleSearchInputChange = useCallback(
+        (value) => {
+            if (!dropdownShown) {
+                onDropdownShownChange(true);
+            }
+            onSearchTextChange(value);
+        },
+        [
+            dropdownShown,
+            onDropdownShownChange,
+            onSearchTextChange,
+        ],
+    );
 
     const handleShowDropdown = useCallback(
         () => {
             // FIXME: this is not atomic
             // FIXME: call only once
-            if (!showDropdown) {
-                setShowDropdown(true);
-                setSearchInputValue('');
-                onSearchInputChange('');
-                setFocusedKey(selectedKey ? { key: selectedKey } : undefined);
+            if (!dropdownShown) {
+                onDropdownShownChange(true);
             }
         },
-        [showDropdown, onSearchInputChange, selectedKey],
+        [
+            dropdownShown,
+            onDropdownShownChange,
+        ],
     );
 
     const handleHideDropdown = useCallback(
         () => {
-            setShowDropdown(false);
-            setFocusedKey(undefined);
+            onDropdownShownChange(false);
         },
-        [],
+        [
+            onDropdownShownChange,
+        ],
     );
 
-    const handleSearchInputClick = React.useCallback(
+    const handleSearchInputClick = useCallback(
         () => {
             if (readOnly) {
                 return;
@@ -177,17 +185,18 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         [readOnly, handleShowDropdown],
     );
 
-    const handlePopupBlur = React.useCallback((isClickedWithin: boolean) => {
-        if (!isClickedWithin) {
-            handleHideDropdown();
-        } else if (persistentOptionPopup && inputElementRef.current) {
-            inputElementRef.current.focus();
-        }
-    }, [handleHideDropdown, persistentOptionPopup]);
+    const handlePopupBlur = useCallback(
+        (isClickedWithin: boolean) => {
+            if (!isClickedWithin) {
+                handleHideDropdown();
+            } else if (persistentOptionPopup && inputElementRef.current) {
+                inputElementRef.current.focus();
+            }
+        },
+        [handleHideDropdown, persistentOptionPopup],
+    );
 
-    useBlurEffect(showDropdown, handlePopupBlur, popupRef, containerRef);
-
-    const handleOptionClick = React.useCallback(
+    const handleOptionClick = useCallback(
         (valueKey: OK, value: O) => {
             onOptionClick(valueKey, value, name);
             if (!persistentOptionPopup) {
@@ -197,22 +206,26 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         [onOptionClick, handleHideDropdown, persistentOptionPopup, name],
     );
 
-    const optionListRendererParams = React.useCallback((key, option) => ({
-        contentRendererParam: optionRendererParams,
-        option,
-        optionKey: key,
-        focusedKey,
-        contentRenderer: optionRenderer,
-        onClick: handleOptionClick,
-        onFocus: setFocusedKey,
-        optionContainerClassName: _cs(optionContainerClassName, styles.listItem),
-    }), [
-        optionRenderer,
-        optionRendererParams,
-        optionContainerClassName,
-        handleOptionClick,
-        focusedKey,
-    ]);
+    const optionListRendererParams = useCallback(
+        (key, option) => ({
+            contentRendererParam: optionRendererParams,
+            option,
+            optionKey: key,
+            focusedKey,
+            contentRenderer: optionRenderer,
+            onClick: handleOptionClick,
+            onFocus: onFocusedKeyChange,
+            optionContainerClassName: _cs(optionContainerClassName, styles.listItem),
+        }),
+        [
+            focusedKey,
+            handleOptionClick,
+            onFocusedKeyChange,
+            optionContainerClassName,
+            optionRenderer,
+            optionRendererParams,
+        ],
+    );
 
     const groupRendererParams = useCallback(
         (_: string | number, __: number, values: O[]) => ({
@@ -223,14 +236,20 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         [props.grouped, props.groupLabelSelector],
     );
 
+    useBlurEffect(
+        dropdownShown,
+        handlePopupBlur,
+        popupRef,
+        containerRef,
+    );
+
     const handleKeyDown = useKeyboard(
         focusedKey,
-        selectedKey,
         optionKeySelector,
         options,
-        showDropdown,
+        dropdownShown,
 
-        setFocusedKey,
+        onFocusedKeyChange,
         handleHideDropdown,
         handleShowDropdown,
         handleOptionClick,
@@ -283,7 +302,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                                 <IoMdClose />
                             </Button>
                         )}
-                        {!readOnly && (showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />)}
+                        {!readOnly && (dropdownShown ? <IoIosArrowUp /> : <IoIosArrowDown />)}
                     </>
                 )}
                 actionsContainerClassName={actionsContainerClassName}
@@ -307,18 +326,18 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         readOnly={readOnly}
                         uiMode={uiMode}
                         disabled={disabled}
-                        value={(showDropdown || focused) ? searchInputValue : valueDisplay}
+                        value={(dropdownShown || focused) ? searchText : valueDisplay}
                         onChange={handleSearchInputChange}
                         onClick={handleSearchInputClick}
-                        onFocus={() => setFocused(true)}
-                        onBlur={() => setFocused(false)}
+                        onFocus={() => onFocusedChange(true)}
+                        onBlur={() => onFocusedChange(false)}
                         placeholder={valueDisplay ?? placeholder}
                         autoComplete="off"
                         onKeyDown={handleKeyDown}
                     />
                 )}
             />
-            {showDropdown && (
+            {dropdownShown && (
                 <Popup
                     elementRef={popupRef}
                     parentRef={inputSectionRef}

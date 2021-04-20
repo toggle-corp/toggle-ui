@@ -1,6 +1,6 @@
 {
     "name": "@togglecorp/toggle-ui",
-    "version": "0.10.0-beta.5",
+    "version": "0.10.0-beta.6",
     "description": "React component library by togglecorp",
     "files": [
         "/build"
@@ -13,7 +13,7 @@
     "style": "build/index.css",
     "typings": "build/index.d.ts",
     "scripts": {
-        "prepare": "yarn install-peer && rollup -c && tsc --project tsconfig-typings.json",
+        "prepare": "install-peers",
         "build": "rollup -c && tsc --project tsconfig-typings.json",
         "watch": "rollup -c -w",
         "typecheck": "tsc",
@@ -32,12 +32,11 @@
     },
     "homepage": "https://github.com/toggle-corp/toggle-ui#readme",
     "peerDependencies": {
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",
-        "@storybook/client-api": "^6.0.21",
         "@togglecorp/fujs": "^1.9.2-beta.0",
         "d3-axis": "^2.0.0",
         "d3-scale": "^3.2.3",
@@ -66,18 +65,19 @@
         "@rollup/plugin-babel": "^5.2.0",
         "@rollup/plugin-commonjs": "^15.0.0",
         "@rollup/plugin-node-resolve": "^9.0.0",
-        "@storybook/addon-a11y": "^6.0.21",
-        "@storybook/addon-actions": "^6.0.21",
-        "@storybook/addon-essentials": "^6.0.21",
-        "@storybook/addon-links": "^6.0.21",
-        "@storybook/node-logger": "^6.0.21",
-        "@storybook/react": "^6.0.21",
+        "@storybook/addon-a11y": "^6.2.8",
+        "@storybook/addon-actions": "^6.2.8",
+        "@storybook/addon-essentials": "^6.2.8",
+        "@storybook/addon-links": "^6.2.8",
+        "@storybook/client-api": "^6.2.8",
+        "@storybook/node-logger": "^6.2.8",
+        "@storybook/react": "^6.2.8",
         "@types/d3-axis": "^2.0.0",
         "@types/d3-scale": "^3.1.0",
         "@types/file-saver": "^2.0.1",
         "@types/node": "^14.11.2",
-        "@types/react": "^16.9.49",
-        "@types/react-dom": "^16.9.8",
+        "@types/react": "^17.0.3",
+        "@types/react-dom": "^17.0.3",
         "@typescript-eslint/eslint-plugin": "^4.2.0",
         "@typescript-eslint/parser": "^4.2.0",
         "babel-loader": "^8.1.0",
@@ -94,6 +94,7 @@
         "eslint-plugin-postcss-modules": "^1.2.0",
         "eslint-plugin-react": "^7.20.6",
         "eslint-plugin-react-hooks": "^4.1.2",
+        "install-peers-cli": "^2.2.0",
         "path": "^0.12.7",
         "postcss-loader": "^3.0.0",
         "postcss-nested": "^4.2.3",

@@ -50,13 +50,14 @@ module.exports = {
 
         strict: 1,
         indent: ['error', 4, { SwitchCase: 1 }],
-        'no-unused-vars': [1, { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
         'no-console': 0,
 
-        'no-use-before-define': 0,
-        '@typescript-eslint/no-use-before-define': 1,
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': ['error', 'nofunc'],
 
-        // note you must disable the base rule as it can report incorrect errors
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': ['error'],
+
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
 
