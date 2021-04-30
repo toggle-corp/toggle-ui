@@ -23,6 +23,8 @@ export interface RawButtonProps<N extends number | string | undefined> extends O
     uiMode?: UiMode;
     name: N;
     elementRef?: React.Ref<HTMLButtonElement>;
+
+    focused?: boolean;
 }
 
 /**
@@ -37,6 +39,7 @@ function RawButton<N extends number | string | undefined>(props: RawButtonProps<
         disabled,
         elementRef,
         name,
+        focused,
         ...otherProps
     } = props;
 
@@ -64,6 +67,7 @@ function RawButton<N extends number | string | undefined>(props: RawButtonProps<
             <VisualFeedback
                 disabled={disabled}
                 uiMode={uiMode}
+                focused={focused}
             />
             { children }
         </button>

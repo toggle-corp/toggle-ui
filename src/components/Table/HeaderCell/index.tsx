@@ -63,7 +63,7 @@ function HeaderCell(props: HeaderCellProps) {
         index,
 
         sortable,
-        defaultSortDirection = SortDirection.asc,
+        defaultSortDirection = 'asc',
         filterType,
         orderable,
         hideable,
@@ -114,10 +114,10 @@ function HeaderCell(props: HeaderCellProps) {
             let newSortDirection: SortDirection | undefined;
             if (!sortDirection) {
                 newSortDirection = defaultSortDirection;
-            } else if (sortDirection === SortDirection.asc) {
-                newSortDirection = SortDirection.dsc;
-            } else if (sortDirection === SortDirection.dsc) {
-                newSortDirection = SortDirection.asc;
+            } else if (sortDirection === 'asc') {
+                newSortDirection = 'asc';
+            } else if (sortDirection === 'dsc') {
+                newSortDirection = 'dsc';
             }
 
             if (newSortDirection) {
@@ -260,8 +260,8 @@ function HeaderCell(props: HeaderCellProps) {
                         compact
                     >
                         {!sortDirection && <FaSort />}
-                        {sortDirection === SortDirection.asc && <FaSortUp />}
-                        {sortDirection === SortDirection.dsc && <FaSortDown />}
+                        {sortDirection === 'asc' && <FaSortUp />}
+                        {sortDirection === 'dsc' && <FaSortDown />}
                     </Button>
                 )}
                 <div
@@ -296,7 +296,7 @@ function HeaderCell(props: HeaderCellProps) {
             </div>
             { filterType && (
                 <div className={styles.filterContainer}>
-                    {filterType === FilterType.string && (
+                    {filterType === 'string' && (
                         <TextInput
                             name="textFilter"
                             icons={<FaSearch className={styles.icon} />}
@@ -307,7 +307,7 @@ function HeaderCell(props: HeaderCellProps) {
                             onChange={handleStringFilterChange}
                         />
                     )}
-                    {filterType === FilterType.number && (
+                    {filterType === 'number' && (
                         <>
                             <NumberInput
                                 name="numberFilterMin"

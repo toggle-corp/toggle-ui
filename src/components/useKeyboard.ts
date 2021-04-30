@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { modulo, isDefined } from '@togglecorp/fujs';
 
 type OptionKey = string | number | boolean;
@@ -16,9 +16,6 @@ enum Keys {
 /*
 # Feature
 - Handles setting value of focusedKey exclusively
-
-# Breaking change
-- Add prop selectedKey to set it as focusedKey if focusedKey is not defined
 */
 
 const specialKeys = [Keys.Up, Keys.Down, Keys.Enter, Keys.Backspace];
@@ -55,13 +52,12 @@ function getNewKey<T, Q extends OptionKey>(
 }
 
 function useKeyboard<T, Q extends OptionKey>(
-    focusedKey: Q | undefined,
-    selectedKey: Q | undefined,
+    focusedKey: { key: Q, mouse?: boolean } | undefined,
     keySelector: (option: T, index: number) => Q,
     options: T[],
     isOptionsShown: boolean,
 
-    onFocusChange: (key: Q | ((key: Q | undefined) => Q | undefined) | undefined) => void,
+    onFocusChange: (options: { key: Q, mouse?: boolean } | undefined) => void,
     onHideOptions: () => void,
     onShowOptions: () => void,
     onOptionSelect: (key: Q, value: T) => void,
@@ -70,6 +66,7 @@ function useKeyboard<T, Q extends OptionKey>(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
             // NOTE: De-structuring e here will create access error
             const { keyCode } = e;
+            const myKey = focusedKey?.key;
             if (isOptionsShown && (keyCode === Keys.Tab || keyCode === Keys.Esc)) {
                 // If tab or escape was pressed and dropdown is being shown,
                 // hide the dropdown.
@@ -81,26 +78,26 @@ function useKeyboard<T, Q extends OptionKey>(
                 e.preventDefault();
                 onShowOptions();
             } else if (keyCode === Keys.Enter) {
-                if (isDefined(focusedKey)) {
+                if (isDefined(myKey)) {
                     e.stopPropagation();
                     e.preventDefault();
                     const focusedOption = options.find(
-                        (option, i) => keySelector(option, i) === focusedKey,
+                        (option, i) => keySelector(option, i) === myKey,
                     );
                     if (focusedOption) {
-                        onOptionSelect(focusedKey, focusedOption);
+                        onOptionSelect(myKey, focusedOption);
                     }
                 }
             } else if (keyCode === Keys.Up) {
                 e.stopPropagation();
                 e.preventDefault();
-                const newFocusedKey = getNewKey(focusedKey, 1, options, keySelector);
-                onFocusChange(newFocusedKey);
+                const newFocusedKey = getNewKey(myKey, 1, options, keySelector);
+                onFocusChange(newFocusedKey ? { key: newFocusedKey } : undefined);
             } else if (keyCode === Keys.Down) {
                 e.stopPropagation();
                 e.preventDefault();
-                const newFocusedKey = getNewKey(focusedKey, -1, options, keySelector);
-                onFocusChange(newFocusedKey);
+                const newFocusedKey = getNewKey(myKey, -1, options, keySelector);
+                onFocusChange(newFocusedKey ? { key: newFocusedKey } : undefined);
             }
         },
         [
@@ -113,39 +110,6 @@ function useKeyboard<T, Q extends OptionKey>(
             onShowOptions,
             options,
         ],
-    );
-
-    // while opening
-    useEffect(
-        () => {
-            if (!isOptionsShown && focusedKey !== undefined) {
-                onFocusChange(undefined);
-            }
-        },
-        [focusedKey, isOptionsShown, onFocusChange],
-    );
-
-    // while closing
-    useEffect(
-        () => {
-            if (!isOptionsShown) {
-                return;
-            }
-
-            if (
-                selectedKey !== undefined
-                && getOptionIndex(selectedKey, options, keySelector) !== -1
-            ) {
-                onFocusChange(selectedKey);
-            } else {
-                onFocusChange((oldKey) => {
-                    // NOTE: this just check if the key exists or not
-                    const newFocusedKey = getNewKey(oldKey, 0, options, keySelector);
-                    return newFocusedKey;
-                });
-            }
-        },
-        [isOptionsShown, options, keySelector, onFocusChange, selectedKey],
     );
 
     return handleKeyDown;

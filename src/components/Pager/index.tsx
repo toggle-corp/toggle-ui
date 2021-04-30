@@ -144,7 +144,7 @@ export type PagerProps = {
     showLabel?: boolean;
 } & ({
     itemsPerPageControlHidden: true;
-    onItemsPerPageChange: undefined;
+    onItemsPerPageChange?: (pageCapacity: number) => void;
 } | {
     itemsPerPageControlHidden?: false;
     onItemsPerPageChange: (pageCapacity: number) => void;
@@ -189,116 +189,131 @@ function Pager(props: PagerProps) {
 
     const pages = pagination(totalCapacity, activePage, numPages);
 
+    const pageList = pages.length > 1 && (
+        <div className={styles.pageList}>
+            <Button
+                name={undefined}
+                className={styles.pageButton}
+                onClick={() => onActivePageChange(activePage - 1)}
+                disabled={activePage <= 1 || disabled}
+                icons={<FaChevronLeft />}
+                transparent
+            >
+                {showLabel && (
+                    'Prev'
+                )}
+            </Button>
+            {pages.map((page) => {
+                if (page.type === 'button') {
+                    return (
+                        <Button
+                            key={`button-${page.index}`}
+                            name={undefined}
+                            onClick={() => onActivePageChange(page.index)}
+                            className={styles.pageButton}
+                            disabled={disabled}
+                            transparent
+                        >
+                            {page.index}
+                        </Button>
+                    );
+                }
+                if (page.type === 'fakeButton') {
+                    return (
+                        <Button
+                            key={`button-${page.key}`}
+                            variant="accent"
+                            name={undefined}
+                            className={_cs(styles.pageButton, styles.active)}
+                            transparent
+                        >
+                            {page.label}
+                        </Button>
+                    );
+                }
+                return (
+                    <div
+                        key={`span-${page.key}`}
+                        className={styles.pageSpan}
+                    >
+                        {page.label}
+                    </div>
+                );
+            })}
+            <Button
+                name={undefined}
+                onClick={() => onActivePageChange(activePage + 1)}
+                disabled={activePage >= numPages || disabled}
+                className={styles.pageButton}
+                actions={<FaChevronRight />}
+                transparent
+            >
+                {showLabel && (
+                    'Next'
+                )}
+            </Button>
+        </div>
+    );
+
+    const info = !infoHidden && (itemsCount > maxItemsPerPage) && (
+        <div className={styles.currentRangeInformation}>
+            <div className={styles.showing}>
+                { showingTitle }
+            </div>
+            <div className={styles.range}>
+                <div className={styles.from}>
+                    { currentItemsStart }
+                </div>
+                <div className={styles.separator}>
+                    { rangeIndicator }
+                </div>
+                <div className={styles.to}>
+                    { currentItemsEnd }
+                </div>
+            </div>
+            <div className={styles.of}>
+                { ofTitle }
+            </div>
+            <div className={styles.total}>
+                {itemsCount}
+            </div>
+        </div>
+    );
+
+    const itemsPerPageOptions = options ?? defaultOptions;
+
+    const minOption = Math.min(0, ...itemsPerPageOptions.map((opt) => opt.key));
+
+    const itemPerPageControl = !props.itemsPerPageControlHidden && (itemsCount > minOption) && (
+        <div className={styles.itemsPerPage}>
+            <SelectInput
+                name="itemsPerPageSelection"
+                className={styles.input}
+                options={itemsPerPageOptions}
+                keySelector={(item) => item.key}
+                labelSelector={(item) => item.label}
+                value={maxItemsPerPage}
+                onChange={props.onItemsPerPageChange}
+                disabled={disabled}
+                optionsPopupClassName={styles.perPageOptionPopup}
+                nonClearable
+            />
+        </div>
+    );
+
+    if (!pageList && !itemPerPageControl && !info) {
+        return null;
+    }
+
     return (
         <div className={_cs(className, styles.pager)}>
-            {pages.length > 1 && (
-                <div className={styles.pageList}>
-                    <Button
-                        name={undefined}
-                        className={styles.pageButton}
-                        onClick={() => onActivePageChange(activePage - 1)}
-                        disabled={activePage <= 1 || disabled}
-                        icons={<FaChevronLeft />}
-                        transparent
-                    >
-                        {showLabel && (
-                            'Prev'
-                        )}
-                    </Button>
-                    {pages.map((page) => {
-                        if (page.type === 'button') {
-                            return (
-                                <Button
-                                    key={`button-${page.index}`}
-                                    name={undefined}
-                                    onClick={() => onActivePageChange(page.index)}
-                                    className={styles.pageButton}
-                                    disabled={disabled}
-                                    transparent
-                                >
-                                    {page.index}
-                                </Button>
-                            );
-                        }
-                        if (page.type === 'fakeButton') {
-                            return (
-                                <Button
-                                    key={`button-${page.key}`}
-                                    variant="accent"
-                                    name={undefined}
-                                    className={_cs(styles.pageButton, styles.active)}
-                                    transparent
-                                >
-                                    {page.label}
-                                </Button>
-                            );
-                        }
-                        return (
-                            <div
-                                key={`span-${page.key}`}
-                                className={styles.pageSpan}
-                            >
-                                {page.label}
-                            </div>
-                        );
-                    })}
-                    <Button
-                        name={undefined}
-                        onClick={() => onActivePageChange(activePage + 1)}
-                        disabled={activePage >= numPages || disabled}
-                        className={styles.pageButton}
-                        actions={<FaChevronRight />}
-                        transparent
-                    >
-                        {showLabel && (
-                            'Next'
-                        )}
-                    </Button>
+            {pageList}
+            {(info || itemPerPageControl) && (
+                <div className={styles.infoAndConfig}>
+                    {info}
+                    {itemPerPageControl}
                 </div>
             )}
-            <div className={styles.infoAndConfig}>
-                {!infoHidden && (itemsCount > maxItemsPerPage) && (
-                    <div className={styles.currentRangeInformation}>
-                        <div className={styles.showing}>
-                            { showingTitle }
-                        </div>
-                        <div className={styles.range}>
-                            <div className={styles.from}>
-                                { currentItemsStart }
-                            </div>
-                            <div className={styles.separator}>
-                                { rangeIndicator }
-                            </div>
-                            <div className={styles.to}>
-                                { currentItemsEnd }
-                            </div>
-                        </div>
-                        <div className={styles.of}>
-                            { ofTitle }
-                        </div>
-                        <div className={styles.total}>
-                            {itemsCount}
-                        </div>
-                    </div>
-                )}
-                {!props.itemsPerPageControlHidden && (
-                    <div className={styles.itemsPerPage}>
-                        <SelectInput
-                            name="itemsPerPageSelection"
-                            className={styles.input}
-                            options={options ?? defaultOptions}
-                            keySelector={(item) => item.key}
-                            labelSelector={(item) => item.label}
-                            value={maxItemsPerPage}
-                            onChange={props.onItemsPerPageChange}
-                            disabled={disabled}
-                            searchPlaceholder=""
-                            optionsPopupClassName={styles.perPageOptionPopup}
-                            nonClearable
-                        />
-                    </div>
-                )}
-            </div>
         </div>
     );
 }

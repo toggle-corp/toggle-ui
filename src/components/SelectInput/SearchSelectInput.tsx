@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
     _cs,
     listToMap,
+    unique,
 } from '@togglecorp/fujs';
 import { MdCheck } from 'react-icons/md';
-
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
-import EmptyOptions from './EmptyOptions';
-import EmptySelectedOptions from './EmptySelectedOptions';
+import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
 
@@ -15,7 +14,10 @@ interface OptionProps {
     children: React.ReactNode;
 }
 function Option(props: OptionProps) {
-    const { children } = props;
+    const {
+        children,
+    } = props;
+
     return (
         <>
             <div className={styles.icon}>
@@ -41,30 +43,37 @@ export type SearchSelectInputProps<
 > = Omit<{
     value: T | undefined | null;
     options: O[] | undefined | null;
+    searchOptions?: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
-    searchPlaceholder?: string;
-    optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-    searchOptionsShownInitially?: boolean;
     onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
-    searchOptions: O[] | undefined | null;
-    onSearchValueChange: (searchVal: string) => void,
+    sortFunction?: (options: O[], search: string, labelSelector: (option: O) => string) => O[];
+    onSearchValueChange?: (value: string) => void;
+    onShowDropdownChange?: (value: boolean) => void;
 }, OMISSION> & (
     SelectInputContainerProps<T, K, O, P,
         'name'
         | 'nonClearable'
         | 'onClear'
         | 'onOptionClick'
-        | 'onSearchInputChange'
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'optionsEmptyComponent'
+        | 'optionsFiltered'
         | 'persistentOptionPopup'
         | 'valueDisplay'
+        | 'optionContainerClassName'
+        | 'searchText'
+        | 'onSearchTextChange'
+        | 'dropdownShown'
+        | 'onDropdownShownChange'
+        | 'focused'
+        | 'onFocusedChange'
+        | 'focusedKey'
+        | 'onFocusedKeyChange'
     >
 ) & (
     { nonClearable: true; onChange: (newValue: T, name: K) => void }
@@ -88,30 +97,122 @@ function SearchSelectInput<
         name,
         onChange,
         onOptionsChange,
-        onSearchValueChange,
         options: optionsFromProps,
-        optionsEmptyComponent,
         optionsPending,
-        optionsPopupClassName,
-        searchOptions,
-        searchOptionsShownInitially = false,
-        searchPlaceholder = 'Type to search',
         value,
+        sortFunction,
+        searchOptions: searchOptionsFromProps,
+        onSearchValueChange,
+        onShowDropdownChange,
         ...otherProps
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
+    const searchOptions = searchOptionsFromProps ?? (emptyList as O[]);
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
+    const [showDropdown, setShowDropdown] = React.useState(false);
+    const [focused, setFocused] = React.useState(false);
+    const [
+        focusedKey,
+        setFocusedKey,
+    ] = React.useState<{ key: T, mouse?: boolean } | undefined>();
 
-    const optionsLabelMap = React.useMemo(
+    const [selectedKeys, setSelectedKeys] = useState<{
+        [key: string]: boolean,
+    }>({});
+
+    const optionsLabelMap = useMemo(
         () => (
             listToMap(options, keySelector, labelSelector)
         ),
         [options, keySelector, labelSelector],
     );
 
-    const optionRendererParams = React.useCallback(
+    const valueDisplay = value ? optionsLabelMap[value] ?? '?' : '';
+
+    // NOTE: we can skip this calculation if optionsShowInitially is false
+    const selectedOptions = useMemo(
+        () => {
+            const selectedValue = options?.find((item) => keySelector(item) === value);
+            return !selectedValue ? [] : [selectedValue];
+        },
+        [value, options, keySelector],
+    );
+
+    const realOptions = useMemo(
+        () => {
+            const allOptions = unique(
+                [...searchOptions, ...selectedOptions],
+                keySelector,
+            );
+
+            const initiallySelected = allOptions
+                .filter((item) => selectedKeys[keySelector(item)]);
+            const initiallyNotSelected = allOptions
+                .filter((item) => !selectedKeys[keySelector(item)]);
+
+            if (sortFunction) {
+                return [
+                    ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                    ...sortFunction(initiallyNotSelected, searchInputValue, labelSelector),
+                ];
+            }
+
+            return [
+                ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                ...initiallyNotSelected,
+            ];
+        },
+        [
+            keySelector,
+            labelSelector,
+            searchInputValue,
+            searchOptions,
+            selectedKeys,
+            selectedOptions,
+            sortFunction,
+        ],
+    );
+
+    const handleSearchValueChange = useCallback(
+        (searchValue: string) => {
+            setSearchInputValue(searchValue);
+            if (onSearchValueChange) {
+                onSearchValueChange(searchValue);
+            }
+        },
+        [onSearchValueChange],
+    );
+
+    const handleChangeDropdown = useCallback(
+        (myVal: boolean) => {
+            setShowDropdown(myVal);
+            if (onShowDropdownChange) {
+                onShowDropdownChange(myVal);
+            }
+            if (myVal) {
+                setSelectedKeys(
+                    listToMap(
+                        value ? [value] : [],
+                        (item) => item,
+                        () => true,
+                    ),
+                );
+                setFocusedKey(value ? { key: value } : undefined);
+            } else {
+                setSelectedKeys({});
+                setFocusedKey(undefined);
+                setSearchInputValue('');
+                if (onSearchValueChange) {
+                    onSearchValueChange('');
+                }
+            }
+        },
+        [value, onSearchValueChange, onShowDropdownChange],
+    );
+
+    const optionRendererParams = useCallback(
         (key: OptionKey, option: O) => {
             const isActive = key === value;
 
@@ -122,14 +223,6 @@ function SearchSelectInput<
             };
         },
         [value, labelSelector],
-    );
-
-    const handleSearchValueChange = useCallback(
-        (newValue: string) => {
-            setSearchInputValue(newValue);
-            onSearchValueChange(newValue);
-        },
-        [setSearchInputValue, onSearchValueChange],
     );
 
     const handleOptionClick = useCallback(
@@ -159,53 +252,28 @@ function SearchSelectInput<
         [name, props.onChange, props.nonClearable],
     );
 
-    // NOTE: we can skip this calculation if optionsShowInitially is false
-    const selectedOptions = React.useMemo(
-        () => {
-            const selectedValue = options?.find((item) => keySelector(item) === value);
-            if (!selectedValue) {
-                return undefined;
-            }
-            return [selectedValue];
-        },
-        [options, keySelector, value],
-    );
-
-    const showSelectedOptions = !searchInputValue && !searchOptionsShownInitially;
-
-    const realOptions = showSelectedOptions
-        ? selectedOptions
-        : searchOptions;
-
-    const defaultOptionsEmptyComponent = showSelectedOptions
-        ? (
-            <EmptySelectedOptions />
-        ) : (
-            <EmptyOptions
-                isFiltered={searchInputValue?.length > 0}
-                optionsPending={optionsPending}
-            />
-        );
-
-    const valueDisplay = value ? optionsLabelMap[value] ?? '?' : '';
-
     return (
         <SelectInputContainer
             {...otherProps}
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            optionsFiltered={searchInputValue?.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            searchPlaceholder={searchPlaceholder}
-            onSearchInputChange={handleSearchValueChange}
-            optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
-            optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
+            searchText={searchInputValue}
+            onSearchTextChange={handleSearchValueChange}
+            dropdownShown={showDropdown}
+            onDropdownShownChange={handleChangeDropdown}
+            focused={focused}
+            onFocusedChange={setFocused}
+            focusedKey={focusedKey}
+            onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup={false}
         />
     );

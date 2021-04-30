@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
     _cs,
     listToMap,
     isDefined,
+    unique,
 } from '@togglecorp/fujs';
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
-import EmptyOptions from '../SelectInput/EmptyOptions';
-import EmptySelectedOptions from '../SelectInput/EmptySelectedOptions';
+import { rankedSearchOnList } from '../../utils';
 
 import styles from './styles.css';
 
@@ -47,30 +47,37 @@ export type SearchMultiSelectInputProps<
     value: T[] | undefined | null;
     onChange: (newValue: T[], name: K) => void;
     options: O[] | undefined | null;
+    searchOptions?: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
-    searchPlaceholder?: string;
-    optionsEmptyComponent?: React.ReactNode;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
-    searchOptionsShownInitially?: boolean;
     onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
-    searchOptions: O[] | undefined | null;
-    onSearchValueChange: (searchVal: string) => void,
+    sortFunction?: (options: O[], search: string, labelSelector: (option: O) => string) => O[];
+    onSearchValueChange?: (value: string) => void;
+    onShowDropdownChange?: (value: boolean) => void;
 }, OMISSION> & (
     SelectInputContainerProps<T, K, O, P,
         'name'
         | 'nonClearable'
         | 'onClear'
         | 'onOptionClick'
-        | 'onSearchInputChange'
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
-        | 'optionsEmptyComponent'
+        | 'optionsFiltered'
         | 'persistentOptionPopup'
         | 'valueDisplay'
+        | 'optionContainerClassName'
+        | 'searchText'
+        | 'onSearchTextChange'
+        | 'dropdownShown'
+        | 'onDropdownShownChange'
+        | 'focused'
+        | 'onFocusedChange'
+        | 'focusedKey'
+        | 'onFocusedKeyChange'
     >
 );
 
@@ -91,61 +98,147 @@ function SearchMultiSelectInput<
         name,
         onChange,
         onOptionsChange,
-        onSearchValueChange,
         options: optionsFromProps,
-        optionsEmptyComponent,
         optionsPending,
-        optionsPopupClassName,
-        searchOptions,
-        searchOptionsShownInitially = false,
-        searchPlaceholder = 'Type to search',
         value: valueFromProps,
+        sortFunction,
+        searchOptions: searchOptionsFromProps,
+        onSearchValueChange,
+        onShowDropdownChange,
         ...otherProps
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
+    const searchOptions = searchOptionsFromProps ?? (emptyList as O[]);
     const value = valueFromProps ?? (emptyList as T[]);
 
-    const optionsMap = React.useMemo(
+    const [searchInputValue, setSearchInputValue] = React.useState('');
+    const [showDropdown, setShowDropdown] = React.useState(false);
+    const [focused, setFocused] = React.useState(false);
+    const [
+        focusedKey,
+        setFocusedKey,
+    ] = React.useState<{ key: T, mouse?: boolean } | undefined>();
+
+    const [selectedKeys, setSelectedKeys] = useState<{
+        [key: string]: boolean,
+    }>({});
+
+    const optionsMap = useMemo(
         () => (
             listToMap(options, keySelector, (i) => i)
         ),
         [options, keySelector],
     );
 
-    const [searchInputValue, setSearchInputValue] = React.useState('');
-
-    const optionsLabelMap = React.useMemo(
+    const optionsLabelMap = useMemo(
         () => (
             listToMap(options, keySelector, labelSelector)
         ),
         [options, keySelector, labelSelector],
     );
 
-    const optionRendererParams = React.useCallback(
+    const valueDisplay = useMemo(
+        () => (
+            value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
+        ),
+        [value, optionsLabelMap],
+    );
+
+    // NOTE: we can skip this calculation if optionsShowInitially is false
+    const selectedOptions = useMemo(
+        () => value.map((valueKey) => optionsMap[valueKey]).filter(isDefined),
+        [value, optionsMap],
+    );
+
+    const realOptions = useMemo(
+        () => {
+            const allOptions = unique(
+                [...searchOptions, ...selectedOptions],
+                keySelector,
+            );
+
+            const initiallySelected = allOptions
+                .filter((item) => selectedKeys[keySelector(item)]);
+            const initiallyNotSelected = allOptions
+                .filter((item) => !selectedKeys[keySelector(item)]);
+
+            if (sortFunction) {
+                return [
+                    ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                    ...sortFunction(initiallyNotSelected, searchInputValue, labelSelector),
+                ];
+            }
+
+            return [
+                ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                ...initiallyNotSelected,
+            ];
+        },
+        [
+            keySelector,
+            labelSelector,
+            searchInputValue,
+            searchOptions,
+            selectedKeys,
+            selectedOptions,
+            sortFunction,
+        ],
+    );
+
+    const handleSearchValueChange = useCallback(
+        (searchValue: string) => {
+            setSearchInputValue(searchValue);
+            if (onSearchValueChange) {
+                onSearchValueChange(searchValue);
+            }
+        },
+        [onSearchValueChange],
+    );
+
+    const handleChangeDropdown = useCallback(
+        (myVal: boolean) => {
+            setShowDropdown(myVal);
+            if (onShowDropdownChange) {
+                onShowDropdownChange(myVal);
+            }
+            if (myVal) {
+                setSelectedKeys(
+                    listToMap(
+                        value,
+                        (item) => item,
+                        () => true,
+                    ),
+                );
+                setFocusedKey(undefined);
+            } else {
+                setSelectedKeys({});
+                setFocusedKey(undefined);
+                setSearchInputValue('');
+                if (onSearchValueChange) {
+                    onSearchValueChange('');
+                }
+            }
+        },
+        [value, onSearchValueChange, onShowDropdownChange],
+    );
+
+    const optionRendererParams = useCallback(
         (key: OptionKey, option: O) => {
             const isActive = value.findIndex((item) => item === key) !== -1;
-            // TODO: optimize using map
 
             return {
                 children: labelSelector(option),
                 containerClassName: _cs(styles.option, isActive && styles.active),
-                isActive,
                 title: labelSelector(option),
+                isActive,
             };
         },
-        [value, labelSelector],
+        [labelSelector, value],
     );
 
-    const handleSearchValueChange = useCallback(
-        (newValue: string) => {
-            setSearchInputValue(newValue);
-            onSearchValueChange(newValue);
-        },
-        [setSearchInputValue, onSearchValueChange],
-    );
-
-    const handleOptionClick = React.useCallback(
+    // FIXME: value should not be on dependency list
+    const handleOptionClick = useCallback(
         (k: T, v: O) => {
             const newValue = [...value];
 
@@ -170,7 +263,6 @@ function SearchMultiSelectInput<
             onChange(newValue, name);
         },
         [value, onChange, name, onOptionsChange, keySelector],
-        // FIXME: value should not be on dependency list
     );
 
     const handleClear = useCallback(
@@ -180,52 +272,28 @@ function SearchMultiSelectInput<
         [name, onChange],
     );
 
-    // NOTE: we can skip this calculation if optionsShowInitially is false
-    const selectedOptions = React.useMemo(
-        () => value.map((valueKey) => optionsMap[valueKey]).filter(isDefined),
-        [value, optionsMap],
-    );
-
-    const showSelectedOptions = !searchInputValue && !searchOptionsShownInitially;
-
-    const realOptions = showSelectedOptions
-        ? selectedOptions
-        : searchOptions;
-
-    const defaultOptionsEmptyComponent = showSelectedOptions
-        ? (
-            <EmptySelectedOptions />
-        ) : (
-            <EmptyOptions
-                isFiltered={searchInputValue?.length > 0}
-                optionsPending={optionsPending}
-            />
-        );
-
-    const valueDisplay = React.useMemo(
-        () => (
-            value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
-        ),
-        [value, optionsLabelMap],
-    );
-
     return (
         <SelectInputContainer
             {...otherProps}
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            optionsFiltered={searchInputValue?.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            searchPlaceholder={searchPlaceholder}
-            onSearchInputChange={handleSearchValueChange}
-            optionsEmptyComponent={optionsEmptyComponent ?? defaultOptionsEmptyComponent}
-            optionsPopupClassName={optionsPopupClassName}
             onClear={handleClear}
+            searchText={searchInputValue}
+            onSearchTextChange={handleSearchValueChange}
+            dropdownShown={showDropdown}
+            onDropdownShownChange={handleChangeDropdown}
+            focused={focused}
+            onFocusedChange={setFocused}
+            focusedKey={focusedKey}
+            onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup
             nonClearable={false}
         />

@@ -73,7 +73,7 @@ export type { CellProps as TableCellProps } from './components/Table/Cell';
 export { default as TableHeaderCell } from './components/Table/HeaderCell';
 export type { HeaderCellProps as TableHeaderCellProps } from './components/Table/HeaderCell';
 export { createYesNoColumn, createStringColumn, createDateColumn, createDateTimeColumn, createNumberColumn } from './components/Table/predefinedColumns';
-export { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
+export type { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
 export { default as useDownloading, convertTableData, convertJsonToCsv } from './components/Table/useDownloading';
 export { default as useFiltering, useFilterState, FilterContext } from './components/Table/useFiltering';
 export { HideContext } from './components/Table/useHiding';

@@ -16,12 +16,12 @@ interface Option {
 }
 
 const options: Option[] = [
-    { id: '1', name: 'Potato' },
-    { id: '2', name: 'Tomato' },
-    { id: '3', name: 'Pumpkin' },
-    { id: '4', name: 'Gourd' },
-    { id: '5', name: 'Spinach' },
     { id: '6', name: 'Eggplant' },
+    { id: '4', name: 'Gourd' },
+    { id: '1', name: 'Potato' },
+    { id: '3', name: 'Pumpkin' },
+    { id: '5', name: 'Spinach' },
+    { id: '2', name: 'Tomato' },
 ];
 
 // eslint-disable-next-line max-len
@@ -33,16 +33,17 @@ const Template: Story<SearchMultiSelectInputProps<string, string, Option, { cont
     };
 
     const [searchValue, setSearchValue] = useState('');
+    const [opened, setOpened] = useState(false);
     const [cacheOptions, setCacheOptions] = useState<Option[] | undefined | null>([
-        options[0],
         options[2],
+        options[3],
     ]);
 
     const [pending, searchOptions] = useQuery(
         options,
         searchValue,
         entityListTransformer,
-        !searchValue,
+        !opened,
     );
 
     return (
@@ -58,6 +59,7 @@ const Template: Story<SearchMultiSelectInputProps<string, string, Option, { cont
             onSearchValueChange={setSearchValue}
             optionsPending={pending}
             onOptionsChange={setCacheOptions}
+            onShowDropdownChange={setOpened}
         />
     );
 };

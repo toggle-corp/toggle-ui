@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import RawButton from '../RawButton';
@@ -18,8 +18,8 @@ export interface GenericOptionParams<P extends ContentBaseProps, OK extends Opti
     option: O;
     optionKey: OK;
     onClick: (optionKey: OK, option: O) => void;
-    focusedKey?: OK | undefined;
-    onFocus?: (optionKey: OK) => void;
+    focusedKey?: { key: OK, mouse?: boolean } | undefined;
+    onFocus?: (options: { key: OK, mouse?: boolean }) => void;
 }
 function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
     optionContainerClassName,
@@ -38,21 +38,21 @@ function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
         ...props
     } = params;
 
-    const isFocused = focusedKey === optionKey;
+    const isFocused = focusedKey?.key === optionKey; //  && focusedKey?.mouse;
 
     const divRef = useRef<HTMLButtonElement>(null);
     const focusedByMouse = useRef(false);
 
     useEffect(
         () => {
-            if (isFocused && !focusedByMouse.current && divRef.current) {
+            if (focusedKey && focusedKey.key === optionKey && !focusedKey.mouse && divRef.current) {
                 divRef.current.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center',
                 });
             }
         },
-        [focusedByMouse, isFocused],
+        [optionKey, focusedKey, isFocused],
     );
 
     const handleClick = useCallback(
@@ -64,9 +64,8 @@ function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
 
     const handleMouseMove = useCallback(
         () => {
-            focusedByMouse.current = true;
             if (onFocus) {
-                onFocus(optionKey);
+                onFocus({ key: optionKey, mouse: true });
             }
         },
         [
@@ -89,13 +88,13 @@ function GenericOption<P extends ContentBaseProps, OK extends OptionKey, O>({
                 styles.optionRenderer,
                 optionContainerClassName,
                 containerClassName,
-                isFocused && !focusedByMouse.current && styles.focused,
             )}
             onClick={handleClick}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             title={title}
             name={optionKey}
+            focused={isFocused}
         >
             {contentRenderer(props)}
         </RawButton>

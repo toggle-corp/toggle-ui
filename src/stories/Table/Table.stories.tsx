@@ -3,7 +3,6 @@ import { isDefined } from '@togglecorp/fujs';
 
 import { Story } from '@storybook/react/types-6-0';
 import Table, { TableProps, Column } from '#components/Table';
-import { FilterType } from '#components/Table/types';
 import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
 import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
@@ -65,13 +64,13 @@ const columns = [
         'name',
         'Name',
         (item) => item.name,
-        { sortable: true, filterType: FilterType.string, orderable: true, cellAsHeader: true },
+        { sortable: true, filterType: 'string', orderable: true, cellAsHeader: true },
     ),
     createNumberColumn<Program, number>(
         'budget',
         'Budget',
         (item) => item.budget,
-        { sortable: true, filterType: FilterType.number, orderable: true },
+        { sortable: true, filterType: 'number', orderable: true },
     ),
     createDateColumn<Program, number>(
         'date',

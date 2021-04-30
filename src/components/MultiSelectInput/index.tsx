@@ -5,15 +5,13 @@ import { rankedSearchOnList } from '../../utils';
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
 
-const emptyList: unknown[] = [];
-
 export type MultiSelectInputProps<
     T extends OptionKey,
     K extends string,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'searchOptionsShownInitially'>;
+> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -22,26 +20,16 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
     const {
         name,
         options,
-        labelSelector,
         ...otherProps
     } = props;
-
-    const [searchInputValue, setSearchInputValue] = React.useState('');
-
-    const searchOptions = React.useMemo(
-        () => rankedSearchOnList(options ?? (emptyList as O[]), searchInputValue, labelSelector),
-        [options, searchInputValue, labelSelector],
-    );
 
     return (
         <SearchMultiSelectInput
             {...otherProps}
             name={name}
             options={options}
-            labelSelector={labelSelector}
-            onSearchValueChange={setSearchInputValue}
-            searchOptions={searchOptions}
-            searchOptionsShownInitially
+            sortFunction={rankedSearchOnList}
+            searchOptions={options}
         />
     );
 }

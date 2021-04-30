@@ -1,11 +1,5 @@
-export enum SortDirection {
-    'asc' = 'Ascending',
-    'dsc' = 'Descending',
-}
-export enum FilterType {
-    'string' = 'string',
-    'number' = 'number',
-}
+export type SortDirection = 'asc' | 'dsc';
+export type FilterType = 'string' | 'number';
 
 export interface BaseHeader {
     className?: string;

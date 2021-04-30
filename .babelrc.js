@@ -14,6 +14,7 @@ module.exports = (api) => {
             require.resolve(
                 '@babel/preset-env',
                 {
+                    'loose': true,
                     'useBuiltIns': false,
                     // 'useBuiltIns': 'usage',
                     // 'corejs': 3,
