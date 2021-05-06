@@ -11,7 +11,7 @@ export type MultiSelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange'>;
+> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -20,6 +20,7 @@ function MultiSelectInput<T extends OptionKey, K extends string, O extends objec
     const {
         name,
         options,
+        totalOptionsCount, // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
         ...otherProps
     } = props;
 

@@ -11,7 +11,7 @@ export type SelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange'>;
+> = SearchSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function SelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
@@ -23,6 +23,7 @@ function SelectInput<T extends OptionKey, K extends string, O extends object, P 
         labelSelector,
         nonClearable, // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
         onChange, // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
+        totalOptionsCount, // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
         ...otherProps
     } = props;
 
