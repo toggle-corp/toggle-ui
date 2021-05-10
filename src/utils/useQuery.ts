@@ -15,17 +15,23 @@ export function entityListTransformer<T extends Entity>(
     variable: EntityVariable | undefined,
     values: T[],
 ) {
-    return rankedSearchOnList(
+    const result = rankedSearchOnList(
         values,
         variable,
         labelSelector,
-    ).slice(0, 10);
+    );
+
+    const totalCount = result.length;
+    const truncatedResult = result.slice(0, 10);
+    const count = truncatedResult.length;
+
+    return { results: truncatedResult, count, totalCount };
 }
 
 function useQuery<T, V>(
     values: T,
     variable: V,
-    transformer: (variable: V, values: T) => T,
+    transformer: (variable: V, values: T) => { results: T, totalCount: number, count: number },
     skip: boolean,
 ) {
     const [pending, setPending] = useState(!skip);
@@ -51,14 +57,16 @@ function useQuery<T, V>(
         [variable, skip],
     );
 
-    const result = useMemo(
+    const { results, totalCount, count } = useMemo(
         () => transformer(variable, values),
         [values, variable, transformer],
     );
 
     return [
         pending,
-        pending || skip ? undefined : result,
+        pending || skip ? undefined : results,
+        pending || skip ? undefined : count,
+        pending || skip ? undefined : totalCount,
     ] as const;
 }
 

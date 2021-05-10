@@ -63,6 +63,7 @@ export type SelectInputContainerProps<
     optionKeySelector: (datum: O, index: number) => OK;
     optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
     optionRendererParams: (optionKey: OK, option: O) => P;
+    totalOptionsCount?: number;
     options: O[] | undefined | null;
     optionsPending?: boolean;
     optionsFiltered?: boolean;
@@ -128,10 +129,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         onFocusedChange,
         dropdownShown,
         onDropdownShownChange,
+        totalOptionsCount,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
-    const optionsEmpty = options.length <= 0;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const inputSectionRef = useRef<HTMLDivElement>(null);
@@ -348,7 +349,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                     <EmptyOptions
                         filtered={optionsFiltered}
                         pending={optionsPending}
-                        empty={optionsEmpty}
+                        optionsCount={options.length}
+                        totalOptionsCount={totalOptionsCount}
                     />
                 </Popup>
             )}
