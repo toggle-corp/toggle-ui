@@ -115,9 +115,9 @@ function HeaderCell(props: HeaderCellProps) {
             if (!sortDirection) {
                 newSortDirection = defaultSortDirection;
             } else if (sortDirection === 'asc') {
-                newSortDirection = 'asc';
-            } else if (sortDirection === 'dsc') {
                 newSortDirection = 'dsc';
+            } else if (sortDirection === 'dsc') {
+                newSortDirection = 'asc';
             }
 
             if (newSortDirection) {
