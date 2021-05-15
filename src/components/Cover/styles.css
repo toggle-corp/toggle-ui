@@ -1,0 +1,8 @@
+.dummy {
+    pointer-events: none;
+    display: none;
+}
+
+.cover {
+    position: fixed;
+}

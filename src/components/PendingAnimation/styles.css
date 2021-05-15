@@ -1,0 +1,52 @@
+.pending-animation {
+    display: flex;
+
+    .circle {
+        margin: .2em;
+        border-radius: 50%;
+        width: .6em;
+        height: .6em;
+        --animation-duration: 1.2s;
+
+        .inner-circle {
+            border-radius: 50%;
+            background-color: var(--tui-color-accent);
+            width: 100%;
+            height: 100%;
+            animation: twinkle var(--animation-duration) linear infinite;
+        }
+
+        &:nth-child(3) {
+            .inner-circle {
+                animation-delay: calc(var(--animation-duration) / 3);
+            }
+        }
+
+        &:nth-child(2) {
+            .inner-circle {
+                animation-delay: calc(2 * var(--animation-duration) / 3);
+            }
+        }
+
+        &:nth-child(1) {
+            .inner-circle {
+                animation-delay: 0;
+            }
+        }
+    }
+}
+
+@keyframes twinkle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(.5);
+        opacity: .5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
