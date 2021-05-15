@@ -5,12 +5,12 @@ import Cover from '../Cover';
 import PendingAnimation from '../PendingAnimation';
 import styles from './styles.css';
 
-export interface Props {
+export interface PendingMessageProps {
     className?: string;
     message?: string;
 }
 
-function PendingMessage(props: Props) {
+function PendingMessage(props: PendingMessageProps) {
     const {
         className,
         message = 'Please wait...',

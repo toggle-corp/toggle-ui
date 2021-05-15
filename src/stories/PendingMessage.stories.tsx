@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
-import PendingMessage, { Props as ContainerProps } from '#components/PendingMessage';
+import PendingMessage, { PendingMessageProps } from '#components/PendingMessage';
 
 export default {
     title: 'View/PendingMessage',
@@ -9,7 +9,7 @@ export default {
     argTypes: {},
 };
 
-const Template: Story<ContainerProps> = (args) => (
+const Template: Story<PendingMessageProps> = (args) => (
     <div
         style={{
             width: '100%',

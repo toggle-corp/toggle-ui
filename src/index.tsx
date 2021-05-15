@@ -44,6 +44,8 @@ export { default as Pager } from './components/Pager';
 export type { PagerProps } from './components/Pager';
 export { default as PasswordInput } from './components/PasswordInput';
 export type { PasswordInputProps } from './components/PasswordInput';
+export { default as PendingMessage } from './components/PendingMessage';
+export type { PendingMessageProps } from './components/PendingMessage';
 export { default as Popup } from './components/Popup';
 export type { PopupProps } from './components/Popup';
 export { default as PopupButton } from './components/PopupButton';
