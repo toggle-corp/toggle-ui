@@ -97,3 +97,4 @@ export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
 export { default as YesNo } from './components/YesNo';
 export type { YesNoProps } from './components/YesNo';
+export { default as useCounter } from './hooks/useCounter';
