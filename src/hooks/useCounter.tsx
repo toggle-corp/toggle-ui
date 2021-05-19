@@ -50,7 +50,7 @@ function useCounter(
             return undefined;
         }
         startTimeRef.current = undefined;
-        fromRef.current = countRef.current;
+        fromRef.current = countRef.current ?? 0;
         requestRef.current = requestAnimationFrame(animate);
         return () => {
             if (isDefined(requestRef.current)) {
