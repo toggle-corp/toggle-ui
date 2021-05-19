@@ -14,6 +14,8 @@ import {
     createYesNoColumn,
 } from '#components/Table/predefinedColumns';
 
+import styles from './styles.css';
+
 export default {
     title: 'View/Table',
     component: Table,
@@ -29,7 +31,7 @@ interface Program {
 const data: Program[] = [
     {
         id: 1,
-        name: 'Program A',
+        name: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
         budget: 123123,
         date: '2012-10-12T12:00:00',
     },
@@ -64,7 +66,13 @@ const columns = [
         'name',
         'Name',
         (item) => item.name,
-        { sortable: true, filterType: 'string', orderable: true, cellAsHeader: true },
+        {
+            sortable: true,
+            filterType: 'string',
+            orderable: true,
+            cellAsHeader: true,
+            columnClassName: styles.name,
+        },
     ),
     createNumberColumn<Program, number>(
         'budget',

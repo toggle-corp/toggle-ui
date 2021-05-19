@@ -20,6 +20,11 @@ export function createYesNoColumn<D, K>(
         filterType?: FilterType,
         orderable?: boolean;
         hideable?: boolean;
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
     },
 ) {
     const item: Column<D, K, YesNoProps, HeaderCellProps> & {
@@ -30,6 +35,11 @@ export function createYesNoColumn<D, K>(
         title,
         cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
             filterType: options?.filterType,
@@ -57,6 +67,11 @@ export function createStringColumn<D, K>(
         filterType?: FilterType,
         orderable?: boolean;
         hideable?: boolean;
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
     },
 ) {
     const item: Column<D, K, CellProps<string>, HeaderCellProps> & {
@@ -67,6 +82,11 @@ export function createStringColumn<D, K>(
         title,
         cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
             filterType: options?.filterType,
@@ -94,6 +114,11 @@ export function createNumberColumn<D, K>(
         filterType?: FilterType,
         orderable?: boolean;
         hideable?: boolean;
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
     },
 ) {
     const item: Column<D, K, NumeralProps, HeaderCellProps> & {
@@ -110,6 +135,11 @@ export function createNumberColumn<D, K>(
             orderable: options?.orderable,
             hideable: options?.hideable,
         },
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: Numeral,
         cellRendererParams: (_: K, datum: D): NumeralProps => ({
             value: accessor(datum),
@@ -132,6 +162,11 @@ export function createDateColumn<D, K>(
         filterType?: FilterType,
         orderable?: boolean;
         hideable?: boolean;
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
     },
 ) {
     const item: Column<D, K, DateTimeProps, HeaderCellProps> & {
@@ -142,6 +177,11 @@ export function createDateColumn<D, K>(
         title,
         cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
             filterType: options?.filterType,
@@ -170,6 +210,11 @@ export function createDateTimeColumn<D, K>(
         filterType?: FilterType,
         orderable?: boolean;
         hideable?: boolean;
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
     },
 ) {
     const item: Column<D, K, DateTimeProps, HeaderCellProps> & {
@@ -186,6 +231,11 @@ export function createDateTimeColumn<D, K>(
             orderable: options?.orderable,
             hideable: options?.hideable,
         },
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: DateTime,
         cellRendererParams: (_: K, datum: D): DateTimeProps => ({
             value: accessor(datum),
