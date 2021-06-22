@@ -15,6 +15,7 @@ export interface Column<D, K, C, H> {
     headerCellRendererParams: Omit<H, keyof BaseHeader>;
     headerCellRendererClassName?: string;
     headerContainerClassName?: string;
+    columnClassName?: string;
 
     cellRenderer: React.ComponentType<C>;
     cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
@@ -76,6 +77,21 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     {caption}
                 </caption>
             )}
+            <colgroup>
+                {columns.map((column) => {
+                    const {
+                        id,
+                        columnClassName,
+                    } = column;
+
+                    return (
+                        <col
+                            key={id}
+                            className={columnClassName}
+                        />
+                    );
+                })}
+            </colgroup>
             <thead>
                 <tr className={_cs(styles.headerRow, headerRowClassName)}>
                     {columns.map((column, index) => {

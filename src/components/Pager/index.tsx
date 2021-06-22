@@ -142,6 +142,7 @@ export type PagerProps = {
     infoHidden?: boolean;
     disabled?: boolean;
     showLabel?: boolean;
+    popupClassName?: string;
 } & ({
     itemsPerPageControlHidden: true;
     onItemsPerPageChange?: (pageCapacity: number) => void;
@@ -170,6 +171,7 @@ function Pager(props: PagerProps) {
         disabled = false,
         infoHidden,
         showLabel,
+        popupClassName,
     } = props;
 
     const showingTitle = 'Showing';
@@ -295,7 +297,7 @@ function Pager(props: PagerProps) {
                 value={maxItemsPerPage}
                 onChange={props.onItemsPerPageChange}
                 disabled={disabled}
-                optionsPopupClassName={styles.perPageOptionPopup}
+                optionsPopupClassName={_cs(styles.perPageOptionPopup, popupClassName)}
                 nonClearable
             />
         </div>

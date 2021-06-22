@@ -1,0 +1,19 @@
+.pending-message {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--tui-color-backdrop-dark);
+    animation: appear var(--tui-duration-transition-medium) linear forwards;
+    animation-duration: var(--tui-duration-delay-short);
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
