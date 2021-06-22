@@ -1,4 +1,5 @@
 import React from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 import { _cs } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
@@ -47,6 +48,7 @@ function RawTextArea<K extends string>(
         elementRef,
         value,
         name,
+        style,
         ...otherProps
     }: RawTextAreaProps<K>,
 ) {
@@ -72,13 +74,14 @@ function RawTextArea<K extends string>(
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
     return (
-        <textarea
+        <TextareaAutosize
             ref={elementRef}
             className={_cs(className, styles.rawTextArea, themeClassName)}
             onChange={handleChange}
             name={name}
             value={value ?? ''}
             autoComplete="off"
+            style={style as React.ComponentProps<typeof TextareaAutosize>['style']}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />

@@ -3,6 +3,7 @@ import {
     _cs,
     listToMap,
     unique,
+    isDefined,
 } from '@togglecorp/fujs';
 import { MdCheck } from 'react-icons/md';
 import SelectInputContainer, { SelectInputContainerProps } from '../SelectInputContainer';
@@ -74,6 +75,7 @@ export type SearchSelectInputProps<
         | 'onFocusedChange'
         | 'focusedKey'
         | 'onFocusedKeyChange'
+        | 'hasValue'
     >
 ) & (
     { nonClearable: true; onChange: (newValue: T, name: K) => void }
@@ -274,6 +276,7 @@ function SearchSelectInput<
             onFocusedChange={setFocused}
             focusedKey={focusedKey}
             onFocusedKeyChange={setFocusedKey}
+            hasValue={isDefined(value)}
             persistentOptionPopup={false}
         />
     );

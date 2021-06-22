@@ -72,6 +72,7 @@ export type SelectInputContainerProps<
     placeholder?: string;
     valueDisplay: string;
 
+    hasValue: boolean;
     nonClearable?: boolean;
     onClear: () => void;
 }, OMISSION> & Omit<InputContainerProps, 'input'> & ({
@@ -130,6 +131,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         dropdownShown,
         onDropdownShownChange,
         totalOptionsCount,
+        hasValue,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
@@ -151,6 +153,13 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
             onDropdownShownChange,
             onSearchTextChange,
         ],
+    );
+
+    const handleToggleDropdown = useCallback(
+        () => {
+            onDropdownShownChange(!dropdownShown);
+        },
+        [dropdownShown, onDropdownShownChange],
     );
 
     const handleShowDropdown = useCallback(
@@ -290,7 +299,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                 actions={(
                     <>
                         {actions}
-                        {!readOnly && !nonClearable && (
+                        {!readOnly && !nonClearable && hasValue && (
                             <Button
                                 onClick={onClear}
                                 disabled={disabled}
@@ -303,7 +312,18 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                                 <IoMdClose />
                             </Button>
                         )}
-                        {!readOnly && (dropdownShown ? <IoIosArrowUp /> : <IoIosArrowDown />)}
+                        {!readOnly && (
+                            <Button
+                                onClick={handleToggleDropdown}
+                                transparent
+                                compact
+                                uiMode={uiMode}
+                                name={undefined}
+                                title={dropdownShown ? 'Close' : 'Open'}
+                            >
+                                {dropdownShown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                            </Button>
+                        )}
                     </>
                 )}
                 actionsContainerClassName={actionsContainerClassName}
