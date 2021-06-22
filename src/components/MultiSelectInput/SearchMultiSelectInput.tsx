@@ -78,6 +78,7 @@ export type SearchMultiSelectInputProps<
         | 'onFocusedChange'
         | 'focusedKey'
         | 'onFocusedKeyChange'
+        | 'hasValue'
     >
 );
 
@@ -296,6 +297,7 @@ function SearchMultiSelectInput<
             onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup
             nonClearable={false}
+            hasValue={isDefined(value) && value.length > 0}
         />
     );
 }

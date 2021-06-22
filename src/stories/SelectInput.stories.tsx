@@ -28,7 +28,7 @@ const options: Option[] = [
 const Template: Story<SelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const setValue = (e: string) => {
+    const setValue = (e: string | undefined) => {
         updateArgs({ value: e });
     };
 
@@ -41,7 +41,6 @@ const Template: Story<SelectInputProps<string, string, Option, { containerClassN
             keySelector={(d) => d.key}
             labelSelector={(d) => d.label}
             onChange={setValue}
-            nonClearable
         />
     );
 };
@@ -72,7 +71,7 @@ ReadOnly.args = {
 const GroupedTemplate: Story<SelectInputProps<string, string, Option, { containerClassName?: string }>> = (props) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const setValue = (e: string) => {
+    const setValue = (e: string | undefined) => {
         updateArgs({ value: e });
     };
 
@@ -85,7 +84,6 @@ const GroupedTemplate: Story<SelectInputProps<string, string, Option, { containe
             keySelector={(d) => d.key}
             labelSelector={(d) => d.label}
             onChange={setValue}
-            nonClearable
             grouped
             groupKeySelector={(d) => d.parentKey}
             groupLabelSelector={(d) => d.parentLabel}

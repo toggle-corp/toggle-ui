@@ -148,7 +148,7 @@ const options: Option[] = [
 const Template: Story<SearchSelectInputProps<string, string, Option, { containerClassName?: string }, never>> = (props) => {
     const [{ value }, updateArgs] = useArgs();
 
-    const setValue = (e: string) => {
+    const setValue = (e: string | undefined) => {
         updateArgs({ value: e });
     };
 
@@ -175,7 +175,6 @@ const Template: Story<SearchSelectInputProps<string, string, Option, { container
             keySelector={(d) => d.id}
             labelSelector={(d) => d.name}
             onChange={setValue}
-            nonClearable
             searchOptions={searchOptions}
             onSearchValueChange={setSearchValue}
             optionsPending={pending}
