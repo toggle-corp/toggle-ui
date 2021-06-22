@@ -45,18 +45,13 @@ function Cover(props: Props) {
         }, { timeout: 200 });
     }, []);
 
-    const handleResize = React.useCallback(() => {
-        queueSync();
-    }, [queueSync]);
+    const handleResize = queueSync;
+    const handleScroll = queueSync;
 
     const handleAttributeMutation = React.useCallback((e) => {
         if (e[0].target === containerRef.current) {
             queueSync();
         }
-    }, [queueSync]);
-
-    const handleScroll = React.useCallback(() => {
-        queueSync();
     }, [queueSync]);
 
     React.useEffect(() => {
