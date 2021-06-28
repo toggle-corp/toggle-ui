@@ -49,6 +49,8 @@ function RawTextArea<K extends string>(
         value,
         name,
         style,
+        disabled,
+        readOnly,
         ...otherProps
     }: RawTextAreaProps<K>,
 ) {
@@ -82,6 +84,8 @@ function RawTextArea<K extends string>(
             value={value ?? ''}
             autoComplete="off"
             style={style as React.ComponentProps<typeof TextareaAutosize>['style']}
+            disabled={disabled || readOnly}
+            readOnly={readOnly}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
