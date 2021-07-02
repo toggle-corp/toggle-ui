@@ -66,8 +66,8 @@
     --tui-color-text-disabled-light: rgba(0, 0, 0, .3);
     --tui-color-text-disabled-dark: rgba(255, 255, 255, .3);
 
-    --tui-color-separator: #b8c2cd;
-    --tui-color-separator-light: rgba(0, 0, 0, .1);
+    --tui-color-separator: rgba(5, 6, 8, .1);
+    --tui-color-separator-light: rgba(5, 6, 8, .1);
     --tui-color-separator-dark: rgba(255, 255, 255, .1);
 
     --tui-color-text-button-light: #243244;
@@ -128,4 +128,8 @@
     --tui-height-max-modal: 96vh;
     --tui-width-max-modal: 96vw;
     --tui-width-min-modal: 360px;
+
+    --tui-color-table-header-background: var(--tui-color-foreground);
+    --tui-color-table-cell-background: var(--tui-color-foreground);
+    --tui-color-table-border: var(--tui-color-separator);
 }

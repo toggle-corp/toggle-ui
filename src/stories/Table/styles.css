@@ -1,3 +1,11 @@
 .name {
-    width: 400px;
+    width: 50%;
+}
+
+.id-column {
+    width: 2rem;
+}
+
+.budget {
+    width: 16rem;
 }

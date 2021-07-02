@@ -6,6 +6,7 @@ import Table, { TableProps, Column } from '#components/Table';
 import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
 import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
+import useRowExpansionOnClick from '#components/Table/useRowExpansionOnClick';
 import {
     createStringColumn,
     createNumberColumn,
@@ -60,7 +61,11 @@ const columns = [
         'id',
         'ID',
         (item) => item.id,
-        { sortable: true, orderable: true },
+        {
+            sortable: true,
+            orderable: true,
+            columnClassName: styles.idColumn,
+        },
     ),
     createStringColumn<Program, number>(
         'name',
@@ -78,7 +83,12 @@ const columns = [
         'budget',
         'Budget',
         (item) => item.budget,
-        { sortable: true, filterType: 'number', orderable: true },
+        {
+            sortable: true,
+            filterType: 'number',
+            orderable: true,
+            columnClassName: styles.budget,
+        },
     ),
     createDateColumn<Program, number>(
         'date',
@@ -123,6 +133,10 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
     const filteredData = useFiltering(filtering, orderedColumns, data);
     const sortedData = useSorting(sorting, orderedColumns, filteredData);
 
+    const [rowModifier] = useRowExpansionOnClick<Program, number>(
+        ({ datum }: { datum: Program }) => datum.name,
+    );
+
     return (
         <SortContext.Provider value={sortState}>
             <FilterContext.Provider value={filterState}>
@@ -131,6 +145,7 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
                         {...args}
                         columns={orderedColumns}
                         data={sortedData}
+                        rowModifier={rowModifier}
                     />
                 </OrderContext.Provider>
             </FilterContext.Provider>

@@ -1,4 +1,9 @@
 .table {
+    /* NOTE: This will ensure that the z-index in
+     * children elements doesn't affect rest of the page */
+    position: relative;
+    z-index: 0;
+
     table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
@@ -6,16 +11,6 @@
 
     .header-row {
         .header-cell {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            border: var(--tui-width-separator-thin) solid var(--tui-color-separator);
-            background-color: var(--tui-color-background);
-
-            &:not(:first-child) {
-                border-left: 0;
-            }
-
             &.stick-left {
                 left: 0;
                 z-index: 3;
@@ -29,35 +24,15 @@
 
     .row {
         .row-header-cell {
-            position: sticky;
+            top: unset;
             left: 0;
             z-index: 1;
-            border: var(--tui-width-separator-thin) solid var(--tui-color-separator);
             border-top: 0;
-            background-color: var(--tui-color-foreground);
             text-align: left;
-
-            &:not(:first-child) {
-                border-left: 0;
-            }
-
-            .cell-component {
-                padding: var(--tui-spacing-medium);
-            }
         }
 
-        .cell {
-            border: var(--tui-width-separator-thin) solid var(--tui-color-separator);
-            border-top: 0;
-            background-color: var(--tui-color-foreground);
-
-            &:not(:first-child) {
-                border-left: 0;
-            }
-
-            .cell-component {
-                padding: var(--tui-spacing-medium);
-            }
+        .cell-component {
+            padding: var(--tui-spacing-medium);
         }
     }
 }
