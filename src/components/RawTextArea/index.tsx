@@ -86,6 +86,8 @@ function RawTextArea<K extends string>(
             style={style as React.ComponentProps<typeof TextareaAutosize>['style']}
             disabled={disabled || readOnly}
             readOnly={readOnly}
+            minRows={3}
+            maxRows={10}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
