@@ -1,0 +1,4 @@
+.td {
+    border-bottom: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+    background-color: var(--tui-color-table-cell-background);
+}

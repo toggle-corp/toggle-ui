@@ -7,6 +7,7 @@ import DateTime, { DateTimeProps } from '../DateTime';
 import YesNo, { YesNoProps } from '../YesNo';
 
 import { Column } from './index';
+import ExpandButton, { ExpandButtonProps } from './ExpandButton';
 import { SortDirection, FilterType } from './types';
 
 export function createYesNoColumn<D, K>(
@@ -243,6 +244,43 @@ export function createDateTimeColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
+    };
+    return item;
+}
+
+export function createExpandColumn<D, K extends number | string | undefined>(
+    id: string,
+    title: string,
+    onClick: (rowId: K) => void,
+    expandedRowId: K,
+    options?: {
+        cellAsHeader?: boolean,
+        columnClassName?: string;
+        headerCellRendererClassName?: string;
+        headerContainerClassName?: string;
+        cellRendererClassName?: string;
+        cellContainerClassName?: string;
+    },
+) {
+    const item: Column<D, K, ExpandButtonProps<K>, HeaderCellProps> = {
+        id,
+        title,
+        cellAsHeader: options?.cellAsHeader,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        cellRenderer: ExpandButton,
+        cellRendererParams: (rowId: K) => ({
+            rowId,
+            onClick,
+            expanded: rowId === expandedRowId,
+        }),
     };
     return item;
 }

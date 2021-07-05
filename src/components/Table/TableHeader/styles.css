@@ -1,0 +1,7 @@
+.th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-top: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+    border-bottom: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+}

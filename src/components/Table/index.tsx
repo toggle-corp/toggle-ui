@@ -5,7 +5,15 @@ import { BaseHeader } from './types';
 
 import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
+import TableData from './TableData';
 import styles from './styles.css';
+
+export type TableVariant = (
+    'textWrappedCells'
+    | 'textTruncatedCells'
+);
 
 export interface Column<D, K, C, H> {
     id: string;
@@ -24,9 +32,11 @@ export interface Column<D, K, C, H> {
 
     cellAsHeader?: boolean;
     uiMode?: UiMode;
+    variant?: TableVariant;
 }
 
 type VerifyColumn<T, D, K> = unknown extends (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends Column<D, K, any, any>
         ? never
         : unknown
@@ -34,6 +44,16 @@ type VerifyColumn<T, D, K> = unknown extends (
     ? never
     : unknown
 
+export interface RowOptions<D, K> {
+    rowKey: K,
+    row: React.ReactElement;
+    cells: React.ReactElement[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    columns: Column<D, K, any, any>[];
+    datum: D;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface TableProps<D, K extends string | number, C extends Column<D, K, any, any>> {
     className?: string;
     caption?: React.ReactNode;
@@ -46,8 +66,10 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     rowClassName?: string;
     cellClassName?: string;
     uiMode?: UiMode;
+    rowModifier?: (rowOptions: RowOptions<D, K>) => React.ReactNode;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     props: TableProps<D, K, C>,
 ) {
@@ -64,6 +86,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         rowClassName,
         cellClassName,
         uiMode,
+        rowModifier,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
@@ -71,9 +94,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     return (
         <table className={_cs(styles.table, className, themeClassName)}>
             {caption && (
-                <caption
-                    className={captionClassName}
-                >
+                <caption className={captionClassName}>
                     {caption}
                 </caption>
             )}
@@ -93,7 +114,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                 })}
             </colgroup>
             <thead>
-                <tr className={_cs(styles.headerRow, headerRowClassName)}>
+                <TableRow
+                    className={_cs(styles.headerRow, headerRowClassName)}
+                >
                     {columns.map((column, index) => {
                         const {
                             id,
@@ -115,7 +138,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             />
                         );
                         return (
-                            <th
+                            <TableHeader
                                 key={id}
                                 scope="col"
                                 className={_cs(
@@ -126,66 +149,82 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                 )}
                             >
                                 {children}
-                            </th>
+                            </TableHeader>
                         );
                     })}
-                </tr>
+                </TableRow>
             </thead>
             <tbody>
                 {data?.map((datum, index) => {
                     const key = keySelector(datum, index);
-                    return (
-                        <tr
+                    const cells = columns.map((column) => {
+                        const {
+                            id,
+                            cellRenderer: Renderer,
+                            cellRendererClassName,
+                            cellRendererParams,
+                            cellAsHeader,
+                            cellContainerClassName,
+                        } = column;
+                        const otherProps = cellRendererParams(key, datum, index);
+                        const children = (
+                            <Renderer
+                                {...otherProps}
+                                className={_cs(cellRendererClassName, styles.cellComponent)}
+                                name={id}
+                            />
+                        );
+                        if (cellAsHeader) {
+                            return (
+                                <TableHeader
+                                    key={id}
+                                    className={_cs(
+                                        styles.rowHeaderCell,
+                                        cellClassName,
+                                        cellContainerClassName,
+                                    )}
+                                    scope="row"
+                                >
+                                    {children}
+                                </TableHeader>
+                            );
+                        }
+                        return (
+                            <TableData
+                                key={id}
+                                className={_cs(
+                                    styles.cell,
+                                    cellClassName,
+                                    cellContainerClassName,
+                                )}
+                            >
+                                {children}
+                            </TableData>
+                        );
+                    });
+
+                    const row = (
+                        <TableRow
                             key={key}
                             className={_cs(styles.row, rowClassName)}
                         >
-                            {columns.map((column) => {
-                                const {
-                                    id,
-                                    cellRenderer: Renderer,
-                                    cellRendererClassName,
-                                    cellRendererParams,
-                                    cellAsHeader,
-                                    cellContainerClassName,
-                                } = column;
-                                const otherProps = cellRendererParams(key, datum, index);
-                                const children = (
-                                    <Renderer
-                                        {...otherProps}
-                                        className={_cs(cellRendererClassName, styles.cellComponent)}
-                                        name={id}
-                                    />
-                                );
-                                if (cellAsHeader) {
-                                    return (
-                                        <th
-                                            key={id}
-                                            className={_cs(
-                                                styles.rowHeaderCell,
-                                                cellClassName,
-                                                cellContainerClassName,
-                                            )}
-                                            scope="row"
-                                        >
-                                            {children}
-                                        </th>
-                                    );
-                                }
-                                return (
-                                    <td
-                                        key={id}
-                                        className={_cs(
-                                            styles.cell,
-                                            cellClassName,
-                                            cellContainerClassName,
-                                        )}
-                                    >
-                                        {children}
-                                    </td>
-                                );
-                            })}
-                        </tr>
+                            { cells }
+                        </TableRow>
                     );
+
+                    let modifiedRow: React.ReactNode = row;
+
+                    if (rowModifier) {
+                        modifiedRow = rowModifier({
+                            rowKey: key,
+                            row,
+                            cells,
+                            columns,
+                            datum,
+                        });
+                    }
+
+                    return modifiedRow;
                 })}
             </tbody>
         </table>

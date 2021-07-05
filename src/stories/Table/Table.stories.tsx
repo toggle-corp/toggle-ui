@@ -1,12 +1,16 @@
 import React from 'react';
 import { isDefined } from '@togglecorp/fujs';
-
 import { Story } from '@storybook/react/types-6-0';
+import { useArgs } from '@storybook/client-api';
+
 import Table, { TableProps, Column } from '#components/Table';
 import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
 import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
+import useRowExpansionOnClick from '#components/Table/useRowExpansionOnClick';
+import useRowExpansion from '#components/Table/useRowExpansion';
 import {
+    createExpandColumn,
     createStringColumn,
     createNumberColumn,
     createDateColumn,
@@ -60,7 +64,11 @@ const columns = [
         'id',
         'ID',
         (item) => item.id,
-        { sortable: true, orderable: true },
+        {
+            sortable: true,
+            orderable: true,
+            columnClassName: styles.idColumn,
+        },
     ),
     createStringColumn<Program, number>(
         'name',
@@ -78,7 +86,12 @@ const columns = [
         'budget',
         'Budget',
         (item) => item.budget,
-        { sortable: true, filterType: 'number', orderable: true },
+        {
+            sortable: true,
+            filterType: 'number',
+            orderable: true,
+            columnClassName: styles.budget,
+        },
     ),
     createDateColumn<Program, number>(
         'date',
@@ -109,6 +122,7 @@ const staticColumnOrdering = [
     { name: 'aboveBudget' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => {
     const sortState = useSortState();
     const { sorting } = sortState;
@@ -123,6 +137,14 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
     const filteredData = useFiltering(filtering, orderedColumns, data);
     const sortedData = useSorting(sorting, orderedColumns, filteredData);
 
+    const [rowModifier] = useRowExpansionOnClick<Program, number>(
+        ({ datum }: { datum: Program }) => (
+            <div key={`expanded-${datum.id}`}>
+                {datum.name}
+            </div>
+        ),
+    );
+
     return (
         <SortContext.Provider value={sortState}>
             <FilterContext.Provider value={filterState}>
@@ -131,6 +153,7 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
                         {...args}
                         columns={orderedColumns}
                         data={sortedData}
+                        rowModifier={rowModifier}
                     />
                 </OrderContext.Provider>
             </FilterContext.Provider>
@@ -138,7 +161,45 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
     );
 };
 
+const tableKeySelector = (p: Program) => p.id;
+
 export const Default = Template.bind({});
 Default.args = {
-    keySelector: (d) => d.id,
+    keySelector: tableKeySelector,
+};
+
+export const ManualRowExpansion = () => {
+    const [{ expandedRow }, updateArgs] = useArgs();
+
+    const handleClick = React.useCallback((rowId: number) => {
+        updateArgs({ expandedRow: expandedRow === rowId ? undefined : rowId });
+    }, [expandedRow, updateArgs]);
+
+    const rowModifier = useRowExpansion<Program, number>(
+        expandedRow,
+        ({ datum }) => (
+            <div key={`expanded-${datum.id}`}>
+                {datum.name}
+            </div>
+        ),
+    );
+
+    const columnsWithAction = [
+        createExpandColumn<Program, number>(
+            'expand-button',
+            '',
+            handleClick,
+            expandedRow,
+        ),
+        ...columns,
+    ];
+
+    return (
+        <Table
+            keySelector={tableKeySelector}
+            columns={columnsWithAction}
+            data={data}
+            rowModifier={rowModifier}
+        />
+    );
 };

@@ -65,14 +65,11 @@
                 color: var(--tui-color-text-label-light);
                 font-size: var(--font-size-extra-small);
             }
-
-            .raw-input-container {
-                background-color: var(--tui-color-foreground);
-            }
         }
 
         .number-input {
             .raw-input-container {
+                background-color: var(--tui-color-table-header-background);
                 width: 108px;
             }
         }

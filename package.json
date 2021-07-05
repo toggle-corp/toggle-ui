@@ -43,7 +43,7 @@
         "d3-axis": "^2.0.0",
         "d3-scale": "^3.2.3",
         "file-saver": "^2.0.2",
-        "react-icons": "^3.11.0",
+        "react-icons": "^4.2.0",
         "react-textarea-autosize": "^8.3.3",
         "resize-observer-polyfill": "^1.5.1"
     },
