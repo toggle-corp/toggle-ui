@@ -122,6 +122,7 @@ const staticColumnOrdering = [
     { name: 'aboveBudget' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Template: Story<TableProps<Program, number, Column<Program, number, any, any>>> = (args) => {
     const sortState = useSortState();
     const { sorting } = sortState;

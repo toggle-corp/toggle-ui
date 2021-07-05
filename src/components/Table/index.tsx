@@ -36,6 +36,7 @@ export interface Column<D, K, C, H> {
 }
 
 type VerifyColumn<T, D, K> = unknown extends (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends Column<D, K, any, any>
         ? never
         : unknown
@@ -47,10 +48,12 @@ export interface RowOptions<D, K> {
     rowKey: K,
     row: React.ReactElement;
     cells: React.ReactElement[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     columns: Column<D, K, any, any>[];
     datum: D;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface TableProps<D, K extends string | number, C extends Column<D, K, any, any>> {
     className?: string;
     caption?: React.ReactNode;
@@ -66,6 +69,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     rowModifier?: (rowOptions: RowOptions<D, K>) => React.ReactNode;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     props: TableProps<D, K, C>,
 ) {
