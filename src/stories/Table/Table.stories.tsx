@@ -1,21 +1,16 @@
 import React from 'react';
 import { isDefined } from '@togglecorp/fujs';
-import {
-    IoChevronDown,
-    IoChevronUp,
-} from 'react-icons/io5';
 import { Story } from '@storybook/react/types-6-0';
 import { useArgs } from '@storybook/client-api';
 
 import Table, { TableProps, Column } from '#components/Table';
-import HeaderCell from '#components/Table/HeaderCell';
 import useFiltering, { useFilterState, FilterContext } from '#components/Table/useFiltering';
 import useOrdering, { useOrderState, OrderContext } from '#components/Table/useOrdering';
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
 import useRowExpansionOnClick from '#components/Table/useRowExpansionOnClick';
-import Button, { ButtonProps } from '#components/Button';
 import useRowExpansion from '#components/Table/useRowExpansion';
 import {
+    createExpandColumn,
     createStringColumn,
     createNumberColumn,
     createDateColumn,
@@ -142,7 +137,11 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
     const sortedData = useSorting(sorting, orderedColumns, filteredData);
 
     const [rowModifier] = useRowExpansionOnClick<Program, number>(
-        ({ datum }: { datum: Program }) => datum.name,
+        ({ datum }: { datum: Program }) => (
+            <div key={`expanded-${datum.id}`}>
+                {datum.name}
+            </div>
+        ),
     );
 
     return (
@@ -168,33 +167,6 @@ Default.args = {
     keySelector: tableKeySelector,
 };
 
-const Action = ({
-    className,
-    rowId,
-    onClick,
-    isExpanded = false,
-} : {
-    className?: string;
-    rowId: number;
-    onClick: ButtonProps<number>['onClick'];
-    isExpanded?: boolean;
-}) => (
-    <>
-        <Button
-            className={className}
-            name={rowId}
-            onClick={onClick}
-            transparent
-        >
-            {isExpanded ? (
-                <IoChevronUp />
-            ) : (
-                <IoChevronDown />
-            )}
-        </Button>
-    </>
-);
-
 export const ManualRowExpansion = () => {
     const [{ expandedRow }, updateArgs] = useArgs();
 
@@ -204,25 +176,20 @@ export const ManualRowExpansion = () => {
 
     const rowModifier = useRowExpansion<Program, number>(
         expandedRow,
-        ({ datum }: { datum: Program }) => datum.name,
+        ({ datum }) => (
+            <div key={`expanded-${datum.id}`}>
+                {datum.name}
+            </div>
+        ),
     );
 
     const columnsWithAction = [
-        {
-            id: 'table-actions',
-            cellAsHeader: true,
-            title: '',
-            headerCellRenderer: HeaderCell,
-            headerCellRendererParams: {
-                sortable: false,
-            },
-            cellRenderer: Action,
-            cellRendererParams: (rowId: number) => ({
-                rowId,
-                onClick: handleClick,
-                isExpanded: rowId === expandedRow,
-            }),
-        },
+        createExpandColumn<Program, number>(
+            'expand-button',
+            '',
+            handleClick,
+            expandedRow,
+        ),
         ...columns,
     ];
 
