@@ -47,6 +47,8 @@ function RawInput<K extends string>(
         elementRef,
         value,
         name,
+        disabled,
+        readOnly,
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -78,6 +80,8 @@ function RawInput<K extends string>(
             onChange={handleChange}
             name={name}
             value={value ?? ''}
+            disabled={disabled || readOnly}
+            readOnly={readOnly}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
