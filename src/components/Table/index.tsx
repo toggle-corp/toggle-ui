@@ -63,7 +63,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     rowClassName?: string;
     cellClassName?: string;
     uiMode?: UiMode;
-    rowModifier?: (rowOptions: RowOptions<D, K>) => React.ReactElement;
+    rowModifier?: (rowOptions: RowOptions<D, K>) => React.ReactNode;
 }
 
 function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
