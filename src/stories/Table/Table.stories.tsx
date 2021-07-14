@@ -9,6 +9,7 @@ import useOrdering, { useOrderState, OrderContext } from '#components/Table/useO
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
 import useRowExpansionOnClick from '#components/Table/useRowExpansionOnClick';
 import useRowExpansion from '#components/Table/useRowExpansion';
+import useColumnResize from '#components/Table/useColumnResize';
 import {
     createExpandColumn,
     createStringColumn,
@@ -80,6 +81,7 @@ const columns = [
             orderable: true,
             cellAsHeader: true,
             columnClassName: styles.name,
+            columnWidth: 400,
         },
     ),
     createNumberColumn<Program, number>(
@@ -91,6 +93,7 @@ const columns = [
             filterType: 'number',
             orderable: true,
             columnClassName: styles.budget,
+            columnWidth: 260,
         },
     ),
     createDateColumn<Program, number>(
@@ -103,7 +106,11 @@ const columns = [
         'datetime',
         'Date Time',
         (item) => item.date,
-        { sortable: true, orderable: true },
+        {
+            sortable: true,
+            orderable: true,
+            columnWidth: 200,
+        },
     ),
     createYesNoColumn<Program, number>(
         'aboveBudget',
@@ -154,6 +161,7 @@ const Template: Story<TableProps<Program, number, Column<Program, number, any, a
                         columns={orderedColumns}
                         data={sortedData}
                         rowModifier={rowModifier}
+                        className={styles.table}
                     />
                 </OrderContext.Provider>
             </FilterContext.Provider>
@@ -200,6 +208,47 @@ export const ManualRowExpansion = () => {
             columns={columnsWithAction}
             data={data}
             rowModifier={rowModifier}
+        />
+    );
+};
+
+export const ResizableColumns = () => {
+    const [{ expandedRow }, updateArgs] = useArgs();
+
+    const handleClick = React.useCallback((rowId: number) => {
+        updateArgs({ expandedRow: expandedRow === rowId ? undefined : rowId });
+    }, [expandedRow, updateArgs]);
+
+    const rowModifier = useRowExpansion<Program, number>(
+        expandedRow,
+        ({ datum }) => (
+            <div key={`expanded-${datum.id}`}>
+                {datum.name}
+            </div>
+        ),
+    );
+
+    const columnsWithAction = [
+        createExpandColumn<Program, number>(
+            'expand-button',
+            '',
+            handleClick,
+            expandedRow,
+        ),
+        ...columns,
+    ];
+
+    return (
+        <Table
+            className={styles.table}
+            keySelector={tableKeySelector}
+            data={data}
+            rowModifier={rowModifier}
+            columns={columnsWithAction}
+            // NOTE: if we do not specify following property, we might
+            // get weird results while resizing columns
+            fixedColumnWidth
+            resizableColumn
         />
     );
 };

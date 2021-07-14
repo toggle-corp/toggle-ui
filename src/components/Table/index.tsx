@@ -1,5 +1,9 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+    sum,
+} from '@togglecorp/fujs';
 
 import { BaseHeader } from './types';
 
@@ -15,6 +19,8 @@ export type TableVariant = (
     | 'textTruncatedCells'
 );
 
+export const DEFAULT_COLUMN_WIDTH = 108;
+
 export interface Column<D, K, C, H> {
     id: string;
     title: string;
@@ -24,15 +30,13 @@ export interface Column<D, K, C, H> {
     headerCellRendererClassName?: string;
     headerContainerClassName?: string;
     columnClassName?: string;
+    columnStyle?: React.CSSProperties;
+    columnWidth?: number;
 
     cellRenderer: React.ComponentType<C>;
     cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
     cellRendererClassName?: string;
     cellContainerClassName?: string;
-
-    cellAsHeader?: boolean;
-    uiMode?: UiMode;
-    variant?: TableVariant;
 }
 
 type VerifyColumn<T, D, K> = unknown extends (
@@ -67,6 +71,8 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     cellClassName?: string;
     uiMode?: UiMode;
     rowModifier?: (rowOptions: RowOptions<D, K>) => React.ReactNode;
+    fixedColumnWidth?: boolean;
+    resizableColumn?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,12 +93,32 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         cellClassName,
         uiMode,
         rowModifier,
+        fixedColumnWidth,
+        resizableColumn,
     } = props;
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+    const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
+    const handleColumnResize = React.useCallback((width: number, name: string | undefined) => {
+        if (isDefined(name)) {
+            setColumnWidths((prevColumnWidths) => ({
+                ...prevColumnWidths,
+                [name]: width,
+            }));
+        }
+    }, []);
+
+    const width = React.useMemo(() => (
+        sum(columns.map(
+            (column) => columnWidths[column.id] ?? column.columnWidth ?? DEFAULT_COLUMN_WIDTH,
+        ))
+    ), [columns, columnWidths]);
 
     return (
-        <table className={_cs(styles.table, className, themeClassName)}>
+        <table
+            className={_cs(styles.table, className, themeClassName)}
+            style={fixedColumnWidth ? { width: `${width}px` } : undefined}
+        >
             {caption && (
                 <caption className={captionClassName}>
                     {caption}
@@ -103,10 +129,15 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     const {
                         id,
                         columnClassName,
+                        columnWidth: widthFromColumn,
                     } = column;
+
+                    const columnWidth = columnWidths[id] ?? widthFromColumn ?? DEFAULT_COLUMN_WIDTH;
+                    const style = { width: `${columnWidth}px` };
 
                     return (
                         <col
+                            style={style}
                             key={id}
                             className={columnClassName}
                         />
@@ -123,7 +154,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             title,
                             headerCellRenderer: Renderer,
                             headerCellRendererClassName,
-                            cellAsHeader,
                             headerCellRendererParams,
                             headerContainerClassName,
                         } = column;
@@ -141,9 +171,10 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             <TableHeader
                                 key={id}
                                 scope="col"
+                                name={id}
+                                onResize={resizableColumn ? handleColumnResize : undefined}
                                 className={_cs(
                                     styles.headerCell,
-                                    cellAsHeader && styles.stickLeft,
                                     headerCellClassName,
                                     headerContainerClassName,
                                 )}
@@ -163,9 +194,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             cellRenderer: Renderer,
                             cellRendererClassName,
                             cellRendererParams,
-                            cellAsHeader,
                             cellContainerClassName,
                         } = column;
+
                         const otherProps = cellRendererParams(key, datum, index);
                         const children = (
                             <Renderer
@@ -174,21 +205,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                 name={id}
                             />
                         );
-                        if (cellAsHeader) {
-                            return (
-                                <TableHeader
-                                    key={id}
-                                    className={_cs(
-                                        styles.rowHeaderCell,
-                                        cellClassName,
-                                        cellContainerClassName,
-                                    )}
-                                    scope="row"
-                                >
-                                    {children}
-                                </TableHeader>
-                            );
-                        }
                         return (
                             <TableData
                                 key={id}

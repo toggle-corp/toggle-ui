@@ -11,11 +11,6 @@
 
     .header-row {
         .header-cell {
-            &.stick-left {
-                left: 0;
-                z-index: 3;
-            }
-
             .header-component {
                 padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
             }
@@ -23,16 +18,22 @@
     }
 
     .row {
-        .row-header-cell {
-            top: unset;
-            left: 0;
-            z-index: 1;
-            border-top: 0;
-            text-align: left;
+        &:hover {
+            background-color: var(--tui-color-background-hover-light);
         }
 
         .cell-component {
             padding: var(--tui-spacing-medium);
+        }
+
+        &:last-child {
+            .cell {
+                border-bottom: none;
+            }
+
+            .row-header-cell {
+                border-bottom: none;
+            }
         }
     }
 }

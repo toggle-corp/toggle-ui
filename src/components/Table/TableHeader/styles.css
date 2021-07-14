@@ -1,7 +1,24 @@
 .th {
     position: sticky;
     top: 0;
-    z-index: 2;
-    border-top: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+    z-index: 1;
     border-bottom: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+    background-color: var(--tui-color-background-table-header);
+
+    .resize-handle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-left: var(--tui-width-separator-thin) solid transparent;
+        background-color: transparent;
+        cursor: col-resize;
+        width: var(--tui-width-separator-dense);
+        height: calc(100% - var(--tui-spacing-small));
+    }
+
+    &:hover {
+        .resize-handle {
+            border-left-color: var(--tui-color-separator);
+        }
+    }
 }

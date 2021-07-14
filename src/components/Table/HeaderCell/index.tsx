@@ -184,6 +184,7 @@ function HeaderCell(props: HeaderCellProps) {
         },
         [index, name],
     );
+
     const handleDragEnd = useCallback(
         () => {
             setDragging(false);
