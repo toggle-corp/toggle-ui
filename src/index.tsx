@@ -80,7 +80,7 @@ export type { Props as TableHeaderProps } from './components/Table/TableHeader';
 export { default as TableHeader } from './components/Table/TableHeader';
 export type { Props as TableRowProps } from './components/Table/TableRow';
 export { default as TableRow } from './components/Table/TableRow';
-export { createYesNoColumn, createStringColumn, createDateColumn, createDateTimeColumn, createNumberColumn } from './components/Table/predefinedColumns';
+export { createDateColumn, createDateTimeColumn, createNumberColumn, createStringColumn, createYesNoColumn, createExpandColumn } from './components/Table/predefinedColumns';
 export type { SortDirection as TableSortDirection, FilterType as TableFilterType } from './components/Table/types';
 export { default as useDownloading, convertTableData, convertJsonToCsv } from './components/Table/useDownloading';
 export { default as useFiltering, useFilterState, FilterContext } from './components/Table/useFiltering';
