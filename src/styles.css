@@ -17,6 +17,7 @@
     --tui-width-separator-medium: 2px;
     --tui-width-separator-thick: 4px;
     --tui-width-separator-dense: 7px;
+    --tui-width-table-column-min: 3rem;
 
     /* FONT SIZE */
     --tui-font-size-extra-small: 10px;

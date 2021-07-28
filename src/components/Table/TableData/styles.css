@@ -1,3 +1,4 @@
 .td {
     border-bottom: var(--tui-width-separator-thin) solid var(--tui-color-table-border);
+    padding: var(--tui-spacing-medium);
 }

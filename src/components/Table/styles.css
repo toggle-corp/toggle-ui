@@ -9,6 +9,10 @@
     border-spacing: 0;
     font-size: inherit;
 
+    .column {
+        min-width: var(--tui-width-table-column-min);
+    }
+
     .header-row {
         .header-cell {
             .header-component {
@@ -22,10 +26,6 @@
             background-color: var(--tui-color-background-hover-light);
         }
 
-        .cell-component {
-            padding: var(--tui-spacing-medium);
-        }
-
         &:last-child {
             .cell {
                 border-bottom: none;
@@ -37,3 +37,4 @@
         }
     }
 }
+

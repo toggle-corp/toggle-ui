@@ -139,7 +139,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                         <col
                             style={style}
                             key={id}
-                            className={columnClassName}
+                            className={_cs(styles.column, columnClassName)}
                         />
                     );
                 })}
@@ -201,7 +201,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                         const children = (
                             <Renderer
                                 {...otherProps}
-                                className={_cs(cellRendererClassName, styles.cellComponent)}
+                                className={cellRendererClassName}
                                 name={id}
                             />
                         );
