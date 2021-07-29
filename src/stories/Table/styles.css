@@ -1,11 +1,15 @@
-.name {
-    width: 50%;
-}
+.table {
+    width: 100%;
 
-.id-column {
-    width: 2rem;
-}
+    .id-column {
+        min-width: 96px;
+    }
 
-.budget {
-    width: 16rem;
+    .name {
+        min-width: 160px;
+    }
+
+    .budget {
+        min-width: 108px;
+    }
 }

@@ -15,7 +15,6 @@ export function createYesNoColumn<D, K>(
     title: string,
     accessor: (item: D) => boolean | undefined | null,
     options?: {
-        cellAsHeader?: boolean,
         sortable?: boolean,
         defaultSortDirection?: SortDirection,
         filterType?: FilterType,
@@ -26,6 +25,8 @@ export function createYesNoColumn<D, K>(
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, YesNoProps, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, YesNoProps, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, YesNoProps, HeaderCellProps> & {
@@ -34,7 +35,6 @@ export function createYesNoColumn<D, K>(
     } = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         columnClassName: options?.columnClassName,
         headerCellRendererClassName: options?.headerCellRendererClassName,
@@ -53,6 +53,8 @@ export function createYesNoColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareBoolean(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }
@@ -62,7 +64,6 @@ export function createStringColumn<D, K>(
     title: string,
     accessor: (item: D) => string | undefined | null,
     options?: {
-        cellAsHeader?: boolean,
         sortable?: boolean,
         defaultSortDirection?: SortDirection,
         filterType?: FilterType,
@@ -73,6 +74,8 @@ export function createStringColumn<D, K>(
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, CellProps<string>, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, CellProps<string>, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, CellProps<string>, HeaderCellProps> & {
@@ -81,7 +84,6 @@ export function createStringColumn<D, K>(
     } = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         columnClassName: options?.columnClassName,
         headerCellRendererClassName: options?.headerCellRendererClassName,
@@ -100,6 +102,8 @@ export function createStringColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }
@@ -109,7 +113,6 @@ export function createNumberColumn<D, K>(
     title: string,
     accessor: (item: D) => number | undefined | null,
     options?: {
-        cellAsHeader?: boolean,
         sortable?: boolean,
         defaultSortDirection?: SortDirection,
         filterType?: FilterType,
@@ -120,6 +123,8 @@ export function createNumberColumn<D, K>(
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, NumeralProps, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, NumeralProps, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, NumeralProps, HeaderCellProps> & {
@@ -128,7 +133,6 @@ export function createNumberColumn<D, K>(
     } = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             sortable: options?.sortable,
@@ -148,6 +152,8 @@ export function createNumberColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }
@@ -157,7 +163,6 @@ export function createDateColumn<D, K>(
     title: string,
     accessor: (item: D) => string | undefined | null,
     options?: {
-        cellAsHeader?: boolean,
         sortable?: boolean,
         defaultSortDirection?: SortDirection,
         filterType?: FilterType,
@@ -168,6 +173,8 @@ export function createDateColumn<D, K>(
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, DateTimeProps, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, DateTimeProps, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, DateTimeProps, HeaderCellProps> & {
@@ -176,7 +183,6 @@ export function createDateColumn<D, K>(
     } = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         columnClassName: options?.columnClassName,
         headerCellRendererClassName: options?.headerCellRendererClassName,
@@ -196,6 +202,8 @@ export function createDateColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }
@@ -205,7 +213,6 @@ export function createDateTimeColumn<D, K>(
     title: string,
     accessor: (item: D) => string | undefined | null,
     options?: {
-        cellAsHeader?: boolean,
         sortable?: boolean,
         defaultSortDirection?: SortDirection,
         filterType?: FilterType,
@@ -216,6 +223,8 @@ export function createDateTimeColumn<D, K>(
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, DateTimeProps, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, DateTimeProps, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, DateTimeProps, HeaderCellProps> & {
@@ -224,7 +233,6 @@ export function createDateTimeColumn<D, K>(
     } = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             sortable: options?.sortable,
@@ -244,6 +252,8 @@ export function createDateTimeColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }
@@ -252,20 +262,20 @@ export function createExpandColumn<D, K extends number | string | undefined>(
     id: string,
     title: string,
     onClick: (rowId: K) => void,
-    expandedRowId: K,
+    expandedRowId: K | undefined,
     options?: {
-        cellAsHeader?: boolean,
         columnClassName?: string;
         headerCellRendererClassName?: string;
         headerContainerClassName?: string;
         cellRendererClassName?: string;
         cellContainerClassName?: string;
+        columnWidth?: Column<D, K, ExpandButtonProps<K>, HeaderCellProps>['columnWidth'];
+        columnStyle?: Column<D, K, ExpandButtonProps<K>, HeaderCellProps>['columnStyle'];
     },
 ) {
     const item: Column<D, K, ExpandButtonProps<K>, HeaderCellProps> = {
         id,
         title,
-        cellAsHeader: options?.cellAsHeader,
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             sortable: false,
@@ -281,6 +291,8 @@ export function createExpandColumn<D, K extends number | string | undefined>(
             onClick,
             expanded: rowId === expandedRowId,
         }),
+        columnWidth: options?.columnWidth,
+        columnStyle: options?.columnStyle,
     };
     return item;
 }

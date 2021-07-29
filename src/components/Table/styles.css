@@ -9,30 +9,39 @@
     border-spacing: 0;
     font-size: inherit;
 
+    .column {
+        min-width: var(--tui-width-table-column-min);
+    }
+
     .header-row {
         .header-cell {
-            &.stick-left {
-                left: 0;
-                z-index: 3;
-            }
+            overflow: hidden;
 
             .header-component {
                 padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+                overflow: hidden;
             }
         }
     }
 
     .row {
-        .row-header-cell {
-            top: unset;
-            left: 0;
-            z-index: 1;
-            border-top: 0;
-            text-align: left;
+        &:hover {
+            background-color: var(--tui-color-background-hover-light);
         }
 
-        .cell-component {
-            padding: var(--tui-spacing-medium);
+        .cell {
+            overflow: hidden;
+        }
+
+        &:last-child {
+            .cell {
+                border-bottom: none;
+            }
+
+            .row-header-cell {
+                border-bottom: none;
+            }
         }
     }
 }
+

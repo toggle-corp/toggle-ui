@@ -15,6 +15,9 @@
     /* DIMENSIONS */
     --tui-width-separator-thin: 1px;
     --tui-width-separator-medium: 2px;
+    --tui-width-separator-thick: 4px;
+    --tui-width-separator-dense: 7px;
+    --tui-width-table-column-min: 3rem;
 
     /* FONT SIZE */
     --tui-font-size-extra-small: 10px;
@@ -84,6 +87,8 @@
 
     --tui-color-background-light: #f4f5f6;
     --tui-color-background-dark: #313131;
+
+    --tui-color-background-table-header: var(--tui-color-foreground-light);
 
     --tui-color-background-hover-light: rgba(0, 0, 0, .1);
     --tui-color-background-hover-dark: rgba(255, 255, 255, .1);
