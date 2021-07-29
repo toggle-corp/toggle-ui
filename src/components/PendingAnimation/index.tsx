@@ -11,11 +11,11 @@ function Circle() {
     );
 }
 
-export interface Props {
+export interface PendingAnimationProps {
     className?: string;
 }
 
-function PendingAnimation(props: Props) {
+function PendingAnimation(props: PendingAnimationProps) {
     const {
         className,
     } = props;

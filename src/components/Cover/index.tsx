@@ -6,12 +6,12 @@ import Portal from '../Portal';
 
 import styles from './styles.css';
 
-interface Props {
+export interface CoverProps {
     className?: string;
     children?: React.ReactNode;
 }
 
-function Cover(props: Props) {
+function Cover(props: CoverProps) {
     const {
         className,
         children,
