@@ -68,10 +68,7 @@ const initialValue: FilterContextInterface = {
     setFilteringItem: (id, state) => {
         console.warn(`Trying to set ${id} to `, state);
     },
-    getFilteringItem: (id) => {
-        console.warn(`Trying to get ${id}`);
-        return undefined;
-    },
+    getFilteringItem: () => undefined,
 };
 export const FilterContext = createContext<FilterContextInterface>(initialValue);
 

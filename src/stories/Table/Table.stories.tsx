@@ -233,7 +233,15 @@ export const ResizableColumns = () => {
             handleClick,
             expandedRow,
         ),
-        ...columns,
+        ...columns.map((col) => ({
+            ...col,
+            headerCellRendererParams: {
+                ...col.headerCellRendererParams,
+                // sortable: false,
+                orderable: false,
+                filterType: undefined,
+            },
+        })),
     ];
 
     return (
