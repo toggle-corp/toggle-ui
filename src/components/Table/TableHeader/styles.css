@@ -9,16 +9,21 @@
         position: absolute;
         top: 0;
         right: 0;
-        border-left: var(--tui-width-separator-thin) solid transparent;
-        background-color: transparent;
+        z-index: 1;
+        border-right: var(--tui-width-separator-medium) solid transparent;
         cursor: col-resize;
         width: var(--tui-width-separator-dense);
         height: calc(100% - var(--tui-spacing-small));
+
     }
 
     &:hover {
         .resize-handle {
-            border-left-color: var(--tui-color-separator);
+            border-right-color: var(--tui-color-separator);
+
+            &:hover {
+                border-right-color: var(--tui-color-accent);
+            }
         }
     }
 }

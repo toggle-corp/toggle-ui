@@ -3,6 +3,8 @@
     flex-direction: column;
     border-right: var(--tui-width-separator-thin) solid transparent;
     border-left: var(--tui-width-separator-thin) solid transparent;
+    color: var(--tui-color-text-light);
+    font-weight: var(--tui-font-weight-medium);
 
     &.dragging {
         opacity: 0.5;

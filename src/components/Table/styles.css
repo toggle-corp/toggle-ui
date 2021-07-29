@@ -15,8 +15,11 @@
 
     .header-row {
         .header-cell {
+            overflow: hidden;
+
             .header-component {
                 padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+                overflow: hidden;
             }
         }
     }
@@ -24,6 +27,10 @@
     .row {
         &:hover {
             background-color: var(--tui-color-background-hover-light);
+        }
+
+        .cell {
+            overflow: hidden;
         }
 
         &:last-child {
