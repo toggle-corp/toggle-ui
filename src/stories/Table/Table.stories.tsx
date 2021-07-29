@@ -9,7 +9,6 @@ import useOrdering, { useOrderState, OrderContext } from '#components/Table/useO
 import useSorting, { useSortState, SortContext } from '#components/Table/useSorting';
 import useRowExpansionOnClick from '#components/Table/useRowExpansionOnClick';
 import useRowExpansion from '#components/Table/useRowExpansion';
-import useColumnResize from '#components/Table/useColumnResize';
 import {
     createExpandColumn,
     createStringColumn,
@@ -79,7 +78,6 @@ const columns = [
             sortable: true,
             filterType: 'string',
             orderable: true,
-            cellAsHeader: true,
             columnClassName: styles.name,
             columnWidth: 400,
         },

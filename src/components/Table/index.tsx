@@ -108,11 +108,18 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         }
     }, []);
 
+    const safeColumnWidths = React.useMemo(() => {
+        const newColumnWidths: typeof columnWidths = {};
+        columns.forEach((c) => {
+            newColumnWidths[c.id] = columnWidths[c.id] ?? c.columnWidth ?? DEFAULT_COLUMN_WIDTH;
+        });
+
+        return newColumnWidths;
+    }, [columnWidths, columns]);
+
     const width = React.useMemo(() => (
-        sum(columns.map(
-            (column) => columnWidths[column.id] ?? column.columnWidth ?? DEFAULT_COLUMN_WIDTH,
-        ))
-    ), [columns, columnWidths]);
+        sum(Object.values(safeColumnWidths))
+    ), [safeColumnWidths]);
 
     return (
         <table
@@ -129,10 +136,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     const {
                         id,
                         columnClassName,
-                        columnWidth: widthFromColumn,
                     } = column;
 
-                    const columnWidth = columnWidths[id] ?? widthFromColumn ?? DEFAULT_COLUMN_WIDTH;
+                    const columnWidth = safeColumnWidths[id];
                     const style = { width: `${columnWidth}px` };
 
                     return (
