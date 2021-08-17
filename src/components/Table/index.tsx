@@ -3,6 +3,7 @@ import {
     _cs,
     isDefined,
     sum,
+    randomString,
 } from '@togglecorp/fujs';
 
 import { BaseHeader } from './types';
@@ -37,6 +38,10 @@ export interface Column<D, K, C, H> {
     cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
     cellRendererClassName?: string;
     cellContainerClassName?: string;
+}
+
+function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
+    return width ?? column.columnWidth ?? DEFAULT_COLUMN_WIDTH;
 }
 
 type VerifyColumn<T, D, K> = unknown extends (
@@ -97,21 +102,43 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         resizableColumn,
     } = props;
 
+    const [tableName] = React.useState(() => randomString());
+
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
     const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
     const handleColumnResize = React.useCallback((width: number, name: string | undefined) => {
-        if (isDefined(name)) {
-            setColumnWidths((prevColumnWidths) => ({
-                ...prevColumnWidths,
-                [name]: width,
-            }));
+        const column = document.getElementById(`${tableName}-${name}`);
+        if (column) {
+            column.style.width = `${width}px`;
+
+            if (fixedColumnWidth) {
+                const table = document.getElementById(tableName);
+                if (table) {
+                    const totalWidth = sum(columns.map(
+                        (c) => getColumnWidth(c, c.id === name ? width : columnWidths[c.id]),
+                    ));
+                    table.style.width = `${totalWidth}px`;
+                }
+            }
         }
-    }, []);
+    }, [tableName, columnWidths, columns, fixedColumnWidth]);
+
+    const handleColumnResizeComplete = React.useCallback(
+        (width: number, name: string | undefined) => {
+            if (isDefined(name)) {
+                setColumnWidths((prevColumnWidths) => ({
+                    ...prevColumnWidths,
+                    [name]: width,
+                }));
+            }
+        },
+        [setColumnWidths],
+    );
 
     const safeColumnWidths = React.useMemo(() => {
         const newColumnWidths: typeof columnWidths = {};
         columns.forEach((c) => {
-            newColumnWidths[c.id] = columnWidths[c.id] ?? c.columnWidth ?? DEFAULT_COLUMN_WIDTH;
+            newColumnWidths[c.id] = getColumnWidth(c, columnWidths[c.id]);
         });
 
         return newColumnWidths;
@@ -125,6 +152,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         <table
             className={_cs(styles.table, className, themeClassName)}
             style={fixedColumnWidth ? { width: `${width}px` } : undefined}
+            id={tableName}
         >
             {caption && (
                 <caption className={captionClassName}>
@@ -143,6 +171,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
 
                     return (
                         <col
+                            id={`${tableName}-${id}`}
                             style={style}
                             key={id}
                             className={_cs(styles.column, columnClassName)}
@@ -179,6 +208,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                 scope="col"
                                 name={id}
                                 onResize={resizableColumn ? handleColumnResize : undefined}
+                                onResizeComplete={
+                                    resizableColumn ? handleColumnResizeComplete : undefined
+                                }
                                 className={_cs(
                                     styles.headerCell,
                                     headerCellClassName,
