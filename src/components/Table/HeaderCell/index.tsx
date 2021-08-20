@@ -251,24 +251,26 @@ function HeaderCell(props: HeaderCellProps) {
             <div
                 className={_cs(titleContainerClassName, styles.titleContainer)}
             >
-                {sortable && (
-                    <Button
-                        name="header-cell-sort"
-                        transparent
-                        onClick={handleSortClick}
-                        title="Sort column"
-                        uiMode={uiMode}
-                        compact
-                    >
-                        {!sortDirection && <FaSort />}
-                        {sortDirection === 'asc' && <FaSortUp />}
-                        {sortDirection === 'dsc' && <FaSortDown />}
-                    </Button>
-                )}
                 <div
                     className={_cs(titleClassName, styles.title)}
                 >
-                    {title}
+                    {sortable && (
+                        <Button
+                            name="header-cell-sort"
+                            transparent
+                            onClick={handleSortClick}
+                            title="Sort column"
+                            uiMode={uiMode}
+                            compact
+                        >
+                            {!sortDirection && <FaSort />}
+                            {sortDirection === 'asc' && <FaSortUp />}
+                            {sortDirection === 'dsc' && <FaSortDown />}
+                        </Button>
+                    )}
+                    <div>
+                        {title}
+                    </div>
                 </div>
                 {hideable && (
                     <Button

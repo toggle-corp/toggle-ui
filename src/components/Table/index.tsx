@@ -6,8 +6,6 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import { BaseHeader } from './types';
-
 import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import TableHeader from './TableHeader';
@@ -27,7 +25,7 @@ export interface Column<D, K, C, H> {
     title: string;
 
     headerCellRenderer: React.ComponentType<H>;
-    headerCellRendererParams: Omit<H, keyof BaseHeader>;
+    headerCellRendererParams: Omit<H, 'name' | 'title' | 'index' | 'className'>;
     headerCellRendererClassName?: string;
     headerContainerClassName?: string;
     columnClassName?: string;
