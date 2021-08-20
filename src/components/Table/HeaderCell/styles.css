@@ -24,6 +24,7 @@
         padding: 0 calc(var(--tui-spacing-small) - var(--tui-spacing-extra-small));
 
         .title {
+            display: flex;
             flex-grow: 1;
             padding: 0 var(--tui-spacing-extra-small);
             text-align: left;

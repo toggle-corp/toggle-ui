@@ -27,6 +27,7 @@ function TableHeader<N extends string | number>(props: Props<N>) {
     const headingWidthRef = React.useRef<number | undefined>();
     const finalHeadingWidthRef = React.useRef<number | undefined>();
 
+    // FIXME: this should temporarily just update the dom
     const handleMouseMove = React.useCallback((e: MouseEvent) => {
         if (isDefined(mouseDownXOnResizeHandleRef.current) && elementRef.current && onResize) {
             e.preventDefault();
@@ -43,6 +44,8 @@ function TableHeader<N extends string | number>(props: Props<N>) {
     }, [onResize, name]);
 
     const handleResizeHandleMouseDown = React.useCallback((e: React.MouseEvent) => {
+        e.preventDefault();
+
         mouseDownXOnResizeHandleRef.current = e.clientX;
         headingWidthRef.current = elementRef.current?.offsetWidth;
         window.addEventListener('mousemove', handleMouseMove, true);
