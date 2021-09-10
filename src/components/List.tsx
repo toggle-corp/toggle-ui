@@ -8,13 +8,15 @@ export const typedMemo: (<T>(c: T) => T) = memo;
 
 type OptionKey = string | number;
 
+const emptyList: unknown[] = [];
+
 export interface GroupCommonProps {
     className?: string;
     children: React.ReactNode;
 }
 
 interface BaseProps<D, P, K extends OptionKey> {
-    data: D[];
+    data: D[] | undefined;
     keySelector(datum: D, index: number): K;
     renderer: (props: P) => JSX.Element;
     rendererClassName?: string;
@@ -61,11 +63,13 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
         groupRenderer: GroupRenderer,
         groupRendererClassName,
         groupRendererParams,
-        data,
+        data: dataFromProps,
         keySelector,
         rendererParams,
         rendererClassName,
     } = props;
+
+    const data = dataFromProps ?? (emptyList as D[]);
 
     const renderListItem = (datum: D, i: number) => {
         const key = keySelector(datum, i);

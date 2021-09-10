@@ -14,6 +14,8 @@ export { default as Button, useButtonFeatures } from './components/Button';
 export type { ButtonProps } from './components/Button';
 export { default as Checkbox } from './components/Checkbox';
 export type { CheckboxProps } from './components/Checkbox';
+export type { CheckListInputProps } from './components/CheckListInput';
+export { default as CheckListInput } from './components/CheckListInput';
 export { default as Checkmark } from './components/Checkmark';
 export type { CheckmarkProps } from './components/Checkmark';
 export { default as Chip } from './components/Chip';
