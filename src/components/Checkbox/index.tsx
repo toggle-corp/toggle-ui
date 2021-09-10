@@ -24,7 +24,7 @@ export interface CheckboxProps<N> {
     name: N;
 }
 
-function Checkbox<N extends string>(props: CheckboxProps<N>) {
+function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
     const {
         label,
         tooltip,

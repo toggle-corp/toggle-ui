@@ -1,0 +1,21 @@
+.check-list-input {
+    display: flex;
+    flex-direction: column;
+
+    .check-list-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &.vertical {
+        .check-list-container {
+            flex-direction: column;
+        }
+    }
+
+    &.horizontal {
+        .check-list-container {
+            flex-direction: row;
+        }
+    }
+}
