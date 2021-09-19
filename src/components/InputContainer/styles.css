@@ -10,6 +10,7 @@
 
     &.light {
         --color-background-input-section: var(--tui-color-background-input-section-light);
+        --color-background-input-section-readonly: var(--tui-color-background-input-section-readonly-light);
         --color-text-label: var(--tui-color-input-label-light);
         --color-text: var(--tui-color-text-light);
         --color-hint: var(--tui-color-text-label-light);
@@ -41,6 +42,7 @@
 
     &.dark {
         --color-background-input-section: var(--tui-color-background-input-section-dark);
+        --color-background-input-section-readonly: var(--tui-color-background-input-section-readonly-dark);
         --color-text-label: var(--tui-color-input-label-dark);
         --color-text: var(--tui-color-text-dark);
         --color-hint: var(--tui-color-text-label-dark);
@@ -132,7 +134,7 @@
     }
 
     &.read-only {
-        --color-background-input-section: transparent;
+        --color-background-input-section: var(--color-background-input-section-readonly);
         --box-shadow-color: transparent;
 
         &:hover {

@@ -98,6 +98,8 @@
 
     --tui-color-background-input-section-light: rgba(0, 29, 71, .1);
     --tui-color-background-input-section-dark: rgba(255, 255, 255, .1);
+    --tui-color-background-input-section-readonly-light: rgba(0, 29, 71, .04);
+    --tui-color-background-input-section-readonly-dark: rgba(255, 255, 255, .04);
 
     --tui-radius-border-input-section: .22em;
     --tui-opacity-disabled-element: .33;
