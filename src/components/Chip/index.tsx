@@ -75,7 +75,7 @@ export interface ChipProps {
 function Chip(props: ChipProps) {
     const {
         variant = 'default',
-        label = 'Default',
+        label,
         icon,
         action,
         className,
@@ -125,13 +125,14 @@ function Chip(props: ChipProps) {
                     {icon}
                 </div>
             )}
-            {children ? (
+            {children && (
                 <div
                     className={_cs(childrenClassName, styles.children)}
                 >
                     {children}
                 </div>
-            ) : (
+            )}
+            {!children && label && (
                 <div
                     className={_cs(
                         styles.label,
@@ -141,7 +142,6 @@ function Chip(props: ChipProps) {
                     {label}
                 </div>
             )}
-
             {action && (
                 <div
                     className={_cs(

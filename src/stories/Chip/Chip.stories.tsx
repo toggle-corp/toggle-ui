@@ -19,6 +19,7 @@ const Template: Story<ChipProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
     className: styles.chip,
+    label: 'Default',
 };
 
 export const IconAndAction = () => (
