@@ -64,6 +64,7 @@ export type SelectInputContainerProps<
     optionRenderer: (props: Pick<P, Exclude<keyof P, 'containerClassName' | 'title'>>) => React.ReactNode;
     optionRendererParams: (optionKey: OK, option: O) => P;
     totalOptionsCount?: number;
+    optionsPopupContentClassName?: string;
     options: O[] | undefined | null;
     optionsPending?: boolean;
     optionsFiltered?: boolean;
@@ -115,6 +116,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         optionRendererParams,
         options: optionsFromProps,
         optionsPopupClassName,
+        optionsPopupContentClassName,
         persistentOptionPopup,
         readOnly,
         placeholder,
@@ -363,7 +365,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                     elementRef={popupRef}
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
-                    contentClassName={styles.popupContent}
+                    contentClassName={_cs(
+                        styles.popupContent,
+                        optionsPopupContentClassName,
+                    )}
                 >
                     {popup}
                     <EmptyOptions
