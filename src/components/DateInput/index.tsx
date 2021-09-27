@@ -107,6 +107,11 @@ function DateInput<T extends string>(props: Props<T>) {
         }
     }, [onChange, name]);
 
+    const handleRawInputClick = React.useCallback((e: React.MouseEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setShowCalendarTrue();
+    }, [setShowCalendarTrue]);
+
     return (
         <>
             <InputContainer
@@ -167,7 +172,7 @@ function DateInput<T extends string>(props: Props<T>) {
                         // NOTE: Make this required to hide clear button on firefox
                         required={!!value}
                         uiMode={uiMode}
-                        onClick={setShowCalendarTrue}
+                        onClick={handleRawInputClick}
                         disabled={disabled}
                         value={value}
                         onFocus={setShowCalendarTrue}
