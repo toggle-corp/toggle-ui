@@ -43,14 +43,11 @@ function DateRangeDualInput<N extends string | number | undefined>(props: Props<
     );
 
     const handleValueChange = useCallback((newVal: DateRangeInputValue | undefined) => {
-        if (!newVal) {
-            return;
-        }
         if (fromOnChange) {
-            fromOnChange(newVal.startDate, fromName);
+            fromOnChange(newVal?.startDate, fromName);
         }
         if (toOnChange) {
-            toOnChange(newVal.endDate, toName);
+            toOnChange(newVal?.endDate, toName);
         }
     }, [
         toOnChange,
