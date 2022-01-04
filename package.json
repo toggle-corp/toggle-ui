@@ -38,6 +38,7 @@
     },
     "dependencies": {
         "@babel/runtime-corejs3": "^7.11.2",
+        "@tanem/svg-injector": "^10.1.12",
         "@togglecorp/fujs": "^1.9.2-beta.0",
         "@types/requestidlecallback": "^0.3.1",
         "d3-axis": "^2.0.0",
