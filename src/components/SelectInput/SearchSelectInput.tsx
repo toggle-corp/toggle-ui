@@ -25,7 +25,7 @@ function Option(props: OptionProps) {
                 <MdCheck />
             </div>
             <div className={styles.label}>
-                {children}
+                { children }
             </div>
         </>
     );
@@ -41,46 +41,46 @@ export type SearchSelectInputProps<
     O extends object,
     P extends Def,
     OMISSION extends string,
-    > = Omit<{
-        value: T | undefined | null;
-        options: O[] | undefined | null;
-        searchOptions?: O[] | undefined | null;
-        keySelector: (option: O) => T;
-        labelSelector: (option: O) => string;
-        name: K;
-        disabled?: boolean;
-        readOnly?: boolean;
-        onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
-        sortFunction?: (options: O[], search: string, labelSelector: (option: O) => string) => O[];
-        onSearchValueChange?: (value: string) => void;
-        onShowDropdownChange?: (value: boolean) => void;
-    }, OMISSION> & (
-        SelectInputContainerProps<T, K, O, P,
-            'name'
-            | 'nonClearable'
-            | 'onClear'
-            | 'onOptionClick'
-            | 'optionKeySelector'
-            | 'optionRenderer'
-            | 'optionRendererParams'
-            | 'optionsFiltered'
-            | 'persistentOptionPopup'
-            | 'valueDisplay'
-            | 'optionContainerClassName'
-            | 'searchText'
-            | 'onSearchTextChange'
-            | 'dropdownShown'
-            | 'onDropdownShownChange'
-            | 'focused'
-            | 'onFocusedChange'
-            | 'focusedKey'
-            | 'onFocusedKeyChange'
-            | 'hasValue'
-        >
-    ) & (
-        { nonClearable: true; onChange: (newValue: T, name: K) => void }
-        | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
-    );
+> = Omit<{
+    value: T | undefined | null;
+    options: O[] | undefined | null;
+    searchOptions?: O[] | undefined | null;
+    keySelector: (option: O) => T;
+    labelSelector: (option: O) => string;
+    name: K;
+    disabled?: boolean;
+    readOnly?: boolean;
+    onOptionsChange?: React.Dispatch<React.SetStateAction<O[] | undefined | null>>;
+    sortFunction?: (options: O[], search: string, labelSelector: (option: O) => string) => O[];
+    onSearchValueChange?: (value: string) => void;
+    onShowDropdownChange?: (value: boolean) => void;
+}, OMISSION> & (
+    SelectInputContainerProps<T, K, O, P,
+        'name'
+        | 'nonClearable'
+        | 'onClear'
+        | 'onOptionClick'
+        | 'optionKeySelector'
+        | 'optionRenderer'
+        | 'optionRendererParams'
+        | 'optionsFiltered'
+        | 'persistentOptionPopup'
+        | 'valueDisplay'
+        | 'optionContainerClassName'
+        | 'searchText'
+        | 'onSearchTextChange'
+        | 'dropdownShown'
+        | 'onDropdownShownChange'
+        | 'focused'
+        | 'onFocusedChange'
+        | 'focusedKey'
+        | 'onFocusedKeyChange'
+        | 'hasValue'
+    >
+) & (
+    { nonClearable: true; onChange: (newValue: T, name: K) => void }
+    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
+);
 
 const emptyList: unknown[] = [];
 
@@ -90,8 +90,8 @@ function SearchSelectInput<
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     P extends Def,
-    >(
-        props: SearchSelectInputProps<T, K, O, P, never>,
+>(
+    props: SearchSelectInputProps<T, K, O, P, never>,
 ) {
     const {
         keySelector,

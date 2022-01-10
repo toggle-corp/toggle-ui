@@ -2,10 +2,10 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: var(--dui-spacing-medium);
+    padding: var(--tui-spacing-medium);
     text-align: center;
-    color: var(--dui-color-text-message);
-    gap: var(--dui-spacing-medium);
+    color: var(--tui-color-text-message);
+    gap: var(--tui-spacing-medium);
 
     .icon-container {
         display: flex;
@@ -27,6 +27,6 @@
 
     .actions {
         display: flex;
-        gap: var(--dui-spacing-small);
+        gap: var(--tui-spacing-small);
     }
 }

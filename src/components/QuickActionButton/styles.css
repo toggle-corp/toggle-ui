@@ -1,6 +1,6 @@
 .button {
     &.round-button {
-        padding: var(--dui-spacing-extra-small);
+        padding: var(--tui-spacing-extra-small);
 
         .children {
             display: flex;
