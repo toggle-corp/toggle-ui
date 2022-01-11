@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoRefreshOutline } from 'react-icons/io5';
 
-import HelixLogo, { SizeTypes as LogoSizeTypes } from '../HelixLogo';
+import Logo, { SizeTypes as LogoSizeTypes } from '../Logo';
 import Button from '../Button';
 import QuickActionButton from '../QuickActionButton';
 import PendingMessage from '../PendingMessage';
@@ -88,7 +88,7 @@ function Message(props: Props) {
         }
         if (errored) {
             icon = erroredEmptyIcon ?? (
-                <HelixLogo
+                <Logo
                     variant="default"
                     size={size}
                 />
@@ -96,7 +96,7 @@ function Message(props: Props) {
             message = erroredEmptyMessage;
         } else if (filtered) {
             icon = filteredEmptyIcon ?? (
-                <HelixLogo
+                <Logo
                     variant="default"
                     size={size}
                 />
@@ -104,7 +104,7 @@ function Message(props: Props) {
             message = filteredEmptyMessage;
         } else {
             icon = emptyIcon ?? (
-                <HelixLogo
+                <Logo
                     variant="default"
                     size={size}
                 />

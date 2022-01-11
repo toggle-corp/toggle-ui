@@ -2,7 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Svg from '../Svg';
-import hiSvg from './images/hi.svg';
+import helixSvg from './images/helix-icon.svg';
 import styles from './styles.css';
 
 export type SizeTypes = 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
@@ -21,7 +21,7 @@ const sizeToStyleMap: {
 const variantToSvgMap: {
     [key in LogoTypes]: string;
 } = {
-    default: hiSvg,
+    default: helixSvg,
 };
 
 export interface Props {
@@ -30,10 +30,10 @@ export interface Props {
     size?: 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
 }
 
-function HelixLogo(props: Props) {
+function Logo(props: Props) {
     const {
         className,
-        variant = 'hi',
+        variant = 'default',
         size = 'small',
     } = props;
 
@@ -49,4 +49,4 @@ function HelixLogo(props: Props) {
     );
 }
 
-export default HelixLogo;
+export default Logo;
