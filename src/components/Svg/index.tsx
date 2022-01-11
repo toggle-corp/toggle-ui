@@ -4,12 +4,12 @@ import { SVGInjector } from '@tanem/svg-injector';
 
 import styles from './styles.css';
 
-interface Props {
+export interface SvgProps {
     className?: string;
     src: string;
 }
 
-function Svg(props: Props) {
+function Svg(props: SvgProps) {
     const {
         className,
         src,
