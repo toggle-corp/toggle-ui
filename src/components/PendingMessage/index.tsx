@@ -8,6 +8,7 @@ import styles from './styles.css';
 export interface PendingMessageProps {
     className?: string;
     message?: string;
+    compact?: boolean;
 }
 
 function PendingMessage(props: PendingMessageProps) {
@@ -20,7 +21,7 @@ function PendingMessage(props: PendingMessageProps) {
         <Cover className={_cs(styles.pendingMessage, className)}>
             <PendingAnimation />
             <div className={styles.message}>
-                { message }
+                {message}
             </div>
         </Cover>
     );

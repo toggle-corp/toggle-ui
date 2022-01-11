@@ -1,0 +1,26 @@
+.logo-styles {
+    display: block;
+    --height: 6rem;
+    width: var(--height);
+    height: var(--height);
+
+    &.extra-small {
+        --height: 2.5rem;
+    }
+
+    &.small {
+        --height: 6rem;
+    }
+
+    &.medium {
+        --height: 8rem;
+    }
+
+    &.large {
+        --height: 10rem;
+    }
+
+    &.extra-large {
+        --height: 16rem;
+    }
+}

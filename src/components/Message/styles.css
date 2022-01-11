@@ -1,0 +1,32 @@
+.message {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: var(--tui-spacing-medium);
+    text-align: center;
+    color: var(--tui-color-text-message);
+    gap: var(--tui-spacing-medium);
+
+    .icon-container {
+        display: flex;
+        align-items: center;
+        font-size: 3em;
+    }
+
+    &.compact {
+        .icon-container {
+            font-size: 1em;
+        }
+
+        &:not(.vertical) {
+            align-items: center;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+    }
+
+    .actions {
+        display: flex;
+        gap: var(--tui-spacing-small);
+    }
+}

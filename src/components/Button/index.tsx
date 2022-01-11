@@ -75,6 +75,7 @@ export interface ButtonProps<N extends number | string | undefined> extends RawB
      * Makes the button compact, i.e. with low padding
      */
     compact?: boolean;
+    childrenContainerClassName?: string;
 }
 
 type ButtonFeatureKeys = 'variant' | 'className' | 'actionsClassName' | 'iconsClassName' | 'childrenClassName' | 'transparent' | 'children' | 'icons' | 'actions' | 'uiMode' | 'compact' | 'disabled';
