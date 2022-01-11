@@ -11,7 +11,7 @@ import styles from './styles.css';
 
 export const genericMemo: (<T>(c: T) => T) = memo;
 
-export interface Props {
+export interface MessageProps {
     className?: string;
     pending?: boolean;
     empty?: boolean;
@@ -38,7 +38,7 @@ export interface Props {
     messageIconHidden?: boolean;
 }
 
-function Message(props: Props) {
+function Message(props: MessageProps) {
     const {
         className,
         pending,
