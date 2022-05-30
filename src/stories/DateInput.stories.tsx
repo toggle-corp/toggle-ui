@@ -2,7 +2,7 @@ import React from 'react';
 import { useArgs } from '@storybook/client-api';
 import { Story } from '@storybook/react/types-6-0';
 
-import DateInput, { DateInputProps } from '#components/DateInput';
+import DateInput, { Props as DateInputProps } from '#components/DateInput';
 
 export default {
     title: 'Input/DateInput',

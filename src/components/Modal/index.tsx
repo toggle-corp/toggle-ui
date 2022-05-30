@@ -54,9 +54,9 @@ function Modal(props: ModalProps) {
             >
                 {heading !== null && (
                     <div className={_cs(styles.modalHeader, headingClassName)}>
-                        <div className={styles.titleContainer}>
+                        <h4 className={styles.titleContainer}>
                             {heading}
-                        </div>
+                        </h4>
                         {!closeButtonHidden && (
                             <div className={styles.actions}>
                                 <Button

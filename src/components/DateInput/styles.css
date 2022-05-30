@@ -1,0 +1,32 @@
+.input {
+    --color: var(--tui-color-text);
+    color: var(--color);
+
+    &.empty {
+        --color: var(--tui-color-input-placeholder);
+    }
+
+    &.errored {
+        --color: var(--tui-color-negative);
+    }
+
+    &.dark {
+        &.errored {
+            --color: var(--tui-color-negative-on-dark);
+        }
+    }
+}
+
+.calendar-popup {
+    height: 25rem;
+
+    .popup-content {
+        --padding: var(--tui-spacing-medium);
+        width: calc(var(--tui-width-calendar-date) * 7 + 2 * var(--padding));
+        max-height: unset!important;
+
+        .calendar {
+            height: 100%;
+        }
+    }
+}

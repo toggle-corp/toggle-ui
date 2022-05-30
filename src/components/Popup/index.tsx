@@ -11,6 +11,7 @@ export interface PopupProps {
     parentRef: React.RefObject<HTMLElement>;
     elementRef?: React.RefObject<HTMLDivElement>;
     children: React.ReactNode;
+    freeWidth?: boolean;
 }
 
 const defaultPlacement = {
@@ -120,6 +121,7 @@ function Popup(props: PopupProps) {
         children,
         className,
         contentClassName,
+        freeWidth,
         elementRef,
     } = props;
 
@@ -146,7 +148,10 @@ function Popup(props: PopupProps) {
                 <div className={styles.tip} />
                 <div
                     className={_cs(styles.content, contentClassName)}
-                    style={{ minWidth: width, maxHeight }}
+                    style={{
+                        minWidth: !freeWidth ? width : undefined,
+                        maxHeight,
+                    }}
                 >
                     { children }
                 </div>

@@ -1,0 +1,25 @@
+.date {
+    border-radius: 50%;
+    width: var(--tui-width-calendar-date);
+    height: var(--tui-width-calendar-date);
+
+    &.today {
+        color: var(--tui-color-accent);
+        font-weight: var(--tui-font-weight-bold);
+    }
+
+    &:hover {
+        background-color: var(--tui-color-background-hover-light);
+    }
+
+    &.active {
+        background-color: var(--tui-color-accent);
+        color: var(--tui-color-text-on-accent);
+        pointer-events: none;
+    }
+
+    &.ghost {
+        opacity: 0.5;
+    }
+}
+

@@ -1,0 +1,103 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        flex-shrink: 0;
+
+        .info {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+
+            .current-year {
+                flex-basis: 40%;
+                padding: var(--tui-spacing-small);
+                font-size: var(--tui-font-size-large);
+            }
+
+            .current-month {
+                flex-basis: 60%;
+                padding: var(--tui-spacing-small);
+            }
+        }
+
+        .week-days {
+            display: flex;
+            padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+
+            .week-day-name {
+                display: flex;
+                align-items: center;
+                flex-basis: calc(100% / 7);
+                flex-shrink: 0;
+                justify-content: center;
+                padding: var(--tui-spacing-small);
+                font-weight: var(--tui-font-weight-bold);
+            }
+        }
+    }
+
+    .day-list {
+        display: flex;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small)) var(--tui-spacing-medium);
+
+        .day-container {
+            --width: calc(100% / 7);
+            display: flex;
+            align-items: center;
+            flex-basis: var(--width);
+            justify-content: center;
+            width: var(--width);
+        }
+    }
+
+    .empty-day-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: center;
+        padding: var(--tui-spacing-large);
+        text-align: center;
+        color: var(--tui-color-text-message);
+
+        .icon {
+            opacity: var(--tui-opacity-watermark);
+            margin: var(--tui-spacing-medium);
+            font-size: var(--tui-font-size-ultra-large);
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-shrink: 0;
+        justify-content: flex-end;
+        padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+
+        >* {
+            margin: var(--tui-spacing-small) calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+        }
+    }
+}
+
+.month-selection-popup {
+    min-width: 10rem;
+
+    .popup-content {
+        width: 100%!important;
+    }
+}
+
+.dummy-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tui-width-calendar-date);
+    height: var(--tui-width-calendar-date);
+    color: var(--tui-color-text-disabled-light);
+}
+

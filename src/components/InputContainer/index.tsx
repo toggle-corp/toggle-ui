@@ -84,6 +84,7 @@ export interface InputContainerProps {
      */
     invalid?: boolean;
     inputSectionRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**
@@ -106,16 +107,18 @@ const InputContainer = React.forwardRef<HTMLDivElement, InputContainerProps>(
         errorContainerClassName,
         disabled,
         readOnly,
+        containerRef: containerRefFromProps,
         hint,
         error,
         inputSectionRef,
         invalid,
     }, ref) => {
         const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
+        const containerRef = containerRefFromProps ?? ref;
 
         return (
             <div
-                ref={ref}
+                ref={containerRef}
                 className={_cs(
                     className,
                     styles.inputContainer,

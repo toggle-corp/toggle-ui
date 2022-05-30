@@ -28,10 +28,10 @@ function useBlurEffect(
                 callback(clickedInside, e);
             };
 
-            document.addEventListener('click', handleDocumentClick);
+            document.addEventListener('click', handleDocumentClick, true);
 
             return () => {
-                document.removeEventListener('click', handleDocumentClick);
+                document.removeEventListener('click', handleDocumentClick, true);
             };
         },
         [shouldWatch, callback, elementRef, parentRef],

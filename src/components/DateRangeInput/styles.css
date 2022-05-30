@@ -1,0 +1,106 @@
+.input-container {
+    display: flex;
+    flex-direction: row;
+
+    .input {
+        --color: var(--tui-color-text);
+        color: var(--color);
+
+        &.empty {
+            --color: var(--tui-color-input-placeholder);
+        }
+
+        &.errored {
+            --color: var(--tui-color-negative);
+        }
+
+        &.dark {
+            &.errored {
+                --color: var(--tui-color-negative-on-dark);
+            }
+        }
+
+        &::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+    }
+
+    .separator {
+        padding: 0 var(--tui-spacing-small);
+    }
+
+    .start-date-input {
+        flex-shrink: 0;
+        width: auto;
+    }
+
+    .end-date-input {
+        flex-grow: 1;
+    }
+}
+
+.calendar-popup {
+    height: 25rem;
+
+    .popup-content {
+        display: flex;
+        max-width: unset!important;
+        max-height: unset!important;
+
+        .calendar {
+            --padding: var(--tui-spacing-medium);
+            width: calc(var(--tui-width-calendar-date) * 7 + 2 * var(--padding));
+            height: 100%;
+        }
+
+        .predefined-options {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+
+            .option {
+                padding: var(--tui-spacing-small);
+                width: 100%;
+                text-align: right;
+
+                &:hover {
+                    background-color: var(--tui-color-background-hover-light);
+                }
+            }
+        }
+    }
+}
+
+.calendar-date {
+    &.start-date {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        &:not(.ghost) {
+            background-color: var(--tui-color-accent);
+            color: var(--tui-color-text-on-accent);
+        }
+        &.ghost {
+            background-color: var(--tui-color-background-hover-light);
+        }
+    }
+
+    &.end-date {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        &:not(.ghost) {
+            background-color: var(--tui-color-accent);
+            color: var(--tui-color-text-on-accent);
+        }
+        &.ghost {
+            background-color: var(--tui-color-background-hover-light);
+        }
+    }
+
+    &.in-between {
+        border-radius: 0;
+        background-color: var(--tui-color-background-hover-light);
+    }
+}

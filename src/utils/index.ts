@@ -32,3 +32,15 @@ export function getLocalISOString() {
 }
 
 export const typedMemo: (<T>(c: T) => T) = memo;
+
+export function ymdToDateString(year: number, month: number, day: number) {
+    const ys = String(year).padStart(4, '0');
+    const ms = String(month + 1).padStart(2, '0');
+    const ds = String(day).padStart(2, '0');
+
+    return `${ys}-${ms}-${ds}`;
+}
+
+export function dateStringToDate(value: string) {
+    return new Date(`${value}T00:00`);
+}
