@@ -49,6 +49,7 @@ function RawInput<K extends string>(
         name,
         disabled,
         readOnly,
+        autoComplete = 'off',
         ...otherProps
     }: RawInputProps<K>,
 ) {
@@ -82,6 +83,7 @@ function RawInput<K extends string>(
             value={value ?? ''}
             disabled={disabled || readOnly}
             readOnly={readOnly}
+            autoComplete={autoComplete}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         />
