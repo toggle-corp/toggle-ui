@@ -125,6 +125,7 @@ function DateInput<T extends string>(props: Props<T>) {
                                 {value && (
                                     <Button
                                         name={undefined}
+                                        compact
                                         transparent
                                         onClick={handleClearButtonClick}
                                         disabled={disabled}
@@ -135,6 +136,7 @@ function DateInput<T extends string>(props: Props<T>) {
                                 <Button
                                     name={undefined}
                                     onClick={toggleShowCalendar}
+                                    compact
                                     transparent
                                     disabled={disabled}
                                 >
