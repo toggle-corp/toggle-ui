@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoRefreshOutline } from 'react-icons/io5';
 
-import Logo, { SizeTypes as LogoSizeTypes } from '../Logo';
 import Button from '../Button';
 import QuickActionButton from '../QuickActionButton';
 import PendingMessage from '../PendingMessage';
@@ -17,7 +16,6 @@ export interface MessageProps {
     empty?: boolean;
     filtered?: boolean;
     errored?: boolean;
-    icon?: React.ReactNode;
     emptyIcon?: React.ReactNode;
     filteredEmptyIcon?: React.ReactNode;
     erroredEmptyIcon?: React.ReactNode;
@@ -35,7 +33,6 @@ export interface MessageProps {
     compactPendingMessage?: boolean;
     compactEmptyMessage?: boolean;
     messageHidden?: boolean;
-    messageIconHidden?: boolean;
 }
 
 function Message(props: MessageProps) {
@@ -45,10 +42,6 @@ function Message(props: MessageProps) {
         empty,
         filtered,
         errored,
-        icon: iconFromProps,
-        emptyIcon,
-        filteredEmptyIcon,
-        erroredEmptyIcon,
         message: messageFromProps,
         pendingMessage,
         emptyMessage = 'No data available',
@@ -60,7 +53,6 @@ function Message(props: MessageProps) {
         compactEmptyMessage,
         compactAndVertical,
         messageHidden = false,
-        messageIconHidden = false,
         onReload,
         actions,
         actionsContainerClassName,
@@ -76,44 +68,19 @@ function Message(props: MessageProps) {
         );
     }
 
-    let icon: React.ReactNode = iconFromProps;
     let message: React.ReactNode = messageFromProps;
 
     if (empty || errored) {
-        let size: LogoSizeTypes = 'medium';
-        if (compact) {
-            size = 'extraSmall';
-        } else if (compactAndVertical) {
-            size = 'small';
-        }
         if (errored) {
-            icon = erroredEmptyIcon ?? (
-                <Logo
-                    variant="default"
-                    size={size}
-                />
-            );
             message = erroredEmptyMessage;
         } else if (filtered) {
-            icon = filteredEmptyIcon ?? (
-                <Logo
-                    variant="default"
-                    size={size}
-                />
-            );
             message = filteredEmptyMessage;
         } else {
-            icon = emptyIcon ?? (
-                <Logo
-                    variant="default"
-                    size={size}
-                />
-            );
             message = emptyMessage;
         }
     }
 
-    if (!icon && !message) {
+    if (!message) {
         return null;
     }
 
@@ -128,11 +95,6 @@ function Message(props: MessageProps) {
                 compactAndVertical && styles.vertical,
             )}
         >
-            {!messageIconHidden && (
-                <div className={styles.iconContainer}>
-                    {icon}
-                </div>
-            )}
             {!messageHidden && (
                 <div className={styles.content}>
                     {message}
