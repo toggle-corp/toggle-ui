@@ -12,7 +12,7 @@
     font-weight: var(--tui-font-weight-bold);
 
     &.default {
-        --color-background: var(--tui-color-background-input-section-dark);
+        --color-background: var(--tui-color-background-input-section-light);
     }
 
     &.accent {
