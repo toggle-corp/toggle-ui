@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
+import Numeral from '../Numeral';
 import SelectInput from '../SelectInput';
 import Button from '../Button';
 
@@ -263,22 +264,25 @@ function Pager(props: PagerProps) {
                 { showingTitle }
             </div>
             <div className={styles.range}>
-                <div className={styles.from}>
-                    { currentItemsStart }
-                </div>
+                <Numeral
+                    className={styles.from}
+                    value={currentItemsStart}
+                />
                 <div className={styles.separator}>
                     { rangeIndicator }
                 </div>
-                <div className={styles.to}>
-                    { currentItemsEnd }
-                </div>
+                <Numeral
+                    className={styles.to}
+                    value={currentItemsEnd}
+                />
             </div>
             <div className={styles.of}>
                 { ofTitle }
             </div>
-            <div className={styles.total}>
-                {itemsCount}
-            </div>
+            <Numeral
+                className={styles.total}
+                value={itemsCount}
+            />
         </div>
     );
 
