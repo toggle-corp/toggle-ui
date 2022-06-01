@@ -5,6 +5,7 @@
     .popup-content {
         display: flex;
         flex-direction: column;
+        max-width: max(50vw, 300px);
 
         .group {
             display: flex;

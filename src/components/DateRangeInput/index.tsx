@@ -361,6 +361,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
                                 inputClassName,
                             )}
                             elementRef={inputElementRef}
+                            readOnly
                             onClick={setShowCalendarTrue}
                             // NOTE: Make this required to hide clear button on firefox
                             required={!!value?.endDate}
