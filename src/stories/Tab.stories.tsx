@@ -25,6 +25,8 @@ const Template: Story<TabsProps<string>> = () => {
 
     return (
         <Tabs
+            useHash
+            defaultHash="general"
             value={value}
             onChange={setValue}
         >

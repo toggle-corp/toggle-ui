@@ -44,3 +44,12 @@ export function ymdToDateString(year: number, month: number, day: number) {
 export function dateStringToDate(value: string) {
     return new Date(`${value}T00:00`);
 }
+
+export const getHashFromBrowser = () => window.location.hash.substr(2);
+export const setHashToBrowser = (hash: string | undefined) => {
+    if (hash) {
+        window.location.replace(`#/${hash}`);
+    } else {
+        window.location.hash = '';
+    }
+};
