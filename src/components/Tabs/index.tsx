@@ -1,31 +1,28 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isFalsyString } from '@togglecorp/fujs';
 import Button, { ButtonProps } from '../Button';
 
 import { useThemeClassName } from '../../hooks';
+import useHash from '../../hooks/useHash';
+import { getHashFromBrowser, setHashToBrowser } from '../../utils';
+
+import {
+    TabsKey,
+    TabsContext,
+} from '../TabsContext';
 import styles from './styles.css';
 
-type TabKey = string;
-
 export interface TabContextProps {
-    activeTab: TabKey;
-    setActiveTab: (key: TabKey) => void;
+    activeTab: TabsKey;
+    setActiveTab: (key: TabsKey) => void;
 }
 
-const TabContext = React.createContext<TabContextProps>({
-    activeTab: '',
-    setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
-});
-
-export interface TabProps<T extends TabKey> extends Omit<ButtonProps<T>, 'onClick'>{
+export interface TabProps<T extends TabsKey> extends Omit<ButtonProps<T>, 'onClick'> {
     name: T;
 }
 
-export function Tab<T extends TabKey>(props: TabProps<T>) {
-    const {
-        activeTab,
-        setActiveTab,
-    } = React.useContext(TabContext);
+export function Tab<T extends TabsKey>(props: TabProps<T>) {
+    const context = React.useContext(TabsContext);
 
     const {
         className,
@@ -34,7 +31,14 @@ export function Tab<T extends TabKey>(props: TabProps<T>) {
         ...otherProps
     } = props;
 
-    const isActive = name === activeTab;
+    let isActive = false;
+
+    if (context.useHash) {
+        isActive = context.hash === name;
+    } else {
+        isActive = context.activeTab === name;
+    }
+
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
 
     return (
@@ -47,7 +51,7 @@ export function Tab<T extends TabKey>(props: TabProps<T>) {
             )}
             uiMode={uiMode}
             transparent
-            onClick={setActiveTab}
+            onClick={context.useHash ? setHashToBrowser : context.setActiveTab}
             name={name}
             role="tab"
             // eslint-disable-next-line react/jsx-props-no-spreading
@@ -73,18 +77,18 @@ export function TabList(props: TabListProps) {
             className={_cs(className, styles.tabList)}
             role="tablist"
         >
-            { children }
+            {children}
         </div>
     );
 }
 
 export interface TabPanelProps extends React.HTMLProps<HTMLDivElement> {
-    name: TabKey;
+    name: TabsKey;
     elementRef?: React.Ref<HTMLDivElement>;
 }
 
 export function TabPanel(props: TabPanelProps) {
-    const { activeTab } = React.useContext(TabContext);
+    const { activeTab } = React.useContext(TabsContext);
 
     const {
         name,
@@ -106,30 +110,78 @@ export function TabPanel(props: TabPanelProps) {
     );
 }
 
-export interface TabsProps<T> {
+export interface BaseProps {
     children: React.ReactNode;
-    value: T;
-    onChange: (key: T) => void;
+    disabled?: boolean;
 }
 
-export function Tabs<T>(props: TabsProps<T>) {
+export type TabsProps<T extends TabsKey> = BaseProps & (
+    {
+        useHash?: false;
+        value: T | undefined;
+        onChange: ((key: T | undefined) => void) | undefined;
+    } | {
+        useHash: true;
+        // defaultHash will not override already existing hash
+        defaultHash?: string;
+        // initialHash will override hash there is already a hash
+        initialHash?: string;
+    }
+);
+
+export function Tabs<T extends TabsKey>(props: TabsProps<T>) {
     const {
         children,
-        value,
-        onChange,
+        disabled,
     } = props;
 
-    const contextValue = React.useMemo(() => ({
+    // eslint-disable-next-line react/destructuring-assignment
+    const defaultHash = props.useHash && isFalsyString(getHashFromBrowser())
+        // eslint-disable-next-line react/destructuring-assignment
+        ? props.defaultHash
+        : undefined;
+
+    // eslint-disable-next-line react/destructuring-assignment
+    const hash = useHash(props.useHash ? props.initialHash || defaultHash : undefined);
+
+    // FIXME: destructuring here as props.value and props.onChange cannot be
+    // added in dependency list
+    // eslint-disable-next-line react/destructuring-assignment
+    const onChange = !props.useHash ? props.onChange : undefined;
+    // eslint-disable-next-line react/destructuring-assignment
+    const value = !props.useHash ? props.value : undefined;
+
+    const contextValue = React.useMemo(() => {
+        // eslint-disable-next-line react/destructuring-assignment
+        if (props.useHash) {
+            return {
+                disabled,
+                hash,
+                // eslint-disable-next-line react/destructuring-assignment
+                useHash: props.useHash,
+            };
+        }
+
         // Note: following cast is required since we do not have any other method
         // to provide template in the context type
-        activeTab: value as unknown as TabKey,
-        setActiveTab: onChange as unknown as (key: TabKey) => void,
-    }), [value, onChange]);
+        return {
+            disabled,
+            activeTab: value,
+            setActiveTab: onChange as (key: TabsKey | undefined) => void | undefined,
+        };
+    }, [
+        // eslint-disable-next-line react/destructuring-assignment
+        props.useHash,
+        value,
+        onChange,
+        disabled,
+        hash,
+    ]);
 
     return (
-        <TabContext.Provider value={contextValue}>
-            { children }
-        </TabContext.Provider>
+        <TabsContext.Provider value={contextValue}>
+            {children}
+        </TabsContext.Provider>
     );
 }
 
