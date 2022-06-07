@@ -88,7 +88,7 @@ export interface TabPanelProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 export function TabPanel(props: TabPanelProps) {
-    const { activeTab } = React.useContext(TabsContext);
+    const context = React.useContext(TabsContext);
 
     const {
         name,
@@ -96,7 +96,14 @@ export function TabPanel(props: TabPanelProps) {
         ...otherProps
     } = props;
 
-    if (name !== activeTab) {
+    let isActive;
+    if (context.useHash) {
+        isActive = context.hash === name;
+    } else {
+        isActive = context.activeTab === name;
+    }
+
+    if (!isActive) {
         return null;
     }
 
@@ -143,6 +150,7 @@ export function Tabs<T extends TabsKey>(props: TabsProps<T>) {
 
     // eslint-disable-next-line react/destructuring-assignment
     const hash = useHash(props.useHash ? props.initialHash || defaultHash : undefined);
+    console.warn(hash);
 
     // FIXME: destructuring here as props.value and props.onChange cannot be
     // added in dependency list
