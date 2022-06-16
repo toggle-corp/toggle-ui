@@ -153,6 +153,7 @@ export type PagerProps = {
 })
 
 const defaultOptions: PagerOption[] = [
+    { label: '5 / page', key: 5 },
     { label: '10 / page', key: 10 },
     { label: '25 / page', key: 25 },
     { label: '50 / page', key: 50 },

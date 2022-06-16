@@ -70,6 +70,8 @@ export interface ChipProps {
      * Children for the chip
      */
     children?: ReactNode;
+
+    disabled?: boolean;
 }
 
 function Chip(props: ChipProps) {
@@ -84,6 +86,7 @@ function Chip(props: ChipProps) {
         actionClassName,
         children,
         childrenClassName,
+        disabled,
     } = props;
 
     const innerUiMode: UiMode = useMemo(() => {
@@ -111,6 +114,7 @@ function Chip(props: ChipProps) {
         styles[variant],
         themeClassName,
         innerThemeClassName,
+        disabled && styles.disabled,
     );
 
     return (

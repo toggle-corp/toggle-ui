@@ -11,6 +11,10 @@
     color: var(--color-text);
     font-weight: var(--tui-font-weight-bold);
 
+    &.disabled {
+        opacity: var(--tui-opacity-disabled-element);
+    }
+
     &.default {
         --color-background: var(--tui-color-background-input-section-light);
     }
