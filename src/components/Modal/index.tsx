@@ -9,6 +9,17 @@ import { useThemeClassName } from '../../hooks';
 
 import styles from './styles.css';
 
+type SizeTypes = 'extraSmall' | 'small' | 'medium' | 'large' | 'cover';
+
+const sizeToStyleMap: {
+    [key in SizeTypes]: string;
+} = {
+    extraSmall: styles.extraSmallSize,
+    small: styles.smallSize,
+    medium: styles.mediumSize,
+    large: styles.largeSize,
+    cover: styles.coverSize,
+};
 export interface ModalProps {
     children?: React.ReactNode;
     heading?: React.ReactNode;
@@ -17,6 +28,8 @@ export interface ModalProps {
     bodyClassName?: string;
     headingClassName?: string;
     footerClassName?: string;
+    size?: SizeTypes;
+    freeHeight?: boolean;
     onClose: () => void;
     uiMode?: UiMode;
     closeButtonHidden?: boolean;
@@ -32,6 +45,8 @@ function Modal(props: ModalProps) {
         headingClassName,
         bodyClassName,
         footerClassName,
+        size = 'medium',
+        freeHeight,
 
         onClose,
         uiMode,
@@ -50,6 +65,8 @@ function Modal(props: ModalProps) {
                     className,
                     styles.modal,
                     themeClassName,
+                    sizeToStyleMap[size],
+                    freeHeight && styles.freeHeight,
                 )}
             >
                 {heading !== null && (
