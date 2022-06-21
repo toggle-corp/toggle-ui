@@ -113,3 +113,9 @@ ReadOnlyGrouped.args = {
     value: ['1', '3'],
     readOnly: true,
 };
+
+export const WithPlaceholder = GroupedTemplate.bind({});
+WithPlaceholder.args = {
+    label: 'Vegetable',
+    placeholder: 'Name',
+};

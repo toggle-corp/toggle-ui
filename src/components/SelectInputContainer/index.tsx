@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isTruthyString } from '@togglecorp/fujs';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 
 import GenericOption, { ContentBaseProps, OptionKey } from '../GenericOption';
@@ -72,7 +72,7 @@ export type SelectInputContainerProps<
     persistentOptionPopup?: boolean;
     placeholder?: string;
     valueDisplay: string;
-
+    autoFocus?: boolean;
     hasValue: boolean;
     nonClearable?: boolean;
     onClear: () => void;
@@ -134,6 +134,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         onDropdownShownChange,
         totalOptionsCount,
         hasValue,
+        autoFocus,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as O[]);
@@ -354,9 +355,10 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         onClick={handleSearchInputClick}
                         onFocus={() => onFocusedChange(true)}
                         onBlur={() => onFocusedChange(false)}
-                        placeholder={valueDisplay ?? placeholder}
+                        placeholder={isTruthyString(valueDisplay) ? valueDisplay : placeholder}
                         autoComplete="off"
                         onKeyDown={handleKeyDown}
+                        autoFocus={autoFocus}
                     />
                 )}
             />
