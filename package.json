@@ -18,7 +18,10 @@
         "prepack": "yarn build",
         "watch": "rollup -c -w",
         "typecheck": "tsc",
-        "lint": "eslint --rule 'import/no-unresolved: 0' 'src/**/*.[tj]s?(x)'",
+        "lint": "eslint 'src/**/*.[tj]s?(x)'",
+        "lint:stories": "eslint 'storybook/stories/**/*.[tj]s?(x)'",
+        "css-lint:stories": "stylelint 'storybook/**/*.css' --config .stylelintrc.json",
+        "css-lint": "stylelint 'src/**/*.css' --config .stylelintrc.json",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },

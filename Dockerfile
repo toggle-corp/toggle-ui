@@ -1,11 +1,13 @@
-FROM node:12.2.0-alpine
+FROM node:lts-alpine
+
+MAINTAINER togglecorp info@togglecorp.com
+
+RUN apk update\
+    && apk add --no-cache git bash python3 g++ make
 
 WORKDIR /code
 
-COPY ./package.json /code/package.json
-# RUN yarn install --network-concurrency 1
-RUN apk update \
-    && apk add --no-cache --virtual .build-deps\
-        git
+COPY ./package.json ./yarn.lock /code/
+RUN yarn install --frozen-lockfile
 
 COPY . /code/
