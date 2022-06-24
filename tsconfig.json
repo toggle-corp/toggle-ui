@@ -29,9 +29,6 @@
         "rootDir": "./src",
         "sourceMap": true,
         "baseUrl": ".",
-        "paths": {
-            "#components/*": ["./src/components/*"]
-        }
     },
-    "include": ["./src/index.tsx", "./src/stories", "./src/declarations"]
+    "include": ["./src/index.tsx", "./src/stories/*", "./src/declarations/"]
 }

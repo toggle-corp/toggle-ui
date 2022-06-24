@@ -6,6 +6,7 @@ module.exports = {
         'airbnb/hooks',
         // 'plugin:postcss-modules/recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:storybook/recommended',
     ],
     env: {
         browser: true,
@@ -28,6 +29,8 @@ module.exports = {
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
                 alias: {
                     '#components': './src/components',
+                    '#hooks': './src/hooks',
+                    '#utils': './src/utils',
                 },
             },
         },
