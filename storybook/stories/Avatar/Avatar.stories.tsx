@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import Avatar, { AvatarProps } from '../../src/components/Avatar';
+import Avatar, { AvatarProps } from '../../../src/components/Avatar';
 
 import styles from './styles.css';
 

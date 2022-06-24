@@ -2,7 +2,7 @@ import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { MdCancel, MdPerson } from 'react-icons/md';
 
-import Chip, { ChipProps } from '#components/Chip';
+import Chip, { ChipProps } from '../../../src/components/Chip';
 
 import styles from './styles.css';
 

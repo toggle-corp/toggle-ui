@@ -3,12 +3,12 @@ import { isDefined } from '@togglecorp/fujs';
 import { Story } from '@storybook/react/types-6-0';
 import { useArgs } from '@storybook/client-api';
 
-import Table, { TableProps, Column } from '../../src/components/Table';
-import useFiltering, { useFilterState, FilterContext } from '../../src/components/Table/useFiltering';
-import useOrdering, { useOrderState, OrderContext } from '../../src/components/Table/useOrdering';
-import useSorting, { useSortState, SortContext } from '../../src/components/Table/useSorting';
-import useRowExpansionOnClick from '../../src/components/Table/useRowExpansionOnClick';
-import useRowExpansion from '../../src/components/Table/useRowExpansion';
+import Table, { TableProps, Column } from '../../../src/components/Table';
+import useFiltering, { useFilterState, FilterContext } from '../../../src/components/Table/useFiltering';
+import useOrdering, { useOrderState, OrderContext } from '../../../src/components/Table/useOrdering';
+import useSorting, { useSortState, SortContext } from '../../../src/components/Table/useSorting';
+import useRowExpansionOnClick from '../../../src/components/Table/useRowExpansionOnClick';
+import useRowExpansion from '../../../src/components/Table/useRowExpansion';
 import {
     createExpandColumn,
     createStringColumn,
@@ -16,7 +16,7 @@ import {
     createDateColumn,
     createDateTimeColumn,
     createYesNoColumn,
-} from '../../src/components/Table/predefinedColumns';
+} from '../../../src/components/Table/predefinedColumns';
 
 import styles from './styles.css';
 

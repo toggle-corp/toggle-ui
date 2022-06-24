@@ -17,6 +17,21 @@ a {
 * {
     box-sizing: border-box;
 }
+
+*::-webkit-scrollbar-track {
+        background-color: var(--dui-color-background-scrollbar);
+    }
+
+    *::-webkit-scrollbar {
+        background-color: var(--dui-color-background-scrollbar);
+        width: var(--dui-width-scrollbar);
+        height: var(--dui-width-scrollbar);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        border-radius: var(--dui-radius-scrollbar-border);
+        background-color: var(--dui-color-foreground-scrollbar);
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">

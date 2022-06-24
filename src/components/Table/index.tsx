@@ -6,6 +6,7 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import { typedMemo } from '../../utils';
 import { UiMode } from '../ThemeContext';
 import { useThemeClassName } from '../../hooks';
 import TableHeader from './TableHeader';
@@ -283,4 +284,4 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     );
 }
 
-export default Table;
+export default typedMemo(Table);

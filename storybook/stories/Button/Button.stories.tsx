@@ -7,8 +7,8 @@ import Button, {
     ButtonProps,
     useButtonFeatures,
     ButtonVariant,
-} from '../../src/components/Button';
-import VisualFeedback from '../../src/components/VisualFeedback';
+} from '../../../src/components/Button';
+import VisualFeedback from '../../../src/components/VisualFeedback';
 
 import styles from './styles.css';
 
