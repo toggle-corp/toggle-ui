@@ -13,10 +13,15 @@ jobs:
     # the list of steps that the action will go through
     steps:
       - uses: actions/checkout@v1
-      - run: yarn
-      #- run: yarn build-storybook
-      - uses: chromaui/action@v1
+      - name: Install dependencies
+        run: yarn
+      - name: Install storybook dependencies
+        run: yarn
+        working-directory: storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
         # options required to the GitHub chromatic action
         with:
+          workingDir: storybook
           projectToken: ${{ secrets.CHROMATIC_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}

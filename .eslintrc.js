@@ -89,6 +89,10 @@ module.exports = {
 
         'react/prop-types': 0,
         'react/jsx-props-no-spreading': 0,
+        'react/jsx-key': ['warn', {
+            checkFragmentShorthand: true,
+            checkKeyMustBeforeSpread: true,
+        }],
         // 'react/prop-types': [1, { ignore: [], customValidators: [], skipUndeclared: false }],
         'react/no-unused-state': 'warn',
         'react/require-default-props': 'warn',
