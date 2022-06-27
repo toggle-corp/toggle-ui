@@ -8,8 +8,6 @@ import { _cs } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
 
-import styles from './styles.css';
-
 export interface CheckmarkProps {
     className?: string;
     value: boolean | undefined | null;
@@ -26,7 +24,6 @@ function Checkmark(props: CheckmarkProps) {
 
     const iconClassName = _cs(
         className,
-        styles.checkmark,
         'tui-checkmark',
     );
 
