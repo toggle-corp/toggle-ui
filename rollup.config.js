@@ -35,7 +35,7 @@ const PLUGINS = [
         include: ['**/*.jsx', '**/*.js', '**/*.ts', '**/*.tsx'],
     }),
     babel({
-        babelHelpers: 'runtime',
+        babelHelpers: 'inline',
         exclude: 'node_modules/**',
         extensions: ['.jsx', '.js', '.ts', '.tsx'],
     }),
