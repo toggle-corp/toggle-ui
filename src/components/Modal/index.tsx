@@ -33,6 +33,7 @@ export interface ModalProps {
     onClose: () => void;
     uiMode?: UiMode;
     closeButtonHidden?: boolean;
+    backdropClassName?: string;
 }
 
 function Modal(props: ModalProps) {
@@ -45,6 +46,7 @@ function Modal(props: ModalProps) {
         headingClassName,
         bodyClassName,
         footerClassName,
+        backdropClassName,
         size = 'medium',
         freeHeight,
 
@@ -58,6 +60,7 @@ function Modal(props: ModalProps) {
 
     return (
         <BodyBackdrop
+            className={backdropClassName}
             uiMode={uiMode}
         >
             <div
