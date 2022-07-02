@@ -161,6 +161,7 @@ function RawInputWithSuggestion<K extends string, S>(
                 elementRef={inputElementRef}
                 onClick={handleSearchInputClick}
                 value={value}
+                readOnly={readOnly}
                 {...otherProps}
             />
             {showDropdown && props.suggestionKeySelector && processedSuggestions.length > 0 && (
