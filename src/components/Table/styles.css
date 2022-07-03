@@ -1,45 +1,50 @@
-.table {
-    /* NOTE: This will ensure that the z-index in
-     * children elements doesn't affect rest of the page */
-    position: relative;
-    z-index: 0;
+.container {
+    display: flex;
+    flex-direction: column;
 
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: inherit;
+    .table {
+        /* NOTE: This will ensure that the z-index in
+         * children elements doesn't affect rest of the page */
+        position: relative;
+        z-index: 0;
 
-    .column {
-        min-width: var(--tui-width-table-column-min);
-    }
+        table-layout: fixed;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: inherit;
 
-    .header-row {
-        .header-cell {
-            overflow: hidden;
+        .column {
+            min-width: var(--tui-width-table-column-min);
+        }
 
-            .header-component {
-                padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+        .header-row {
+            .header-cell {
+                overflow: hidden;
+
+                .header-component {
+                    padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-small));
+                    overflow: hidden;
+                }
+            }
+        }
+
+        .row {
+            &:hover {
+                background-color: var(--tui-color-background-hover-light);
+            }
+
+            .cell {
                 overflow: hidden;
             }
-        }
-    }
 
-    .row {
-        &:hover {
-            background-color: var(--tui-color-background-hover-light);
-        }
+            &:last-child {
+                .cell {
+                    border-bottom: none;
+                }
 
-        .cell {
-            overflow: hidden;
-        }
-
-        &:last-child {
-            .cell {
-                border-bottom: none;
-            }
-
-            .row-header-cell {
-                border-bottom: none;
+                .row-header-cell {
+                    border-bottom: none;
+                }
             }
         }
     }

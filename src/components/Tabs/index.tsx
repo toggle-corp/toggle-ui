@@ -150,7 +150,6 @@ export function Tabs<T extends TabsKey>(props: TabsProps<T>) {
 
     // eslint-disable-next-line react/destructuring-assignment
     const hash = useHash(props.useHash ? props.initialHash || defaultHash : undefined);
-    console.warn(hash);
 
     // FIXME: destructuring here as props.value and props.onChange cannot be
     // added in dependency list

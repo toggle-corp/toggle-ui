@@ -24,6 +24,7 @@ type Options<D, K, CompProps, HeaderProps> = {
     cellRendererClassName?: string;
     cellContainerClassName?: string;
     columnWidth?: Column<D, K, CompProps, HeaderProps>['columnWidth'];
+    columnStretch?: Column<D, K, CompProps, HeaderProps>['columnStretch'];
     columnStyle?: Column<D, K, CompProps, HeaderProps>['columnStyle'];
 }
 
@@ -58,6 +59,7 @@ export function createYesNoColumn<D, K>(
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareBoolean(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
@@ -94,6 +96,7 @@ export function createStringColumn<D, K>(
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
@@ -139,6 +142,7 @@ export function createNumberColumn<D, K>(
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
@@ -176,6 +180,7 @@ export function createDateColumn<D, K>(
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
@@ -213,6 +218,7 @@ export function createDateTimeColumn<D, K>(
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
@@ -249,6 +255,7 @@ export function createExpandColumn<D, K extends number | string | undefined>(
         // valueSelector
         // valueComparator
         columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
     return item;
