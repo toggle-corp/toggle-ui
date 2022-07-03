@@ -166,7 +166,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
             if (fixedColumnWidth) {
                 const table = document.getElementById(tableName);
                 if (table) {
-                    const totalWidth = sum(columns.map((c) => columnWidths[c.id]));
+                    const totalWidth = sum(columns.map((c) => (
+                        c.id === name ? width : columnWidths[c.id]
+                    )));
                     table.style.width = `${totalWidth}px`;
                 }
             }
