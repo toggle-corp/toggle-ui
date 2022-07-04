@@ -158,29 +158,38 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         });
     }, [columns]);
 
-    const handleColumnResize = React.useCallback((width: number, name: string | undefined) => {
-        const column = document.getElementById(`${tableName}-${name}`);
-        if (column) {
+    const handleColumnResize = React.useCallback(
+        (widthFromArgs: number, name: string | undefined) => {
+            const column = document.getElementById(`${tableName}-${name}`);
+            // NOTE: setting a minimum size for column
+            const width = Math.max(widthFromArgs, 80);
+            if (!column) {
+                return;
+            }
             column.style.width = `${width}px`;
 
-            if (fixedColumnWidth) {
-                const table = document.getElementById(tableName);
-                if (table) {
-                    const totalWidth = sum(columns.map((c) => (
-                        c.id === name ? width : columnWidths[c.id]
-                    )));
-                    table.style.width = `${totalWidth}px`;
-                }
+            if (!fixedColumnWidth) {
+                return;
             }
-        }
-    }, [tableName, columnWidths, columns, fixedColumnWidth]);
+            const table = document.getElementById(tableName);
+            if (!table) {
+                return;
+            }
+
+            const totalWidth = sum(columns.map((c) => (
+                c.id === name ? width : columnWidths[c.id]
+            )));
+            table.style.width = `${totalWidth}px`;
+        },
+        [tableName, columnWidths, columns, fixedColumnWidth],
+    );
 
     const handleColumnResizeComplete = React.useCallback(
         (width: number, name: string | undefined) => {
             if (isDefined(name)) {
                 setColumnWidths((prevColumnWidths) => ({
                     ...prevColumnWidths,
-                    [name]: width,
+                    [name]: Math.max(width, 80),
                 }));
             }
         },
