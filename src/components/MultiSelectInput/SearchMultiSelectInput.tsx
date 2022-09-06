@@ -238,7 +238,7 @@ function SearchMultiSelectInput<
         [labelSelector, value],
     );
 
-    // FIXME: value should not be on dependency list
+    // FIXME: value should not be on dependency list, also try to pass options like in SelectInput
     const handleOptionClick = useCallback(
         (k: T, v: O) => {
             const newValue = [...value];

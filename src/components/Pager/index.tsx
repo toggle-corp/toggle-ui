@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
+import Numeral from '../Numeral';
 import SelectInput from '../SelectInput';
 import Button from '../Button';
 
@@ -63,16 +64,16 @@ type PaginationItem = {
     label: string;
 };
 
-function pagination(totalCapacity: number, active: number, total: number) {
+function pagination(totalCapacity: number, activePage: number, totalPages: number) {
     const oneSideCapacity = (totalCapacity - 1) / 2;
     const startIndex = 1;
-    const lastIndex = total;
+    const lastIndex = totalPages;
 
     // Once upon a time, there were two sides of a town
     // And every year, each got equal amount of ration
     // But, they had a variable demand, and each year it could change
-    const right = new Side(oneSideCapacity, active - startIndex);
-    const left = new Side(oneSideCapacity, lastIndex - active);
+    const right = new Side(oneSideCapacity, activePage - startIndex);
+    const left = new Side(oneSideCapacity, lastIndex - activePage);
 
     // So the two sides made a treaty
     // If any of the side had an excess that year and the other side had a shortage,
@@ -94,29 +95,29 @@ function pagination(totalCapacity: number, active: number, total: number) {
     if (right.capacity > 0) {
         if (right.excess >= 0) {
             lst.push(
-                ...range(startIndex, active - 1).map((i) => ({ type: 'button' as const, index: i })),
+                ...range(startIndex, activePage - 1).map((i) => ({ type: 'button' as const, index: i })),
             );
         } else {
             lst.push(
                 { type: 'button', index: startIndex },
                 { type: 'span', label: '…', key: 'startTick' },
-                ...range(active - (right.capacity - 2), active - 1).map((i) => ({ type: 'button' as const, index: i })),
+                ...range(activePage - (right.capacity - 2), activePage - 1).map((i) => ({ type: 'button' as const, index: i })),
             );
         }
     }
 
     lst.push(
-        { type: 'fakeButton', label: String(active), key: 'active' },
+        { type: 'fakeButton', label: String(activePage), key: 'active' },
     );
 
     if (left.capacity > 0) {
         if (left.excess >= 0) {
             lst.push(
-                ...range(active + 1, lastIndex).map((i) => ({ type: 'button' as const, index: i })),
+                ...range(activePage + 1, lastIndex).map((i) => ({ type: 'button' as const, index: i })),
             );
         } else {
             lst.push(
-                ...range(active + 1, active + (left.capacity - 2)).map((i) => ({ type: 'button' as const, index: i })),
+                ...range(activePage + 1, activePage + (left.capacity - 2)).map((i) => ({ type: 'button' as const, index: i })),
                 { type: 'span', label: '...', key: 'endTick' },
                 { type: 'button', index: lastIndex },
             );
@@ -152,6 +153,7 @@ export type PagerProps = {
 })
 
 const defaultOptions: PagerOption[] = [
+    { label: '5 / page', key: 5 },
     { label: '10 / page', key: 10 },
     { label: '25 / page', key: 25 },
     { label: '50 / page', key: 50 },
@@ -178,10 +180,10 @@ function Pager(props: PagerProps) {
     const ofTitle = 'of';
     const rangeIndicator = '-';
 
-    // NOTE: activePage can never be 0
-    const activePage = Math.max(activePageProps, 1);
     // NOTE: number of pages can never be 0
     const numPages = Math.max(Math.ceil(itemsCount / maxItemsPerPage), 1);
+    // NOTE: activePage can never be 0 and be greater than numPages
+    const activePage = Math.min(Math.max(activePageProps, 1), numPages);
 
     const offset = (activePage - 1) * maxItemsPerPage;
     const itemsOnPage = Math.min(maxItemsPerPage, itemsCount - offset);
@@ -263,22 +265,25 @@ function Pager(props: PagerProps) {
                 { showingTitle }
             </div>
             <div className={styles.range}>
-                <div className={styles.from}>
-                    { currentItemsStart }
-                </div>
+                <Numeral
+                    className={styles.from}
+                    value={currentItemsStart}
+                />
                 <div className={styles.separator}>
                     { rangeIndicator }
                 </div>
-                <div className={styles.to}>
-                    { currentItemsEnd }
-                </div>
+                <Numeral
+                    className={styles.to}
+                    value={currentItemsEnd}
+                />
             </div>
             <div className={styles.of}>
                 { ofTitle }
             </div>
-            <div className={styles.total}>
-                {itemsCount}
-            </div>
+            <Numeral
+                className={styles.total}
+                value={itemsCount}
+            />
         </div>
     );
 

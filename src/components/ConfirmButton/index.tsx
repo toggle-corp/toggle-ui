@@ -62,6 +62,8 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                     heading={confirmationHeader}
                     onClose={handleConfirmModalClose}
                     footerClassName={styles.actionButtonsRow}
+                    freeHeight
+                    size="medium"
                     footer={(
                         <>
                             <Button

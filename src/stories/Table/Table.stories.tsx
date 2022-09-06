@@ -80,6 +80,7 @@ const columns = [
             orderable: true,
             columnClassName: styles.name,
             columnWidth: 400,
+            columnStretch: true,
         },
     ),
     createNumberColumn<Program, number>(
@@ -92,6 +93,7 @@ const columns = [
             orderable: true,
             columnClassName: styles.budget,
             columnWidth: 260,
+            columnStretch: true,
         },
     ),
     createDateColumn<Program, number>(

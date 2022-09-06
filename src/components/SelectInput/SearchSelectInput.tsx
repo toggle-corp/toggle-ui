@@ -78,8 +78,13 @@ export type SearchSelectInputProps<
         | 'hasValue'
     >
 ) & (
-    { nonClearable: true; onChange: (newValue: T, name: K) => void }
-    | { nonClearable?: false; onChange: (newValue: T | undefined, name: K) => void }
+    {
+        nonClearable: true,
+        onChange: (newValue: T, name: K, value: O) => void,
+    } | {
+        nonClearable?: false,
+        onChange: (newValue: T | undefined, name: K, value: O | undefined) => void;
+    }
 );
 
 const emptyList: unknown[] = [];
@@ -239,7 +244,7 @@ function SearchSelectInput<
                     return [...safeOptions, v];
                 }));
             }
-            onChange(k, name);
+            onChange(k, name, v);
         },
         [onChange, name, onOptionsChange, keySelector],
     );
@@ -247,7 +252,7 @@ function SearchSelectInput<
     const handleClear = useCallback(
         () => {
             if (!props.nonClearable) {
-                props.onChange(undefined, name);
+                props.onChange(undefined, name, undefined);
             }
         },
         // eslint-disable-next-line react/destructuring-assignment

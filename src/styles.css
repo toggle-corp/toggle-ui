@@ -139,6 +139,24 @@
     --tui-width-max-modal: 96vw;
     --tui-width-min-modal: 360px;
 
+    --tui-width-max-modal: 96vw;
+    --tui-height-max-modal: 96vh;
+
+    --tui-width-modal-extra-small: 360px;
+    --tui-height-modal-extra-small: 240px;
+
+    --tui-width-modal-small: 480px;
+    --tui-height-modal-small: 360px;
+
+    --tui-width-modal-medium: 640px;
+    --tui-height-modal-medium: 560px;
+
+    --tui-width-modal-large: 800px;
+    --tui-height-modal-large: 720px;
+
+    --tui-width-modal-cover: 96vw;
+    --tui-height-modal-cover: 96vh;
+
     --tui-width-calendar-date: 2.4rem;
     --tui-width-calendar: 320px;
 

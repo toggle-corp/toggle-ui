@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
     _cs,
     isDefined,
     sum,
+    listToMap,
     randomString,
 } from '@togglecorp/fujs';
 
@@ -31,6 +32,7 @@ export interface Column<D, K, C, H> {
     columnClassName?: string;
     columnStyle?: React.CSSProperties;
     columnWidth?: number;
+    columnStretch?: boolean;
 
     cellRenderer: React.ComponentType<C>;
     cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
@@ -67,6 +69,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     keySelector: (data: D, index: number) => K;
     columns: C[] & VerifyColumn<C, D, K>;
     data: D[] | undefined | null;
+    containerClassName?: string;
     captionClassName?: string;
     headerRowClassName?: string;
     headerCellClassName?: string;
@@ -88,6 +91,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         columns,
         caption,
 
+        containerClassName,
         className,
         captionClassName,
         headerRowClassName,
@@ -100,186 +104,246 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         resizableColumn,
     } = props;
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const [tableName] = React.useState(() => randomString());
 
     const themeClassName = useThemeClassName(uiMode, styles.light, styles.dark);
     const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
-    const handleColumnResize = React.useCallback((width: number, name: string | undefined) => {
-        const column = document.getElementById(`${tableName}-${name}`);
-        if (column) {
+
+    useEffect(() => {
+        setColumnWidths((cols) => {
+            if (!containerRef.current) {
+                return cols;
+            }
+
+            const size = containerRef.current.getBoundingClientRect();
+            const { width: parentWidth } = size;
+
+            let newColumnWidths: { id: string, width: number, stretch: boolean }[] = columns.map(
+                (col) => ({
+                    id: col.id,
+                    stretch: !!col.columnStretch,
+                    width: getColumnWidth(col, cols[col.id]),
+                }),
+            );
+
+            const totalStretchableWidth = sum(
+                newColumnWidths
+                    .filter((item) => item.stretch)
+                    .map((item) => item.width),
+            );
+            const totalNonStretchableWidth = sum(
+                newColumnWidths
+                    .filter((item) => !item.stretch)
+                    .map((item) => item.width),
+            );
+
+            const stretchFactor = (parentWidth - totalNonStretchableWidth) / totalStretchableWidth;
+
+            if (stretchFactor > 1) {
+                newColumnWidths = newColumnWidths.map((item) => ({
+                    ...item,
+                    width: item.stretch
+                        // NOTE: may need to use floor
+                        ? item.width * stretchFactor
+                        : item.width,
+                }));
+            }
+            return listToMap(
+                newColumnWidths,
+                (item) => item.id,
+                (item) => item.width,
+            );
+        });
+    }, [columns]);
+
+    const handleColumnResize = React.useCallback(
+        (widthFromArgs: number, name: string | undefined) => {
+            const column = document.getElementById(`${tableName}-${name}`);
+            // NOTE: setting a minimum size for column
+            const width = Math.max(widthFromArgs, 80);
+            if (!column) {
+                return;
+            }
             column.style.width = `${width}px`;
 
-            if (fixedColumnWidth) {
-                const table = document.getElementById(tableName);
-                if (table) {
-                    const totalWidth = sum(columns.map(
-                        (c) => getColumnWidth(c, c.id === name ? width : columnWidths[c.id]),
-                    ));
-                    table.style.width = `${totalWidth}px`;
-                }
+            if (!fixedColumnWidth) {
+                return;
             }
-        }
-    }, [tableName, columnWidths, columns, fixedColumnWidth]);
+            const table = document.getElementById(tableName);
+            if (!table) {
+                return;
+            }
+
+            const totalWidth = sum(columns.map((c) => (
+                c.id === name ? width : columnWidths[c.id]
+            )));
+            table.style.width = `${totalWidth}px`;
+        },
+        [tableName, columnWidths, columns, fixedColumnWidth],
+    );
 
     const handleColumnResizeComplete = React.useCallback(
         (width: number, name: string | undefined) => {
             if (isDefined(name)) {
                 setColumnWidths((prevColumnWidths) => ({
                     ...prevColumnWidths,
-                    [name]: width,
+                    [name]: Math.max(width, 80),
                 }));
             }
         },
         [setColumnWidths],
     );
 
-    const safeColumnWidths = React.useMemo(() => {
-        const newColumnWidths: typeof columnWidths = {};
-        columns.forEach((c) => {
-            newColumnWidths[c.id] = getColumnWidth(c, columnWidths[c.id]);
-        });
-
-        return newColumnWidths;
-    }, [columnWidths, columns]);
-
     const width = React.useMemo(() => (
-        sum(Object.values(safeColumnWidths))
-    ), [safeColumnWidths]);
+        sum(columns.map((c) => columnWidths[c.id]))
+    ), [columnWidths, columns]);
 
     return (
-        <table
-            className={_cs(styles.table, className, themeClassName)}
-            style={fixedColumnWidth ? { width: `${width}px` } : undefined}
-            id={tableName}
+        <div
+            ref={containerRef}
+            className={_cs(styles.container, containerClassName)}
         >
-            {caption && (
-                <caption className={captionClassName}>
-                    {caption}
-                </caption>
-            )}
-            <colgroup>
-                {columns.map((column) => {
-                    const {
-                        id,
-                        columnClassName,
-                    } = column;
-
-                    const columnWidth = safeColumnWidths[id];
-                    const style = { width: `${columnWidth}px` };
-
-                    return (
-                        <col
-                            id={`${tableName}-${id}`}
-                            style={style}
-                            key={id}
-                            className={_cs(styles.column, columnClassName)}
-                        />
-                    );
-                })}
-            </colgroup>
-            <thead>
-                <TableRow
-                    className={_cs(styles.headerRow, headerRowClassName)}
+            {Object.keys(columnWidths).length > 0 && (
+                <table
+                    className={_cs(styles.table, className, themeClassName)}
+                    style={fixedColumnWidth ? { width: `${width}px` } : undefined}
+                    id={tableName}
                 >
-                    {columns.map((column, index) => {
-                        const {
-                            id,
-                            title,
-                            headerCellRenderer: Renderer,
-                            headerCellRendererClassName,
-                            headerCellRendererParams,
-                            headerContainerClassName,
-                        } = column;
+                    {caption && (
+                        <caption className={captionClassName}>
+                            {caption}
+                        </caption>
+                    )}
+                    <colgroup>
+                        {columns.map((column) => {
+                            const {
+                                id,
+                                columnClassName,
+                            } = column;
 
-                        const children = (
-                            <Renderer
-                                {...headerCellRendererParams}
-                                name={id}
-                                title={title}
-                                index={index}
-                                className={_cs(headerCellRendererClassName, styles.headerComponent)}
-                            />
-                        );
-                        return (
-                            <TableHeader
-                                key={id}
-                                scope="col"
-                                name={id}
-                                onResize={resizableColumn ? handleColumnResize : undefined}
-                                onResizeComplete={
-                                    resizableColumn ? handleColumnResizeComplete : undefined
-                                }
-                                className={_cs(
-                                    styles.headerCell,
-                                    headerCellClassName,
-                                    headerContainerClassName,
-                                )}
-                            >
-                                {children}
-                            </TableHeader>
-                        );
-                    })}
-                </TableRow>
-            </thead>
-            <tbody>
-                {data?.map((datum, index) => {
-                    const key = keySelector(datum, index);
-                    const cells = columns.map((column) => {
-                        const {
-                            id,
-                            cellRenderer: Renderer,
-                            cellRendererClassName,
-                            cellRendererParams,
-                            cellContainerClassName,
-                        } = column;
+                            const columnWidth = columnWidths[id];
+                            const style = { width: `${columnWidth}px` };
 
-                        const otherProps = cellRendererParams(key, datum, index);
-                        const children = (
-                            <Renderer
-                                {...otherProps}
-                                className={cellRendererClassName}
-                                name={id}
-                            />
-                        );
-                        return (
-                            <TableData
-                                key={id}
-                                className={_cs(
-                                    styles.cell,
-                                    cellClassName,
-                                    cellContainerClassName,
-                                )}
-                            >
-                                {children}
-                            </TableData>
-                        );
-                    });
-
-                    const row = (
+                            return (
+                                <col
+                                    id={`${tableName}-${id}`}
+                                    style={style}
+                                    key={id}
+                                    className={_cs(styles.column, columnClassName)}
+                                />
+                            );
+                        })}
+                    </colgroup>
+                    <thead>
                         <TableRow
-                            key={key}
-                            className={_cs(styles.row, rowClassName)}
+                            className={_cs(styles.headerRow, headerRowClassName)}
                         >
-                            { cells }
+                            {columns.map((column, index) => {
+                                const {
+                                    id,
+                                    title,
+                                    headerCellRenderer: Renderer,
+                                    headerCellRendererClassName,
+                                    headerCellRendererParams,
+                                    headerContainerClassName,
+                                } = column;
+
+                                const children = (
+                                    <Renderer
+                                        {...headerCellRendererParams}
+                                        name={id}
+                                        title={title}
+                                        index={index}
+                                        className={_cs(
+                                            headerCellRendererClassName,
+                                            styles.headerComponent,
+                                        )}
+                                    />
+                                );
+                                return (
+                                    <TableHeader
+                                        key={id}
+                                        scope="col"
+                                        name={id}
+                                        onResize={resizableColumn ? handleColumnResize : undefined}
+                                        onResizeComplete={
+                                            resizableColumn ? handleColumnResizeComplete : undefined
+                                        }
+                                        className={_cs(
+                                            styles.headerCell,
+                                            headerCellClassName,
+                                            headerContainerClassName,
+                                        )}
+                                    >
+                                        {children}
+                                    </TableHeader>
+                                );
+                            })}
                         </TableRow>
-                    );
+                    </thead>
+                    <tbody>
+                        {data?.map((datum, index) => {
+                            const key = keySelector(datum, index);
+                            const cells = columns.map((column) => {
+                                const {
+                                    id,
+                                    cellRenderer: Renderer,
+                                    cellRendererClassName,
+                                    cellRendererParams,
+                                    cellContainerClassName,
+                                } = column;
 
-                    let modifiedRow: React.ReactNode = row;
+                                const otherProps = cellRendererParams(key, datum, index);
+                                const children = (
+                                    <Renderer
+                                        {...otherProps}
+                                        className={cellRendererClassName}
+                                        name={id}
+                                    />
+                                );
+                                return (
+                                    <TableData
+                                        key={id}
+                                        className={_cs(
+                                            styles.cell,
+                                            cellClassName,
+                                            cellContainerClassName,
+                                        )}
+                                    >
+                                        {children}
+                                    </TableData>
+                                );
+                            });
 
-                    if (rowModifier) {
-                        modifiedRow = rowModifier({
-                            rowKey: key,
-                            row,
-                            cells,
-                            columns,
-                            datum,
-                        });
-                    }
+                            const row = (
+                                <TableRow
+                                    key={key}
+                                    className={_cs(styles.row, rowClassName)}
+                                >
+                                    { cells }
+                                </TableRow>
+                            );
 
-                    return modifiedRow;
-                })}
-            </tbody>
-        </table>
+                            let modifiedRow: React.ReactNode = row;
+
+                            if (rowModifier) {
+                                modifiedRow = rowModifier({
+                                    rowKey: key,
+                                    row,
+                                    cells,
+                                    columns,
+                                    datum,
+                                });
+                            }
+
+                            return modifiedRow;
+                        })}
+                    </tbody>
+                </table>
+            )}
+        </div>
     );
 }
 

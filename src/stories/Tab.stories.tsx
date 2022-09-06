@@ -19,7 +19,7 @@ export default {
 const Template: Story<TabsProps<string>> = () => {
     const [{ value }, updateArgs] = useArgs();
 
-    const setValue = (e: string) => {
+    const setValue = (e: string | undefined) => {
         updateArgs({ value: e });
     };
 
@@ -51,3 +51,29 @@ export const Default = Template.bind({});
 Default.args = {
     value: 'hello',
 };
+
+const HashTabsTemplate: Story<TabsProps<string>> = () => (
+    <Tabs
+        useHash
+        defaultHash="hello"
+    >
+        <TabList>
+            <Tab name="hello">
+                Hello
+            </Tab>
+            <Tab name="bye">
+                Bye
+            </Tab>
+        </TabList>
+
+        <TabPanel name="hello">
+            Hello there!
+        </TabPanel>
+        <TabPanel name="bye">
+            Bye Bye!
+        </TabPanel>
+    </Tabs>
+);
+
+export const UsingHash = HashTabsTemplate.bind({});
+UsingHash.args = {};

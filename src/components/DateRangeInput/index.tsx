@@ -27,6 +27,7 @@ import {
 
 import styles from './styles.css';
 
+// FIXME: this is problematic when on end months
 function prevMonth(date: Date) {
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() - 1);
@@ -46,7 +47,7 @@ interface DateRendererProps extends CalendarDateProps {
     endDate?: string;
 }
 
-const DateRenderer = (props: DateRendererProps) => {
+function DateRenderer(props: DateRendererProps) {
     const {
         className: dateClassName,
         year,
@@ -86,10 +87,12 @@ const DateRenderer = (props: DateRendererProps) => {
             ghost={ghost}
         />
     );
-};
+}
+
+type NameType = string | number | undefined;
 
 type InheritedProps = Omit<InputContainerProps, 'input'>;
-export interface Props<N extends number | string | undefined> extends InheritedProps {
+export interface Props<N extends NameType> extends InheritedProps {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
     value: Value | undefined | null;
@@ -97,7 +100,7 @@ export interface Props<N extends number | string | undefined> extends InheritedP
     onChange?: (value: Value | undefined, name: N) => void;
 }
 
-function DateRangeInput<N extends string | number | undefined>(props: Props<N>) {
+function DateRangeInput<N extends NameType>(props: Props<N>) {
     const {
         actions,
         actionsContainerClassName,
@@ -286,18 +289,22 @@ function DateRangeInput<N extends string | number | undefined>(props: Props<N>) 
                                 {value && (
                                     <Button
                                         name={undefined}
-                                        onClick={handleClearButtonClick}
+                                        compact
                                         transparent
+                                        onClick={handleClearButtonClick}
                                         disabled={disabled}
+                                        title="Clear"
                                     >
                                         <IoClose />
                                     </Button>
                                 )}
                                 <Button
                                     name={undefined}
-                                    onClick={toggleShowCalendar}
+                                    compact
                                     transparent
+                                    onClick={toggleShowCalendar}
                                     disabled={disabled}
+                                    title="Show calendar"
                                 >
                                     <IoCalendarOutline />
                                 </Button>
@@ -335,6 +342,7 @@ function DateRangeInput<N extends string | number | undefined>(props: Props<N>) 
                             // NOTE: Make this required to hide clear button on firefox
                             required={!!(tempDate.startDate ?? value?.startDate)}
                             elementRef={inputElementRef}
+                            readOnly
                             uiMode={uiMode}
                             disabled={disabled}
                             onFocus={setShowCalendarTrue}
@@ -353,6 +361,7 @@ function DateRangeInput<N extends string | number | undefined>(props: Props<N>) 
                                 inputClassName,
                             )}
                             elementRef={inputElementRef}
+                            readOnly
                             onClick={setShowCalendarTrue}
                             // NOTE: Make this required to hide clear button on firefox
                             required={!!value?.endDate}
