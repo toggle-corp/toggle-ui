@@ -47,6 +47,7 @@ export type SearchSelectInputProps<
     searchOptions?: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
+    displayOptionsFilter?: (option: O) => boolean;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
@@ -76,6 +77,7 @@ export type SearchSelectInputProps<
         | 'focusedKey'
         | 'onFocusedKeyChange'
         | 'hasValue'
+        | 'displayOptionsFilter'
     >
 ) & (
     {
@@ -111,6 +113,7 @@ function SearchSelectInput<
         searchOptions: searchOptionsFromProps,
         onSearchValueChange,
         onShowDropdownChange,
+        displayOptionsFilter,
         ...otherProps
     } = props;
 
@@ -157,7 +160,10 @@ function SearchSelectInput<
             const initiallySelected = allOptions
                 .filter((item) => selectedKeys[keySelector(item)]);
             const initiallyNotSelected = allOptions
-                .filter((item) => !selectedKeys[keySelector(item)]);
+                .filter((item) => (
+                    !selectedKeys[keySelector(item)]
+                    && (!displayOptionsFilter || displayOptionsFilter(item))
+                ));
 
             if (sortFunction) {
                 return [
@@ -179,6 +185,7 @@ function SearchSelectInput<
             selectedKeys,
             selectedOptions,
             sortFunction,
+            displayOptionsFilter,
         ],
     );
 

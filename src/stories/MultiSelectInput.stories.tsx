@@ -119,3 +119,9 @@ WithPlaceholder.args = {
     label: 'Vegetable',
     placeholder: 'Name',
 };
+
+export const OptionStartingWithA = GroupedTemplate.bind({});
+OptionStartingWithA.args = {
+    value: ['2', '3'],
+    displayOptionsFilter: (opt: Option) => opt.label.startsWith('A'),
+};

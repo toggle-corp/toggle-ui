@@ -50,6 +50,7 @@ export type SearchMultiSelectInputProps<
     searchOptions?: O[] | undefined | null;
     keySelector: (option: O) => T;
     labelSelector: (option: O) => string;
+    displayOptionsFilter?: (option: O) => boolean;
     name: K;
     disabled?: boolean;
     readOnly?: boolean;
@@ -79,6 +80,7 @@ export type SearchMultiSelectInputProps<
         | 'focusedKey'
         | 'onFocusedKeyChange'
         | 'hasValue'
+        | 'displayOptionsFilter'
     >
 );
 
@@ -106,6 +108,7 @@ function SearchMultiSelectInput<
         searchOptions: searchOptionsFromProps,
         onSearchValueChange,
         onShowDropdownChange,
+        displayOptionsFilter,
         ...otherProps
     } = props;
 
@@ -162,7 +165,10 @@ function SearchMultiSelectInput<
             const initiallySelected = allOptions
                 .filter((item) => selectedKeys[keySelector(item)]);
             const initiallyNotSelected = allOptions
-                .filter((item) => !selectedKeys[keySelector(item)]);
+                .filter((item) => (
+                    !selectedKeys[keySelector(item)]
+                    && (!displayOptionsFilter || displayOptionsFilter(item))
+                ));
 
             if (sortFunction) {
                 return [
@@ -184,6 +190,7 @@ function SearchMultiSelectInput<
             selectedKeys,
             selectedOptions,
             sortFunction,
+            displayOptionsFilter,
         ],
     );
 
