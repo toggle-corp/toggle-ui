@@ -120,8 +120,8 @@ WithPlaceholder.args = {
     placeholder: 'Name',
 };
 
-export const OptionStartingWithA = GroupedTemplate.bind({});
-OptionStartingWithA.args = {
+export const OptionStartingWithP = GroupedTemplate.bind({});
+OptionStartingWithP.args = {
     value: ['2', '3'],
-    hideOptionFilter: (opt: Option) => opt.label.startsWith('A'),
+    hideOptionFilter: (opt: Option) => opt.label.startsWith('P'),
 };
