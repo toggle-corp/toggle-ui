@@ -112,3 +112,9 @@ ReadOnlyGrouped.args = {
     value: '1',
     readOnly: true,
 };
+
+export const OptionStartingWithA = GroupedTemplate.bind({});
+OptionStartingWithA.args = {
+    value: '2',
+    hideOptionFilter: (opt: Option) => opt.label.startsWith('A'),
+};

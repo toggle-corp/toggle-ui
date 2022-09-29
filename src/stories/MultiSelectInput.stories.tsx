@@ -119,3 +119,9 @@ WithPlaceholder.args = {
     label: 'Vegetable',
     placeholder: 'Name',
 };
+
+export const OptionStartingWithP = GroupedTemplate.bind({});
+OptionStartingWithP.args = {
+    value: ['2', '3'],
+    hideOptionFilter: (opt: Option) => opt.label.startsWith('P'),
+};
