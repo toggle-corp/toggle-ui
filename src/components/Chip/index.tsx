@@ -7,7 +7,7 @@ import {
 import styles from './styles.css';
 
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 export type ChipVariant = (
     'accent'

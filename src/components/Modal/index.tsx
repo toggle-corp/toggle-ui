@@ -5,7 +5,7 @@ import { IoMdClose } from 'react-icons/io';
 import Button from '../Button';
 import BodyBackdrop from '../BodyBackdrop';
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 import styles from './styles.css';
 

@@ -8,7 +8,7 @@ import {
 } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import TableData from './TableData';

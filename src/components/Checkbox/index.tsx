@@ -4,7 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 import DefaultCheckmark, { CheckmarkProps } from '../Checkmark';
 import { UiMode } from '../ThemeContext';
 import VisualFeedback from '../VisualFeedback';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 import styles from './styles.css';
 

@@ -110,7 +110,9 @@ export { default as useTableRowExpansion } from './components/Table/useRowExpans
 export { default as useTableRowExpansionOnClick } from './components/Table/useRowExpansionOnClick';
 export { default as useSorting, useSortState, SortContext } from './components/Table/useSorting';
 export { default as Tabs, Tab, TabList, TabPanel } from './components/Tabs';
-export type { TabsProps, TabProps, TabPanelProps, TabContextProps } from './components/Tabs';
+export type { TabsProps, TabProps, TabPanelProps } from './components/Tabs';
+export { TabsContext } from './components/TabsContext';
+export type { TabsContextProps } from './components/TabsContext';
 export { default as TextArea } from './components/TextArea';
 export type { TextAreaProps } from './components/TextArea';
 export { default as TextInput } from './components/TextInput';
@@ -125,4 +127,14 @@ export { default as VisualFeedback } from './components/VisualFeedback';
 export type { VisualFeedbackProps } from './components/VisualFeedback';
 export { default as YesNo } from './components/YesNo';
 export type { YesNoProps } from './components/YesNo';
+
+export { default as useBlurEffect } from './hooks/useBlurEffect';
+export { default as useBooleanState } from './hooks/useBooleanState';
 export { default as useCounter } from './hooks/useCounter';
+export { default as useKeyboard } from './hooks/useKeyboard';
+export { default as useDropHandler } from './hooks/useDropHandler';
+export { default as useHash } from './hooks/useHash';
+export { default as useInputState } from './hooks/useInputState';
+export { default as useThemeClassName } from './hooks/useThemeClassName';
+
+export { getHashFromBrowser, setHashToBrowser } from './utils';

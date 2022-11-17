@@ -2,7 +2,7 @@ import React from 'react';
 import { _cs, isFalsyString } from '@togglecorp/fujs';
 import Button, { ButtonProps } from '../Button';
 
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 import useHash from '../../hooks/useHash';
 import { getHashFromBrowser, setHashToBrowser } from '../../utils';
 
@@ -11,11 +11,6 @@ import {
     TabsContext,
 } from '../TabsContext';
 import styles from './styles.css';
-
-export interface TabContextProps {
-    activeTab: TabsKey;
-    setActiveTab: (key: TabsKey) => void;
-}
 
 export interface TabProps<T extends TabsKey> extends Omit<ButtonProps<T>, 'onClick'> {
     name: T;

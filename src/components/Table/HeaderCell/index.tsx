@@ -31,7 +31,7 @@ import { FilterContext } from '../useFiltering';
 import { OrderContext } from '../useOrdering';
 import { HideContext } from '../useHiding';
 
-import { useDropHandler } from '../../../hooks';
+import useDropHandler from '../../../hooks/useDropHandler';
 
 import styles from './styles.css';
 

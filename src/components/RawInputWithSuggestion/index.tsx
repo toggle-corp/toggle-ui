@@ -5,7 +5,7 @@ import GenericOption from '../GenericOption';
 import List from '../List';
 import Popup from '../Popup';
 import RawInput, { RawInputProps } from '../RawInput';
-import { useBlurEffect } from '../../hooks';
+import useBlurEffect from '../../hooks/useBlurEffect';
 
 import styles from './styles.css';
 

@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Portal from '../Portal';
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 import styles from './styles.css';
 

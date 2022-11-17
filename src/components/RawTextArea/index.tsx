@@ -3,7 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { _cs } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 import styles from './styles.css';
 
