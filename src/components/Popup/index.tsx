@@ -5,15 +5,6 @@ import Portal from '../Portal';
 
 import styles from './styles.css';
 
-export interface PopupProps {
-    className?: string;
-    contentClassName?: string;
-    parentRef: React.RefObject<HTMLElement>;
-    elementRef?: React.RefObject<HTMLDivElement>;
-    children: React.ReactNode;
-    freeWidth?: boolean;
-}
-
 const defaultPlacement = {
     top: 'unset',
     right: 'unset',
@@ -113,6 +104,15 @@ function useAttachedFloatingPlacement(parentRef: React.RefObject<HTMLElement>) {
     }, [handleScroll, handleResize]);
 
     return placement;
+}
+
+export interface PopupProps {
+    className?: string;
+    contentClassName?: string;
+    parentRef: React.RefObject<HTMLElement>;
+    elementRef?: React.RefObject<HTMLDivElement>;
+    children: React.ReactNode;
+    freeWidth?: boolean;
 }
 
 function Popup(props: PopupProps) {

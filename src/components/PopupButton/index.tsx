@@ -16,6 +16,7 @@ export interface PopupButtonProps<N extends number | string | undefined> extends
     componentRef?: React.MutableRefObject<{
         setPopupVisibility: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
+    persistent: boolean;
     arrowHidden?: boolean;
 }
 function PopupButton<N extends number | string | undefined>(props: PopupButtonProps<N>) {
@@ -28,6 +29,7 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
         actions,
         componentRef,
         arrowHidden,
+        persistent,
         ...otherProps
     } = props;
 
@@ -47,7 +49,12 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
         [componentRef],
     );
 
-    useBlurEffect(popupShown, setPopupShown, popupRef, buttonRef);
+    useBlurEffect(
+        popupShown && !persistent,
+        setPopupShown,
+        popupRef,
+        buttonRef,
+    );
 
     const handleShowPopup = useCallback(
         () => {
