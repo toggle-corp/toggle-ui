@@ -101,15 +101,17 @@ function RadioInput<
                 className,
             )}
         >
-            <div
-                className={_cs(
-                    labelContainerClassName,
-                    styles.inputLabel,
-                    disabled && styles.disabled,
-                )}
-            >
-                { label }
-            </div>
+            {label && (
+                <div
+                    className={_cs(
+                        labelContainerClassName,
+                        styles.inputLabel,
+                        disabled && styles.disabled,
+                    )}
+                >
+                    { label }
+                </div>
+            )}
             <div className={_cs(styles.radioListContainer, listContainerClassName)}>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <List<O, RadioProps<V> & RRP, V, any, any>
@@ -119,14 +121,16 @@ function RadioInput<
                     keySelector={keySelector}
                 />
             </div>
-            <div
-                className={_cs(
-                    errorContainerClassName,
-                    styles.error,
-                )}
-            >
-                {error}
-            </div>
+            {error && (
+                <div
+                    className={_cs(
+                        errorContainerClassName,
+                        styles.error,
+                    )}
+                >
+                    {error}
+                </div>
+            )}
             {!error && hint && (
                 <div
                     className={_cs(

@@ -1,4 +1,6 @@
 .segment {
+    flex-grow: 1;
+
     &:first-child {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
