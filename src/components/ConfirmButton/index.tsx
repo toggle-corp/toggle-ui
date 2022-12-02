@@ -10,7 +10,7 @@ import styles from './styles.css';
 export interface ConfirmButtonProps<N extends number | string | undefined> extends ButtonProps<N> {
     confirmLabel?: ReactNode;
     cancelLabel?: ReactNode;
-    onConfirm: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
+    onConfirm?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
     confirmButtonClassName?: string,
     cancelButtonClassName?: string,
     confirmationHeader?: ReactNode,
@@ -49,7 +49,9 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
 
     const handleConfirmModalConfirm = useCallback(
         (buttonName: N, e: React.MouseEvent<HTMLButtonElement>) => {
-            onConfirm(buttonName, e);
+            if (onConfirm) {
+                onConfirm(buttonName, e);
+            }
             setShowConfirmModal(false);
         },
         [onConfirm],
