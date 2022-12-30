@@ -42,13 +42,20 @@ const Template: Story<PopupButtonProps<string>> = (args) => (
     <PopupButton {...args} />
 );
 
+export const DefaultShown = Template.bind({});
+DefaultShown.args = {
+    label: 'PopupButton',
+    children: <MenuItems />,
+    transparent: true,
+    defaultShown: true,
+};
+
 export const Default = Template.bind({});
 Default.args = {
     label: 'PopupButton',
     transparent: true,
     children: <MenuItems />,
 };
-
 export const Disabled = Template.bind({});
 Disabled.args = {
     label: 'PopupButton',
