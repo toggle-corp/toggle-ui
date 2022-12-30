@@ -10,7 +10,7 @@ import styles from './styles.css';
 export interface ConfirmButtonProps<N extends number | string | undefined> extends ButtonProps<N> {
     confirmLabel?: ReactNode;
     cancelLabel?: ReactNode;
-    onConfirm: () => void,
+    onConfirm?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
     confirmButtonClassName?: string,
     cancelButtonClassName?: string,
     confirmationHeader?: ReactNode,
@@ -29,6 +29,7 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
         cancelButtonClassName,
         confirmLabel = 'Confirm',
         cancelLabel = 'Cancel',
+        name,
         ...otherProps
     } = props;
 
@@ -46,15 +47,21 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
         setShowConfirmModal(false);
     }, [onCancel]);
 
-    const handleConfirmModalConfirm = useCallback(() => {
-        onConfirm();
-        setShowConfirmModal(false);
-    }, [onConfirm]);
+    const handleConfirmModalConfirm = useCallback(
+        (buttonName: N, e: React.MouseEvent<HTMLButtonElement>) => {
+            if (onConfirm) {
+                onConfirm(buttonName, e);
+            }
+            setShowConfirmModal(false);
+        },
+        [onConfirm],
+    );
 
     return (
         <>
             <Button
                 {...otherProps}
+                name={name}
                 onClick={handleConfirmModalShow}
             />
             {showConfirmModal && (
@@ -68,14 +75,14 @@ function ConfirmButton<N extends number | string | undefined>(props: ConfirmButt
                         <>
                             <Button
                                 className={_cs(styles.actionButton, cancelButtonClassName)}
-                                name="cancel-button"
+                                name={undefined}
                                 onClick={handleConfirmModalClose}
                             >
                                 {cancelLabel}
                             </Button>
                             <Button
                                 className={_cs(styles.actionButton, confirmButtonClassName)}
-                                name="confirm-button"
+                                name={name}
                                 onClick={handleConfirmModalConfirm}
                                 variant="primary"
                                 autoFocus

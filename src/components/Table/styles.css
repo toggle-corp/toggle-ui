@@ -30,7 +30,7 @@
 
         .row {
             &:hover {
-                background-color: var(--tui-color-background-hover-light);
+                opacity: 0.6;
             }
 
             .cell {

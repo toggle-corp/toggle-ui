@@ -8,8 +8,8 @@ import InputContainer, { InputContainerProps } from '../InputContainer';
 import RawInput from '../RawInput';
 import Button from '../Button';
 import List from '../List';
-import { useBlurEffect } from '../../hooks';
-import useKeyboard from '../useKeyboard';
+import useBlurEffect from '../../hooks/useBlurEffect';
+import useKeyboard from '../../hooks/useKeyboard';
 
 import EmptyOptions from './EmptyOptions';
 import styles from './styles.css';

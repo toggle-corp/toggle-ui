@@ -2,7 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 import VisualFeedback from '../VisualFeedback';
 
 import styles from './styles.css';

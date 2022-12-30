@@ -6,7 +6,7 @@ import {
 
 import RawButton, { RawButtonProps } from '../RawButton';
 import { UiMode } from '../ThemeContext';
-import { useThemeClassName } from '../../hooks';
+import useThemeClassName from '../../hooks/useThemeClassName';
 
 import styles from './styles.css';
 
