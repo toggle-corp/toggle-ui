@@ -18,6 +18,7 @@ export interface PopupButtonProps<N extends number | string | undefined> extends
     } | null>;
     persistent: boolean;
     arrowHidden?: boolean;
+    defaultShown?: boolean;
 }
 function PopupButton<N extends number | string | undefined>(props: PopupButtonProps<N>) {
     const {
@@ -30,13 +31,14 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
         componentRef,
         arrowHidden,
         persistent,
+        defaultShown,
         ...otherProps
     } = props;
 
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const popupRef = React.useRef<HTMLDivElement>(null);
 
-    const [popupShown, setPopupShown] = React.useState(false);
+    const [popupShown, setPopupShown] = React.useState(defaultShown ?? false);
 
     useEffect(
         () => {
@@ -58,7 +60,7 @@ function PopupButton<N extends number | string | undefined>(props: PopupButtonPr
 
     const handleShowPopup = useCallback(
         () => {
-            setPopupShown(true);
+            setPopupShown((prevState) => !prevState);
         },
         [],
     );
