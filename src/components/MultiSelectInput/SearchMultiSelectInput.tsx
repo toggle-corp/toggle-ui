@@ -116,7 +116,6 @@ function SearchMultiSelectInput<
 
     const [searchInputValue, setSearchInputValue] = React.useState('');
     const [showDropdown, setShowDropdown] = React.useState(false);
-    const [focused, setFocused] = React.useState(false);
     const [
         focusedKey,
         setFocusedKey,
