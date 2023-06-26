@@ -53,8 +53,6 @@ export type SelectInputContainerProps<
     onOptionClick: (optionKey: OK, option: O, name: N) => void;
     dropdownShown: boolean;
     onDropdownShownChange: (value: boolean) => void;
-    focused: boolean;
-    onFocusedChange: (value: boolean) => void;
     focusedKey: { key: OK, mouse?: boolean } | undefined;
     onFocusedKeyChange: (value: { key: OK, mouse?: boolean } | undefined) => void;
     searchText: string;
@@ -126,10 +124,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         onClear,
         optionsPending,
         optionsFiltered,
-        focused,
         focusedKey,
         onFocusedKeyChange,
-        onFocusedChange,
         dropdownShown,
         onDropdownShownChange,
         totalOptionsCount,
@@ -350,11 +346,9 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
                         readOnly={readOnly}
                         uiMode={uiMode}
                         disabled={disabled}
-                        value={(dropdownShown || focused) ? searchText : valueDisplay}
+                        value={dropdownShown ? searchText : valueDisplay}
                         onChange={handleSearchInputChange}
                         onClick={handleSearchInputClick}
-                        onFocus={() => onFocusedChange(true)}
-                        onBlur={() => onFocusedChange(false)}
                         placeholder={isTruthyString(valueDisplay) ? valueDisplay : placeholder}
                         autoComplete="off"
                         onKeyDown={handleKeyDown}

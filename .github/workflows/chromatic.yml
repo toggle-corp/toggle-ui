@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     # the list of steps that the action will go through
     steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.20.0'
       - uses: actions/checkout@v1
       - run: yarn
       #- run: yarn build-storybook
