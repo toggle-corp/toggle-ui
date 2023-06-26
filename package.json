@@ -19,7 +19,7 @@
         "watch": "rollup -c -w",
         "typecheck": "tsc",
         "lint": "eslint --rule 'import/no-unresolved: 0' 'src/**/*.[tj]s?(x)'",
-        "storybook": "start-storybook -p 6006",
+        "storybook": "export SET NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },
     "repository": {

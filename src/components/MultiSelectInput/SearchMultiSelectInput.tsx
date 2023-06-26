@@ -75,8 +75,6 @@ export type SearchMultiSelectInputProps<
         | 'onSearchTextChange'
         | 'dropdownShown'
         | 'onDropdownShownChange'
-        | 'focused'
-        | 'onFocusedChange'
         | 'focusedKey'
         | 'onFocusedKeyChange'
         | 'hasValue'
@@ -298,8 +296,6 @@ function SearchMultiSelectInput<
             onSearchTextChange={handleSearchValueChange}
             dropdownShown={showDropdown}
             onDropdownShownChange={handleChangeDropdown}
-            focused={focused}
-            onFocusedChange={setFocused}
             focusedKey={focusedKey}
             onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup

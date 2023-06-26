@@ -72,8 +72,6 @@ export type SearchSelectInputProps<
         | 'onSearchTextChange'
         | 'dropdownShown'
         | 'onDropdownShownChange'
-        | 'focused'
-        | 'onFocusedChange'
         | 'focusedKey'
         | 'onFocusedKeyChange'
         | 'hasValue'
@@ -259,7 +257,8 @@ function SearchSelectInput<
     const handleClear = useCallback(
         () => {
             if (!props.nonClearable) {
-                props.onChange(undefined, name, undefined);
+                const onChangeFromProps = props.onChange;
+                onChangeFromProps(undefined, name, undefined);
             }
         },
         // eslint-disable-next-line react/destructuring-assignment
@@ -284,8 +283,6 @@ function SearchSelectInput<
             onSearchTextChange={handleSearchValueChange}
             dropdownShown={showDropdown}
             onDropdownShownChange={handleChangeDropdown}
-            focused={focused}
-            onFocusedChange={setFocused}
             focusedKey={focusedKey}
             onFocusedKeyChange={setFocusedKey}
             hasValue={isDefined(value)}

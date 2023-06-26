@@ -84,7 +84,7 @@ function RawTextArea<K extends string>(
             value={value ?? ''}
             autoComplete="off"
             style={style as React.ComponentProps<typeof TextareaAutosize>['style']}
-            disabled={disabled || readOnly}
+            disabled={disabled}
             readOnly={readOnly}
             minRows={3}
             maxRows={10}
