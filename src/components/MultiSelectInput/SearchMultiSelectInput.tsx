@@ -79,6 +79,7 @@ export type SearchMultiSelectInputProps<
         | 'onFocusedKeyChange'
         | 'hasValue'
         | 'hideOptionFilter'
+        | OMISSION
     >
 );
 

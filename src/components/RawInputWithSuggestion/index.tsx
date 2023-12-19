@@ -36,16 +36,19 @@ function processSuggestions<S>(
     ).filter((item) => keySelector(item) !== blacklist);
 }
 
-export type RawInputWithSuggestionProps<K extends string, S, OMISSION extends string> = Omit<RawInputProps<K>, 'elementRef' | OMISSION> & Omit<{
+export type RawInputWithSuggestionProps<K extends string, S, OMISSION extends string> = Omit<
+    RawInputProps<K>,
+    'elementRef' | OMISSION
+> & Omit<{
     containerRef: React.RefObject<HTMLDivElement>;
     inputSectionRef: React.RefObject<HTMLDivElement>;
-}, OMISSION> & ({
+}, OMISSION> & (Omit<{
     suggestions: S[] | undefined | null;
     suggestionKeySelector: (item: S) => string;
     suggestionLabelSelector: (item: S) => string;
     suggestionsPopupClassName?: string;
     suggestionContainerClassName?: string;
-} | {
+}, OMISSION> | {
     suggestions?: undefined;
     suggestionKeySelector?: undefined;
     suggestionLabelSelector?: undefined;
