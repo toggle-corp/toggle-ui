@@ -76,6 +76,7 @@ export type SearchSelectInputProps<
         | 'onFocusedKeyChange'
         | 'hasValue'
         | 'hideOptionFilter'
+        | OMISSION
     >
 ) & (
     {

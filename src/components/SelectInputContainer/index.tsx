@@ -253,6 +253,8 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
     );
 
     const handleKeyDown = useKeyboard(
+        disabled || readOnly,
+
         focusedKey,
         optionKeySelector,
         options,

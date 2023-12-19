@@ -52,6 +52,8 @@ function getNewKey<T, Q extends OptionKey>(
 }
 
 function useKeyboard<T, Q extends OptionKey>(
+    disabled: boolean | undefined,
+
     focusedKey: { key: Q, mouse?: boolean } | undefined,
     keySelector: (option: T, index: number) => Q,
     options: T[],
@@ -64,6 +66,9 @@ function useKeyboard<T, Q extends OptionKey>(
 ) {
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (disabled) {
+                return;
+            }
             // NOTE: De-structuring e here will create access error
             const { keyCode } = e;
             const myKey = focusedKey?.key;
@@ -101,6 +106,7 @@ function useKeyboard<T, Q extends OptionKey>(
             }
         },
         [
+            disabled,
             focusedKey,
             isOptionsShown,
             keySelector,
