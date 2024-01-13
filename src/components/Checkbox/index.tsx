@@ -10,6 +10,7 @@ import styles from './styles.css';
 
 export interface CheckboxProps<N> {
     className?: string;
+    labelContainerClassName?: string;
     labelClassName?: string;
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
@@ -34,6 +35,7 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
         tooltip,
         checkmark: Checkmark = DefaultCheckmark,
         className: classNameFromProps,
+        labelContainerClassName,
         value,
         disabled,
         readOnly,
@@ -62,7 +64,7 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
 
     const className = _cs(
         styles.checkbox,
-        classNameFromProps,
+        labelContainerClassName,
         indeterminate && styles.indeterminate,
         !indeterminate && value && styles.checked,
         disabled && styles.disabled,
@@ -72,7 +74,7 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
 
     return (
         <div
-            className={styles.container}
+            className={_cs(styles.container, classNameFromProps)}
         >
             <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for, max-len
                 className={className}
