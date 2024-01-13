@@ -22,6 +22,10 @@ export interface CheckboxProps<N> {
     value: boolean | undefined | null;
     onChange: (value: boolean, name: N) => void;
     name: N;
+    errorContainerClassName?: string;
+    hintContainerClassName?: string;
+    error?: string;
+    hint?: React.ReactNode;
 }
 
 function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
@@ -39,6 +43,10 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
         indeterminate,
         uiMode,
         name,
+        error,
+        hint,
+        errorContainerClassName,
+        hintContainerClassName,
         ...otherProps
     } = props;
 
@@ -63,32 +71,48 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
     );
 
     return (
-        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
-            className={className}
-            title={tooltip}
+        <div
+            className={styles.container}
         >
-            <VisualFeedback
-                disabled={disabled}
-                readOnly={readOnly}
-            />
-            <Checkmark
-                className={_cs(checkmarkClassName, styles.checkmark)}
-                value={value ?? false}
-                indeterminate={indeterminate}
-                uiMode={uiMode}
-            />
-            <input
-                onChange={handleChange}
-                className={styles.input}
-                type="checkbox"
-                checked={value ?? false}
-                disabled={disabled || readOnly}
-                {...otherProps}
-            />
-            <div className={_cs(styles.label, labelClassName)}>
-                { label }
-            </div>
-        </label>
+            <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for, max-len
+                className={className}
+                title={tooltip}
+            >
+                <VisualFeedback
+                    disabled={disabled}
+                    readOnly={readOnly}
+                />
+                <Checkmark
+                    className={_cs(checkmarkClassName, styles.checkmark)}
+                    value={value ?? false}
+                    indeterminate={indeterminate}
+                    uiMode={uiMode}
+                />
+                <input
+                    onChange={handleChange}
+                    className={styles.input}
+                    type="checkbox"
+                    checked={value ?? false}
+                    disabled={disabled || readOnly}
+                    {...otherProps}
+                />
+                {label && (
+                    <div className={_cs(styles.label, labelClassName)}>
+                        { label }
+                    </div>
+                )}
+            </label>
+            {error && (
+                <div className={_cs(styles.error, errorContainerClassName)}>
+                    {error}
+                </div>
+            )}
+            {!error && hint && (
+                <div className={_cs(styles.hint, hintContainerClassName)}>
+                    {hint}
+                </div>
+            )}
+        </div>
     );
 }
 

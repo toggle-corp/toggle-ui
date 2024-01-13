@@ -92,11 +92,11 @@
 
     --tui-color-background-table-header: var(--tui-color-foreground-light);
 
-    --tui-color-background-hover-light: rgba(0, 0, 0, .1);
-    --tui-color-background-hover-dark: rgba(255, 255, 255, .1);
+    --tui-color-background-hover-light: rgba(0, 0, 0, .04);
+    --tui-color-background-hover-dark: rgba(255, 255, 255, .04);
 
-    --tui-color-background-active-light: rgba(0, 0, 0, .16);
-    --tui-color-background-active-dark: rgba(255, 255, 255, .16);
+    --tui-color-background-active-light: rgba(0, 0, 0, .1);
+    --tui-color-background-active-dark: rgba(255, 255, 255, .1);
 
     --tui-color-background-input-section-light: rgba(0, 29, 71, .1);
     --tui-color-background-input-section-dark: rgba(255, 255, 255, .1);

@@ -26,7 +26,7 @@
     }
 
     .separator {
-        padding: 0 var(--tui-spacing-small);
+        padding: 0 var(--tui-spacing-extra-small);
     }
 
     .start-date-input {

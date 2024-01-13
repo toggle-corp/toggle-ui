@@ -349,7 +349,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
                             type="date"
                         />
                         <div className={styles.separator}>
-                            to
+                            -
                         </div>
                         <RawInput<string>
                             name="startDate"

@@ -1,13 +1,30 @@
+.container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    cursor: pointer;
+    gap: var(--tui-spacing-extra-small);
+    padding: var(--tui-spacing-extra-small);
+
+    .hint {
+        color: var(--color-hint);
+        font-size: var(--tui-font-size-small);
+    }
+
+    .error {
+        color: var(--tui-color-danger);
+        font-size: var(--tui-font-size-small);
+    }
+}
+
 .checkbox {
     --color-text: transparent;
     --color-checkmark: transparent;
 
     display: flex;
-    position: relative;
     align-items: center;
-    cursor: pointer;
-    padding: calc(var(--tui-spacing-medium) - var(--tui-spacing-extra-small));
     color: var(--color-text);
+    gap: var(--tui-spacing-extra-small);
     user-select: none;
 
     .checkmark {
@@ -19,10 +36,6 @@
 
     .input {
         display: none;
-    }
-
-    .label {
-        padding: var(--tui-spacing-extra-small);
     }
 
     &.light {
