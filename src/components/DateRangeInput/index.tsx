@@ -119,7 +119,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
         uiMode,
         inputElementRef,
         containerRef: containerRefFromProps,
-        inputSectionRef,
+        inputSectionRef: inputSectionRefFromProps,
         inputClassName,
         onChange,
         name,
@@ -132,9 +132,11 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
     });
     const [calendarMonthSelectionPopupClassName] = React.useState(randomString(16));
     const createdContainerRef = React.useRef<HTMLDivElement>(null);
+    const createdInputSectionRef = React.useRef<HTMLDivElement>(null);
     const popupRef = React.useRef<HTMLDivElement>(null);
 
     const containerRef = containerRefFromProps ?? createdContainerRef;
+    const inputSectionRef = inputSectionRefFromProps ?? createdInputSectionRef;
     const [
         showCalendar,
         setShowCalendarTrue,
@@ -171,7 +173,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
         showCalendar,
         handlePopupBlur,
         popupRef,
-        containerRef,
+        inputSectionRef,
     );
 
     const dateRendererParams = React.useCallback(() => ({
@@ -376,7 +378,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
             />
             {!readOnly && showCalendar && (
                 <Popup
-                    parentRef={containerRef}
+                    parentRef={inputSectionRef}
                     elementRef={popupRef}
                     freeWidth
                     className={styles.calendarPopup}

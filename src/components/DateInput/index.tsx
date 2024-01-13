@@ -45,7 +45,7 @@ function DateInput<T extends string>(props: Props<T>) {
         uiMode,
         inputElementRef,
         containerRef: containerRefFromProps,
-        inputSectionRef,
+        inputSectionRef: inputSectionRefFromProps,
         inputClassName,
         onChange,
         name,
@@ -55,9 +55,11 @@ function DateInput<T extends string>(props: Props<T>) {
 
     const [calendarMonthSelectionPopupClassName] = React.useState(randomString(16));
     const createdContainerRef = React.useRef<HTMLDivElement>(null);
+    const createdInputSectionRef = React.useRef<HTMLDivElement>(null);
     const popupRef = React.useRef<HTMLDivElement>(null);
 
     const containerRef = containerRefFromProps ?? createdContainerRef;
+    const inputSectionRef = inputSectionRefFromProps ?? createdInputSectionRef;
 
     const [
         showCalendar,
@@ -88,7 +90,7 @@ function DateInput<T extends string>(props: Props<T>) {
         showCalendar,
         handlePopupBlur,
         popupRef,
-        containerRef,
+        inputSectionRef,
     );
 
     const handleCalendarDateClick: CalendarProps<CalendarDateProps>['onDateClick'] = React.useCallback(
@@ -185,7 +187,7 @@ function DateInput<T extends string>(props: Props<T>) {
             />
             {!readOnly && showCalendar && (
                 <Popup
-                    parentRef={containerRef}
+                    parentRef={inputSectionRef}
                     elementRef={popupRef}
                     className={styles.calendarPopup}
                     contentClassName={styles.popupContent}

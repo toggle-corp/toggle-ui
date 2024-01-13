@@ -135,7 +135,6 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
 
     const options = optionsFromProps ?? (emptyList as O[]);
 
-    const containerRef = useRef<HTMLDivElement>(null);
     const inputSectionRef = useRef<HTMLDivElement>(null);
     const inputElementRef = useRef<HTMLInputElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -249,7 +248,7 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
         dropdownShown,
         handlePopupBlur,
         popupRef,
-        containerRef,
+        inputSectionRef,
     );
 
     const handleKeyDown = useKeyboard(
@@ -295,7 +294,6 @@ function SelectInputContainer<OK extends OptionKey, N extends string, O extends 
     return (
         <>
             <InputContainer
-                ref={containerRef}
                 inputSectionRef={inputSectionRef}
                 actions={(
                     <>

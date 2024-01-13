@@ -26,12 +26,12 @@ function TextInput<T extends string, S>(props: TextInputProps<T, S>) {
         ...textInputProps
     } = props;
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    // const containerRef = React.useRef<HTMLDivElement>(null);
     const inputSectionRef = React.useRef<HTMLDivElement>(null);
 
     return (
         <InputContainer
-            ref={containerRef}
+            // ref={containerRef}
             inputSectionRef={inputSectionRef}
             actions={actions}
             actionsContainerClassName={actionsContainerClassName}
@@ -51,7 +51,7 @@ function TextInput<T extends string, S>(props: TextInputProps<T, S>) {
             input={(
                 <RawInputWithSuggestion<T, S>
                     {...textInputProps}
-                    containerRef={containerRef}
+                    containerRef={inputSectionRef}
                     inputSectionRef={inputSectionRef}
                     readOnly={readOnly}
                     uiMode={uiMode}

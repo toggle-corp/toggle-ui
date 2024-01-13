@@ -44,7 +44,7 @@ function NumberInput<T extends string, S>(props: NumberInputProps<T, S>) {
         ...rawInputProps
     } = props;
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    // const containerRef = React.useRef<HTMLDivElement>(null);
     const inputSectionRef = React.useRef<HTMLDivElement>(null);
 
     const [tempValue, setTempValue] = useState<string | undefined>();
@@ -111,7 +111,7 @@ function NumberInput<T extends string, S>(props: NumberInputProps<T, S>) {
 
     return (
         <InputContainer
-            ref={containerRef}
+            // ref={containerRef}
             inputSectionRef={inputSectionRef}
             actions={actions}
             actionsContainerClassName={actionsContainerClassName}
@@ -132,7 +132,7 @@ function NumberInput<T extends string, S>(props: NumberInputProps<T, S>) {
             input={(
                 <RawInputWithSuggestion<T, S>
                     {...rawInputProps}
-                    containerRef={containerRef}
+                    containerRef={inputSectionRef}
                     inputSectionRef={inputSectionRef}
                     readOnly={readOnly}
                     uiMode={uiMode}
