@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     _cs,
     randomString,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     IoCalendarOutline,
@@ -98,6 +99,7 @@ export interface Props<N extends NameType> extends InheritedProps {
     value: Value | undefined | null;
     name: N;
     onChange?: (value: Value | undefined, name: N) => void;
+    placeholder?: string;
 }
 
 function DateRangeInput<N extends NameType>(props: Props<N>) {
@@ -124,6 +126,7 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
         onChange,
         name,
         value,
+        placeholder,
     } = props;
 
     const [tempDate, setTempDate] = React.useState<Partial<Value>>({
@@ -278,6 +281,33 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
         1,
     );
 
+    const dateInputLabel = useMemo(
+        () => {
+            if (
+                isNotDefined(tempDate.startDate)
+                    && isNotDefined(value?.startDate)
+                    && isNotDefined(value?.endDate)
+            ) {
+                return undefined;
+            }
+
+            const startDateString = tempDate.startDate ?? value?.startDate;
+            const start = isDefined(startDateString)
+                ? new Date(startDateString).toLocaleDateString()
+                : '--';
+            const endDateString = value?.endDate;
+            const end = isDefined(endDateString)
+                ? new Date(endDateString).toLocaleDateString()
+                : '--';
+
+            return [
+                start,
+                end,
+            ].join(' to ');
+        },
+        [value, tempDate],
+    );
+
     return (
         <>
             <InputContainer
@@ -330,50 +360,25 @@ function DateRangeInput<N extends NameType>(props: Props<N>) {
                 readOnly={readOnly}
                 uiMode={uiMode}
                 input={(
-                    <>
-                        <RawInput<string>
-                            name="startDate"
-                            className={_cs(
-                                styles.input,
-                                styles.startDateInput,
-                                !!error && styles.errored,
-                                !(tempDate.startDate ?? value?.startDate) && styles.empty,
-                                inputClassName,
-                            )}
-                            value={tempDate.startDate ?? value?.startDate}
-                            // NOTE: Make this required to hide clear button on firefox
-                            required={!!(tempDate.startDate ?? value?.startDate)}
-                            elementRef={inputElementRef}
-                            readOnly
-                            uiMode={uiMode}
-                            disabled={disabled}
-                            onFocus={setShowCalendarTrue}
-                            type="date"
-                        />
-                        <div className={styles.separator}>
-                            -
-                        </div>
-                        <RawInput<string>
-                            name="startDate"
-                            className={_cs(
-                                styles.input,
-                                styles.endDateInput,
-                                !!error && styles.errored,
-                                !value?.endDate && styles.empty,
-                                inputClassName,
-                            )}
-                            elementRef={inputElementRef}
-                            readOnly
-                            onClick={setShowCalendarTrue}
-                            // NOTE: Make this required to hide clear button on firefox
-                            required={!!value?.endDate}
-                            value={value?.endDate}
-                            uiMode={uiMode}
-                            disabled={disabled}
-                            onFocus={setShowCalendarTrue}
-                            type="date"
-                        />
-                    </>
+                    <RawInput
+                        elementRef={inputElementRef}
+                        name="date-range"
+                        value={dateInputLabel}
+                        readOnly
+                        uiMode={uiMode}
+                        disabled={disabled}
+                        onFocus={setShowCalendarTrue}
+                        onClick={setShowCalendarTrue}
+                        className={_cs(
+                            styles.input,
+                            !!error && styles.errored,
+                            !(tempDate.startDate || value?.startDate || value?.endDate)
+                                && styles.empty,
+                            inputClassName,
+                        )}
+                        type="text"
+                        placeholder={placeholder}
+                    />
                 )}
             />
             {!readOnly && showCalendar && (
