@@ -29,12 +29,16 @@
         }
 
         .row {
-            &:hover {
-                opacity: 0.6;
-            }
-
+            position: relative;
             .cell {
                 overflow: hidden;
+            }
+
+            &:hover {
+                background-color: var(--tui-color-background-light);
+                .cell {
+                    background-color: var(--tui-color-background-light);
+                }
             }
 
             &:last-child {

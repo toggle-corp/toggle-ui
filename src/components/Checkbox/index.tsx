@@ -10,6 +10,7 @@ import styles from './styles.css';
 
 export interface CheckboxProps<N> {
     className?: string;
+    labelContainerClassName?: string;
     labelClassName?: string;
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
@@ -22,6 +23,10 @@ export interface CheckboxProps<N> {
     value: boolean | undefined | null;
     onChange: (value: boolean, name: N) => void;
     name: N;
+    errorContainerClassName?: string;
+    hintContainerClassName?: string;
+    error?: string;
+    hint?: React.ReactNode;
 }
 
 function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
@@ -30,6 +35,7 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
         tooltip,
         checkmark: Checkmark = DefaultCheckmark,
         className: classNameFromProps,
+        labelContainerClassName,
         value,
         disabled,
         readOnly,
@@ -39,6 +45,10 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
         indeterminate,
         uiMode,
         name,
+        error,
+        hint,
+        errorContainerClassName,
+        hintContainerClassName,
         ...otherProps
     } = props;
 
@@ -54,7 +64,7 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
 
     const className = _cs(
         styles.checkbox,
-        classNameFromProps,
+        labelContainerClassName,
         indeterminate && styles.indeterminate,
         !indeterminate && value && styles.checked,
         disabled && styles.disabled,
@@ -63,32 +73,48 @@ function Checkbox<N extends string | number>(props: CheckboxProps<N>) {
     );
 
     return (
-        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
-            className={className}
-            title={tooltip}
+        <div
+            className={_cs(styles.container, classNameFromProps)}
         >
-            <VisualFeedback
-                disabled={disabled}
-                readOnly={readOnly}
-            />
-            <Checkmark
-                className={_cs(checkmarkClassName, styles.checkmark)}
-                value={value ?? false}
-                indeterminate={indeterminate}
-                uiMode={uiMode}
-            />
-            <input
-                onChange={handleChange}
-                className={styles.input}
-                type="checkbox"
-                checked={value ?? false}
-                disabled={disabled || readOnly}
-                {...otherProps}
-            />
-            <div className={_cs(styles.label, labelClassName)}>
-                { label }
-            </div>
-        </label>
+            <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for, max-len
+                className={className}
+                title={tooltip}
+            >
+                <VisualFeedback
+                    disabled={disabled}
+                    readOnly={readOnly}
+                />
+                <Checkmark
+                    className={_cs(checkmarkClassName, styles.checkmark)}
+                    value={value ?? false}
+                    indeterminate={indeterminate}
+                    uiMode={uiMode}
+                />
+                <input
+                    onChange={handleChange}
+                    className={styles.input}
+                    type="checkbox"
+                    checked={value ?? false}
+                    disabled={disabled || readOnly}
+                    {...otherProps}
+                />
+                {label && (
+                    <div className={_cs(styles.label, labelClassName)}>
+                        { label }
+                    </div>
+                )}
+            </label>
+            {error && (
+                <div className={_cs(styles.error, errorContainerClassName)}>
+                    {error}
+                </div>
+            )}
+            {!error && hint && (
+                <div className={_cs(styles.hint, hintContainerClassName)}>
+                    {hint}
+                </div>
+            )}
+        </div>
     );
 }
 

@@ -4,6 +4,8 @@
 
     .input {
         --color: var(--tui-color-text);
+        flex-grow: 1;
+        min-width: unset;
         color: var(--color);
 
         &.empty {
@@ -19,23 +21,6 @@
                 --color: var(--tui-color-negative-on-dark);
             }
         }
-
-        &::-webkit-calendar-picker-indicator {
-            display: none;
-        }
-    }
-
-    .separator {
-        padding: 0 var(--tui-spacing-small);
-    }
-
-    .start-date-input {
-        flex-shrink: 0;
-        width: auto;
-    }
-
-    .end-date-input {
-        flex-grow: 1;
     }
 }
 
